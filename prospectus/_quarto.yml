@@ -1,0 +1,18 @@
+project:
+  render:
+    - intro.qmd
+    - background.qmd
+    - objectives.qmd
+    - proposed_research.qmd
+    - conclusions.qmd
+    - references.qmd
+
+toc: false
+number-sections: false
+bibliography: ../references.bib
+
+format:
+  pdf:
+    mainfont: Gentium Book Basic
+    sansfont: Alte Haas Grotesk
+
