@@ -1,0 +1,80 @@
+---
+title: A Comparative Illustration of Activity-Based Modeling Techniques
+subtitle: PROSPECTUS
+author: Hayden Atchley
+date: today
+date-format: DD MMMM YYYY
+bibliography: references.bib
+format:
+  pdf:
+    mainfont: Gentium Book Basic
+    sansfont: Alte Haas Grotesk
+---
+
+# Introduction
+
+In the last decade, numerous peer regions and states have adopted a new
+approach to travel demand modeling by transitioning from traditional “trip
+based” methodologies to “activity-based” frameworks. While traditional
+trip-based models generate trips between zones based on aggregate productions
+and attractions, activity-based models simulate individual households and
+travelers seeking to access various destinations over the course of a day.
+Activity-based models capture peoples’ choices and constraints more
+realistically [@rasouli2014], and therefore can better represent pricing (e.g.
+managed lanes), provide more realistic representation of non-home-based trip
+making, and give forecasters the ability to consider project benefits and
+impacts at a finer resolution than is possible with a trip-based model
+[@bills2012]. Additionally, activity-based models are better able to represent
+or support innovative transportation modes, complex public transit path
+choices, the effects of travel time reliability in trip making and destination
+choices, and dynamic network assignment procedures.
+
+Many transportation agencies have transitioned to activity-based models,
+including the Oregon and Idaho departments of transportation and the Denver,
+Portland, Seattle, and Phoenix metropolitan planning organizations. At the same
+time, the additional complication of methods and software implementations has
+reportedly created additional costs for agencies and their contractors in terms
+of staff training, computational resources, and model development and support
+contracts. This research seeks to illustrate the tradeoffs of these modeling
+approaches and understand relevant considerations an agency would need to make
+in potentially supporting an activity-based modeling framework.
+
+# Proposed Methodology
+
+In order to compare the differences in modeling approaches, this research will
+identify 2 to 3 scenarios to evaluate in the current WFRC trip-based model as
+well as with a research implementation of the ActivitySim activity-based model.
+The purpose of this analysis is not to compare accuracy of model results or to
+directly inform decision-making on those scenarios, but rather to illustrate
+the tradeoffs between the two methodologies in terms practical considerations---
+e.g. level of effort to encode and execute the scenarios---as well as
+considerations relating to the insights made possible by the different
+frameworks. The scenarios chosen for this illustrative analysis will be
+determined by a technical advisory committee selected for the project, but
+might include:
+
+- **Land use and urbanization:** Activity-based models are fundamentally
+  different in how they represent trips that do not have an end at the home
+  zone. This means that sub-tour activities (like going to lunch while at work)
+  might have substantially different predictions and findings in the two
+  frameworks.
+- **Transit equity impacts:** The ability to trace synthetic individuals
+  through an activity-based model potentially unlocks more detailed analysis of
+  who may or may not benefit from free fare policies or additional transit
+  services like double-tracking the FrontRunner commuter rail system.
+- **Pricing and managed lanes:** The ability to assign individual-level values
+  of time in an activity-based model allows for greater sensitivity to
+  congestion pricing in highway assignment and mode choice.
+
+This research will perform a qualitative comparison of the model results for
+each scenario, including an analysis of the kinds of input data required for
+each modeling framework. This is not a comparison between raw results, but
+rather an illustration of methodological differences intended in part as a
+reference for agencies considering using an activity-based model. As many
+agencies are making this transition, it is crucial to have a full understanding
+of both the advantages and challenges of activity-based modelling frameworks.
+
+# References
+
+::: {#refs}
+:::
