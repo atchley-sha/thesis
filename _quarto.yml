@@ -3,8 +3,18 @@ project:
 
 book:
   title: "thesis"
-  author: "Jane Doe"
+  author:
+    - name: Hayden Atchley
+      email: satchley@byu.edu
+      affiliations:
+        - ref: byu
+    - name: Greg Macfarlane
+      email: ""
+      affiliations:
+      - ref: byu
+ 
   date: "4/14/2023"
+  date-format: DD MMMM YYYY
   chapters:
     - index.qmd
     - intro.qmd
@@ -14,14 +24,22 @@ book:
     - discussion.qmd
     - conclusions.qmd
     - references.qmd
-
+ 
+affiliations:
+  - id: byu
+    name: Brigham Young University
+    city: Provo
+    state: UT
 bibliography: references.bib
 
 format:
-  html:
-    theme: cosmo
+  # html:
+  #   theme: cosmo
   pdf:
-    documentclass: scrreprt
+    # template: template.tex
+    mainfont: Gentium Book Basic
+    sansfont: Alte Haas Grotesk
+    monofont: SauceCodePro NF
 
 
 
