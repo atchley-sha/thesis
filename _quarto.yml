@@ -1,0 +1,27 @@
+project:
+  type: book
+
+book:
+  title: "thesis"
+  author: "Jane Doe"
+  date: "4/14/2023"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - lit-review.qmd
+    - methods.qmd
+    - results.qmd
+    - discussion.qmd
+    - conclusions.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+
