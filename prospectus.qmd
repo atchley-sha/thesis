@@ -13,12 +13,12 @@ format:
 
 # Introduction
 
-In the last decade, numerous peer regions and states have adopted a new
-approach to travel demand modeling by transitioning from traditional “trip
-based” methodologies to “activity-based” frameworks. While traditional
-trip-based models generate trips between zones based on aggregate productions
-and attractions, activity-based models simulate individual households and
-travelers seeking to access various destinations over the course of a day.
+In the last decade, numerous regions and states have adopted a new approach to
+travel demand modeling by transitioning from traditional “trip based”
+methodologies to “activity-based” frameworks. While traditional trip-based
+models generate trips between zones based on aggregate productions and
+attractions, activity-based models simulate individual households and travelers
+seeking to access various destinations over the course of a day.
 Activity-based models capture peoples’ choices and constraints more
 realistically [@rasouli2014], and therefore can better represent pricing (e.g.
 managed lanes), provide more realistic representation of non-home-based trip
