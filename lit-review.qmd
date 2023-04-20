@@ -1,0 +1,22 @@
+# Literature Review
+
+***(outline)***
+
+The Review should explore analyses done by others using either a trip- or activity-based model. It should focus on the types of analyses that can be done with either kind of model, in particular noting when a certain analysis is made easier or even possible by one or the other. There are several types of analyses that can be done:
+
+- Equity: How does transportation impact minority and low-income groups?
+  - Bills et al., 2012
+  - Bills and Walker, 2017
+  - Nahmias-Biran and Shiftan, 2016
+  - Pereira et al., 2017
+- Accessibility: What kinds of measures can we calculate, and how are they useful?
+  - Dong et al., 2006
+- Resilience? This might be just an assignment thing, but maybe it would have an influence on mode/destination choice?
+  - Ganin et al., 2107
+
+Possible analyses:
+
+- Ridership (incl. by {stop|demographic|land use})
+- Facility needs assessment
+- Logsums?
+
