@@ -5,12 +5,12 @@
 The Review should explore analyses done by others using either a trip- or activity-based model. It should focus on the types of analyses that can be done with either kind of model, in particular noting when a certain analysis is made easier or even possible by one or the other. There are several types of analyses that can be done:
 
 - Equity: How does transportation impact minority and low-income groups?
-  - Bills et al., 2012
-  - Bills and Walker, 2017
+  - *Bills et al., 2012*
+  - *Bills and Walker, 2017*
   - Nahmias-Biran and Shiftan, 2016
   - Pereira et al., 2017
 - Accessibility: What kinds of measures can we calculate, and how are they useful?
-  - Dong et al., 2006
+  - *Dong et al., 2006*
 - Resilience? This might be just an assignment thing, but maybe it would have an influence on mode/destination choice?
   - Ganin et al., 2107
 
@@ -20,3 +20,8 @@ Possible analyses:
 - Facility needs assessment
 - Logsums?
 
+@bills_looking_2017 present a framework for using activity-based models to analyze impacts on equity. This is a three-step process, which is to determine equity indicator(s) and how to segment the population, calculate the indicator(s) for each scenario, and compare these results relative to the base scenario. While much of this framework can be implemented in a trip-based model, the critical component is how the population is grouped in the first step. In a trip-based model, socioeconomic data is calculated at the TAZ level or similar, using a mean value for data like income and auto ownership. This mean, though, is likely to mask the heterogeneity of individual socioeconomic status and travel behavior within a single TAZ, and these differences can be important, especially for disadvantaged members of society. An activity-based model on the other hand *does* utilize socioeconomic data and model travel behavior at an individual level, so analyses aggregated by groupings such as race, income, and employment status can be much more precise.
+
+@bills_activity-based_2012 make a similar observation, noting that since activity-based models use disaggregate data, equity indicators can be calculated at an individual level.
+
+@dong_moving_2006 looks at several measures of accessibility, including isochrone, gravity and utility-based measures, and compares the so-called activity-based accessibility measure to these. They note that these first three types of measures are trip-based, and as such have no concept of trip chaining or scheduling. The activity-based accessibility measure, on the other hand, incorporates an individual's full daily travel pattern and reflects individual  socioeconomic characteristics as well as the land use and transportation network. As an example, a trip-based measure would ignore the change in commute scheduling some individuals would make if a peak-period toll were implemented on the network, while the activity-based measure would account for this change. The activity-based accessibility measure, though, requires travel modeling to be done at an individual level, so an activity-based model would be required over a trip-based model.
