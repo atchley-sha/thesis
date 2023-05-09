@@ -6,6 +6,9 @@ book:
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
+      orcid: 0000-0002-0815-3488
+      affiliations:
+        - ref: byucce
     - name: Gregory S. Macfarlane
       email: gregmacfarlane@gmail.com
       orcid: 0000-0003-3999-7584
@@ -15,13 +18,14 @@ book:
   date: "4/14/2023"
   date-format: DD MMMM YYYY
   chapters:
-    - index.qmd
-    - intro.qmd
+    # - index.qmd
+    # - intro.qmd
     - lit-review.qmd
-    - methods.qmd
-    - results.qmd
-    - discussion.qmd
-    - conclusions.qmd
+    - lit-review_notes.qmd
+    # - methods.qmd
+    # - results.qmd
+    # - discussion.qmd
+    # - conclusions.qmd
     - references.qmd
  
 affiliations:

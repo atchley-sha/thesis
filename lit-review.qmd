@@ -16,7 +16,6 @@ Paragraph explaining diagram of information flow for both types. Note that if da
 
 
 
-
 ABMs require **<fact-check>** a synthetic population since the focus is on individuals.
 
 TBMs, with few exceptions, use summary statistics.
