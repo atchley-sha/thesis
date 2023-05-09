@@ -1,0 +1,36 @@
+# Literature Review
+
+In the 1970s??, research began in a new "activity-based" modeling framework as an alternative to the traditional "four-step" or "trip-based" approaches.
+
+Activity-based models (ABMs) differ from trip-based models (TBMs) in several ways.
+
+ABMs also claim several advantages over TBMs, including....
+
+This section/chapter discusses these advantages after an overview of the two types of models.
+
+## Comparison of Modeling Frameworks
+
+A key component of any travel demand model is how the population data is structured. There are two main approaches to this: summary statistics or a synthetic population.
+
+Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population.
+
+
+
+
+ABMs require **<fact-check>** a synthetic population since the focus is on individuals.
+
+TBMs, with few exceptions, use summary statistics.
+
+These exceptions are worth noting, however. TBMs can use a synthetic population (microsimulation). So what then is the difference? "ABM"s are really "tour-based". This is in a sense a subset of "AB", since an individual's daily activities are scheduled and the tour arises from this. However, other types of ABMs are theoretically possible, and some exist in practice (incl. "activity scheduling" models).
+
+Additional paragraph.
+
+## Claimed Advantages
+
+ABMs are often lauded as superior to TBMs due to their usage of synthetic populations and trip-chaining (tours), which is considered to better represent individual choices.
+
+However, ABMs do have measurable disadvantages as well. They are computationally expensive and need more data....
+
+It is clear that a synthetic population has distinct advantages over summary statistics. Certain analyses... (equity: don't want to code race/income/gender into mode choice, but want to group results thereby; not possible with summary stats).
+
+Cite Bills and others showing advantages of synthetic population.
