@@ -1,0 +1,9 @@
+id,label,h,v,veh_own,income
+popA,A,0,2,yes,high
+popB,B,1,2,no,high
+popC,C,2,2,yes,low
+popD,D,3,2,no,low
+pop1,"{A, C}",1,1,yes,?
+pop2,"{B, D}",2,1,no,?
+trip1,"{A, C}",1,0,yes,?
+trip2,"{B, D}",2,0,no,?

@@ -14,7 +14,25 @@ A key component of any travel demand model is how the population data is structu
 
 Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population.
 
+```{r}
+library(tidyverse)
+library(igraph)
 
+tbm_nodes <- read_csv("data/flowchart_comparison/tbm_nodes.csv")
+tbm_edges <- read_csv("data/flowchart_comparison/tbm_edges.csv")
+tbm_layout <- tbm_nodes %>% 
+  select(h,v) %>% 
+  as.matrix()
+
+tbm_flowchart <- graph_from_data_frame(tbm_edges, vertices = tbm_nodes) %>% ggnetwork(layout = tbm_layout)
+
+tbm_flowchart %>% 
+  ggplot() +
+  geom_edges(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_nodes(aes(x = x, y = y)) +
+  theme_void()
+
+```
 
 ABMs require **<fact-check>** a synthetic population since the focus is on individuals.
 
