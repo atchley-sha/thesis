@@ -24,12 +24,24 @@ tbm_layout <- tbm_nodes %>%
   select(h,v) %>% 
   as.matrix()
 
-tbm_flowchart <- graph_from_data_frame(tbm_edges, vertices = tbm_nodes) %>% ggnetwork(layout = tbm_layout)
+tbm_flowchart <- graph_from_data_frame(tbm_edges, vertices = tbm_nodes) %>% ggnetwork(layout = tbm_layout) %>% 
+  mutate(veh_own = str_to_title(veh_own) %>% factor(c("Yes", "No")),
+         income = str_to_title(income) %>% factor(c("High", "Low")))
 
 tbm_flowchart %>% 
   ggplot() +
-  geom_edges(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_nodes(aes(x = x, y = y)) +
+  geom_edges(aes(x, y, xend = xend, yend = yend)) +
+  geom_nodes(aes(x, y, shape = veh_own, color = income), size = 20) +
+  geom_text(aes(x, y, label = label)) +
+  geom_label(x = -0.3, y = 1, label = "Population") +
+  geom_label(x = -0.3, y = 0.5, label = "Trip Generation") +
+  geom_label(x = -0.3, y = 0, label = "Mode Choice") +
+  lims(x = c(-0.4, 1.1), y = c(-0.1, 1.1)) +
+  scale_color_manual(na.value = "#d4d4d4", values = c("High" = "#7fcdbb", "Low" = "#2c7fb8")) +
+  scale_shape_manual(values = c("Yes" = 15, "No" = 16)) +
+  labs(color = "Income Group", shape = "Vehicle Ownership") +
+  guides(shape = guide_legend(override.aes = list(size = 10)),
+         color = guide_legend(override.aes = list(size = 10))) +
   theme_void()
 
 ```
