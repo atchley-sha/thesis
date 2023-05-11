@@ -18,7 +18,7 @@ book:
   date: "4/14/2023"
   date-format: DD MMMM YYYY
   chapters:
-    # - index.qmd
+    - index.qmd
     # - intro.qmd
     - lit-review.qmd
     - lit-review_notes.qmd
