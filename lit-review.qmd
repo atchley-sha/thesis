@@ -57,7 +57,11 @@ Additional paragraph.
 
 ## Claimed Advantages
 
-ABMs are often lauded as superior to TBMs due to their usage of synthetic populations and trip-chaining (tours), which is considered to better represent individual choices.
+ABMs are often lauded as superior to TBMs due to their usage of synthetic populations and trip-chaining (tours), which is considered to better represent individual choices. According to Rasouli and Timmermans (2014), there are limits to TBMs that are eliminated with ABMs. The TBM does not consider any kind of dependency between trips on the same tour, and it excludes dependency between the members of a household and between mode choices on a tour. Because of the aggregate population data used in the TBM, it can produce results that are unrelated to actual human behavior. These are some of the issues that are claimed to be remedied with the use of synthetic populations and trip-chaining in ABMs. 
+
+Unlike TBMs, ABMs take into account the specific members of each household within the model and the tours they will take. This creates dependency between the trips that are taken by each individual. For example, if one member of the household drives his car from home to work in the morning, he can not have a trip going from home to the park until he has a return trip from work to home. This situation is taken into account with ABMs. For similar reasons, the creation of tours in ABMs gives room to possible trips that TBMs may not consider. Many destinations are taken because they are close to another destination on the tour and not necessarily close to the residence. TBMs would make trips based on proximity to the household, while ABMs may make trips based on proximity to the tour. 
+
+The dependency that trips have on the tour is similar to the dependency that modes and household members have on each other. If a car is driven to work, then a bike can not be used as the mode to return from work. If a child is driven to school by a parent, then the child can not drive a car home unless it is with someone else. These dependencies within the tours and mode choices will not only affect the trip patterns of the household, but it will also affect the models response to policy. 
 
 However, ABMs do have measurable disadvantages as well. They are computationally expensive and need more data....
 
