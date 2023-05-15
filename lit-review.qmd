@@ -6,8 +6,6 @@ Activity-based models (ABMs) were proposed as a means of addressing the shortcom
 
 Despite these advantages, however, many agencies have yet to adopt ABMs, instead continuing to use four-step models. While ABMs are superior in certain aspects, they also have disadvantages, such as requiring more detailed input data and greater computational resources. It is also not always clear if ABMs provide substantially better forecasts than their four-step counterparts, nor if this tradeoff is worth it for every agency. This literature review presents an overview of both modeling frameworks, and discusses the potential advantages and disadvantages from using an ABM.
 
-This section/chapter discusses these advantages after an overview of the two types of models.
-
 ## Comparison of Modeling Frameworks
 
 A key component of any travel demand model is how the population data is structured. There are two main approaches to this: summary statistics or a synthetic population.
@@ -47,7 +45,7 @@ Paragraph explaining diagram of information flow for both types. Note that if da
 
 ```
 
-ABMs require **<fact-check>** a synthetic population since the focus is on individuals.
+ABMs require a synthetic population since the focus is on individuals.
 
 TBMs, with few exceptions, use summary statistics.
 
