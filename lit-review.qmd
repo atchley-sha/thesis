@@ -67,32 +67,28 @@ The claimed advantages above show some ways in which ABMs give a better picture 
 
 Another advantage of a synthetic population has to do with how the data is used after running the model. Once a simulation is run using aggregate data, there is no further analysis that can be done because their is no connection between the resulting trips and the household data that was used for the model. Running a simulation with data from a synthetic population, on the other hand, gives results based on the movements of each individual in the population. Therefore, after the results are obtained, further analysis can be made to see which groups of people took which trips. Even if a piece of information from the data isn't used to determine coefficients during the simulation, it can be referred to after running the model. For example, the race of each person with a certain mode choice can be found to analyze the affect certain decisions may have on minorities. If extra household information like this was taken into consideration while using aggregate data, it would need to be used in the model. As more connections are made to other pieces of information in the model, like race or income, it will become less accurate dues to the smaller sample sizes of each category. The ability to analyze the data after running the model is an advantage of using a synthetic population.
 
-In an effort to see how synthetic populations in ABMs affect equity analysis, a study was done by Bills and Walker using the 2000 Bay Area Travel Survey to create the synthetic population. The model consisted of 1454 zones representing nine counties in the San Francisco Bay Area. After running a few different scenarios, the results were compared to see the differences that exist among low income and high income populations.
+In an effort to see how synthetic populations in ABMs affect equity analysis, a study was done by Bills and Walker(2017) using the 2000 Bay Area Travel Survey to create a synthetic population. The model consisted of 1454 zones representing nine counties in the San Francisco Bay Area. After running a few different scenarios, the results were compared to see the differences that existed among low income and high income populations. With a 20% reduction in travel cost, they saw that high income workers benefited more than low income workers. They did similar comparisons for scenarios involving reduced travel times for different mode choices and were able to see the effects each scenario had on the high and low income workers. 
 
 It is important to note that, while many connect them with ABMs, synthetic populations can be used in running both ABMs and TBMs. The difference is that TMBs can work using either a synthetic population or aggregate data, but ABMs require a synthetic population. The larger computing power needed to work with a synthetic population may be the reason why most TBMs are still being run using aggregate data. The fact that more TBMs don't often use synthetic populations could possibly signify a wider acceptance that ABMs are better. If a company is willing to go through the work to create a synthetic population, then they may jump straight to an ABM because they believe it will be most accurate.
 
-If this is the case, one may wonder why there are so many cities that don't switch to ABMs. Even with so many claimed advantages, the disadvantages of ABMs could be the reason for lack of total implementation throughout the world. One of the most obvious disadvantages is the complexity. As alluded to in the previous paragraph, ABMs often take more time, more computing power, and more money to run. The synthetic population needed to run an ABM uses much more data. In areas with thousands of TAZs and millions of people, a super computer is needed, and it will cost much more than what is spent to run TBMs. If a city can see similar results using a TBM, they may decide not to invest in an ABM.
+If ABMs are believed to be more accurate, one may wonder why there are so many MPOs that don't make the switch away from TBMs. In his 2023 article, Eric Miller gives some possible reasons for the gap between the academic interest of ABMs and the implementation into mainstream operational planning practice. There has been a lot of research done on the subject, and many models have been developed. Some notable ABMs are ADAPTS(cite?), ALBATROSS(cite?), CEMDAP(cite?), FAMOS(cite?), FEATHERS(cite?), MATSim(cite?), and TASHA(cite?). Possible reasons they have not been implemented include the following:
 
-Not only is the ABM complex for computing purposes, it is also complex in implementation. There have been different ABMs created throughout the years, and it hasn't been easy to access. (Cite some sources and put a list of some of the different models that have been introduced through the years?)
+Computational inefficiency and complicated program design: As alluded to in the previous paragraph, ABMs often take more time, more computing power, and more money to run. The synthetic population needed to run an ABM uses much more data. In areas with thousands of TAZs and millions of people, a super computer is needed, and it will cost much more than what is spent to run TBMs. If a city can see similar results using a TBM, they may decide not to invest in an ABM.
 
-However, ABMs do have measurable disadvantages as well. They are computationally expensive and need more data....
+Absence of a standard model system: The modeling systems are often designed with different approaches and designed for specific areas making it hard to transfer from one urban area to another.This also makes it difficult for agencies to determine which approach is the best and decide which to implement. In relation to this, Miller also states that the pressures of publishing unique and ground-breaking research in academia can deter researchers from converging towards best theories and methods. 
+
+Lack of resources: Most of these models were developed in academic settings which often lack resources, and possibly desire, to put them into practice. This leaves it up to governments and consultants to put the models into practice, but they can be hesitant to promote software development and to invest in new systems.
+
+Even with so many claimed advantages, these disadvantages of ABMs could be the reason for lack of total implementation throughout the world.
 
 
 
 
-It is clear that a synthetic population has distinct advantages over summary statistics. Certain analyses... (equity: don't want to code race/income/gender into mode choice, but want to group results thereby; not possible with summary stats).
-
-Cite Bills and others showing advantages of synthetic population.
-
-These claimed advantages are attributed to the ABM over the TBM, which is mostly correct. As mentioned previously, very few TBMs use a synthetic population, though it's not impossible.
-
-A true advantage of the ABM ("tour-based") over the TBM is the idea of trip-chaining (or tours). Rather than model each trip individually, ABMs model an entire day's activities as zero or more "tours" (travel away from and return to home).
 
 Modeling travel in this way allows for several advantages, including consistent mode choice (a car won't be driven home if it wasn't taken to work). Additionally, further types of analysis are possible, such as Dong et al.'s "activity-based accessibility" measure. <Explain what that is>.
 
 Other advantages or analyses that tours let us perform. Probably a few paragraphs. Maybe it's worth mentioning MATSim or similar again.
 
-Despite these claimed advantages, agencies in practice don't seem to switch very readily; many still use TBMs. There may be several reasons for this (incl. the disadvantages mentioned above).
 
 ## Research Gap
 
