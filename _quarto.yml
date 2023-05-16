@@ -1,5 +1,8 @@
 project:
   type: book
+  
+execute:
+  echo: false
 
 book:
   title: "abm_illustration"
