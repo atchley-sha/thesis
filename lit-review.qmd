@@ -93,18 +93,11 @@ Lack of resources: Most of these models were developed in academic settings whic
 
 Even with so many claimed advantages, these disadvantages of ABMs could be the reason for lack of total implementation throughout the world.
 
-
-
-
-Modeling travel in this way allows for several advantages, including consistent mode choice (a car won't be driven home if it wasn't taken to work). Additionally, further types of analysis are possible, such as Dong et al.'s "activity-based accessibility" measure. <Explain what that is>.
-
-Other advantages or analyses that tours let us perform. Probably a few paragraphs. Maybe it's worth mentioning MATSim or similar again.
-
-
 ## Research Gap
 
-ABMs and TBMs have been researched extensively, with ABMs claiming many advantages over TBMs. Additionally, there are disadvantages of ABMs, and {synthetic vs summary stats} $\neq$ {ABM vs TBM}.
+Though there has been much research on ABMs and their theoretical advantages, to the authors' knowledge there is little in the literature about their practicality in the real world. It is often taken as given that ABMs are unilaterally superior to traditional four-step models due to their better theoretical foundation, but it is not clear if that better foundation always leads to better results. Ferdous et al. (2012) compared the trip- and tour-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the tour-based model performed slightly better at the region level, but about the same at the project level. If this is true more generally, an agency may have no real need to switch to an ABM over their current four-step model since the improvement in results may not outweigh the increase in data, computational, training, and potentially financial requirements.
 
-However, as of yet there are no side-by-side comparisons of ABMs and TBMs, using the same proposed development scenarios in both. This research seeks to close that gap by modeling multiple scenarios in a TBM and ABM and comparing the strengths and weaknesses of each. What input data is needed? What computational resources are needed? What analyses can we do with each type of model? Are certain types of scenarios suited to one or the other? And ultimately, is there a clear winner between ABMs and TBMs?
+Ferdous et al., however, mainly compared the *accuracy* of the two frameworks, but did not address the methodological differences between them. What types of data are needed as input to each model type? What computational resources are needed? Are there analyses that can only be done through (or that are made easier by) one of the model types? What would an agency need in order to transition from a four-step model to an ABM? Are certain types of scenarios suited to one model type? These questions remain largely unanswered, and the answers in the current literature are mainly theoretical, with little use to an agency considering the transition.
 
+This research aims to answer these questions by providing a side-by-side comparison of a four-step and activity-based model. Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each are compared. It is important to note that this paper is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts. Rather, the focus is on the methodological differences between the approaches, and the types of analyses that can be done with each model type. This paper hopes to be a sort of guide for agencies considering adopting an ABM, providing illustrated comparison that can be used to help inform this decision.
 
