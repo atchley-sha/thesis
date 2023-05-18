@@ -14,9 +14,9 @@ The aggregate population data used in four-step models can be varied in origin a
 
 This approach has two major disadvantages. The first is that no other information can be known later in the modeling process other than how the population data was segmented initially. If the population was segmented only along number of workers and number of vehicles, for example, then it would be clear how many trips are produced by a zone's 2-worker, 1-vehicle households, but there is no way to know the distribution of household income for those trips. The second disadvantage is related to the first, which is that as the number of segmentation variables increases, so does the number of trip production rates that are needed. Additionally, since the sample size decreases dramatically with more specific binning, the margin of error on many if not most of these rates would be extremely large. Many models therefore only segment the zones along a small number of variables, but this limits the types of analyses that can be performed.
 
-An alternative approach is to use a synthetic population and regression models to determine trip productions. A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area. The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data. The major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process. ....
+An alternative approach is to use a synthetic population and regression models to determine trip productions. A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area. The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data. The major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process. This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode race/gender/etc. into each step of the model.
 
-Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population.
+<!-- Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population. -->
 
 ```{r}
 # library(tidyverse)
@@ -51,9 +51,9 @@ Paragraph explaining diagram of information flow for both types. Note that if da
 
 ```
 
-ABMs require a synthetic population since the focus is on individuals.
+Trip-based models usually use aggregate data, in part because it is simpler to obtain and work with (?). Trip-based models using a synthetic population do exist (cite one or more), but these are relatively rare. There may be several reasons for this, .... ABMs on the other hand need to use a synthetic population since they model the decisions of individual people and households. This has a major theoretical advantage of being able to use arbitrary population variables/groupings at each model step, rather than being limited to variables/groupings from upstream steps.
 
-TBMs, with few exceptions, use summary statistics.
+
 
 These exceptions are worth noting, however. TBMs can use a synthetic population (microsimulation). So what then is the difference? "ABM"s are really "tour-based". This is in a sense a subset of "AB", since an individual's daily activities are scheduled and the tour arises from this. However, other types of ABMs are theoretically possible, and some exist in practice (incl. "activity scheduling" models; this includes I believe MATSim, maybe we should talk about that).
 
