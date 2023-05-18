@@ -22,9 +22,9 @@ book:
   date-format: DD MMMM YYYY
   chapters:
     - index.qmd
-    # - intro.qmd
+    - intro.qmd
     - lit-review.qmd
-    - lit-review_notes.qmd
+    # - lit-review_notes.qmd
     # - methods.qmd
     # - results.qmd
     # - discussion.qmd
