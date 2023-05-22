@@ -1,0 +1,6 @@
+from,to,mode,time,purpose,number
+3,4,Drive,Morning,Work,5
+4,3,Drive,Evening,Work,6
+4,5,Walk,Midday,Other,2
+3,4,Transit,Morning,Work,3
+4,3,Transit,Evening,Work,2

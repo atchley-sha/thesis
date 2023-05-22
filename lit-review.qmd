@@ -18,6 +18,43 @@ An alternative approach is to use a synthetic population and regression models t
 
 <!-- Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population. -->
 
+```{r}
+library(tidyverse)
+library(igraph)
+library(ggnetwork)
+
+nodes <- read_csv("data/flowchart_comparison/assignment/nodes.csv")
+layout <- nodes %>% 
+  select(x,y) %>% 
+  as.matrix()
+
+add_trips <- function(trips, vert = nodes, lay = layout){
+  network <- graph_from_data_frame(trips, vertices = vert) %>% 
+    ggnetwork(layout = lay)
+  
+  network
+}
+
+tbm <- add_trips(read_csv("data/flowchart_comparison/assignment/trip_based.csv"))
+
+# tbm_flowchart %>% 
+#   ggplot() +
+#   geom_edges(aes(x, y, xend = xend, yend = yend)) +
+#   geom_nodes(aes(x, y, shape = veh_own, color = income), size = 20) +
+#   geom_text(aes(x, y, label = label)) +
+#   geom_label(x = -0.3, y = 1, label = "Population") +
+#   geom_label(x = -0.3, y = 0.5, label = "Trip Generation") +
+#   geom_label(x = -0.3, y = 0, label = "Mode Choice") +
+#   lims(x = c(-0.4, 1.1), y = c(-0.1, 1.1)) +
+#   scale_color_manual(na.value = "#d4d4d4", values = c("High" = "#7fcdbb", "Low" = "#2c7fb8")) +
+#   scale_shape_manual(values = c("Yes" = 15, "No" = 16)) +
+#   labs(color = "Income Group", shape = "Vehicle Ownership") +
+#   guides(shape = guide_legend(override.aes = list(size = 10)),
+#          color = guide_legend(override.aes = list(size = 10))) +
+#   theme_void()
+
+```
+
 Four-step/trip-based models usually use aggregate data, in part because it is simpler to obtain and work with (?). Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist (cite one or more), but these are relatively rare. There may be several reasons for this, .... ABMs on the other hand need to use a synthetic population since they model the decisions of individual people and households. This has a major advantage of being able to use arbitrary population variables/groupings at each model step, rather than being limited to variables/groupings from upstream steps.
 
 The other main difference between four-step models and ABMs (and the main difference from trip-based microsimulation models) is that ABMs organize travel into "tours", a sequence of trips that begin and end at the home, rather than just trips. In fact, @miller_current_2023 point out that many current "activity-based" models ought to rather be labelled "tour-based" due to this focus on building tours. This is contrasted with "activity scheduling" models, in which activity participation is modeled explicitly and trips emerge as the means to get from one activity to the next. ***(Miller seems to claim that this is a crucial difference, noting that the "bad rap" ABMs have might be true of tour-based models but need not be true of all ABMs (specifically activity scheduling models). Is this important/worth noting/worth expounding on? Modeling activities versus modeling tours is definitely a different approach, but from my admittedly somewhat ignorant perspective it seems more like a semantic and maybe computational difference rather than much of a conceptual one.)***
