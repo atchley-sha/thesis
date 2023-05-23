@@ -25,7 +25,7 @@ library(ggnetwork)
 
 nodes <- read_csv("data/flowchart_comparison/assignment/nodes.csv")
 layout <- nodes %>% 
-  select(x,y) %>% 
+  select(xloc,yloc) %>% 
   as.matrix()
 
 add_trips <- function(trips, vert = nodes, lay = layout){
@@ -36,6 +36,14 @@ add_trips <- function(trips, vert = nodes, lay = layout){
 }
 
 tbm <- add_trips(read_csv("data/flowchart_comparison/assignment/trip_based.csv"))
+# micro
+# abm
+
+tbm %>% 
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend, color = mode)) +
+  geom_nodes() +
+  geom_edges(position = position_dodge(width = 0.1), arrow = arrow())
+
 
 # tbm_flowchart %>% 
 #   ggplot() +
