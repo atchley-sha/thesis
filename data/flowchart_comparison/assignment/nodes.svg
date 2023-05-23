@@ -24,9 +24,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.829812"
-     inkscape:cx="672.74671"
-     inkscape:cy="283.36244"
+     inkscape:zoom="0.457453"
+     inkscape:cx="-413.1572"
+     inkscape:cy="479.83071"
      inkscape:window-width="2560"
      inkscape:window-height="1387"
      inkscape:window-x="0"
@@ -167,9 +167,40 @@
            y="250.20322">6</tspan></text>
       <path
          style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#TriangleStart)"
-         d="M 185.66114,131.87146 133.46202,52.632904"
+         d="M 188.71727,129.35991 136.51815,50.121366"
          id="path1219"
          sodipodi:nodetypes="cc" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#TriangleStart)"
+         d="M 194.12786,124.99225 141.92874,45.753733"
+         id="path1515"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#TriangleStart)"
+         d="m 129.57157,51.798627 52.19912,79.238533"
+         id="path1525"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;marker-end:url(#TriangleStart)"
+         d="M 124.16098,56.166265 176.3601,135.40478"
+         id="path1527"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none"
+         d="M 137.51071,40.776039 253.04284,38.173313"
+         id="path1541" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none"
+         d="m 38.02872,114.23076 43.378773,94.56572"
+         id="path1543" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none"
+         d="M 92.396782,223.11148 222.24391,248.27117"
+         id="path1545" />
+      <path
+         style="fill:#000000;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none"
+         d="M 92.685974,211.97759 183.05842,143.72833"
+         id="path1547" />
     </g>
   </g>
 </svg>
