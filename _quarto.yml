@@ -24,6 +24,7 @@ book:
     - index.qmd
     - intro.qmd
     - lit-review.qmd
+    - temp/flowchart-prelim.qmd
     # - lit-review_notes.qmd
     # - methods.qmd
     # - results.qmd

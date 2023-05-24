@@ -1,0 +1,11 @@
+# flowchart-prelim
+
+::: {#fig-flowchart layout-ncol="1"}
+![tbm](../data/flowchart_comparison/combined/tbm.png){#fig-tbm-flowchart}
+
+![micro](../data/flowchart_comparison/combined/microsimulation.png){#fig-micro}
+
+![abm](../data/flowchart_comparison/combined/abm.png){#fig-abm}
+
+Flowcharts
+:::
