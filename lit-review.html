@@ -49,7 +49,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./temp/flowchart-prelim.html" rel="next">
 <link href="./intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -129,6 +129,11 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./temp/flowchart-prelim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">flowchart-prelim</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -183,7 +188,79 @@ div.csl-indent {
 <p>An alternative approach is to use a synthetic population and regression models to determine trip productions. A synthetic population takes demographic and socioeconomic data at various levels of detail to create a “population” with generally the same distribution as the study area. The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data. The major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process. This allows, for example, an equity analysis to determine the “winners” and “losers” of a proposed development without needing to encode race/gender/etc. into each step of the model.</p>
 <!-- Paragraph explaining diagram of information flow for both types. Note that if data is aggregated at any step in the summary stats pipeline, you can't undo that. Not so with a synthetic population. -->
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
 
+Attaching package: 'igraph'
+
+
+The following objects are masked from 'package:lubridate':
+
+    %--%, union
+
+
+The following objects are masked from 'package:dplyr':
+
+    as_data_frame, groups, union
+
+
+The following objects are masked from 'package:purrr':
+
+    compose, simplify
+
+
+The following object is masked from 'package:tidyr':
+
+    crossing
+
+
+The following object is masked from 'package:tibble':
+
+    as_data_frame
+
+
+The following objects are masked from 'package:stats':
+
+    decompose, spectrum
+
+
+The following object is masked from 'package:base':
+
+    union
+
+
+Rows: 6 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (3): zone, xloc, yloc
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): mode, time, purpose
+dbl (3): from, to, number
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in format_fortify(model = model, nodes = nodes, weights = "none", :
+duplicated edges detected</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lit-review_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>Four-step/trip-based models usually use aggregate data, in part because it is simpler to obtain and work with (?). Trip-based models using a synthetic population—often called trip-based microsimulation models—do exist (cite one or more), but these are relatively rare. There may be several reasons for this, …. ABMs on the other hand need to use a synthetic population since they model the decisions of individual people and households. This has a major advantage of being able to use arbitrary population variables/groupings at each model step, rather than being limited to variables/groupings from upstream steps.</p>
 <p>The other main difference between four-step models and ABMs (and the main difference from trip-based microsimulation models) is that ABMs organize travel into “tours”, a sequence of trips that begin and end at the home, rather than just trips. In fact, <span class="citation" data-cites="miller_current_2023">Miller (<a href="references.html#ref-miller_current_2023" role="doc-biblioref">2023</a>)</span> point out that many current “activity-based” models ought to rather be labelled “tour-based” due to this focus on building tours. This is contrasted with “activity scheduling” models, in which activity participation is modeled explicitly and trips emerge as the means to get from one activity to the next. <strong><em>(Miller seems to claim that this is a crucial difference, noting that the “bad rap” ABMs have might be true of tour-based models but need not be true of all ABMs (specifically activity scheduling models). Is this important/worth noting/worth expounding on? Modeling activities versus modeling tours is definitely a different approach, but from my admittedly somewhat ignorant perspective it seems more like a semantic and maybe computational difference rather than much of a conceptual one.)</em></strong></p>
@@ -374,8 +451,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./temp/flowchart-prelim.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">flowchart-prelim</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
