@@ -40,7 +40,7 @@ affiliations:
     state: UT
     postal-code: 84602
     
-bibliography: references.bib
+bibliography: bib/references.bib
 
 format:
   html:
