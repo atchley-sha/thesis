@@ -19,23 +19,23 @@ ABMs therefore present a more conceptually accurate model of actual travel behav
 Despite these advantages, however, many agencies have yet to adopt ABMs, instead continuing to use trip-based models [@miller_current_2023].
 While ABMs are superior in certain aspects, they also have disadvantages, such as requiring more detailed input data and greater computational resources.
 It is also not always clear if ABMs provide substantially better forecasts than their trip-based counterparts, nor if this tradeoff is worth it for every agency.
-*This literature review presents an overview of both modeling frameworks, and discusses the potential advantages and disadvantages from using an ABM.*
+This literature review presents an overview of both modeling frameworks, and discusses the potential advantages and disadvantages of using an ABM.
 
 ## Overview of Model Types
 
 Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, modal split, and network assignment [@cite].
-Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, *and/or other things*, but the "four steps" are the central component of any of these models [@cite].
+Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@cite].
 
 In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
-Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as part of its *calculations/model/framework* [@cite].
+Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@cite].
 The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day.
 These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network [there are various algorithms for doing so, see @cite].
 
-**this paragraph needs some (1 or 2) citations**
 Activity-based models differ significantly from this approach.
-Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data.
+Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data [@cite].
 These models use an activity or tour scheduler to assign a daily activity pattern (DAP) of zero or more tours to each individual (*n.b.* a tour is a series of trips that begin and end at home).
-These DAPs are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities (e.g. a "drive alone" trip from work to lunch cannot be made if transit was taken to work).
+These DAPs are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities [@cite].
+A "drive alone" trip from work to lunch, for example, cannot be made if transit was taken to work.
 ABMs output a list of tours and trips by person, time, location, and type, and these can then be assigned to a transportation network in a similar manner as in a trip-based model.
 
 ## Comparison of Modeling Frameworks
@@ -46,46 +46,55 @@ The following sections will explain these different aspects of travel demand mod
 
 ### Aggregate Population vs. Synthetic Population
 
-The aggregate population data used in trip-based models can be varied in origin and level of detail, but the basic concept is the same.
-The study area is organized into generally small zones, and certain demographic and socioeconomic data is known or obtained for each zone.
-This includes data such as number of households, average household income, population, and number of workers, among others.
-@cite_explanation Based on this information, the zone can be segmented along arbitrary variables.
+The aggregate population data used in trip-based models can be varied in origin and level of detail, but the basic concept is the same: the study area is organized into generally small zones, and certain demographic and socioeconomic data is known or obtained for each zone [@cite].
+This includes data such as number of households, average household income, population, and number of workers, etc.
+Based on this information, the zone can be segmented along arbitrary variables.
 For example, since households with more workers and more vehicles tend to make more work trips, it is useful to estimate the distribution of households in each zone along these two variables.
-Then, average trip production rates are determined for each household category (e.g. for households with each number of workers by vehicles), and the total number of trips produced in a zone is calculated based on these rates.
+Then, average trip production rates are determined for each household category (e.g. for households with each number of workers by vehicles), and the total number of trips produced in a zone is calculated based on these rates [@cite].
 
-An alternative approach is to use a synthetic population and regression models to determine trip productions.
-@cite_explanation A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area.
+This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@cite].
+However, using aggregate data also has significant drawbacks, especially from an analysis perspective.
+There is no way to know who is making which trips without explicitly coding the relevant variables into each sub-model.
+For something like an equity analysis, for example, it is impossible to predict the "winners" and "losers" of a potential policy without using race/income/etc. as variables in the trip generation and destination and model choice steps [@cite].
+This is problematic; while there is data on trip rates, mode choice, etc. by race, if this is coded into the model then the model asserts that these trends will hold no matter the policy implementations.
+
+As an added complication to the difficulty of these analyses, the aggregate population data must from the start be segmented along each analysis variable.
+An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
+This can be done, but more detailed and varied analyses would require more segmentation, exponentiating**?** the number of classifications needed.
+Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@cite?].
+
+An alternative approach to population data is to use a full synthetic population.
+A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@cite].
 The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data.
-The major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process.
-This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode race/gender/etc. into each step of the model [@castiglione_application_2006].
+@castiglione_application_2006 argues that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process.
+This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode race/gender/etc. into each step of the model.
 
-*advantages of Synthetic population*
-
-Because the data from a synthetic population remains available after the modeling process, there is much more analysis that can be done compared to the analysis done using aggregate data.
-Once a simulation is run using aggregate data, there can be no further analysis other than how the population data was segmented initially.
-Running a simulation with data from a synthetic population, on the other hand, gives results based on the movements of each individual in the population.
-Therefore, after the results are obtained, further analysis can be made to see which groups of people took which trips.
-Even if a piece of information from the data isn't used to determine coefficients during the simulation, it can be referred to after running the model. As an example, even if 
-
-If extra household information like this was taken into consideration while using aggregate data, it would need to be used in the model.
-As the number of segmentation variables increases, so does the number of trip production rates that are needed. Since the sample size decreases dramatically with more specific binning, the margin of error on many, if not most, of these rates would be extremely large.
-Many models therefore only segment the zones along a small number of variables, but this limits the types of analyses that can be performed.
-Because synthetic populations allow for more types of analysis after running the model, ABMs can be much more useful.
-
-An important analysis that can be done with a synthetic population is an equity analysis.
-The demographic and socioeconomic data available after running the model can show which groups of people benefit the most from changes in the system.
-In an effort to see how synthetic populations in ABMs affect equity analysis, @bills_looking_2017 used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
+@bills_looking_2017 for example who used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
 With a 20% reduction in travel cost, they saw that high income workers benefited more than low income workers.
 They did similar comparisons for scenarios involving reduced travel times for different mode choices and were able to see the effects each scenario had on the high and low income workers.
 These types of analysis, which are not possible with an aggregate population, can be very valuable in transportation planning and policy making. 
 
-It is important to note that, while many connect them with ABMs, synthetic populations can be used in running both ABMs and trip-based models.
-The difference is that trip-based models can work using either a synthetic population or aggregate data, but ABMs require a synthetic population since they model the decisions of individual people and households.
+It is important to note that, while many connect them with ABMs, synthetic populations can be used in running trip-based models as well.
 Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist [see e.g. @walker_making_2005 and @moeckel_agent-based_2020], but these are relatively rare.
-Trip-based models usually use aggregate data, in part because it is simpler to obtain and work with (cite?).
-Running a model using an aggregate population takes much less computing power than using a synthetic population.
-The fact that few trip-based models use synthetic populations could possibly signify a wider acceptance that ABMs are better.
 If a company is willing to go through the initial work of creating a synthetic population, then they may jump straight to an ABM because they believe it will be most accurate.
+
+@fig-popdata-flowchart gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
+In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
+With the synthetic population, however, *individuals* are being modeled, and so the information about them is known regardless of which data is used in each model step.
+
+```{r}
+#| label: fig-popdata-flowchart
+#| fig-cap: "Example information pipelines for two theoretical trip-based models, one using aggregate data and another using a synthetic population."
+#| fig-scap: "Example information pipelines for aggregate data and synthetic population."
+#| fig-subcap: 
+#|   - "Aggregate data"
+#|   - "Synthetic population"
+#| layout-ncol: 2
+
+plot(mtcars$mpg, mtcars$wt)
+
+plot(Orange$age, Orange$circumference)
+```
 
 ### Trips vs. Tours
 
@@ -163,11 +172,10 @@ What types of data collection/synthesis are needed for each model type?
 Are there analyses that can only be done through (or that are made easier by) one of the model types?
 What would an agency need in order to transition from a trip-based model to an ABM?
 Are certain types of scenarios suited to one model type?
-Though some of these questions have been discussed [see e.g. s@lemp_from_2007], a holistic methodological comparison is lacking.
+Though some of these questions have been discussed [see e.g. @lemp_aggregate_2007], a holistic methodological comparison is lacking.
 Additionally, the answers in the current literature are mainly theoretical, with little use to an agency considering the transition.
 
-This research aims to answer these questions by providing a side-by-side comparison of a trip-based and activity-based model.
-Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each are compared.
+This research aims to answer these questions by providing a side-by-side comparison of a potential trip-based and activity-based modeling methodology.
+Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each approach are compared.
 It is important to note that this paper is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts.
 Rather, the focus is on the methodological differences between the approaches, and the types of analyses that can be done with each model type.
-This paper hopes as well to be a sort of guide for agencies considering adopting an ABM, providing an illustrated comparison that can be used to help inform this decision.
