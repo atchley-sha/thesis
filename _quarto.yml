@@ -41,6 +41,9 @@ affiliations:
     
 bibliography: bib/references.bib
 
+lof: true
+lot: true
+
 format:
   html:
     theme: cosmo
