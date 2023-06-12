@@ -23,11 +23,13 @@ This literature review presents an overview of both modeling frameworks, and dis
 
 ## Overview of Model Types
 
-Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, modal split, and network assignment [@cite].
+(Maybe we use the same NCHRP716 manual to cite most all of this section? @transportation_research_board_travel_2012)
+Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@citeNCHRP716, 28].
 Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@cite].
+(pg. 92 of the NCHRP 716 talk about three broad steps in ABMs. 1. Population synthesis; 2. Long-term choice models: and 3. Activity-based travel models.)(maybe we should include this here?)
 
 In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
-Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@cite].
+Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@citeNCHRP716, 14].
 The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day.
 These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network [there are various algorithms for doing so, see @cite].
 
@@ -62,6 +64,7 @@ As an added complication to the difficulty of these analyses, the aggregate popu
 An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, exponentiating**?** the number of classifications needed.
 Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@cite?].
+(Maybe cite the NCHRP 716 again. pg 14 says "These data form the foundation of the model for an area, and if they do not meet a basic level of accuracy, the model may never adequately forecast travel.")
 
 An alternative approach to population data is to use a full synthetic population.
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@cite].
@@ -142,7 +145,7 @@ With the ABM, unemployed people were not as affected by a toll than those who ne
 ## Why aren't ABMs used more often?
 If ABMs are believed to be more accurate, one may wonder why there are so many MPOs that don't make the switch away from trip based models.
 There has been a lot of research done on the subject, and many models have been developed.
-Some notable ABMs are ADAPTS(cite?), ALBATROSS(cite?), CEMDAP(cite?), FAMOS(cite?), FEATHERS(cite?), MATSim(cite?), and TASHA(cite?).
+Some notable ABMs are ADAPTS[@auld_activity_2012], ALBATROSS[@arentze_learning-based_2004], CEMDAP[@bhat_comprehensive_2004], FAMOS[@pendyala_florida_2005], FEATHERS[@bellemans_implementation_2010], MATSim[@horni_multi-agent_2016], and TASHA[@miller_prototype_2003].
 @miller_current_2023 gives some ideas for why there is a gap between the academic interest of ABMs and the implementation into mainstream operational planning practice.
 Possible reasons ABMs have not been implemented include the following:
 
