@@ -80,7 +80,8 @@ If a company is willing to go through the initial work of creating a synthetic p
 
 @fig-popdata-flowchart gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
-With the synthetic population, however, *individuals* are being modeled, and so the information about them is known regardless of which data is used in each model step.
+With the synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
+All information is known at each point in the model regardless of which data is used in previous steps.
 
 ```{r}
 #| label: fig-popdata-flowchart
