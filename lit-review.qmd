@@ -64,7 +64,7 @@ As an added complication to the difficulty of these analyses, the aggregate popu
 An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, exponentiating**?** the number of classifications needed.
 Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@cite?].
-(Maybe cite the NCHRP 716 again. pg 14 says "These data form the foundation of the model for an area, and if they do not meet a basic level of accuracy, the model may never adequately forecast travel.")
+(Maybe cite the NCHRP 716 again. pg 14 says "These data form the foundation of the model for an area, and if they do not meet a basic level of accuracy, the model may never adequately forecast travel.", @moeckel_agent-based_2020 top of pg 2 may also be a source)
 
 An alternative approach to population data is to use a full synthetic population.
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@transportation_research_board_travel_2012, p. 93].
@@ -116,7 +116,7 @@ However, (they) note, the hope is that over an area the inconsistencies would "c
 
 ABMs, on the other hand, model *tours* rather than trips.
 This allows for consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a "chain" (tour), the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
-The open-source ABM ActivitySim [@cite], as an example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
+The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_nodate], as an example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (e.g. leaving work for lunch).
 
 @rasouli_activity-based_2014 also note that ABMs can model dependencies between members of a household as well.
