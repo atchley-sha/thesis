@@ -48,10 +48,11 @@ format:
   html:
     theme: cosmo
   pdf:
+    toc-depth: 3
     # template: template.tex
-    mainfont: Gentium Book Basic
-    sansfont: Alte Haas Grotesk
-    monofont: SauceCodePro NF
+    # mainfont: Gentium Book Basic
+    # sansfont: Alte Haas Grotesk
+    # monofont: SauceCodePro NF
 
 
 
