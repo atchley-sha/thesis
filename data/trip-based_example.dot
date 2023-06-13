@@ -1,0 +1,23 @@
+digraph tripbased {
+  
+  graph [layout="dot",
+  outputorder="edgesfirst",
+  bgcolor="white"]
+  
+  node [shape=none,
+  label=""]
+  
+  edge []
+  
+  house [image="data/house.png"]
+  work [image="data/work.png"]
+  store [image="data/store.png"]
+  park [image="data/park.png"]
+  food [image="data/food.png"]
+  
+  house -> work
+  work -> store
+  store -> house
+  work -> food
+  food -> work
+}
