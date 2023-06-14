@@ -26,12 +26,11 @@ This literature review presents an overview of both modeling frameworks, and dis
 (Maybe we use the same NCHRP716 manual to cite most all of this section? @national_academies_travel_2012)
 Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
 Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
-(pg. 92 of the NCHRP 716 talk about three broad steps in ABMs. 1. Population synthesis; 2. Long-term choice models: and 3. Activity-based travel models.)(maybe we should include this here?)
 
 In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
 Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@national_academies_travel_2012, p. 14].
 The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day.
-These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network [there are various algorithms for doing so, see @cite].
+These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network [there are various algorithms for doing so, see @ortuzar_modelling_2011].
 
 Activity-based models differ significantly from this approach.
 Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data [@vovsha_activity-based_2005].
@@ -57,14 +56,13 @@ Then, average trip production rates are determined for each household category (
 This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@cite].
 However, using aggregate data also has significant drawbacks, especially from an analysis perspective.
 There is no way to know who is making which trips without explicitly coding the relevant variables into each sub-model.
-For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using race/income/etc. as variables in the trip generation and destination and model choice steps [@cite].
+For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using race/income/etc. as variables in the trip generation and destination and model choice steps [@bills_looking_2017].
 This is problematic; while there is data on trip rates, mode choice, etc. by race, if this is coded into the model then the model asserts that these trends will hold no matter the policy implementations.
 
 As an added complication to the difficulty of these analyses, the aggregate population data must from the start be segmented along each analysis variable.
 An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, exponentiating**?** the number of classifications needed.
-Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@cite?].
-(Maybe cite the NCHRP 716 again. pg 14 says "These data form the foundation of the model for an area, and if they do not meet a basic level of accuracy, the model may never adequately forecast travel.", @moeckel_agent-based_2020 top of pg 2 may also be a source)
+Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@moeckel_agent-based_2020,@national_academies_travel_2012].
 
 An alternative approach to population data is to use a full synthetic population.
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@national_academies_travel_2012, p. 93].
@@ -122,7 +120,7 @@ After the tour-level decisions are made, trip-level mode/destination choice is d
 
 @rasouli_activity-based_2014 also note that ABMs can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.
-Because the people within the household will have travel patterns that depend on the patterns of others in the household, a policy affecting one person in the household can affect everyone in the household no matter how directly the policy connects to them.
+Because the people within the household will have travel patterns that depend on the patterns of others in the household, a policy affecting one person in the household can affect everyone in the household no matter how directly the policy connects to them [@vovsha_activity-based_2005].
 These effects aren't possible to forecast in a trip-based model.
 
 Another advantage of organizing travel into tours comes regarding accesibility analyses.
