@@ -23,7 +23,6 @@ This literature review presents an overview of both modeling frameworks, and dis
 
 ## Overview of Model Types
 
-(Maybe we use the same NCHRP716 manual to cite most all of this section? @national_academies_travel_2012)
 Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
 Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
 
@@ -53,7 +52,7 @@ Based on this information, the zone can be segmented along arbitrary variables.
 For example, since households with more workers and more vehicles tend to make more work trips, it is useful to estimate the distribution of households in each zone along these two variables.
 Then, average trip production rates are determined for each household category (e.g. for households with each number of workers by vehicles), and the total number of trips produced in a zone is calculated based on these rates [@national_academies_travel_2012, p. 37].
 
-This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@cite].
+This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@cite] (@national_academies_travel_2012 has some info on where they can get the data to run the models and it explains the process of trip generation, would it be a good citation?)
 However, using aggregate data also has significant drawbacks, especially from an analysis perspective.
 There is no way to know who is making which trips without explicitly coding the relevant variables into each sub-model.
 For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using race/income/etc. as variables in the trip generation and destination and model choice steps [@bills_looking_2017].
