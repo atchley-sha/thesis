@@ -24,7 +24,7 @@ This literature review presents an overview of both modeling frameworks, and dis
 ## Overview of Model Types
 
 Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
-Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
+They can be more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
 
 In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
 Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@national_academies_travel_2012, p. 14].
