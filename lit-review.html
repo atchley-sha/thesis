@@ -194,7 +194,7 @@ div.csl-indent {
 <p>Despite these advantages, however, many agencies have yet to adopt ABMs, instead continuing to use trip-based models <span class="citation" data-cites="miller_current_2023">(<a href="references.html#ref-miller_current_2023" role="doc-biblioref">Miller 2023</a>)</span>. While ABMs are superior in certain aspects, they also have disadvantages, such as requiring more detailed input data and greater computational resources. It is also not always clear if ABMs provide substantially better forecasts than their trip-based counterparts, nor if this tradeoff is worth it for every agency. This literature review presents an overview of both modeling frameworks, and discusses the advantages and disadvantages of using an ABM.</p>
 <section id="overview-of-model-types" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="overview-of-model-types"><span class="header-section-number">2.1</span> Overview of Model Types</h2>
-<p>Trip-based models are often referred to as “four-step” models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012, 28</a>)</span>. Trip-based models are often more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the “four steps” are the central component of any of these models <span class="citation" data-cites="mcnally_four-step_2007">(<a href="references.html#ref-mcnally_four-step_2007" role="doc-biblioref">McNally 2007</a>)</span>.</p>
+<p>Trip-based models are often referred to as “four-step” models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012, 28</a>)</span>. They can be more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the “four steps” are the central component of any of these models <span class="citation" data-cites="mcnally_four-step_2007">(<a href="references.html#ref-mcnally_four-step_2007" role="doc-biblioref">McNally 2007</a>)</span>.</p>
 <p>In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs). Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012, 14</a>)</span>. The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day. These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network (there are various algorithms for doing so, see <span class="citation" data-cites="ortuzar_modelling_2011">Ortúzar and Willumsen (<a href="references.html#ref-ortuzar_modelling_2011" role="doc-biblioref">2011</a>)</span>).</p>
 <p>Activity-based models differ significantly from this approach. Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data <span class="citation" data-cites="vovsha_activity-based_2005">(<a href="references.html#ref-vovsha_activity-based_2005" role="doc-biblioref">Vovsha, Bradley, and Bowman 2005</a>)</span>. These models use an activity or tour scheduler to assign a daily activity pattern (DAP) of zero or more tours to each individual (<em>n.b.</em> a tour is a series of trips that begin and end at home). These DAPs are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities <span class="citation" data-cites="bowman_day_1998">(<a href="references.html#ref-bowman_day_1998" role="doc-biblioref">Bowman 1998</a>)</span>. A “drive alone” trip from work to lunch, for example, cannot be made if transit was taken to work. ABMs output a list of tours and trips by person, time, location, and type, and these can then be assigned to a transportation network in a similar manner as in a trip-based model.</p>
 </section>
@@ -213,7 +213,7 @@ div.csl-indent {
 <div id="fig-popdata-flowchart" class="cell quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
 <div id="fig-popdata-flowchart-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="lit-review_files/figure-html/fig-popdata-flowchart-1.png" class="img-fluid figure-img" data-ref-parent="fig-popdata-flowchart" width="672"></p>
@@ -221,7 +221,9 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
 <div id="fig-popdata-flowchart-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="lit-review_files/figure-html/fig-popdata-flowchart-2.png" class="img-fluid figure-img" data-ref-parent="fig-popdata-flowchart" width="672"></p>
@@ -246,7 +248,7 @@ div.csl-indent {
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-tours-trips-example-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="lit-review_files/figure-html/fig-tours-trips-example-1.png" class="img-fluid figure-img" data-ref-parent="fig-tours-trips-example" width="672"></p>
+<p><img src="data/example_flowchart_comparison/trip.png" class="img-fluid figure-img" data-ref-parent="fig-tours-trips-example"></p>
 <figcaption class="figure-caption">(a) Trip-based microsimulation</figcaption>
 </figure>
 </div>
@@ -254,7 +256,7 @@ div.csl-indent {
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
 <div id="fig-tours-trips-example-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="lit-review_files/figure-html/fig-tours-trips-example-2.png" class="img-fluid figure-img" data-ref-parent="fig-tours-trips-example" width="672"></p>
+<p><img src="data/example_flowchart_comparison/tour.png" class="img-fluid figure-img" data-ref-parent="fig-tours-trips-example"></p>
 <figcaption class="figure-caption">(b) Activity (tour)-based</figcaption>
 </figure>
 </div>
