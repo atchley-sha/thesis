@@ -124,9 +124,9 @@ After the tour-level decisions are made, trip-level mode/destination choice is d
 #|   - "Activity (tour)-based"
 #| layout-ncol: 2
 
-knitr::include_graphics("data/example_flowchart_comparison/trip.png")
+knitr::include_graphics("output/example_flowchart_comparison/trip.png")
 
-knitr::include_graphics("data/example_flowchart_comparison/tour.png")
+knitr::include_graphics("output/example_flowchart_comparison/tour.png")
 ```
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that ABMs can model dependencies between members of a household as well.

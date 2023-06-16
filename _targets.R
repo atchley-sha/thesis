@@ -29,14 +29,14 @@ viz_targets <- tar_plan(
   trip_ex = make_ex_dap_viz(
     nodes = ex_nodes_file,
     edges = ex_trip_file,
-    dot_file = "data/example_flowchart_comparison/trip.dot",
-    image_file = "data/example_flowchart_comparison/trip.png"
+    dot_file = "output/example_flowchart_comparison/trip.dot",
+    image_file = "output/example_flowchart_comparison/trip.png"
   ),
   tour_ex = make_ex_dap_viz(
     ex_nodes_file,
     ex_tour_file,
-    dot_file = "data/example_flowchart_comparison/tour.dot",
-    image_file = "data/example_flowchart_comparison/tour.png"
+    dot_file = "output/example_flowchart_comparison/tour.dot",
+    image_file = "output/example_flowchart_comparison/tour.png"
   )
   
 )
