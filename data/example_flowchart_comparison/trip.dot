@@ -1,0 +1,18 @@
+digraph {
+
+
+
+
+  "1" [image = "data/example_flowchart_comparison/house.png", shape = "none"] 
+  "2" [image = "data/example_flowchart_comparison/work.png", shape = "none"] 
+  "3" [image = "data/example_flowchart_comparison/food.png", shape = "none"] 
+  "4" [image = "data/example_flowchart_comparison/store.png", shape = "none"] 
+  "5" [image = "data/example_flowchart_comparison/park.png", shape = "none"] 
+"1"->"2" [label = "Bus", color = "#1B9E77"] 
+"2"->"1" [label = "Drive", color = "#D95F02"] 
+"2"->"4" [label = "Bus", color = "#1B9E77"] 
+"4"->"3" [label = "Drive", color = "#D95F02"] 
+"3"->"5" [label = "Drive", color = "#D95F02"] 
+"1"->"5" [label = "Drive", color = "#D95F02"] 
+"2"->"3" [label = "Walk", color = "#7570B3"] 
+}
