@@ -114,20 +114,18 @@ This allows for consistency in trip origins/destinations, mode choice, and time 
 The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
-@fig-tours-trips-example shows a visual representation of an individual's travel in both a trip-based microsimulation model and an ABM (tour-based). Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips. The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
+@fig-network-example shows an example comparison of network assignment in the various types of models. @fig-network-tbm shows a TBM.... visual representation of an individual's travel in a typical trip-based model.... Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips. The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
 
-```{r}
-#| label: fig-tours-trips-example
-#| fig-cap: "Example travel pattern for an individual in both a trip-based microsimulation model and an ABM."
-#| fig-subcap: 
-#|   - "Trip-based microsimulation"
-#|   - "Activity (tour)-based"
-#| layout-ncol: 2
+::: {#fig-network-example layout="[[-25,50,-25], [50,50]]"}
 
-knitr::include_graphics("output/example_flowchart_comparison/trip.png")
+![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
 
-knitr::include_graphics("output/example_flowchart_comparison/tour.png")
-```
+![Trip-based (microsimulation)](output/example_flowchart_comparison/trip.png){#fig-network-micro}
+
+![Activity-based](output/example_flowchart_comparison/tour.png){#fig-network-abm}
+
+Example travel pattern for an individual in both a trip-based microsimulation model and an ABM.
+:::
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that ABMs can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.
