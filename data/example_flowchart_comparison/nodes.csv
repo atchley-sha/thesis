@@ -1,6 +1,6 @@
-where,image
-house,data/example_flowchart_comparison/house.png
-work,data/example_flowchart_comparison/work.png
-food,data/example_flowchart_comparison/food.png
-store,data/example_flowchart_comparison/store.png
-park,data/example_flowchart_comparison/park.png
+where,image,x,y
+house,data/example_flowchart_comparison/house.png,0,1
+work,data/example_flowchart_comparison/work.png,4,1.5
+food,data/example_flowchart_comparison/food.png,2,0
+store,data/example_flowchart_comparison/store.png,3,3
+recreation,data/example_flowchart_comparison/recreation.png,1,3

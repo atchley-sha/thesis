@@ -1,8 +1,8 @@
 from,to,mode
-house,work,bus
-work,store,bus
-store,house,walk
+house,work,transit
+work,store,walk
+store,house,transit
 work,food,walk
 food,work,walk
-house,park,drive
-park,house,drive
+house,recreation,drive
+recreation,house,drive

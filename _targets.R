@@ -20,6 +20,16 @@ data_targets <- tar_plan(
     ex_tour_file,
     "data/example_flowchart_comparison/tour-based.csv",
     format = "file"
+  ),
+  tar_target(
+    ex_tbm_nodes,
+    "data/example_flowchart_comparison/tbm_zones/tbm_nodes.csv",
+    format = "file"
+  ),
+  tar_target(
+    ex_tbm_edges,
+    "data/example_flowchart_comparison/tbm_zones/tbm_edges.csv",
+    format = "file"
   )
   
 )
@@ -33,10 +43,16 @@ viz_targets <- tar_plan(
     image_file = "output/example_flowchart_comparison/trip.png"
   ),
   tour_ex = make_ex_dap_viz(
-    ex_nodes_file,
-    ex_tour_file,
+    nodes = ex_nodes_file,
+    edges = ex_tour_file,
     dot_file = "output/example_flowchart_comparison/tour.dot",
     image_file = "output/example_flowchart_comparison/tour.png"
+  ),
+  tbm_ex = make_ex_tbm_viz(
+    nodes = ex_tbm_nodes,
+    edges = ex_tbm_edges,
+    dot_file = "output/example_flowchart_comparison/tbm.dot",
+    image_file = "output/example_flowchart_comparison/tbm.png"
   )
   
 )
