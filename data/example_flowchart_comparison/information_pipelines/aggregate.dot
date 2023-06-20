@@ -1,0 +1,53 @@
+digraph  {
+  
+  outputorder=edgesfirst
+  ordering=out
+  rankdir=LR
+  fontname="Alte Haas Grotesk, sans-serif"
+  
+  node [shape=rectangle, fillcolor=white, fontname="Alte Haas Grotesk, sans-serif"]
+  
+  h2 [label="1 Worker\n2 Vehicle"]
+  h3 [label="2 Worker\n2 Vehicle"]
+  h4 [label="2 Worker\n1 Vehicle"]
+  
+  l2 [label="1 Worker\n2 Vehicle"]
+  l3 [label="2 Worker\n2 Vehicle"]
+  l4 [label="2 Worker\n1 Vehicle"]
+
+  { node [label="Vehicles &ge; Workers"]
+    hvw lvw vw
+  }
+  { node [label="Vehicles &lt; Workers"]
+    hwv lwv wv
+  }
+  
+  subgraph cluster_high {
+    
+    label="High Income"
+    
+    {h2 h3} -> hvw
+    h4 -> hwv
+    
+  }
+  
+  subgraph cluster_low {
+    
+    label="Low Income"
+    
+    {l2 l3} -> lvw
+    l4 -> lwv
+    
+  }
+  
+  {hwv lwv} -> wv
+  {hvw lvw} -> vw
+  
+  node [shape=underline, style=bold]
+  tg [label="Trip\nGeneration"]
+  dc [label="Destination\nChoice"]
+  mc [label="Mode\nChoice"]
+  
+  tg -> dc -> mc [style=invis] 
+  
+}

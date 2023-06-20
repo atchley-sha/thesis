@@ -54,7 +54,7 @@ Then, average trip production rates are determined for each household category (
 
 This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@national_academies_travel_2012].
 However, any desired grouping for analysis must be a part of this segmentation in each model step.
-For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using race/gender/etc. as variables in the trip generation and destination and model choice steps [@bills_looking_2017].
+For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and model choice steps [@bills_looking_2017].
 This is problematic; while there is data on trip rates, mode choice, etc. based on these variables, if this is coded into the model then the model asserts that these trends will hold no matter the policy implementations.
 
 As an added complication to the difficulty of these analyses, the aggregate population data must from the start be segmented along each analysis variable.
@@ -66,35 +66,29 @@ An alternative approach to population data is to use a full synthetic population
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@national_academies_travel_2012, p. 93].
 The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data.
 @castiglione_application_2006 argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process.
-This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode race/gender/etc. into each step of the model.
+This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode demographic variables into each step of the model.
 
 @bills_looking_2017 for example used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
 With a 20% reduction in travel cost, they saw that high income workers benefited more than low income workers.
 They did similar comparisons for scenarios involving reduced travel times for different mode choices and were able to see the effects each scenario had on the high and low income workers.
-These types of analysis, which are not possible with aggregate population data, can be very valuable in transportation planning and policy making. 
+These types of analysis, which are not possible with aggregate population data, can be very valuable in transportation planning and policy making.
 
 It is important to note that, while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well.
 Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist (see @walker_making_2005 and @moeckel_agent-based_2020), but these are relatively rare.
 If a company is willing to go through the initial work of creating a synthetic population, then they may just use an ABM because they believe it will be most accurate.
 
-@fig-popdata-flowchart gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
+@fig-pipeline-example gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
 All information is known at each point in the model regardless of which data is used in previous steps.
 
-```{r}
-#| label: fig-popdata-flowchart
-#| fig-cap: "Example information pipelines for two theoretical trip-based models, one using aggregate data and another using a synthetic population."
-#| fig-scap: "Example information pipelines for aggregate data and synthetic population."
-#| fig-subcap: 
-#|   - "Aggregate data"
-#|   - "Synthetic population"
-#| layout-ncol: 1
+::: {#fig-pipeline-example layout-ncol="1"}
+![Trip-based](output/example_flowchart_comparison/aggregate.png){#fig-aggregate}
 
-plot(mtcars$mpg, mtcars$wt)
+![Activity-based](output/example_flowchart_comparison/synthetic.png){#fig-synthetic}
 
-plot(Orange$age, Orange$circumference)
-```
+Example "information pipeline" for a trip-based model and an ABM
+:::
 
 ### Travel Behavior
 
@@ -114,10 +108,13 @@ This allows for consistency in trip origins/destinations, mode choice, and time 
 The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
-@fig-network-example shows an example comparison of network assignment in the various types of models. @fig-network-tbm shows a TBM.... visual representation of an individual's travel in a typical trip-based model.... Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips. The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
+@fig-network-example shows an example comparison of network assignment in the various types of models.
+@fig-network-tbm shows a TBM....
+visual representation of an individual's travel in a typical trip-based model....
+Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips.
+The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
 
 ::: {#fig-network-example layout="[[-25,50,-25], [50,50]]"}
-
 ![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
 
 ![Trip-based (microsimulation)](output/example_flowchart_comparison/trip.png){#fig-network-micro}
@@ -147,20 +144,17 @@ Though ABMs have many clear advantages over trip-based models, adoption among ag
 Many ABMs are implemented in proprietary software, which creates difficulty in maintaining and iterating on the model, @miller_current_2023 argues.
 Even in an open-source model like ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], Miller notes several disadvantages of ABMs:
 
-- Computational inefficiency and complicated program design:
-ABMs take more time, more computing power, and more money to run.
-This is because the synthetic population needed to run an ABM uses much more data.
-In areas with thousands of TAZs and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip based models.
-If a city can see similar results using a trip based model, they may decide not to invest in an ABM.
+-   Computational inefficiency and complicated program design: ABMs take more time, more computing power, and more money to run.
+    This is because the synthetic population needed to run an ABM uses much more data.
+    In areas with thousands of TAZs and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip based models.
+    If a city can see similar results using a trip based model, they may decide not to invest in an ABM.
 
-- Absence of a standard model system:
-The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
-This also makes it difficult for agencies to determine which approach is the best and decide which to implement.
-In relation to this, Miller also states that the pressures of publishing unique and ground-breaking research in academia can deter researchers from converging towards best theories and methods.
+-   Absence of a standard model system: The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
+    This also makes it difficult for agencies to determine which approach is the best and decide which to implement.
+    In relation to this, Miller also states that the pressures of publishing unique and ground-breaking research in academia can deter researchers from converging towards best theories and methods.
 
-- Lack of resources:
-Most of these models were developed in academic settings which often lack resources, and possibly desire, to put them into practice.
-This leaves it up to governments and consultants to put the models into practice, but they can be hesitant to promote software development and to invest in new systems.
+-   Lack of resources: Most of these models were developed in academic settings which often lack resources, and possibly desire, to put them into practice.
+    This leaves it up to governments and consultants to put the models into practice, but they can be hesitant to promote software development and to invest in new systems.
 
 Because of these reasons, as well as the inertia of current practices, trip-based models remain in use by the majority of agencies and organizations in the US.
 

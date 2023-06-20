@@ -30,6 +30,17 @@ data_targets <- tar_plan(
     ex_tbm_edges,
     "data/example_flowchart_comparison/tbm_zones/tbm_edges.csv",
     format = "file"
+  ),
+  
+  tar_target(
+    ex_aggregate_file,
+    "data/example_flowchart_comparison/information_pipelines/aggregate.dot",
+    format = "file"
+  ),
+  tar_target(
+    ex_synthetic_file,
+    "data/example_flowchart_comparison/information_pipelines/synthetic.dot",
+    format = "file"
   )
   
 )
@@ -53,6 +64,15 @@ viz_targets <- tar_plan(
     edges = ex_tbm_edges,
     dot_file = "output/example_flowchart_comparison/tbm.dot",
     image_file = "output/example_flowchart_comparison/tbm.png"
+  ),
+  
+  ex_aggregate = render_dot_graph(
+    dot_file = ex_aggregate_file,
+    image_file = "output/example_flowchart_comparison/aggregate.png"
+  ),
+  ex_synthetic = render_dot_graph(
+    dot_file = ex_synthetic_file,
+    image_file = "output/example_flowchart_comparison/synthetic.png"
   )
   
 )
@@ -63,4 +83,4 @@ viz_targets <- tar_plan(
 tar_plan(
   data_targets,
   viz_targets
-  )
+)

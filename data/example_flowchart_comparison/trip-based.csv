@@ -2,7 +2,7 @@ from,to,mode
 house,work,transit
 work,house,drive
 work,store,walk
-store,food,transit
-food,recreation,walk
+store,food,walk
+food,recreation,transit
 house,recreation,drive
 work,food,walk
