@@ -82,8 +82,9 @@ In the aggregate data model, it is impossible to know which trips are made by e.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
 All information is known at each point in the model regardless of which data is used in previous steps.
 
-::: {#fig-pipeline-example layout-ncol="1"}
+::: {#fig-pipeline-example layout="[[1], [-1], [-1], [-1], [1]]"}
 ![Trip-based](output/example_flowchart_comparison/aggregate.png){#fig-aggregate}
+
 
 ![Activity-based](output/example_flowchart_comparison/synthetic.png){#fig-synthetic}
 
@@ -114,7 +115,7 @@ visual representation of an individual's travel in a typical trip-based model...
 Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips.
 The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
 
-::: {#fig-network-example layout="[[-25,50,-25], [50,50]]"}
+::: {#fig-network-example layout="[[-25,50,-25], [-1], [-1], [-1], [50,50]]"}
 ![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
 
 ![Trip-based (microsimulation)](output/example_flowchart_comparison/trip.png){#fig-network-micro}
