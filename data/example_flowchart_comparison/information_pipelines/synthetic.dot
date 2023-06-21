@@ -1,5 +1,60 @@
 digraph {
   
+  outputorder=edgesfirst
+  ordering=out
   
+  node[fontname="Alte Haas Grotesk, sans-serif"]
+  
+  {
+    node [shape=record]
+    table [label="{ID|<1>1732|<2>1453|<3>2045|<4>325|<5>96}|
+    {Age|26|54|55|68|34}|
+    {Income|56|98|154|79|102}|
+    {Gender|M|F|F|M|M}|
+    {OwnsVehicle|T|F|T|F|F}"]
+  }
+  
+#  {
+#    node [shape=record]
+#    table2 [label="{ID|Age|Income|Gender|OwnsVehicle}|
+#    {<1>1732|26|56|M|T}|
+#    {<2>1453|54|98|F|F}|
+#    {<3>2045|55|154|F|T}|
+#    {<4>325|68|79|T|F}|
+#    {<5>96|34|102|M|F}"]
+#  }
+  
+  node [shape=box]
+  
+  {node [label="1732"] p11 p12 p13}
+  {node [label="1453"] p21 p22 p23}
+  {node [label="2045"] p31 p32 p33}
+  {node [label="325"] p41 p42 p43}
+  {node [label="96"] p51 p52 p53}
+  
+  {
+    edge [style=dotted, arrowhead=none]
+    table:1:w -> p11:n
+    table:2:w -> p21:n
+    table:3:w -> p31:n
+    table:4:w -> p41:n
+    table:5:w -> p51:n
+  }
+  
+  p11 -> p12 -> p13
+  p21 -> p22 -> p23
+  p31 -> p32 -> p33
+  p41 -> p42 -> p43
+  p51 -> p52 -> p53
+  
+  node [shape=none, style=bold, fontname="Gentium Book Basic, serif"]
+  edge [style=invis]
+  
+  tg [label="Trip\nGeneration"]
+  dc [label="Destination\nChoice"]
+  mc [label="Mode\nChoice"]
+  
+  tg -> dc -> mc
+  {rank=same tg -> p11}
   
 }

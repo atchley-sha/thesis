@@ -2,8 +2,15 @@ digraph  {
   
   outputorder=edgesfirst
   ordering=out
-  rankdir=LR
+  rankdir=TB
   fontname="Alte Haas Grotesk, sans-serif"
+  
+  node [shape=none, style=bold, fontname="Gentium Book Basic, serif"]
+  tg [label="Trip\nGeneration"]
+  dc [label="Destination\nChoice"]
+  mc [label="Mode\nChoice"]
+  
+  tg -> dc -> mc [style=invis] 
   
   node [shape=rectangle, fillcolor=white, fontname="Alte Haas Grotesk, sans-serif"]
   
@@ -42,12 +49,5 @@ digraph  {
   
   {hwv lwv} -> wv
   {hvw lvw} -> vw
-  
-  node [shape=underline, style=bold]
-  tg [label="Trip\nGeneration"]
-  dc [label="Destination\nChoice"]
-  mc [label="Mode\nChoice"]
-  
-  tg -> dc -> mc [style=invis] 
   
 }
