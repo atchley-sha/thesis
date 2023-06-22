@@ -47,21 +47,6 @@ data_targets <- tar_plan(
     ex_synthetic_file,
     "data/example_flowchart_comparison/information_pipelines/synthetic.dot",
     format = "file"
-  ),
-  
-  #legends for the network assignment figures
-  legend_nodes = tibble(
-    where = c("b1", "b2", "d1", "d2", "w1", "w2"),
-    x = rep(c(3.3,4.5), 3),
-    y = c(rep(-0.1,2), rep(0.3, 2), rep(-0.5,2)),
-    shape = "none",
-    width = 0.4
-  ),
-  legend_edges = tibble(
-    from = c("b1", "d1", "w1"),
-    to = c("b2", "d2", "w2"),
-    mode = c("transit", "drive", "walk"),
-    taillabel = str_to_title(mode)
   )
   
 )
