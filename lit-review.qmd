@@ -118,7 +118,7 @@ Though each individual's trips are known, there is no sense of consistency betwe
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
 The activity-based approach, depicted in @fig-network-abm, adds this consistency by modeling tours, and only generating trips consistent with each tour.
 
-::: {#fig-network-example layout="[[-25,50,-25], [-1], [-1], [-1], [50,50]]"}
+::: {#fig-network-example layout="[[-10,80,-10], [-1], [-1], [-1], [50,50]]"}
 ![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
 
 ![Trip-based (microsimulation)](output/example_flowchart_comparison/trip.png){#fig-network-micro}
