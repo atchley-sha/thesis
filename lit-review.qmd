@@ -80,7 +80,7 @@ If a company is willing to go through the initial work of creating a synthetic p
 @fig-pipeline-example gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
-All information is known at each point in the model regardless of which data is used in previous steps.
+All information is known at each point in the model regardless of which data is used in previous steps. 
 
 ::: {#fig-pipeline-example layout="[[1], [-1], [-1], [-1], [1]]"}
 ![Trip-based](output/example_flowchart_comparison/aggregate.png){#fig-aggregate}
@@ -110,10 +110,14 @@ The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizat
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
 @fig-network-example shows an example comparison of network assignment in the various types of models.
-@fig-network-tbm shows a TBM....
-visual representation of an individual's travel in a typical trip-based model....
-Though each individual's trips are known, in a trip-based model there is no sense of consistency between trips.
-The activity-based approach adds this consistency by modeling tours, and only generating trips consistent with each tour.
+@fig-network-tbm depicts network assignment in a classic trip-based model where the total number of trips between each zone is given.
+With these results, the mode and purpose of each trip is know, but, with aggregate data, there is no way of telling which people made the trips. 
+The most that could be done is a segmentation of the households according to vehicle and worker ratios (as shown in @fig-aggregate).
+@fig-network-micro and @fig-network-abm, on the other hand, are visual representations of an individual's travel made possible by the use of a synthetic population.   
+@fig-network-micro depicts the types of network assignment that could be given in a trip-based microsimulation model. 
+Though each individual's trips are known, there is no sense of consistency between trips.
+For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
+The activity-based approach, depicted in @fig-network-abm, adds this consistency by modeling tours, and only generating trips consistent with each tour.
 
 ::: {#fig-network-example layout="[[-25,50,-25], [-1], [-1], [-1], [50,50]]"}
 ![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
