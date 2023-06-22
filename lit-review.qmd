@@ -110,10 +110,9 @@ The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizat
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
 @fig-network-example shows an example comparison of network assignment in the various types of models.
-@fig-network-tbm depicts network assignment in a classic trip-based model where the total number of trips between each zone is given.
-With these results, the mode and purpose of each trip is know, but, with aggregate data, there is no way of telling which people made the trips. 
-The most that could be done is a segmentation of the households according to vehicle and worker ratios (as shown in @fig-aggregate).
-@fig-network-micro and @fig-network-abm, on the other hand, are visual representations of an individual's travel made possible by the use of a synthetic population.   
+@fig-network-tbm depicts network assignment in a typical trip-based model where the total number of trips between each zone is given.
+With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps(see @fig-aggregate).
+@fig-network-micro and @fig-network-abm, on the other hand, are visual representations of an *individual's* travel made possible by the use of a synthetic population.   
 @fig-network-micro depicts the types of network assignment that could be given in a trip-based microsimulation model. 
 Though each individual's trips are known, there is no sense of consistency between trips.
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
