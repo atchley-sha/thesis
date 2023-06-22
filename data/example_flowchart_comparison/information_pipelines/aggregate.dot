@@ -5,7 +5,7 @@ digraph  {
   rankdir=TB
   fontname="Alte Haas Grotesk, sans-serif"
   
-  node [shape=none, style=bold, fontname="Gentium Book Basic, serif"]
+  node [shape=none, style=bold, fontname="Alte Haas Grotesk, sans-serif"]
   tg [label="Trip\nGeneration"]
   dc [label="Destination\nChoice"]
   mc [label="Mode\nChoice"]

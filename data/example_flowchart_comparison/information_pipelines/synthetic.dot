@@ -47,7 +47,7 @@ digraph {
   p41 -> p42 -> p43
   p51 -> p52 -> p53
   
-  node [shape=none, style=bold, fontname="Gentium Book Basic, serif"]
+  node [shape=none, style=bold, fontname="Alte Haas Grotesk, sans-serif"]
   edge [style=invis]
   
   tg [label="Trip\nGeneration"]

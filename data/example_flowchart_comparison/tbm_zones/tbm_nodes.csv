@@ -1,5 +1,5 @@
-where,image
-A,data/example_flowchart_comparison/tbm_zones/A.png
-B,data/example_flowchart_comparison/tbm_zones/B.png
-C,data/example_flowchart_comparison/tbm_zones/C.png
-D,data/example_flowchart_comparison/tbm_zones/D.png
+where,image,x,y
+A,data/example_flowchart_comparison/tbm_zones/A.png,0,1.5
+B,data/example_flowchart_comparison/tbm_zones/B.png,1.5,3
+C,data/example_flowchart_comparison/tbm_zones/C.png,1.5,0
+D,data/example_flowchart_comparison/tbm_zones/D.png,3,1
