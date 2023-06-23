@@ -1,4 +1,4 @@
- # Literature Review
+# Literature Review
 
 Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework [@mcnally_four-step_2007].
 Up until this point, most urban transportation planning used existing demand or uniform-growth travel forecasts to model travel demand, but the Chicago Study used a combination of trip generation, trip distribution, modal split, and network assignment models to more accurately represent travel behavior [@weiner_urban_1997].
@@ -55,13 +55,12 @@ Then, average trip production rates are determined for each household category (
 
 This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@national_academies_travel_2012].
 However, any desired grouping for analysis must be a part of this segmentation in each model step.
-For something like an equity analysis, for example, it is impossible to determine the "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and model choice steps [@bills_looking_2017].
-This is problematic; while there is data on trip rates, mode choice, etc. based on these variables, if this is coded into the model then the model asserts that these trends will hold no matter the policy implementations.
-
-As an added complication to the difficulty of these analyses, the aggregate population data must from the start be segmented along each analysis variable.
 An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, greatly increasing the number of classifications needed.
 Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@moeckel_agent-based_2020; @national_academies_travel_2012].
+This becomes a particular issue in equity analysis because it is perhaps impossible to determine equitable distribution of "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and model choice steps [@bills_looking_2017].
+Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income, including such variables in trip-based models is problematic. Does 
+coding such a variable in a mode choice model represent discrimination? Or does doing so assert that present differences resulting from unequal opportunity will persist into the future planning years? Regardless the reasons for their exclusion, these variables consequently cannot be used in a post-hoc analysis of a transportation policy because the trip matrices do not contain the adequate segmentation.
 
 An alternative approach to population data is to use a full synthetic population.
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same distribution as the study area [@national_academies_travel_2012, p. 93].
@@ -69,15 +68,13 @@ The goal is to have a population that is functionally similar to the actual popu
 @castiglione_application_2006 argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process.
 This allows, for example, an equity analysis to determine the "winners" and "losers" of a proposed development without needing to encode demographic variables into each step of the model.
 
-@bills_looking_2017 for example used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
+@bills_looking_2017 used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
 With a 20% reduction in travel cost, they saw that high income workers benefited more than low income workers.
 They did similar comparisons for scenarios involving reduced travel times for different mode choices and were able to see the effects each scenario had on the high and low income workers.
 These types of analysis, which are not possible with aggregate population data, can be very valuable in transportation planning and policy making.
 
-It is important to note that, while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well.
+It is important to note that while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well.
 Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist (see @walker_making_2005 and @moeckel_agent-based_2020), but these are relatively rare.
-If a company is willing to go through the initial work of creating a synthetic population, then they may just use an ABM because they believe it will be most accurate.
-
 @fig-pipeline-example gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
@@ -94,8 +91,8 @@ Example "information pipeline" for a trip-based model and an ABM
 
 ### Travel Behavior
 
-The other significant difference from trip-based models ABMs have (and the main difference from trip-based microsimulation models) is that ABMs organize travel into "tours", a sequence of trips that begin and end at the home, rather than just trips.
-In fact, @miller_current_2023 points out that many current "activity-based" models ought to rather be labelled "tour-based" due to this focus on building tours.
+The other primary difference between trip-based models and ABMs --- and the main difference from trip-based microsimulation models ---  is that ABMs organize travel into "tours", a sequence of trips that begin and end at the home, rather than just trips.
+It should be noted that @miller_current_2023 arguest that many current "activity-based" models ought to rather be labelled "tour-based" due to this focus on building tours.
 This is contrasted with "activity scheduling" models, in which activity participation is modeled explicitly and trips emerge as the means to get from one activity to the next.
 However, in practice there are few true "activity scheduling" models, and the term "activity-based" is used to refer to both these and "tour-based" models.
 
@@ -106,18 +103,19 @@ However, this trip list may be inconsistent, and the forecasted trips may not be
 The hope, though, is that over an area the inconsistencies would cancel out, leaving an overall accurate forecast.
 
 ABMs, on the other hand, model *tours* rather than trips.
-This allows for consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a "chain" (tour), the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
+This attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a "chain" (tour), the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
 The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
-@fig-network-example shows an example comparison of network assignment in the various types of models.
+@fig-network-example shows an example comparison of the trips assigned to a network in the various model forms.
 @fig-network-tbm depicts network assignment in a typical trip-based model where the total number of trips between each zone is given.
-With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps(see @fig-aggregate).
+With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps(see @fig-aggregate). It is
+also not possible to construct a coherent daily list of trips for individuals.
 @fig-network-micro and @fig-network-abm, on the other hand, are visual representations of an *individual's* travel made possible by the use of a synthetic population.   
-@fig-network-micro depicts the types of network assignment that could be given in a trip-based microsimulation model. 
-Though each individual's trips are known, there is no sense of consistency between trips.
+@fig-network-micro depicts the trip list that could be given for an individual in a trip-based microsimulation model. 
+Though each individual's trips are known, there is no guarantee of consistency between trips.
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
-The activity-based approach, depicted in @fig-network-abm, adds this consistency by modeling tours, and only generating trips consistent with each tour.
+The activity-based approach, depicted in @fig-network-abm, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
 
 ::: {#fig-network-example layout="[[-10,80,-10], [-1], [-1], [-1], [50,50]]"}
 ![Trip-based (aggregate data)](output/example_flowchart_comparison/tbm.png){#fig-network-tbm}
@@ -178,7 +176,3 @@ Are certain types of scenarios suited to one model type?
 Though some of these questions have been discussed [see e.g. @lemp_aggregate_2007], a holistic methodological comparison is lacking.
 Additionally, the answers in the current literature are mainly theoretical, with little use to an agency considering the transition.
 
-This research aims to answer these questions by providing a side-by-side comparison of a potential trip-based and activity-based modeling methodology.
-Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each approach are compared.
-It is important to note that this paper is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts.
-Rather, the focus is on the methodological differences between the approaches, and the types of analyses that can be done with each model type.
