@@ -44,6 +44,20 @@ bibliography: bib/references.bib
 lof: true
 lot: true
 
+filters:
+  - acronyms
+  
+acronyms:
+  loa_title: ""
+  insert_loa: false
+  insert_links: true
+  include_unused: false
+  sorting: "alphabetical"
+  non_existing: "key"
+  style: "long-short"
+  fromfile:
+    - ./_acronyms.yml
+
 format:
   html:
     theme: cosmo
