@@ -88,7 +88,7 @@ All information is known at each point in the model regardless of which data is 
 
 ![Activity-based](output/example_flowchart_comparison/synthetic.png){#fig-synthetic}
 
-Example "information pipeline" for a trip-based model and an \acr{ABM}
+Example "information pipeline" for a trip-based model and an \acr{ABM}.
 :::
 
 ### Travel Behavior
