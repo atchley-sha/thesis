@@ -50,13 +50,13 @@ filters:
 acronyms:
   loa_title: ""
   insert_loa: false
-  insert_links: true
+  insert_links: false
   include_unused: false
   sorting: "alphabetical"
   non_existing: "key"
   style: "long-short"
   fromfile:
-    - ./_acronyms.yml
+    - _acronyms.yml
 
 format:
   html:

@@ -8,40 +8,40 @@ These trip-based models are not without problems, however.
 @rasouli_activity-based_2014 give several shortcomings of trip-based models: they use several sub-models that are (implicitly or explicitly) assumed independent, and this can result in a lack of consistency or integrity between sub-models; they are strongly aggregated in nature, which can cause significant aggregation bias; and they lack "behavioral realism"---that is, they do not have a concept of individuals making decisions, which is what travel behavior actually is.
 
 @jones_new_1979 proposed an alternative to the trip-based paradigm, namely an "activity-based" framework that models daily activity patterns at an individual rather than aggregate level.
-Activity-based models (ABMs) place the focus on "activities" rather than "trips" as the basic unit of analysis, and predict a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
+An \acr{ABM} places the focus on "activities" rather than "trips" as the basic unit of analysis, and predict a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
 "Trips" are then the result of getting from one activity to the next [@pinjari_activity-based_2011].
-By adopting this activity-centric framework, ABMs provide a more consistent and comprehensive representation of travel behavior.
+By adopting this activity-centric framework, \acr{ABM}s provide a more consistent and comprehensive representation of travel behavior.
 They take into account complex dependencies and interactions within the model as a whole and at an individual level.
-ABMs acknowledge that travel choices are not made in isolation, but rather influenced by the preceding activities.
+\acr{ABM}s acknowledge that travel choices are not made in isolation, but rather influenced by the preceding activities.
 This means that e.g. if an individual takes transit to work, they will not be able to drive home.
-ABMs therefore present a more conceptually accurate model of actual travel behavior than traditional trip-based models.
+\acr{ABM}s therefore present a more conceptually accurate model of actual travel behavior than traditional trip-based models.
 
-Despite these advantages, however, many agencies have yet to adopt ABMs, instead continuing to use trip-based models [@miller_current_2023].
-While ABMs are superior in certain aspects, they also have disadvantages, such as requiring more detailed input data and greater computational resources.
-It is also not always clear if ABMs provide substantially better forecasts than their trip-based counterparts, nor if this tradeoff is worth it for every agency.
-This literature review presents an overview of both modeling frameworks, and discusses the advantages and disadvantages of using an ABM.
+Despite these advantages, however, many agencies have yet to adopt \acr{ABM}s, instead continuing to use trip-based models [@miller_current_2023].
+While \acr{ABM}s are superior in certain aspects, they also have disadvantages, such as requiring more detailed input data and greater computational resources.
+It is also not always clear if \acr{ABM}s provide substantially better forecasts than their trip-based counterparts, nor if this tradeoff is worth it for every agency.
+This literature review presents an overview of both modeling frameworks, and discusses the advantages and disadvantages of using an \acr{ABM}.
 
 ## Overview of Model Types
 
 Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
 They can be more complicated than this, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
 
-In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
-Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@national_academies_travel_2012, p. 14].
+In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by each \acr{TAZ}.
+Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average \acr{TAZ} income as an input [@national_academies_travel_2012, p. 14].
 The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day.
-These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network (there are various algorithms for doing so, see @ortuzar_modelling_2011).
+These matrices list the number of trips between each \acr{TAZ}, and these trips are then assigned to a transportation network (there are various algorithms for doing so, see @ortuzar_modelling_2011).
 
 Activity-based models differ significantly from this approach.
-Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data [@vovsha_activity-based_2005].
-These models use an activity or tour scheduler to assign a daily activity pattern (DAP) of zero or more tours to each individual (*n.b.* a tour is a series of trips that begin and end at home).
-These DAPs are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities [@bowman_day_1998].
+Rather than using aggregate data, \acr{ABM}s use an actual or synthetic population, with individual person and household data [@vovsha_activity-based_2005].
+These models use an activity or tour scheduler to assign a \acr{DAP} of zero or more tours to each individual (*n.b.* a tour is a series of trips that begin and end at home).
+These \acr{DAP}s are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities [@bowman_day_1998].
 A "drive alone" trip from work to lunch, for example, cannot be made if transit was taken to work.
-ABMs output a list of tours and trips by person, time, location, and type, and these can then be assigned to a transportation network in a similar manner as in a trip-based model.
+\acr{ABM}s output a list of tours and trips by person, time, location, and type, and these can then be assigned to a transportation network in a similar manner as in a trip-based model.
 
 ## Comparison of Modeling Frameworks
 
-In discussing the differences between ABMs and trip-based models, there are really two comparisons that need to be made: how the population data is structured, and how travel is organized.
-Trip-based models generally use aggregate population data while ABMs use a synthetic population, and trip-based models organize travel into trips while ABMs organize travel into activities and tours.
+In discussing the differences between \acr{ABM}s and trip-based models, there are really two comparisons that need to be made: how the population data is structured, and how travel is organized.
+Trip-based models generally use aggregate population data while \acr{ABM}s use a synthetic population, and trip-based models organize travel into trips while \acr{ABM}s organize travel into activities and tours.
 The following sections will explain these different aspects of travel demand modeling and discuss the claimed advantages and disadvantages of each.
 
 ### Population Data
@@ -58,7 +58,7 @@ For something like an equity analysis, for example, it is impossible to determin
 This is problematic; while there is data on trip rates, mode choice, etc. based on these variables, if this is coded into the model then the model asserts that these trends will hold no matter the policy implementations.
 
 As an added complication to the difficulty of these analyses, the aggregate population data must from the start be segmented along each analysis variable.
-An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
+An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each \acr{TAZ} with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, greatly increasing the number of classifications needed.
 Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@moeckel_agent-based_2020; @national_academies_travel_2012].
 
@@ -73,9 +73,9 @@ With a 20% reduction in travel cost, they saw that high income workers benefited
 They did similar comparisons for scenarios involving reduced travel times for different mode choices and were able to see the effects each scenario had on the high and low income workers.
 These types of analysis, which are not possible with aggregate population data, can be very valuable in transportation planning and policy making.
 
-It is important to note that, while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well.
+It is important to note that, while many connect them only with \acr{ABM}s, synthetic populations can be used in running trip-based models as well.
 Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist (see @walker_making_2005 and @moeckel_agent-based_2020), but these are relatively rare.
-If a company is willing to go through the initial work of creating a synthetic population, then they may just use an ABM because they believe it will be most accurate.
+If a company is willing to go through the initial work of creating a synthetic population, then they may just use an \acr{ABM} because they believe it will be most accurate.
 
 @fig-pipeline-example gives a visualization of an example "information pipeline" for a trip-based model using aggregate data and one using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by e.g. 2-worker, 1-vehicle, low-income households, only which trips are made by households with fewer vehicles than workers.
@@ -88,12 +88,12 @@ All information is known at each point in the model regardless of which data is 
 
 ![Activity-based](output/example_flowchart_comparison/synthetic.png){#fig-synthetic}
 
-Example "information pipeline" for a trip-based model and an ABM
+Example "information pipeline" for a trip-based model and an \acr{ABM}
 :::
 
 ### Travel Behavior
 
-The other significant difference from trip-based models ABMs have (and the main difference from trip-based microsimulation models) is that ABMs organize travel into "tours", a sequence of trips that begin and end at the home, rather than just trips.
+The other significant difference from trip-based models \acr{ABM}s have (and the main difference from trip-based microsimulation models) is that \acr{ABM}s organize travel into "tours", a sequence of trips that begin and end at the home, rather than just trips.
 In fact, @miller_current_2023 points out that many current "activity-based" models ought to rather be labelled "tour-based" due to this focus on building tours.
 This is contrasted with "activity scheduling" models, in which activity participation is modeled explicitly and trips emerge as the means to get from one activity to the next.
 However, in practice there are few true "activity scheduling" models, and the term "activity-based" is used to refer to both these and "tour-based" models.
@@ -104,9 +104,9 @@ A trip-based microsimulation model may use regression models rather than aggrega
 However, this trip list may be inconsistent, and the forecasted trips may not be physically possible to complete in any sequence, as there is no sense of "trip-chaining".
 The hope, though, is that over an area the inconsistencies would cancel out, leaving an overall accurate forecast.
 
-ABMs, on the other hand, model *tours* rather than trips.
+\acr{ABM}s, on the other hand, model *tours* rather than trips.
 This allows for consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a "chain" (tour), the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
-The open-source ABM ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
+The open-source \acr{ABM} ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
 @fig-network-example shows an example comparison of network assignment in the various types of models.
@@ -125,10 +125,10 @@ The activity-based approach, depicted in @fig-network-abm, adds this consistency
 
 ![Activity-based](output/example_flowchart_comparison/tour.png){#fig-network-abm}
 
-Example travel pattern for an individual in both a trip-based microsimulation model and an ABM.
+Example network assignment in each model type. Both the trip-based microsimulation model and the \acr{ABM} allow for assignment on an individual level.
 :::
 
-In addition to intra-person dependencies, @rasouli_activity-based_2014 note that ABMs can model dependencies between members of a household as well.
+In addition to intra-person dependencies, @rasouli_activity-based_2014 note that \acr{ABM}s can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.
 Because the people within the household will have travel patterns that depend on the patterns of others in the household, a policy affecting one person in the household can affect everyone in the household no matter how directly the policy connects to them [@vovsha_activity-based_2005].
 These effects aren't possible to forecast in a trip-based model.
@@ -138,20 +138,20 @@ Another advantage of organizing travel into tours comes regarding accessibility 
 This approach only analyzes zones' proximity to each other and does not take into account individual travel patterns.
 They argue that this is a limited view of accessibility, and discuss the "activity-based accessibility measure" (ABA), which is evaluated based on all trips in a day rather than particular trips.
 As an example, if an individual doesn't live within a 20-minute drive of a grocery store, traditional measures might rate this as poor accessibility.
-However, if they travel to a park with a nearby grocery store as part of their DAP, then in reality the accessibility should be rated much higher.
+However, if they travel to a park with a nearby grocery store as part of their \acr{DAP}, then in reality the accessibility should be rated much higher.
 This proximity may even influence *which* park is chosen.
 Overall, they found that the ABA predicts more reasonable accessibility outcomes compared to traditional measures.
 
 ## Lack of ABM Adoption
 
-Though ABMs have many clear advantages over trip-based models, adoption among agencies has been relatively slow.
-Many ABMs are implemented in proprietary software, which creates difficulty in maintaining and iterating on the model, @miller_current_2023 argues.
-Even in an open-source model like ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], Miller notes several disadvantages of ABMs:
+Though \acr{ABM}s have many clear advantages over trip-based models, adoption among agencies has been relatively slow.
+Many \acr{ABM}s are implemented in proprietary software, which creates difficulty in maintaining and iterating on the model, @miller_current_2023 argues.
+Even in an open-source model like ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], Miller notes several disadvantages of \acr{ABM}s:
 
--   Computational inefficiency and complicated program design: ABMs take more time, more computing power, and more money to run.
-    This is because the synthetic population needed to run an ABM uses much more data.
-    In areas with thousands of TAZs and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip based models.
-    If a city can see similar results using a trip based model, they may decide not to invest in an ABM.
+-   Computational inefficiency and complicated program design: \acr{ABM}s take more time, more computing power, and more money to run.
+    This is because the synthetic population needed to run an \acr{ABM} uses much more data.
+    In areas with thousands of \acr{TAZ}s and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip based models.
+    If a city can see similar results using a trip based model, they may decide not to invest in an \acr{ABM}.
 
 -   Absence of a standard model system: The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
     This also makes it difficult for agencies to determine which approach is the best and decide which to implement.
@@ -164,15 +164,15 @@ Because of these reasons, as well as the inertia of current practices, trip-base
 
 ## Research Gap
 
-Though there has been much research on ABMs and their theoretical advantages, to the authors' knowledge there is little in the literature about their practicality in the real world.
-It is often taken as given that ABMs are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results.
-@ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the ABM performed slightly better at the region level, but about the same at the project level.
-This is not an overwhelming victory for ABMs, and so based on this an agency may reasonably decide that the increase in data, computational, training, and potentially financial requirements outweigh the potential gains of switching to an ABM.
+Though there has been much research on \acr{ABM}s and their theoretical advantages, to the authors' knowledge there is little in the literature about their practicality in the real world.
+It is often taken as given that \acr{ABM}s are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results.
+@ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the \acr{ABM} performed slightly better at the region level, but about the same at the project level.
+This is not an overwhelming victory for \acr{ABM}s, and so based on this an agency may reasonably decide that the increase in data, computational, training, and potentially financial requirements outweigh the potential gains of switching to an \acr{ABM}.
 
 @ferdous_comparison_2012, however, mainly compared the *accuracy* of the two frameworks, but did not address the methodological differences between them.
 What types of data collection/synthesis are needed for each model type?
 Are there analyses that can only be done through (or that are made easier by) one of the model types?
-What would an agency need in order to transition from a trip-based model to an ABM?
+What would an agency need in order to transition from a trip-based model to an \acr{ABM}?
 Are certain types of scenarios suited to one model type?
 Though some of these questions have been discussed [see e.g. @lemp_aggregate_2007], a holistic methodological comparison is lacking.
 Additionally, the answers in the current literature are mainly theoretical, with little use to an agency considering the transition.
