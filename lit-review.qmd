@@ -1,15 +1,15 @@
-# Literature Review
+ # Literature Review
 
-Travel demand modeling in the modern sense has its origins in the 1950s, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework [@mcnally_four-step_2007].
+Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework [@mcnally_four-step_2007].
 Up until this point, most urban transportation planning used existing demand or uniform-growth travel forecasts to model travel demand, but the Chicago Study used a combination of trip generation, trip distribution, modal split, and network assignment models to more accurately represent travel behavior [@weiner_urban_1997].
-Since then, there have been numerous studies iterating on the "four-step" (more appropriately termed "trip-based") framework, and models of this type are now used in forecasting travel demand across the United States [@park_intrazonal_2020].
+Since then, there have been numerous studies iterating on the "four-step" (more appropriately termed "trip-based") framework, and models of this type are now the primary tool used in forecasting travel demand across the United States [@park_intrazonal_2020].
 
 These trip-based models are not without problems, however.
-@rasouli_activity-based_2014 give several shortcomings of trip-based models: they use several sub-models that are (implicitly or explicitly) assumed independent, and this can result in a lack of consistency or integrity between sub-models; they are strongly aggregated in nature, which can cause significant aggregation bias; and they lack "behavioral realism"---that is, they do not have a concept of individuals making decisions, which is what travel behavior actually is.
+@rasouli_activity-based_2014 give several shortcomings of trip-based models. First, they use several sub-models that are (implicitly or explicitly) assumed independent, and this can result in a lack of consistency or integrity between sub-models; for example, the assumed value of time in the mode choice model might be radically different than the assumed value of time in the tolling assignment model. Second, they are strongly aggregated in nature, which can cause significant aggregation bias with high- and low- values excluded. Finally,  they lack "behavioral realism"---that is, they do not have a concept of individuals making decisions, which is what travel behavior actually is.
 
 @jones_new_1979 proposed an alternative to the trip-based paradigm, namely an "activity-based" framework that models daily activity patterns at an individual rather than aggregate level.
 Activity-based models (ABMs) place the focus on "activities" rather than "trips" as the basic unit of analysis, and predict a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
-"Trips" are then the result of getting from one activity to the next [@pinjari_activity-based_2011].
+"Trips" are then journeys from one activity to the next [@pinjari_activity-based_2011].
 By adopting this activity-centric framework, ABMs provide a more consistent and comprehensive representation of travel behavior.
 They take into account complex dependencies and interactions within the model as a whole and at an individual level.
 ABMs acknowledge that travel choices are not made in isolation, but rather influenced by the preceding activities.
@@ -28,11 +28,12 @@ They can be more complicated than this, possibly including integration with a la
 
 In a typical trip-based model, travel demand is predicted based on aggregate population data, often delineated by transportation analysis zones (TAZs).
 Each sub-model relies on this aggregate data; for example, the modal split sub-model will often use average TAZ income as an input [@national_academies_travel_2012, p. 14].
-The output of the first three of the four steps is a set of trip matrices, usually separated by mode and possibly time of day.
-These matrices list the number of trips between each TAZ, and these trips are then assigned to a transportation network (there are various algorithms for doing so, see @ortuzar_modelling_2011).
+This means that the trip production model and the trip distribution model must produce origin-destination matrices that are segmented by income group, whether income is
+shown to influence trip production rates or not.
+Regardless of the segmentation variables used in the first three model steps, the resulting trip matrices by mode and time of day are then assigned to a transportation network (there are various algorithms for doing so, see @ortuzar_modelling_2011). At this point, most remaining segmentation --- trips by zero-vehicle households, trips by high-income workers, etc. --- is pooled together and lost from further analysis.
 
 Activity-based models differ significantly from this approach.
-Rather than using aggregate data, ABMs use an actual or synthetic population, with individual person and household data [@vovsha_activity-based_2005].
+Rather than using aggregate data, ABMs use data representing actual or synthetic population, with individual person and household data [@vovsha_activity-based_2005].
 These models use an activity or tour scheduler to assign a daily activity pattern (DAP) of zero or more tours to each individual (*n.b.* a tour is a series of trips that begin and end at home).
 These DAPs are restricted temporally, spatially, and modally; i.e., each person has a logical and followable sequence of trips and activities [@bowman_day_1998].
 A "drive alone" trip from work to lunch, for example, cannot be made if transit was taken to work.
@@ -164,8 +165,8 @@ Because of these reasons, as well as the inertia of current practices, trip-base
 
 ## Research Gap
 
-Though there has been much research on ABMs and their theoretical advantages, to the authors' knowledge there is little in the literature about their practicality in the real world.
-It is often taken as given that ABMs are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results.
+Though there has been much research on ABMs and their theoretical advantages, practical comparisons of the model frameworks have been limited. 
+It is often taken as given that ABMs are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results in terms of analytical flexibility or policy outcomes.
 @ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the ABM performed slightly better at the region level, but about the same at the project level.
 This is not an overwhelming victory for ABMs, and so based on this an agency may reasonably decide that the increase in data, computational, training, and potentially financial requirements outweigh the potential gains of switching to an ABM.
 
