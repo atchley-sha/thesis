@@ -1,0 +1,41 @@
+# Methodology
+
+This section lists our methodology.
+
+We will compare models...
+
+We will forecast several scenarios.
+
+## Models to Use
+
+WFRC Model, where it is from, etc.
+
+Activitysim, where it is from, etc.
+
+## Scenarios to Forecast
+
+Here are the scenarios.
+
+### Increasing FrontRunner
+
+The Frontrunner is a commuter rail line...
+
+We will increase the frequency and speed by...
+
+### Prison Site Redevelopment
+
+The site...
+
+This will be modeled by...
+
+### Work from Home
+
+We will model more people working from home.
+
+It is not obvious what the best method is; here are articles about it.
+
+How we modeled it...
+
+## Computational resources?
+
+Describe BEAST and the BYU Supercomputer.
