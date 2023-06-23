@@ -1,0 +1,18 @@
+---
+acronyms:
+  keys:
+    - shortname: TAZ
+      longname: Transportation Analysis Zone
+    - shortname: UDOT
+      longname: Utah Department of Transportation
+    - shortname: WFRC
+      longname: Wasatch Front Regional Council
+    - shortname: ABM
+      longname: Activity-based model
+    - shortname: ITE
+      longname: Institute of Transportation Engineers
+    - shortname: LOS
+      longname: level of service
+    - shortname: HCM
+      longname: Highway Capacity Manual
+---
