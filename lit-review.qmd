@@ -1,4 +1,4 @@
-# Literature Review {#sec-lit-review}
+# Literature Review {#sec-literature}
 
 Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework [@mcnally_four-step_2007].
 Up until this point, most urban transportation planning used existing demand or uniform-growth travel forecasts to model travel demand, but the Chicago Study used a combination of trip generation, trip distribution, modal split, and network assignment models to more accurately represent travel behavior [@weiner_urban_1997].
