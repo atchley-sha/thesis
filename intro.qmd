@@ -1,4 +1,20 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+Activity-based models have been championed by researchers and many practitioners as being theoretically superior to 
+the trip-based models historically used in transportation planning efforts since the 1950's.
 
+Despite the theoretical benefits, many agencies have delayed or declined to transition to an ABM citing additional
+data requirements, staff training, computational resources, and related concerns. There is also
+not a consensus that ABM's result in better infrastructure volume forecasts, the primary --- or even sole --- purpose 
+of many regions travel demand analysis efforts.
+
+In this research, we investigate the quality and characteristics of travel analyses enabled by an ABM.
+We do this by applying an array of infrastructure and behavior scenarios to a pair of models representing the
+Wasatch Front (Salt Lake City) region of Utah, USA.
+
+The document proceeds in a typical fashion: #sec-literature provides a discussion of the differences between trip-based models and ABMs, 
+alongside a discussion of previous studies examining the theoretical and analytical benefits of each framework. @sec-methods
+first describes the model frameworks used in this research, namely the regional trip-based model and an activity-based model
+constructed to support research activities in the region; this section also describes three scenarios designed to test
+the usefulness and applicability of the different model frameworks. @sec-results describes the scenario findings, alongside a discussion
+of their limitations and implications. @sec-conclusions provides a series of recommendations and opportunities for future research.

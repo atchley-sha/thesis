@@ -5,20 +5,25 @@ execute:
   echo: false
 
 book:
-  title: "abm_illustration"
+  title: "An illustrated comparison of activity-based and trip-based models in Utah"
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
       orcid: 0000-0002-0815-3488
       affiliations:
         - ref: byucce
+    - name: Kamryn Mansfield
+      email: kamrynwm@student.byu.edu
+      orcid:
+      affiliations:
+        - ref: byucce
     - name: Gregory S. Macfarlane
-      email: gregmacfarlane@gmail.com
+      email: gregmacfarlane@byu.edu
       orcid: 0000-0003-3999-7584
       affiliations:
         - ref: byucce
  
-  date: "4/14/2023"
+  date: "6/23/2023"
   date-format: DD MMMM YYYY
   chapters:
     - index.qmd
