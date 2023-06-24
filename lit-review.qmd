@@ -62,6 +62,7 @@ However, any desired grouping for analysis must be a part of this segmentation i
 An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each \acr{TAZ} with each possible combination of education level.
 This can be done, but more detailed and varied analyses would require more segmentation, greatly increasing the number of classifications needed.
 Since these variables need to be carried through each model step, trip rates etc. need to be estimated for every classification, and while real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@moeckel_agent-based_2020; @national_academies_travel_2012].
+
 This becomes a particular issue in equity analysis because it is perhaps impossible to determine equitable distribution of "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and model choice steps [@bills_looking_2017].
 Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income, including such variables in trip-based models is problematic.
 Does coding such a variable in a mode choice model represent discrimination?
@@ -116,8 +117,9 @@ After the tour-level decisions are made, trip-level mode/destination choice is d
 
 @fig-network-example shows an example comparison of the trips assigned to a network in the various model forms.
 @fig-network-tbm depicts network assignment in a typical trip-based model where the total number of trips between each zone is given.
-With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps(see @fig-aggregate).
+With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see @fig-aggregate).
 It is also not possible to construct a coherent daily list of trips for individuals.
+
 @fig-network-micro and @fig-network-abm, on the other hand, are visual representations of an *individual's* travel made possible by the use of a synthetic population.   
 @fig-network-micro depicts the trip list that could be given for an individual in a trip-based microsimulation model. 
 Though each individual's trips are known, there is no guarantee of consistency between trips.
