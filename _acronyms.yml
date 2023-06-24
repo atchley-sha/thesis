@@ -9,10 +9,6 @@ acronyms:
       longname: Wasatch Front Regional Council
     - shortname: ABM
       longname: Activity-based model
-    - shortname: ITE
-      longname: Institute of Transportation Engineers
-    - shortname: LOS
-      longname: level of service
-    - shortname: HCM
-      longname: Highway Capacity Manual
+    - shortname: DAP
+      longname: daily activity pattern
 ---
