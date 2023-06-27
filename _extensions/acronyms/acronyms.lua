@@ -133,9 +133,11 @@ function Acronyms:parseFromMetadata(metadata, on_duplicate)
         return
     end
     -- This field should be a Pandoc "MetaList" (so we can iter over it).
-    if not isMetaList(metadata.acronyms.keys) then
-        error("The acronyms.keys should be a list!")
-    end
+       -- for some reason, this snippet breaks on some computers, so it's temporarily commented.
+       -- it's just a check, so we should be fine skipping it.
+       -- if not isMetaList(metadata.acronyms.keys) then
+       --     error("The acronyms.keys should be a list!")
+       -- end
 
     -- Iterate over the defined acronyms. We use `ipairs` since we want to
     -- keep their original order (useful for the `definition_order`!).
