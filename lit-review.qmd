@@ -11,7 +11,7 @@ Second, they are strongly aggregated in nature, which can cause significant aggr
 Finally, they lack "behavioral realism"---that is, they do not have a concept of individuals making decisions, which is what travel behavior actually is.
 
 @jones_new_1979 proposed an alternative to the trip-based paradigm, namely an "activity-based" framework that models daily activity patterns at an individual rather than aggregate level.
-An \acr{ABM} places the focus on "activities" rather than "trips" as the basic unit of analysis, and predict a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
+An \acr{ABM} places the focus on "activities" rather than "trips" as the basic unit of analysis, and predicts a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
 "Trips" are then journeys from one activity to the next [@pinjari_activity-based_2011].
 By adopting this activity-centric framework, \acr{ABM}s provide a more consistent and comprehensive representation of travel behavior.
 They take into account complex dependencies and interactions within the model as a whole and at an individual level.
