@@ -12,6 +12,8 @@ WFRC Model, where it is from, etc.
 
 Activitysim, where it is from, etc.
 
+We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via Populationsim).
+
 ## Scenarios to Forecast
 
 Here are the scenarios.
@@ -22,11 +24,18 @@ The Frontrunner is a commuter rail line...
 
 We will increase the frequency and speed by...
 
+We need to adjust the skims for transit.
+This will need to be done programmatically, between pretty much every pair of zones.
+We'll have to figure out by how much, which will depend on how long each route spends on the train.
+That may take some network assignment algorithms to figure out, but maybe not.
+
 ### Prison Site Redevelopment
 
 The site...
 
 This will be modeled by...
+
+We will adjust the input zonal SE data and use it directly for the WFRC model, and make a new synthetic population with the new zonal data as targets for Activitysim.
 
 ### Work from Home
 
@@ -35,6 +44,15 @@ We will model more people working from home.
 It is not obvious what the best method is; here are articles about it.
 
 How we modeled it...
+
+For the WFRC model, we will probably just decrease the trip rates.
+It's not exactly clear by how much, but we can estimate it based on... (possibly articles doing a similar thing, maybe WFRC itself has data).
+We probably also will have to increase the HBO trip rates since WFH increases discretionary trips.
+We also may need to adjust the trip length distribution curves, since WFH propensity is a function of distance (we think, <citation>).
+
+For Activitysim, we probably will generate a random number for each worker, and based on the type of job they have they also have a certain probability of WFH.
+If they WFH, then they make no work tours, and maybe more discretionary tours.
+If they would have made 2+ work tours, then maybe they make 1 fewer work tour.
 
 ## Computational resources?
 
