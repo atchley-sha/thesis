@@ -25,9 +25,7 @@ The Frontrunner is a commuter rail line...
 We will increase the frequency and speed by...
 
 We need to adjust the skims for transit.
-This will need to be done programmatically, between pretty much every pair of zones.
-We'll have to figure out by how much, which will depend on how long each route spends on the train.
-That may take some network assignment algorithms to figure out, but maybe not.
+This is done by updating the transit schedule and speed etc., then generating new skims.
 
 ### Prison Site Redevelopment
 
@@ -36,6 +34,7 @@ The site...
 This will be modeled by...
 
 We will adjust the input zonal SE data and use it directly for the WFRC model, and make a new synthetic population with the new zonal data as targets for Activitysim.
+We may also need to add transit lines, since these are planned (BRT to frontrunner, e.g.).
 
 ### Work from Home
 
