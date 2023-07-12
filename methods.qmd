@@ -29,9 +29,29 @@ This is done by updating the transit schedule and speed etc., then generating ne
 
 ### Prison Site Redevelopment
 
-The site...
+Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
+The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
+A BRT line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
+This scenario is to model this development and its effect on transportation demand.
 
-This will be modeled by...
+Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
+The first is relatively straightforward.
+Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
+
+```{r}
+#| label: fig-draper-prison-location
+#| fig-cap: draper prison location
+
+boxplot(mtcars$mpg ~ mtcars$cyl)
+```
+
+```{r}
+#| label: tbl-point-se-data
+#| tbl-cap: the point se data
+
+knitr::kable(head(mtcars))
+```
+
 
 We will adjust the input zonal SE data and use it directly for the WFRC model, and make a new synthetic population with the new zonal data as targets for Activitysim.
 We may also need to add transit lines, since these are planned (BRT to frontrunner, e.g.).
