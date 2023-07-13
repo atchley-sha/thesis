@@ -31,12 +31,13 @@ This is done by updating the transit schedule and speed etc., then generating ne
 
 Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
 The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
-A BRT line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
+A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
 This scenario is to model this development and its effect on transportation demand.
 
 Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
 The first is relatively straightforward.
 Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
+It is important to note that the development spans two \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them.
 
 ```{r}
 #| label: fig-draper-prison-location
@@ -52,9 +53,22 @@ boxplot(mtcars$mpg ~ mtcars$cyl)
 knitr::kable(head(mtcars))
 ```
 
+This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
+We used the zonal data as new targets....
 
-We will adjust the input zonal SE data and use it directly for the WFRC model, and make a new synthetic population with the new zonal data as targets for Activitysim.
-We may also need to add transit lines, since these are planned (BRT to frontrunner, e.g.).
+To add the transit line(s), we had to estimate a schedule.
+Similar to other \acr{BRT} lines in the area such as the UVX, we estimated the \acr{BRT} line to the FrontRunner station to have a headway of XXX minutes during peak hours and XXX minutes off-peak.
+We also estimated the stop locations, as it is unclear where the stops are outside the development (other than the FrontRunner station).
+@fig-prison-new-transit shows the new transit lines assumed along with the \acr{TAZ} map of the area.
+
+```{r}
+#| label: fig-prison-new-transit
+#| fig-cap: new transit
+
+plot(mtcars)
+```
+
+Encoding this information is straightforward in both models, as transit data is a direct input in both cases.
 
 ### Work from Home
 

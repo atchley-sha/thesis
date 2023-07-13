@@ -11,4 +11,6 @@ acronyms:
       longname: activity-based model
     - shortname: DAP
       longname: daily activity pattern
+    - shortname: BRT
+      longname: bus rapid transit
 ---
