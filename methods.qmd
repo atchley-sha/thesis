@@ -46,7 +46,7 @@ This scenario is to model this development and its effect on transportation dema
 Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
 The first is relatively straightforward.
 Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
-It is important to note that the development spans two \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them.
+It is important to note that the development spans five \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them consistent with the development plan [@cite].
 
 ```{r}
 #| label: fig-draper-prison-location
@@ -68,6 +68,7 @@ We used the zonal data as new targets....
 To add the transit line(s), we had to estimate a schedule.
 Similar to other \acr{BRT} lines in the area such as the UVX, we estimated the \acr{BRT} line to the FrontRunner station to have a headway of XXX minutes during peak hours and XXX minutes off-peak.
 We also estimated the stop locations, as it is unclear where the stops are outside the development (other than the FrontRunner station).
+Within the development, the stops are located in accordance with the development plan [@cite].
 @fig-prison-new-transit shows the new transit lines assumed along with the \acr{TAZ} map of the area.
 
 ```{r}
