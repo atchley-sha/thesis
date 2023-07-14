@@ -10,9 +10,11 @@ We will forecast several scenarios.
 
 WFRC Model, where it is from, etc.
 
-Activitysim, where it is from, etc.
+ActivitySim, where it is from, etc.
 
-We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via Populationsim).
+We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via PopulationSim).
+
+Model inputs/outputs diagram?
 
 ## Scenarios to Forecast
 
@@ -20,12 +22,19 @@ Here are the scenarios.
 
 ### Increasing FrontRunner
 
-The Frontrunner is a commuter rail line...
+The FrontRunner is a commuter rail line between Provo and Ogden, Utah, with several stops in-between.
+Currently, for much of the line there is only one set of tracks, and train crossings are only possible near stations.
+Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
+Additionally, trains occasionally need to wait for each other in order to cross paths.
 
-We will increase the frequency and speed by...
+There is a planned improvement to the FrontRunner that would "double-track" the entire route, allowing trains to pass each other at any point.
+This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively.
+The improvement would also partially electrify the FrontRunner, which would allow for faster travel speeds.
+*elaborate; table/figure?*
 
-We need to adjust the skims for transit.
-This is done by updating the transit schedule and speed etc., then generating new skims.
+In order to model this scenario we adjusted both the headways and speed parameters for the FrontRunner line.
+This is straightforward for both models, as transit data is a direct input in each.
+*is this true for activitysim? do we need to run the skims instead and use those? also, in cube we need to adjust the network speeds on each link, need to figure out how to do that.*
 
 ### Prison Site Redevelopment
 
