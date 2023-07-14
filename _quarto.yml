@@ -5,7 +5,7 @@ execute:
   echo: false
 
 book:
-  title: "An illustrated comparison of activity-based and trip-based models in Utah"
+  title: "An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah"
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
@@ -29,8 +29,7 @@ book:
     - index.qmd
     - intro.qmd
     - lit-review.qmd
-    # - lit-review_notes.qmd
-    # - methods.qmd
+    - methods.qmd
     # - results.qmd
     # - discussion.qmd
     # - conclusions.qmd
