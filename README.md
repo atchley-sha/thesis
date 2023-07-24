@@ -7,4 +7,4 @@ This uses populationsim and activitysim. These are easily installed with [mambaf
     mamba create -n popsim python=3.8
     mamba activate popsim
     mamba install pytables
-    pip install populationsim=0.5.1
+    pip install populationsim==0.5.1
