@@ -47,6 +47,7 @@ bibliography: bib/references.bib
 
 lof: true
 lot: true
+fig-align: center
 
 filters:
   - acronyms
