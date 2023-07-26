@@ -20,6 +20,9 @@ Things that are needed for scenario development:
 - How to get synthetic population / Which variables to use from PUMS?
 - How to use skims from WFRC model / Which skims to use?
 - How to input transit?
+    - Options:
+        - TAZ Skims (get from CUBE)
+        - TAPs and TAP skims (do we use these?)
 - How to input WFH?
     - Built-in WFH model
         - Separate models for fully WFH and blended
@@ -53,8 +56,8 @@ Things that are needed for scenario development:
 #### WFH
 
 - Different % for different job types
-    - This is probably built in to ActivitySim
-    - This is probably build in to WFRC
+    - Edit model spec in ActivitySim
+    - This is probably built in to WFRC?
 - Discretionary trips go up?
     - How to do this
 
