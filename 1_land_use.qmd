@@ -1,0 +1,28 @@
+# Scenario 1: Land Use
+
+Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
+The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
+A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
+This scenario is to model this development and its effect on transportation demand.
+
+Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
+The first is relatively straightforward.
+Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
+It is important to note that the development spans five \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them consistent with the development plan [@cite].
+
+```{r}
+#| label: fig-draper-prison-location
+#| fig-cap: draper prison location
+
+boxplot(mtcars$mpg ~ mtcars$cyl)
+```
+
+```{r}
+#| label: tbl-point-se-data
+#| tbl-cap: the point se data
+
+knitr::kable(head(mtcars))
+```
+
+This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
+We used the zonal data as new targets....

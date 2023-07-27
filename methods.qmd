@@ -16,86 +16,10 @@ We are getting the input zonal SE data form the WFRC model and using that as tar
 
 Model inputs/outputs diagram?
 
-## Scenarios to Forecast
-
-Here are the scenarios.
-
-### Increasing FrontRunner
-
-The FrontRunner is a commuter rail line between Provo and Ogden, Utah, with several stops in-between.
-Currently, for much of the line there is only one set of tracks, and train crossings are only possible near stations.
-Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
-Additionally, trains occasionally need to wait for each other in order to cross paths.
-
-There is a planned improvement to the FrontRunner that would "double-track" the entire route, allowing trains to pass each other at any point.
-This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively.
-The improvement would also partially electrify the FrontRunner, which would allow for faster travel speeds.
-*elaborate; table/figure?*
-
-In order to model this scenario we adjusted both the headways and speed parameters for the FrontRunner line.
-This is straightforward for both models, as transit data is a direct input in each.
-*is this true for activitysim? do we need to run the skims instead and use those? also, in cube we need to adjust the network speeds on each link, need to figure out how to do that.*
-
-### Prison Site Redevelopment
-
-Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
-The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
-A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
-This scenario is to model this development and its effect on transportation demand.
-
-Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
-The first is relatively straightforward.
-Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
-It is important to note that the development spans five \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them consistent with the development plan [@cite].
-
-```{r}
-#| label: fig-draper-prison-location
-#| fig-cap: draper prison location
-
-boxplot(mtcars$mpg ~ mtcars$cyl)
-```
-
-```{r}
-#| label: tbl-point-se-data
-#| tbl-cap: the point se data
-
-knitr::kable(head(mtcars))
-```
-
-This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
-We used the zonal data as new targets....
-
-To add the transit line(s), we had to estimate a schedule.
-Similar to other \acr{BRT} lines in the area such as the UVX, we estimated the \acr{BRT} line to the FrontRunner station to have a headway of XXX minutes during peak hours and XXX minutes off-peak.
-We also estimated the stop locations, as it is unclear where the stops are outside the development (other than the FrontRunner station).
-Within the development, the stops are located in accordance with the development plan [@cite].
-@fig-prison-new-transit shows the new transit lines assumed along with the \acr{TAZ} map of the area.
-
-```{r}
-#| label: fig-prison-new-transit
-#| fig-cap: new transit
-
-plot(mtcars)
-```
-
-Encoding this information is straightforward in both models, as transit data is a direct input in both cases.
-
-### Work from Home
-
-We will model more people working from home.
-
-It is not obvious what the best method is; here are articles about it.
-
-How we modeled it...
-
-For the WFRC model, we will probably just decrease the trip rates.
-It's not exactly clear by how much, but we can estimate it based on... (possibly articles doing a similar thing, maybe WFRC itself has data).
-We probably also will have to increase the HBO trip rates since WFH increases discretionary trips.
-We also may need to adjust the trip length distribution curves, since WFH propensity is a function of distance (we think, <citation>).
-
-For Activitysim, we probably will generate a random number for each worker, and based on the type of job they have they also have a certain probability of WFH.
-If they WFH, then they make no work tours, and maybe more discretionary tours.
-If they would have made 2+ work tours, then maybe they make 1 fewer work tour.
+We will model the following scenarios:
+- Land use
+- Transit
+- WFH
 
 ## Computational resources?
 

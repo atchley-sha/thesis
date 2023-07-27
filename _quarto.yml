@@ -30,8 +30,10 @@ book:
     - intro.qmd
     - lit-review.qmd
     - methods.qmd
-    # - results.qmd
-    # - discussion.qmd
+    - 1_land_use.qmd
+    - 2_transit.qmd
+    - 3_wfh.qmd
+    - discussion.qmd
     # - conclusions.qmd
     - references.qmd
  
