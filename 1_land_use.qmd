@@ -5,10 +5,11 @@ The 600-acre site will be developed into a multi-use residential and commercial 
 A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
 This scenario is to model this development and its effect on transportation demand.
 
-Two things will need to be done to create this model scenario: updating the land use and socioeconomic data, and adding the transit line(s).
-The first is relatively straightforward.
-Looking at information from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021], we estimate the increase in population and employment as shown in @tbl-point-se-data.
+To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes.
+Using the information made publicly available by Point of the Mountain State Land Authority [@state_land_authority_framework_2021], the increase in population and employment was estimated as shown in @tbl-point-se-data.
 It is important to note that the development spans five \acr{TAZ}s (see @fig-prison-new-transit), and so the socioeconomic data are spread out across them consistent with the development plan [@cite].
+To add this information to the model, the csv file containing the socioeconomic data for each zone needed to be adjusted.
+This involved simply adding the new information to each of the five rows that represented the zones in the new development. 
 
 ```{r}
 #| label: fig-draper-prison-location

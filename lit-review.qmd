@@ -174,8 +174,8 @@ Even in an open-source model like ActivitySim [@association_of_metropolitan_plan
 
 -   Computational inefficiency and complicated program design: \acr{ABM}s take more time, more computing power, and more money to run.
     This is because the synthetic population needed to run an \acr{ABM} uses much more data.
-    In areas with thousands of \acr{TAZ}s and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip based models.
-    If a city can see similar results using a trip based model, they may decide not to invest in an \acr{ABM}.
+    In areas with thousands of \acr{TAZ}s and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip-based models.
+    If a city can see similar results using a trip-based model, they may decide not to invest in an \acr{ABM}.
 
 -   Absence of a standard model system: The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
     This also makes it difficult for agencies to determine which approach is the best and decide which to implement.

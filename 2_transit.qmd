@@ -1,7 +1,7 @@
 # Scenario 2: Transit
 
 The FrontRunner is a commuter rail line between Provo and Ogden, Utah, with several stops in-between.
-Currently, for much of the line there is only one set of tracks, and train crossings are only possible near stations.
+Currently, there is only one set of tracks for much of the line, and train crossings are only possible near stations.
 Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
 Additionally, trains occasionally need to wait for each other in order to cross paths.
 
@@ -12,4 +12,6 @@ The improvement would also partially electrify the FrontRunner, which would allo
 
 In order to model this scenario we adjusted both the headways and speed parameters for the FrontRunner line.
 This is straightforward for both models, as transit data is a direct input in each.
+We simply needed to access the file that stores the FrontRunner headway data and change the values for headway.
+We then added the predicted speed to each link in the transit network and pulled that data into the model instead of the current speed data. 
 *is this true for activitysim? do we need to run the skims instead and use those? also, in cube we need to adjust the network speeds on each link, need to figure out how to do that.*
