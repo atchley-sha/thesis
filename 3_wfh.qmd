@@ -1,10 +1,18 @@
 # Scenario 3: Work From Home
 
-We will model more people working from home.
-
-It is not obvious what the best method is; here are articles about it.
+With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home [@bick_work_2021]. This scenario is an attempt to model an increase in people working from home, or telecommuting. 
+There has been much research , especially in recent years, on the implications of telecommuting *cite??*.
+While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. 
+@bramberga_teleworking_2023 even stated that considerations for teleworking should be on a case by case basis because there is no single approach.
+Here are some articles about it, and some of the principles we followed. *cite*
+1. adjusting the number of HBW trips and NHBW trips to account for telecommuting. 
+2. Using job type to determine how much to adjust the trips. 
 
 How we modeled it...
+For the trip-based model, we used data that gave a telecommute rate for a variety of different job types in each county in Utah.
+To account for an increase in telecommuting, we added a multiplier in order to produce proportionately higher telecommuting rates for each job category.
+These rates were used to designate a certain number of the generated HBW and NHBW trips as telecommute trips.
+During trip distribution, the model saw each telecommute trip as a trip that didn't need to be part of the distribution.  
 
 For the WFRC model, we will probably just decrease the trip rates.
 It's not exactly clear by how much, but we can estimate it based on... (possibly articles doing a similar thing, maybe WFRC itself has data).
