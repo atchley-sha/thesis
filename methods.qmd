@@ -12,9 +12,39 @@ WFRC Model, where it is from, etc.
 
 ActivitySim, where it is from, etc.
 
+## Base scenario comparison
+
 We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via PopulationSim).
 
-Model inputs/outputs diagram?
+Enumerate and discuss model inputs/outputs (diagram?)
+
+### Calibration check
+
+```{r}
+# Note the following for the WFRC OD matricies:
+#auto = DA+SR2+SR3p
+#dTRN = sum(d{trn})
+#wTRN = sum(w{trn})
+#transit = wTRN + dTRN
+#motor = auto + transit + small error
+#nonmotor = bike + walk + small error
+```
+
+We want to check if the ABM gives similar results to the WFRC model in the base scenario.
+If not, then we can't really compare them.
+They don't have to match exactly, but should be close.
+
+#### synth pop
+
+Show differences between the actual zonal SE data and the synthetic population data.
+HH is the same since it was heavily weighted, but check some other things too, like avg income.
+
+#### TLFD
+
+Compare TLFD, hopefully similar
+
+
+## policy scenarios
 
 We will model the following scenarios:
 - Land use
