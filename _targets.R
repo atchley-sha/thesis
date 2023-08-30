@@ -90,6 +90,12 @@ data_targets_calibration <- tar_plan(
     zonal_se_file,
     "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv",
     format = "file"
+  ),
+  
+  tar_target(
+    taz,
+    "data/WFRC_TAZ.geojson",
+    format = "file"
   )
 )
 
