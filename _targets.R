@@ -7,9 +7,12 @@ r_files <- list.files("R", full.names = TRUE)
 
 sapply(r_files, source)
 
-source("R/flowchart_examples.R")
 
-data_targets <- tar_plan(
+
+#### List targets ####
+
+# Data ####
+data_targets_flowchart <- tar_plan(
   tar_target(
     ex_nodes_file,
     "data/example_flowchart_comparison/nodes.csv",
@@ -51,7 +54,53 @@ data_targets <- tar_plan(
   
 )
 
+data_targets_calibration <- tar_plan(
+  tar_target(
+    distance_skims,
+    "data/base_model_comparison/wfrc/skm_DY_Dist.omx",
+    format = "file"
+  ),
+  tar_target(
+    wfrc_trips_skims,
+    "data/base_model_comparison/wfrc/trips/AllTrips_pkok.omx",
+    format = "file"
+  ),
+  tar_target(
+    asim_trips_file,
+    "data/base_model_comparison/asim/final_trips.csv",
+    format = "file"
+  ),
+  tar_target(
+    asim_tours_file,
+    "data/base_model_comparison/asim/final_tours.csv",
+    format = "file"
+  ),
+  
+  tar_target(
+    synth_per_file,
+    "data/base_model_comparison/asim/synthetic_persons.csv",
+    format = "file"
+  ),
+  tar_target(
+    synth_hh_file,
+    "data/base_model_comparison/asim/synthetic_households.csv",
+    format = "file"
+  ),
+  tar_target(
+    zonal_se_file,
+    "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv",
+    format = "file"
+  )
+)
 
+# Analysis ####
+analysis_targets <- tar_plan(
+  asim_pop = read_asim_population(synth_per_file, synth_hh_file),
+  se_data = read_zonal_data(zonal_se_file),
+  pop_comp = make_zonal_comparison(asim_pop, se_data)
+)
+
+# Visualization ####
 viz_targets <- tar_plan(
   trip_ex = make_ex_dap_viz(
     nodes = ex_nodes_file,
@@ -87,6 +136,8 @@ viz_targets <- tar_plan(
 #### Run all targets ######################################
 
 tar_plan(
-  data_targets,
+  data_targets_flowchart,
+  data_targets_calibration,
+  analysis_targets,
   viz_targets
 )
