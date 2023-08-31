@@ -8,32 +8,40 @@ combine_wfrc_od <- function(od){
       .cols = -c(origin, destination)
     )) %>% 
     reduce(function(x,y) left_join(x, y, join_by(origin, destination))) %>% 
-    pivot_longer(
-      -c(origin, destination),
-      names_to = c("mode", "purpose"),
-      names_sep = "_",
-      values_to = "trips"
-    )
-  
-  mode_all <- trips %>% 
-    filter(purpose != "all") %>% 
-    group_by(origin, destination, purpose) %>% 
-    summarise(trips = sum(trips)) %>% 
-    mutate(mode = "all")
-  
-  all_trips <- trips %>% 
-    group_by(origin, destination) %>% 
-    summarise(trips = sum(trips)) %>% 
-    mutate(mode = "all", purpose = "all")
-  
-  combined <- bind_rows(
-    trips, mode_all, all_trips) %>% 
-    pivot_wider(
-      names_from = c("mode", "purpose"),
-      names_sep = "_",
-      values_from = "trips") %>% 
-    mutate(across(-c(origin, destination), \(x) replace_na(x, 0)))
-  
+    mutate(
+      all_hbw = auto_hbw + transit_hbw + nonmotor_hbw,
+      all_hbo = auto_hbo + transit_hbo + nonmotor_hbo,
+      all_nhb = auto_nhb + transit_nhb + nonmotor_nhb,
+      all_all = auto_all + transit_all + nonmotor_all)
+    
+    
+  #   pivot_longer(
+  #     -c(origin, destination),
+  #     names_to = c("mode", "purpose"),
+  #     names_sep = "_",
+  #     values_to = "trips"
+  #   )
+  # 
+  # mode_all <- trips %>% 
+  #   filter(purpose != "all") %>% 
+  #   group_by(origin, destination, purpose) %>% 
+  #   summarise(trips = sum(trips)) %>% 
+  #   mutate(mode = "all")
+  # 
+  # all_trips <- trips %>% 
+  #   filter(purpose != "all") %>% 
+  #   group_by(origin, destination) %>% 
+  #   summarise(trips = sum(trips)) %>% 
+  #   mutate(mode = "all", purpose = "all")
+  # 
+  # combined <- bind_rows(
+  #   trips, mode_all, all_trips) %>% 
+  #   pivot_wider(
+  #     names_from = c("mode", "purpose"),
+  #     names_sep = "_",
+  #     values_from = "trips") %>% 
+  #   mutate(across(-c(origin, destination), \(x) replace_na(x, 0)))
+  # 
   # 
   # distances %>% 
   # rename(distance = HBW) %>% 
@@ -44,7 +52,7 @@ combine_wfrc_od <- function(od){
   #   names_sep = "_",
   #   values_to = "trips")
   
-  combined
+  trips
 }
 
 plot_wfrc_test <- function(trips, color){
@@ -100,6 +108,9 @@ get_asim_od <- function(tripsfile, toursfile){
     group_by(origin, destination, mode, purpose) %>% 
     summarise(trips = n(), .groups = "drop")
   
+  # Fancy way to get totals by purpose/mode/etc.
+  # Equivalent to doing the pivot_wider first and then manually adding up
+  # the relevant columns, as done in `combine_wfrc_od()`
   purpose_all <- trips_mode_purpose %>% 
     group_by(origin, destination, mode) %>% 
     summarise(trips = sum(trips)) %>% 
@@ -154,11 +165,32 @@ combine_all_od <- function(wfrc_trips, asim_trips, distances){
       .cols = -c(origin, destination))
   asim <- asim_trips %>% 
     rename_with(
-      \(x) paste("wfrc", x, sep = "_"),
+      \(x) paste("asim", x, sep = "_"),
       .cols = -c(origin, destination))
   
-  distances %>% 
+  combined <- distances %>% 
     rename(distance = HBW) %>% 
     left_join(wfrc, join_by(origin, destination)) %>% 
-    left_join(asim, join_by(origin, destination))
+    left_join(asim, join_by(origin, destination)) %>% 
+    pivot_longer(
+      -c(origin, destination, distance),
+      names_to = c("model", "mode", "purpose"),
+      names_sep = "_",
+      values_to = "trips") %>% 
+    filter(trips > 0)
+  
+  combined
+}
+
+tlfd_comp <- function(trips){
+  
+  trips %>% 
+    ggplot() +
+    geom_density(aes(x = distance, weight = trips, color = model)) +
+    facet_grid(
+      vars(mode), vars(purpose),
+      switch = "y",
+      scales = "free") +
+    xlim(0,25)
+
 }

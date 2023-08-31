@@ -177,7 +177,8 @@ viz_targets_flowchart <- tar_plan(
 )
  
 viz_targets <- tar_plan( 
-  pop_comp_maps = zone_comparison_maps(pop_comp, taz)
+  pop_comp_maps = zone_comparison_maps(pop_comp, taz),
+  tlfd_comp = tlfd_comparison_plot(combined_trips)
 )
 
 
