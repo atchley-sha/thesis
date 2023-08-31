@@ -1,45 +1,47 @@
 # Scenario 3: Work From Home
 
-With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home [@bick_work_2021]. This scenario is an attempt to model an increase in people working from home, or telecommuting. 
+With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home [@bick_work_2021].
+This scenario is an attempt to model an increase in people working from home, or telecommuting.
 There has been much research, especially in recent years, on the implications of telecommuting.
-While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. 
-@bramberga_teleworking_2023 even suggested that considerations for teleworking should be on a case by case basis because there is no single approach.
+While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is.
+@bramberga_teleworking_2023 even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach.
 Before describing how we set up the telecommuting scenario for our research, we will first describe some general considerations we had based on what is in the literature.
 
 ## Telecommuting Considerations
 
-The first thing to consider is the fact that different job types allow different levels of telecommuting [@yasenov_who_2020]. 
-An office worker using a computer is much more capable to work from home than a construction worker. 
-This fact is something that has been considered for telecommuting in most travel demand models [@bramberga_teleworking_2023, @moeckel_working_2017, @sener_copula_2011].
+The first thing to consider is the fact that different job types allow different levels of telecommuting [@yasenov_who_2020].
+An office worker using a computer is much more capable to work from home than a construction worker.
+This fact is something that has been considered for telecommuting in most travel demand models [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula_2011].
 
-Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting. 
-What isn't as obvious is the fact that there may be other types of trips produced when people are able to telecommute. 
-@kim_is_2017 talks about a rebound effect where travel behavior changes on the days people don't have to commute to work and they make more trips for different reasons. 
-In another study, @zhu_impact_2014 finds that there are more miles traveled on the days people telecommute. 
+Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting.
+What isn't as obvious is the fact that there may be other types of trips produced when people are able to telecommute.
+@kim_is_2017 talks about a "rebound effect" where travel behavior changes on the days people don't have to commute to work and they make more trips for different reasons.
+In another study, @zhu_impact_2014 finds that there are more miles traveled on the days people telecommute.
 This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose [@moreno_microscopic_2017].
-Taking it a little further, @ellder_telework_2020 finds that distinguishing between people that work from home all day and part of the day might make a difference. 
+Taking it a little further, @ellder_telework_2020 finds that distinguishing between people that work from home all day and part of the day might make a difference.
 Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
 
-The last consideration we will discuss is the distance people are willing to travel when they telecommute. 
-@moeckel_working_2017 explains the correlation between the number of days people telecommute and the distance they are willing to live from their job 
-If someone works completely remote, then they will have nothing forcing them to live close to their job. 
-If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week. 
+The last consideration we will discuss is the distance people are willing to travel when they telecommute.
+@moeckel_working_2017 explains the correlation between the number of days people telecommute and the distance they are willing to live from their job.
+If someone works completely remote, then they will have nothing forcing them to live close to their job.
+If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week.
 This information could change the trip length frequency distribution of home_based work trips.
 
-In an attempt to keep our models accurate and allow the trip-based analysis to be compared with the activity-based analysis, we focused on these principles in our model design. 
+In an attempt to keep our models accurate and allow the trip-based analysis to be compared with the activity-based analysis, we focused on these principles in our model design:
 
--   **Different employment types have differing levels of telecommuting:** We were able to use data provided by WFRC that gives a telecommute percentage for each employment type in each county in Utah. 
+-   Different employment types have differing levels of telecommuting: We were able to use data provided by WFRC that gives a telecommute percentage for each employment type in each county in Utah. 
 
--   **Home-based work trips decrease while other home-based trips increase:**
+-   Home-based work trips decrease while other home-based trips increase:
 
--   **There is a greater possibility that home-based work trips are longer:**
+-   There is a greater possibility that home-based work trips are longer:
 
 ## Trip-based Model
 
-In the WFRC trip-based model, it was already programmed to get rid of home-based work trips according to the type of employment. In the model set up, we needed to input a telecommute factor that would connect with the telecommute percentages in the county data. This factor was used to determine how many home-based work trips would be telecommute trips. The telecommute trips would not be counted during trip distribution. 
+In the WFRC trip-based model, it was already programmed to reduce home-based work trips according to the type of employment. In the model set up, we needed to input a telecommute factor that would connect with the telecommute percentages in the county data. This factor was used to determine how many home-based work trips would be telecommute trips. The telecommute trips would not be counted during trip distribution. 
 
 ## Activity-based model
 
+***The following is not true; Activitysim has a WFH model that we'll grab from the example and describe here.***
 For Activitysim, we probably will generate a random number for each worker, and based on the type of job they have they also have a certain probability of WFH.
 If they WFH, then they make no work tours, and maybe more discretionary tours.
 If they would have made 2+ work tours, then maybe they make 1 fewer work tour.
