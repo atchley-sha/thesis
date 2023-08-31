@@ -65,34 +65,36 @@ zone_comparison_maps <- function(pop_comp, taz){
   data <- taz %>% 
     left_join(pop_comp, join_by(TAZID == TAZ))
   
-  theme_set(theme_void())
-  
   per <- data %>%
     ggplot() +
     # annotation_map_tile(type = "stamenwatercolor", zoomin = 1) +
     geom_sf(aes(fill = log2(per_pct_error+1))) +
     labs(title = "Number of Persons", fill = "Doublings") +
-    scale_fill_fermenter(palette = "RdBu", breaks = -2:2)
+    scale_fill_fermenter(palette = "RdBu", breaks = -2:2) +
+    theme_void()
   
   hh <- data %>% 
     ggplot() +
     # annotation_map_tile(type = "cartodark", zoomin = 1) +
     geom_sf(aes(fill = hh_diff)) +
     labs(title = "Number of Households", fill = "Diff") +
-    scale_fill_fermenter(palette = "RdBu",)
+    scale_fill_fermenter(palette = "RdBu") +
+    theme_void()
   
   income <- data %>% 
     ggplot() +
     # annotation_map_tile(type = "cartodark", zoomin = 1) +
     geom_sf(aes(fill = log2(income_pct_error+1)), color = NA) +
     labs(title = "Average Income", fill = "Doublings") +
-    scale_fill_fermenter(palette = "RdBu", breaks = -2:2)
+    scale_fill_fermenter(palette = "RdBu", breaks = -2:2) +
+    theme_void()
   
   # income_diff <- data %>% 
   #   ggplot() +
   #   geom_sf(aes(fill = income_diff)) +
   #   labs(title = "Average Income", fill = "Diff") +
-  #   scale_fill_fermenter(palette = "RdBu")
+  #   scale_fill_fermenter(palette = "RdBu") +
+  #   theme_void()
   
   maps = list(hh, per, income)
   
