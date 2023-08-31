@@ -1,7 +1,8 @@
 library(targets)
 library(tarchetypes)
 
-tar_option_set(packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial"))
+tar_option_set(
+  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr"))
 
 r_files <- list.files("R", full.names = TRUE)
 
@@ -60,11 +61,43 @@ data_targets_calibration <- tar_plan(
     "data/base_model_comparison/wfrc/skm_DY_Dist.omx",
     format = "file"
   ),
+  distances = omxr::read_all_omx(distance_skims, "HBW"),
+  
   tar_target(
-    wfrc_trips_skims,
+    wfrc_all_trips_od,
     "data/base_model_comparison/wfrc/trips/AllTrips_pkok.omx",
     format = "file"
   ),
+  tar_target(
+    wfrc_hbw_trips_od,
+    "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx",
+    format = "file"
+  ),
+  tar_target(
+    wfrc_hbo_trips_od,
+    "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx",
+    format = "file"
+  ),
+  tar_target(
+    wfrc_nhb_trips_od,
+    "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx",
+    format = "file"
+  ),
+  wfrc_all_trips = omxr::read_all_omx(
+    wfrc_all_trips_od, c("auto", "motor", "nonmotor")),
+  wfrc_hbw_trips = omxr::read_all_omx(
+    wfrc_hbw_trips_od, c("auto", "motor", "nonmotor")),
+  wfrc_hbo_trips = omxr::read_all_omx(
+    wfrc_hbo_trips_od, c("auto", "motor", "nonmotor")),
+  wfrc_nhb_trips = omxr::read_all_omx(
+    wfrc_nhb_trips_od, c("auto", "motor", "nonmotor")),
+  trip_purpose_od = list(
+    all = wfrc_all_trips,
+    hbw = wfrc_hbw_trips,
+    hbo = wfrc_hbo_trips,
+    nhb = wfrc_nhb_trips),
+  wfrc_trips = combine_od(trip_purpose_od, distances),
+  
   tar_target(
     asim_trips_file,
     "data/base_model_comparison/asim/final_trips.csv",
