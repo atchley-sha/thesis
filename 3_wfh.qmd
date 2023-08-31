@@ -11,7 +11,7 @@ Before describing how we set up the telecommuting scenario for our research, we 
 
 The first thing to consider is the fact that different job types allow different levels of telecommuting [@yasenov_who_2020].
 An office worker using a computer is much more capable to work from home than a construction worker.
-This fact is something that has been considered for telecommuting in most travel demand models [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula_2011].
+This fact is something that has been considered for telecommuting in most travel demand models [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
 Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting.
 What isn't as obvious is the fact that there may be other types of trips produced when people are able to telecommute.
