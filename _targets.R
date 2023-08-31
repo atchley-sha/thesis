@@ -84,19 +84,18 @@ data_targets_calibration <- tar_plan(
     format = "file"
   ),
   wfrc_all_trips = omxr::read_all_omx(
-    wfrc_all_trips_od, c("auto", "motor", "nonmotor")),
+    wfrc_all_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_hbw_trips = omxr::read_all_omx(
-    wfrc_hbw_trips_od, c("auto", "motor", "nonmotor")),
+    wfrc_hbw_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_hbo_trips = omxr::read_all_omx(
-    wfrc_hbo_trips_od, c("auto", "motor", "nonmotor")),
+    wfrc_hbo_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_nhb_trips = omxr::read_all_omx(
-    wfrc_nhb_trips_od, c("auto", "motor", "nonmotor")),
-  trip_purpose_od = list(
+    wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
+  wfrc_trips_od = list(
     all = wfrc_all_trips,
     hbw = wfrc_hbw_trips,
     hbo = wfrc_hbo_trips,
     nhb = wfrc_nhb_trips),
-  wfrc_trips = combine_od(trip_purpose_od, distances),
   
   tar_target(
     asim_trips_file,
@@ -139,7 +138,11 @@ data_targets_calibration <- tar_plan(
 analysis_targets <- tar_plan(
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
   se_data = read_zonal_data(zonal_se_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data)
+  pop_comp = make_zonal_comparison(asim_pop, se_data),
+  
+  wfrc_trips = combine_wfrc_od(wfrc_trips_od),
+  asim_trips = get_asim_od(asim_trips_file, asim_tours_file),
+  combined_trips = combine_all_od(wfrc_trips, asim_trips, distances)
 )
 
 # Visualization ####
