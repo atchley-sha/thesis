@@ -1,7 +1,7 @@
 library(targets)
 library(tarchetypes)
 
-tar_option_set(packages = c("tidyverse", "DiagrammeR"))
+tar_option_set(packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial"))
 
 r_files <- list.files("R", full.names = TRUE)
 
@@ -93,10 +93,13 @@ data_targets_calibration <- tar_plan(
   ),
   
   tar_target(
-    taz,
+    taz_file,
     "data/WFRC_TAZ.geojson",
     format = "file"
-  )
+  ),
+  taz = dplyr::select(
+    sf::st_read(taz_file),
+    TAZID, TAZID_V832, X, Y)
 )
 
 # Analysis ####
@@ -107,7 +110,7 @@ analysis_targets <- tar_plan(
 )
 
 # Visualization ####
-viz_targets <- tar_plan(
+viz_targets_flowchart <- tar_plan(
   trip_ex = make_ex_dap_viz(
     nodes = ex_nodes_file,
     edges = ex_trip_file,
@@ -135,7 +138,10 @@ viz_targets <- tar_plan(
     dot_file = ex_synthetic_file,
     image_file = "output/example_flowchart_comparison/synthetic.png"
   )
-  
+)
+ 
+viz_targets <- tar_plan( 
+  pop_comp_maps = zone_comparison_maps(pop_comp, taz)
 )
 
 
@@ -145,5 +151,6 @@ tar_plan(
   data_targets_flowchart,
   data_targets_calibration,
   analysis_targets,
+  viz_targets_flowchart,
   viz_targets
 )
