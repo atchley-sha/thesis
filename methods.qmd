@@ -51,7 +51,18 @@ Overall we are pretty good; the vast majority of zones are within a doubling of 
 There are some outliers, but they are fringe zones that are less populated anyway.
 
 ```{r}
-cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 1)
+#| echo: false
+#| warning: false
+#| message: false
+#| error: false
+
+targets::tar_load(pop_comp_maps)
+
+pop_comp_maps[1]
+pop_comp_maps[2]
+pop_comp_maps[3]
+
+# cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 3)
 ```
 
 
