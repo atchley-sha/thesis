@@ -16,7 +16,7 @@ This fact is something that has been considered for telecommuting in most travel
 Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting.
 What isn't as obvious is the fact that there may be other types of trips produced when people are able to telecommute.
 @kim_is_2017 talks about a "rebound effect" where travel behavior changes on the days people don't have to commute to work and they make more trips for different reasons.
-In another study, @zhu_impact_2014 finds that there are more miles traveled on the days people telecommute.
+In another study, @zhu_impact_2014 find that there are more miles traveled on the days people telecommute.
 This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose [@moreno_microscopic_2017].
 Taking it a little further, @ellder_telework_2020 finds that distinguishing between people that work from home all day and part of the day might make a difference.
 Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
@@ -25,7 +25,7 @@ The last consideration we will discuss is the distance people are willing to tra
 @moeckel_working_2017 explains the correlation between the number of days people telecommute and the distance they are willing to live from their job.
 If someone works completely remote, then they will have nothing forcing them to live close to their job.
 If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week.
-This information could change the trip length frequency distribution of home_based work trips.
+This information could change the trip length frequency distribution of home-based work trips.
 
 In an attempt to keep our models accurate and allow the trip-based analysis to be compared with the activity-based analysis, we focused on these principles in our model design:
 
