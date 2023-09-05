@@ -158,18 +158,6 @@ combine_all_od <- function(wfrc_trips, asim_trips, distances){
     filter(trips > 0, distance < 1000)
 }
 
-# tlfd_comparison <- function(trips){
-#   
-#   trips %>% 
-#     ggplot() +
-#     geom_density(aes(x = distance, weight = trips, color = model)) +
-#     facet_grid(
-#       vars(mode), vars(purpose),
-#       switch = "y",
-#       scales = "free") +
-#     xlim(0,25)
-# 
-# }
 convert_asim_mode <- function(mode){
   new_mode <- case_when(
     mode %in% c("DRIVEALONEFREE", "SHARED2FREE", "SHARED3FREE") ~ "auto",

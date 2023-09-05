@@ -96,7 +96,7 @@ zone_comparison_maps <- function(pop_comp, taz){
   #   scale_fill_fermenter(palette = "RdBu") +
   #   theme_void()
   
-  maps = list(hh, per, income)
+  maps = list(hh = hh, persons = per, income = income)
   
   maps
 }
