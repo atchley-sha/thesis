@@ -1,5 +1,10 @@
 # Methodology {#sec-methods}
 
+```{r}
+library(tidyverse)
+```
+
+
 This section lists our methodology.
 
 We will compare models...
@@ -68,7 +73,40 @@ pop_comp_maps[3]
 
 #### TLFD
 
-Compare TLFD, hopefully similar
+Compare TLFD, hopefully similar.
+
+They are similar!
+NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise.
+We don't need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount.
+
+```{r}
+#| echo: false
+
+targets::tar_read(combined_trips) %>%
+  group_by(model, mode, purpose) %>%
+  summarise(trips = sum(trips)) %>%
+  pivot_wider(names_from = model, values_from = trips) %>%
+  arrange(purpose, mode) %>%
+  mutate(error = asim/wfrc - 1) %>%
+  relocate(purpose)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| error: false
+
+targets::tar_read(combined_trips) %>% 
+  ggplot() +
+  geom_density(aes(x = distance, weight = trips, color = model)) +
+  facet_grid(
+    vars(mode), vars(purpose),
+    switch = "y",
+    scales = "free") +
+  xlim(0,25)
+```
+
 
 
 ## policy scenarios
