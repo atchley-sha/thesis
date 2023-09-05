@@ -256,10 +256,39 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="tlfd" class="level4" data-number="3.2.1.2">
 <h4 data-number="3.2.1.2" class="anchored" data-anchor-id="tlfd"><span class="header-section-number">3.2.1.2</span> TLFD</h4>
-<p>Compare TLFD, hopefully similar</p>
+<p>Compare TLFD, hopefully similar.</p>
+<p>They are similar! NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise. We don’t need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount.</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'model', 'mode'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 5
+# Groups:   mode [4]
+   purpose mode        asim     wfrc   error
+   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+ 1 all     all      7381536 8737729. -0.155 
+ 2 all     auto     5893606 7905927. -0.255 
+ 3 all     nonmotor 1008530  732250.  0.377 
+ 4 all     transit   479400   99551.  3.82  
+ 5 hbo     all      3695365 4641724. -0.204 
+ 6 hbo     auto     2900838 4094887. -0.292 
+ 7 hbo     nonmotor  587030  509491.  0.152 
+ 8 hbo     transit   207497   37346.  4.56  
+ 9 hbw     all      1759663 1711578.  0.0281
+10 hbw     auto     1376863 1586413. -0.132 
+11 hbw     nonmotor  205597   76413.  1.69  
+12 hbw     transit   177203   48752.  2.63  
+13 nhb     all      1926508 2384427. -0.192 
+14 nhb     auto     1615905 2224628. -0.274 
+15 nhb     nonmotor  215903  146346.  0.475 
+16 nhb     transit    94700   13453.  6.04  </code></pre>
+</div>
+</div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="methods_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
