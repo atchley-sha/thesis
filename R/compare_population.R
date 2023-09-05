@@ -68,7 +68,7 @@ zone_comparison_maps <- function(pop_comp, taz){
   per <- data %>%
     ggplot() +
     # annotation_map_tile(type = "stamenwatercolor", zoomin = 1) +
-    geom_sf(aes(fill = log2(per_pct_error+1))) +
+    geom_sf(aes(fill = log2(per_pct_error+1)), color = NA) +
     labs(title = "Number of Persons", fill = "Doublings") +
     scale_fill_fermenter(palette = "RdBu", breaks = -2:2) +
     theme_void()
@@ -76,7 +76,7 @@ zone_comparison_maps <- function(pop_comp, taz){
   hh <- data %>% 
     ggplot() +
     # annotation_map_tile(type = "cartodark", zoomin = 1) +
-    geom_sf(aes(fill = hh_diff)) +
+    geom_sf(aes(fill = hh_diff), color = NA) +
     labs(title = "Number of Households", fill = "Diff") +
     scale_fill_fermenter(palette = "RdBu") +
     theme_void()
