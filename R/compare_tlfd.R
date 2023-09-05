@@ -9,6 +9,7 @@ combine_wfrc_od <- function(od, ex_zones){
     )) %>% 
     reduce(function(x,y) left_join(x, y, join_by(origin, destination))) %>% 
     filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
+    filter(if_any(-c(origin, destination), \(x) x != 0)) %>% 
     pivot_longer(
       -c(origin, destination),
       names_to = c("mode", "purpose"),
@@ -16,30 +17,51 @@ combine_wfrc_od <- function(od, ex_zones){
       values_to = "trips") %>% 
     filter(trips > 0)
     
+  # There is a lot of data here, so we're trying to do this in the least
+  # memory-intensive way
     
   purpose_all <- trips_mode_purpose %>% 
     group_by(origin, destination, mode) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(purpose = "all")
   
+  trips <- bind_rows(trips_mode_purpose, purpose_all) %>% 
+    filter(trips > 0)
+  
+  rm(purpose_all)
+  gc()
+  
   mode_all <- trips_mode_purpose %>% 
     group_by(origin, destination, purpose) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(mode = "all")
   
+  trips <- bind_rows(trips, mode_all) %>% 
+    filter(trips > 0)
+  
+  rm(mode_all)
+  gc()
+  
   all_trips <- trips_mode_purpose %>% 
     group_by(origin, destination) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(mode = "all", purpose = "all")
-
   
-  combined <- bind_rows(
-    trips_mode_purpose, purpose_all, mode_all, all_trips) %>% 
-    filter(trips > 0) %>% 
-    arrange(origin, destination) %>% 
+  trips <- bind_rows(trips, all_trips) %>% 
+    filter(trips > 0)
+  
+  rm(all_trips)
+  rm(trips_mode_purpose)
+  gc()
+  
+  
+  trips %>% 
+    #WFRC multiplies the trips by 100 to avoid rounding away small trip numbers
+    #that add up. We don't need that here, because R can handle more than 2
+    #decimal places.
+    mutate(trips = trips / 100) %>%
     mutate(model = "wfrc", .after = destination)
   
-  combined
 }
 
 get_asim_od <- function(tripsfile, toursfile, ex_zones){
@@ -83,42 +105,57 @@ get_asim_od <- function(tripsfile, toursfile, ex_zones){
     filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
     filter(trips > 0)
   
+  # There is a lot of data here, so we're trying to do this in the least
+  # memory-intensive way
+  
   purpose_all <- trips_mode_purpose %>% 
     group_by(origin, destination, mode) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(purpose = "all")
+  
+  trips <- bind_rows(trips_mode_purpose, purpose_all) %>% 
+    filter(trips > 0)
+  
+  rm(purpose_all)
+  gc()
   
   mode_all <- trips_mode_purpose %>% 
     group_by(origin, destination, purpose) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(mode = "all")
   
+  trips <- bind_rows(trips, mode_all) %>% 
+    filter(trips > 0)
+  
+  rm(mode_all)
+  gc()
+  
   all_trips <- trips_mode_purpose %>% 
     group_by(origin, destination) %>% 
     summarise(trips = sum(trips)) %>% 
     mutate(mode = "all", purpose = "all")
   
-  combined <- bind_rows(
-    trips_mode_purpose, purpose_all, mode_all, all_trips) %>% 
-    filter(trips > 0) %>% 
-    arrange(origin, destination) %>% 
-    mutate(model = "asim", .after = destination)
+  trips <- bind_rows(trips, all_trips) %>% 
+    filter(trips > 0)
   
-  combined
+  rm(all_trips)
+  rm(trips_mode_purpose)
+  gc()
+  
+  trips %>% 
+    mutate(model = "asim", .after = destination)
 }
 
 combine_all_od <- function(wfrc_trips, asim_trips, distances){
   
-  combined <- bind_rows(wfrc_trips, asim_trips) %>% 
-    left_join(distances, join_by(origin, destination)) %>% 
-    # pivot_longer(
-    #   -c(origin, destination, distance),
-    #   names_to = c("model", "mode", "purpose"),
-    #   names_sep = "_",
-    #   values_to = "trips") %>% 
-    filter(trips > 0)
+  all_trips <- bind_rows(wfrc_trips, asim_trips)
   
-  combined
+  rm(asim_trips, wfrc_trips)
+  gc()
+  
+  all_trips %>% 
+    left_join(distances, join_by(origin, destination)) %>% 
+    filter(trips > 0, distance < 1000)
 }
 
 # tlfd_comparison <- function(trips){
