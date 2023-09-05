@@ -61,7 +61,9 @@ data_targets_calibration <- tar_plan(
     "data/base_model_comparison/wfrc/skm_DY_Dist.omx",
     format = "file"
   ),
-  distances = omxr::read_all_omx(distance_skims, "HBW"),
+  # some zones have a very high distance and are external; we don't want them
+  external_zones = get_ex_zones(distance_skims),
+  distances = read_distances(distance_skims, external_zones),
   
   tar_target(
     wfrc_all_trips_od,
@@ -92,7 +94,7 @@ data_targets_calibration <- tar_plan(
   wfrc_nhb_trips = omxr::read_all_omx(
     wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_trips_od = list(
-    all = wfrc_all_trips,
+    # all = wfrc_all_trips,
     hbw = wfrc_hbw_trips,
     hbo = wfrc_hbo_trips,
     nhb = wfrc_nhb_trips),
@@ -140,8 +142,8 @@ analysis_targets <- tar_plan(
   se_data = read_zonal_data(zonal_se_file),
   pop_comp = make_zonal_comparison(asim_pop, se_data),
   
-  wfrc_trips = combine_wfrc_od(wfrc_trips_od),
-  asim_trips = get_asim_od(asim_trips_file, asim_tours_file),
+  wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
+  asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances)
 )
 

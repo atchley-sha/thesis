@@ -1,75 +1,48 @@
 #' @param od A named list of OD trip counts (long format)
-combine_wfrc_od <- function(od){
+combine_wfrc_od <- function(od, ex_zones){
   
-  trips <- imap(
+  trips_mode_purpose <- imap(
     od, \(df, i) rename_with(
       df,
       \(x) paste(x, i, sep = "_"),
       .cols = -c(origin, destination)
     )) %>% 
     reduce(function(x,y) left_join(x, y, join_by(origin, destination))) %>% 
-    mutate(
-      all_hbw = auto_hbw + transit_hbw + nonmotor_hbw,
-      all_hbo = auto_hbo + transit_hbo + nonmotor_hbo,
-      all_nhb = auto_nhb + transit_nhb + nonmotor_nhb,
-      all_all = auto_all + transit_all + nonmotor_all)
-    
-    
-  #   pivot_longer(
-  #     -c(origin, destination),
-  #     names_to = c("mode", "purpose"),
-  #     names_sep = "_",
-  #     values_to = "trips"
-  #   )
-  # 
-  # mode_all <- trips %>% 
-  #   filter(purpose != "all") %>% 
-  #   group_by(origin, destination, purpose) %>% 
-  #   summarise(trips = sum(trips)) %>% 
-  #   mutate(mode = "all")
-  # 
-  # all_trips <- trips %>% 
-  #   filter(purpose != "all") %>% 
-  #   group_by(origin, destination) %>% 
-  #   summarise(trips = sum(trips)) %>% 
-  #   mutate(mode = "all", purpose = "all")
-  # 
-  # combined <- bind_rows(
-  #   trips, mode_all, all_trips) %>% 
-  #   pivot_wider(
-  #     names_from = c("mode", "purpose"),
-  #     names_sep = "_",
-  #     values_from = "trips") %>% 
-  #   mutate(across(-c(origin, destination), \(x) replace_na(x, 0)))
-  # 
-  # 
-  # distances %>% 
-  # rename(distance = HBW) %>% 
-  # left_join(trips, join_by(origin, destination)) %>% 
-  # pivot_longer(
-  #   -c(origin, destination, distance),
-  #   names_to = c("mode", "purpose"),
-  #   names_sep = "_",
-  #   values_to = "trips")
-  
-  trips
-}
-
-plot_wfrc_test <- function(trips, color){
-
-  trips %>% 
-    filter(distance <= 50) %>% 
+    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
     pivot_longer(
-      -c(origin, destination, distance),
+      -c(origin, destination),
       names_to = c("mode", "purpose"),
       names_sep = "_",
       values_to = "trips") %>% 
-    ggplot() +
-    geom_density(aes(distance, weight = trips, color = .data[[color]])) +
-    xlim(0,50)
+    filter(trips > 0)
+    
+    
+  purpose_all <- trips_mode_purpose %>% 
+    group_by(origin, destination, mode) %>% 
+    summarise(trips = sum(trips)) %>% 
+    mutate(purpose = "all")
+  
+  mode_all <- trips_mode_purpose %>% 
+    group_by(origin, destination, purpose) %>% 
+    summarise(trips = sum(trips)) %>% 
+    mutate(mode = "all")
+  
+  all_trips <- trips_mode_purpose %>% 
+    group_by(origin, destination) %>% 
+    summarise(trips = sum(trips)) %>% 
+    mutate(mode = "all", purpose = "all")
+
+  
+  combined <- bind_rows(
+    trips_mode_purpose, purpose_all, mode_all, all_trips) %>% 
+    filter(trips > 0) %>% 
+    arrange(origin, destination) %>% 
+    mutate(model = "wfrc", .after = destination)
+  
+  combined
 }
 
-get_asim_od <- function(tripsfile, toursfile){
+get_asim_od <- function(tripsfile, toursfile, ex_zones){
   
   trips <- read_csv(tripsfile) %>% 
     select(tour_id, origin, destination, primary_purpose, purpose, trip_mode) %>%
@@ -106,11 +79,10 @@ get_asim_od <- function(tripsfile, toursfile){
     select(origin, destination, trip_mode, purpose) %>% 
     rename(mode = trip_mode) %>% 
     group_by(origin, destination, mode, purpose) %>% 
-    summarise(trips = n(), .groups = "drop")
+    summarise(trips = n(), .groups = "drop") %>% 
+    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
+    filter(trips > 0)
   
-  # Fancy way to get totals by purpose/mode/etc.
-  # Equivalent to doing the pivot_wider first and then manually adding up
-  # the relevant columns, as done in `combine_wfrc_od()`
   purpose_all <- trips_mode_purpose %>% 
     group_by(origin, destination, mode) %>% 
     summarise(trips = sum(trips)) %>% 
@@ -128,15 +100,39 @@ get_asim_od <- function(tripsfile, toursfile){
   
   combined <- bind_rows(
     trips_mode_purpose, purpose_all, mode_all, all_trips) %>% 
-    pivot_wider(
-      names_from = c("mode", "purpose"),
-      names_sep = "_",
-      values_from = "trips") %>% 
-    mutate(across(-c(origin, destination), \(x) replace_na(x, 0)))
+    filter(trips > 0) %>% 
+    arrange(origin, destination) %>% 
+    mutate(model = "asim", .after = destination)
   
   combined
 }
 
+combine_all_od <- function(wfrc_trips, asim_trips, distances){
+  
+  combined <- bind_rows(wfrc_trips, asim_trips) %>% 
+    left_join(distances, join_by(origin, destination)) %>% 
+    # pivot_longer(
+    #   -c(origin, destination, distance),
+    #   names_to = c("model", "mode", "purpose"),
+    #   names_sep = "_",
+    #   values_to = "trips") %>% 
+    filter(trips > 0)
+  
+  combined
+}
+
+# tlfd_comparison <- function(trips){
+#   
+#   trips %>% 
+#     ggplot() +
+#     geom_density(aes(x = distance, weight = trips, color = model)) +
+#     facet_grid(
+#       vars(mode), vars(purpose),
+#       switch = "y",
+#       scales = "free") +
+#     xlim(0,25)
+# 
+# }
 convert_asim_mode <- function(mode){
   new_mode <- case_when(
     mode %in% c("DRIVEALONEFREE", "SHARED2FREE", "SHARED3FREE") ~ "auto",
@@ -154,43 +150,4 @@ convert_asim_purpose <- function(purpose){
     "other"
   )
   new_purpose
-}
-
-
-combine_all_od <- function(wfrc_trips, asim_trips, distances){
-  
-  wfrc <- wfrc_trips %>% 
-    rename_with(
-      \(x) paste("wfrc", x, sep = "_"),
-      .cols = -c(origin, destination))
-  asim <- asim_trips %>% 
-    rename_with(
-      \(x) paste("asim", x, sep = "_"),
-      .cols = -c(origin, destination))
-  
-  combined <- distances %>% 
-    rename(distance = HBW) %>% 
-    left_join(wfrc, join_by(origin, destination)) %>% 
-    left_join(asim, join_by(origin, destination)) %>% 
-    pivot_longer(
-      -c(origin, destination, distance),
-      names_to = c("model", "mode", "purpose"),
-      names_sep = "_",
-      values_to = "trips") %>% 
-    filter(trips > 0)
-  
-  combined
-}
-
-tlfd_comp <- function(trips){
-  
-  trips %>% 
-    ggplot() +
-    geom_density(aes(x = distance, weight = trips, color = model)) +
-    facet_grid(
-      vars(mode), vars(purpose),
-      switch = "y",
-      scales = "free") +
-    xlim(0,25)
-
 }
