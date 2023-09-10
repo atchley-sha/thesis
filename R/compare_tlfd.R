@@ -59,7 +59,7 @@ combine_wfrc_od <- function(od, ex_zones){
     #WFRC multiplies the trips by 100 to avoid rounding away small trip numbers
     #that add up. We don't need that here, because R can handle more than 2
     #decimal places.
-    mutate(trips = trips / 100) %>%
+    mutate(trips = trips/100) %>%
     mutate(model = "wfrc", .after = destination)
   
 }
@@ -81,23 +81,8 @@ get_asim_od <- function(tripsfile, toursfile, ex_zones){
       trip_mode = convert_asim_mode(trip_mode),
       tour_mode = convert_asim_mode(tour_mode),
       trip_purpose = convert_asim_purpose(trip_purpose),
-      tour_purpose = convert_asim_purpose(tour_purpose)) %>% 
-    group_by(tour_id) %>% 
-    # The first trip in each tour should be home-based (as is the last)
-    mutate(trip_purpose = replace(trip_purpose, 1, "home")) %>% 
-    ungroup() %>% 
-    mutate(
-      home_based = case_when(
-        tour_purpose == "atwork" ~ FALSE,
-        trip_purpose == "home" ~ TRUE,
-        TRUE ~ FALSE
-      ),
-      purpose = case_when(
-        !home_based ~ "nhb",
-        tour_purpose == "work" ~ "hbw",
-        tour_purpose == "other" ~ "hbo",
-        TRUE ~ "ERROR IN PURPOSE CONVERSION"
-      )) %>% 
+      tour_purpose = convert_asim_purpose(tour_purpose),
+      purpose = get_asim_purposes(pick(tour_id, tour_purpose, trip_purpose)) %>% 
     select(origin, destination, trip_mode, purpose) %>% 
     rename(mode = trip_mode) %>% 
     group_by(origin, destination, mode, purpose) %>% 
@@ -175,4 +160,27 @@ convert_asim_purpose <- function(purpose){
     "other"
   )
   new_purpose
+}
+
+#' @param purpose_df Dataframe containing columns `tour_id`, `tour_purpose`, and `trip_purpose`
+get_asim_purpose <- function(modes_df){
+  combined_purposes <- modes_df %>%
+    group_by(tour_id) %>%
+    #See methodology section for rationale on this code segment
+    mutate(trip_purpose = replace(trip_purpose, 1, "home")) %>%
+    ungroup() %>%
+    mutate(
+      home_based = case_when(
+        tour_purpose == "atwork" ~ FALSE,
+        trip_purpose == "home" ~ TRUE,
+        TRUE ~ FALSE
+      ),
+      purpose = case_when(
+        !home_based ~ "nhb",
+        tour_purpose == "work" ~ "hbw",
+        tour_purpose == "other" ~ "hbo",
+        TRUE ~ "ERROR IN PURPOSE CONVERSION"
+      ))
+
+    combined_purposes$purpose
 }
