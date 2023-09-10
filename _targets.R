@@ -4,7 +4,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr"),
+  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs"),
   memory = "transient",
   garbage_collection = TRUE,
   format = "qs",
@@ -47,8 +47,12 @@ synth_pop_comparison <- tar_plan(
 
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
-  se_data = read_zonal_data(zonal_se_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data),
+  se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
+  pop_comp = make_zonal_comparison(asim_pop, se_data),  
+  
+  
+  # remove at some point, keeping for now
+  pop_comp_maps = zone_comparison_maps(pop_comp, taz),
 )
 
 # Base outputs comparison (TLFD/mode choice)
@@ -73,10 +77,6 @@ base_outputs_comparison <- tar_plan(
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
-  
-  
-  # remove at some point, keeping for now
-  pop_comp_maps = zone_comparison_maps(pop_comp, taz),
 )
 
 

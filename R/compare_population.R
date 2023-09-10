@@ -14,9 +14,27 @@ read_asim_population <- function(perfile, hhfile){
   
   hh <- hh_raw %>% 
     mutate(across(
-      c(WIF,HHINCADJ),
+      c(WIF),
       \(x) if_else(x < 0, NA, x)
-      )) %>% 
+    )) %>% 
+    ####### THESE INCOME GROUPS ARE WRONG ########
+    mutate(
+      inc_group = case_when(
+        HHINCADJ < 0 ~ "unknown",
+        HHINCADJ < 1 ~ "INC1",
+        HHINCADJ < 2 ~ "INC2",
+        HHINCADJ < 3 ~ "INC3",
+        HHINCADJ >= 3 ~ "INC4",
+        TRUE ~ "Error in income groups"
+      )
+    )
+
+  hh_inc <- hh %>% 
+    group_by(TAZ, inc_group) %>% 
+    summarize(n = n()) %>% 
+    pivot_wider(names_from = inc_group, values_from = n, values_fill = 0)
+  
+  hh_other <- hh %>% 
     group_by(TAZ) %>% 
     summarise(
       num_hh = n(),
@@ -27,23 +45,27 @@ read_asim_population <- function(perfile, hhfile){
     ) %>% 
     mutate(across(everything(), \(x) replace_na(x,0)))
   
-  pop <- left_join(per, hh, join_by(TAZ))
+  hh_full <- full_join(hh_other, hh_inc, join_by(TAZ))
+  
+  pop <- left_join(per, hh_full, join_by(TAZ))
     # mutate(hh_size_check = num_persons / num_hh, .after = hh_size)
   
   pop
   
 }
 
-read_zonal_data <- function(sefile){
+read_zonal_data <- function(sefile, incomefile){
   
   se_raw <- read_csv(sefile)
+  income <- read_csv(incomefile) %>% 
+    select(Z, INC1:INC4)
   
   se <- se_raw %>% 
     rename(TAZ = `;TAZID`) %>% 
     select(TAZ, TOTHH, HHPOP, HHSIZE, AVGINCOME) %>% 
     rename(TOTPOP = HHPOP) %>% 
-    mutate(TOTHH = trunc(TOTHH))
-  
+    left_join(income, join_by(TAZ == Z))
+
   se
 }
 
