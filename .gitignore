@@ -8,6 +8,7 @@
 /_book/
 /_targets/
 /output/
+/rosm.cache/
 
 # in case of failed render, these temp files are written
 /index.aux

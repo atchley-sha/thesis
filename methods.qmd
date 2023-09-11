@@ -96,7 +96,27 @@ targets::tar_load(pop_comp)
 pop_comp %>% 
   filter(metric == "TOTHH") %>% 
   ggplot() +
-  geom_sf(aes(fill = error), color = NA)
+  annotation_map_tile("cartolight", zoomin=1) +
+  geom_sf(aes(fill = diff), color = NA) +
+  scale_fill_binned() +
+  theme_void()
+
+pop_comp %>% 
+  filter(metric == "TOTPOP") %>% 
+  ggplot() +
+  annotation_map_tile("cartolight", zoomin=1) +
+  geom_sf(aes(fill = error), color = NA) +
+  scale_fill_binned() +
+  theme_void()
+
+pop_comp %>% 
+  filter(str_detect(metric, "INC"), metric != "AVGINCOME") %>% 
+  ggplot() +
+  annotation_map_tile("cartolight", zoomin=1) +
+  geom_sf(aes(fill = error), color = NA) +
+  facet_wrap(~metric) +
+  scale_fill_binned() +
+  theme_void()
   
 
 # cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 3)
