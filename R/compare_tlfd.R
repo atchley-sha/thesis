@@ -69,20 +69,21 @@ get_asim_od <- function(tripsfile, toursfile, ex_zones){
   trips <- read_csv(tripsfile) %>% 
     select(tour_id, origin, destination, primary_purpose, purpose, trip_mode) %>%
     rename(tour_purpose = primary_purpose, trip_purpose = purpose)
-  tours <- read_csv(toursfile) %>% 
-    select(tour_id, tour_mode)
+  # tours <- read_csv(toursfile) %>% 
+  #   select(tour_id, tour_mode)
   
-  trips_mode_purpose <- left_join(
-    trips, tours,
-    join_by(tour_id),
-    suffix = c("_trip", "_tour")
-  ) %>% 
+  trips_mode_purpose <- trips %>% 
+    # left_join(
+    #   trips, tours,
+    #   join_by(tour_id),
+    #   suffix = c("_trip", "_tour")
+    # ) %>% 
     mutate(
       trip_mode = convert_asim_mode(trip_mode),
-      tour_mode = convert_asim_mode(tour_mode),
+      # tour_mode = convert_asim_mode(tour_mode),
       trip_purpose = convert_asim_purpose(trip_purpose),
       tour_purpose = convert_asim_purpose(tour_purpose),
-      purpose = get_asim_purposes(pick(tour_id, tour_purpose, trip_purpose))) %>% 
+      purpose = get_asim_purpose(pick(tour_id, tour_purpose, trip_purpose))) %>% 
     select(origin, destination, trip_mode, purpose) %>% 
     rename(mode = trip_mode) %>% 
     group_by(origin, destination, mode, purpose) %>% 
