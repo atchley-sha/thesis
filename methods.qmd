@@ -112,7 +112,7 @@ pop_comp %>%
 pop_comp %>% 
   filter(str_detect(metric, "^INC")) %>% 
   ggplot() +
-  # annotation_map_tile("cartolight", zoomin=1) +
+  annotation_map_tile("cartolight", zoomin=1) +
   geom_sf(aes(fill = log2(error+1)), color = NA) +
   facet_wrap(~metric) +
   scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
