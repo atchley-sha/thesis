@@ -48,14 +48,14 @@ synth_pop_comparison <- tar_plan(
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
   se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data),  
+  pop_comp = make_zonal_comparison(asim_pop, se_data, taz_file),  
   
   
   # remove at some point, keeping for now
   pop_comp_maps = zone_comparison_maps(pop_comp, taz),
 )
 
-# Base outputs comparison (TLFD/mode choice)
+# Base outputs comparison (TLFD/mode choice) ####
 base_outputs_comparison <- tar_plan(
   # Data
   tar_target(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx", format = "file"),

@@ -21,10 +21,10 @@ read_asim_population <- function(perfile, hhfile){
     mutate(
       inc_group = case_when(
         HHINCADJ < 0 ~ "unknown",
-        HHINCADJ < 1 ~ "INC1",
-        HHINCADJ < 2 ~ "INC2",
-        HHINCADJ < 3 ~ "INC3",
-        HHINCADJ >= 3 ~ "INC4",
+        HHINCADJ < 1000 ~ "INC1",
+        HHINCADJ < 10000 ~ "INC2",
+        HHINCADJ < 100000 ~ "INC3",
+        HHINCADJ >= 100000 ~ "INC4",
         TRUE ~ "Error in income groups"
       )
     )
@@ -47,8 +47,19 @@ read_asim_population <- function(perfile, hhfile){
   
   hh_full <- full_join(hh_other, hh_inc, join_by(TAZ))
   
-  pop <- left_join(per, hh_full, join_by(TAZ))
-    # mutate(hh_size_check = num_persons / num_hh, .after = hh_size)
+  pop <- left_join(per, hh_full, join_by(TAZ)) %>% 
+    rename(
+      TOTPOP = num_persons,
+      TOTHH = num_hh,
+      AVGINCOME = avg_hh_inc,
+      INCunknown_asim = unknown) %>% 
+    select(
+      TAZ,
+      TOTHH,
+      TOTPOP,
+      AVGINCOME,
+      contains("INC")
+    )
   
   pop
   
@@ -69,17 +80,22 @@ read_zonal_data <- function(sefile, incomefile){
   se
 }
 
-make_zonal_comparison <- function(pop, se){
+make_zonal_comparison <- function(asim_pop, se_data, taz_file){
   
-  comp <- left_join(pop, se, join_by(TAZ)) %>% 
-    transmute(
-      TAZ,
-      hh_diff = num_hh - TOTHH,
-      per_diff = num_persons - TOTPOP,
-      per_pct_error = num_persons/TOTPOP - 1,
-      income_diff = avg_hh_inc - AVGINCOME,
-      income_pct_error = avg_hh_inc/AVGINCOME - 1
-    )
+  taz <- st_read(taz_file) %>% 
+    transmute(TAZ = TAZID)
+  
+  comp <- asim_pop %>% 
+    full_join(se_data, join_by(TAZ), suffix = c("_asim", "_wfrc")) %>% 
+    pivot_longer(
+      matches("asim|wfrc"),
+      names_to = c("metric", "model"),
+      names_sep = "_") %>% 
+    select(TAZ, model, metric, value) %>% 
+    pivot_wider(names_from = model, values_from = value) %>% 
+    mutate(diff = asim - wfrc, error = diff / wfrc)
+
+  full_join(taz, comp, join_by(TAZ))
 }
 
 zone_comparison_maps <- function(pop_comp, taz){

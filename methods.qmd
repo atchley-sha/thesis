@@ -2,6 +2,7 @@
 
 ```{r}
 library(tidyverse)
+library(ggspatial)
 ```
 
 
@@ -90,11 +91,13 @@ There are some outliers, but they are fringe zones that are less populated anywa
 #| message: false
 #| error: false
 
-targets::tar_load(pop_comp_maps)
+targets::tar_load(pop_comp)
 
-pop_comp_maps[1]
-pop_comp_maps[2]
-pop_comp_maps[3]
+pop_comp %>% 
+  filter(metric == "TOTHH") %>% 
+  ggplot() +
+  geom_sf(aes(fill = error), color = NA)
+  
 
 # cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 3)
 ```
