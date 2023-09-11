@@ -4,10 +4,10 @@ read_asim_population <- function(perfile, hhfile){
   hh_raw <- read_csv(hhfile)
   
   per <- per_raw %>% 
-    # filter(AGEP > 0) %>% 
+    filter(AGEP > 0) %>%
     group_by(TAZ) %>% 
     summarise(
-      num_persons = n(),
+      TOTPOP = n(),
       avg_age = mean(AGEP),
       pct_female = table(SEX)[1] / sum(table(SEX)) #I *think* 1 is female
       )
@@ -17,14 +17,14 @@ read_asim_population <- function(perfile, hhfile){
       c(WIF),
       \(x) if_else(x < 0, NA, x)
     )) %>% 
-    ####### THESE INCOME GROUPS ARE WRONG ########
+    ## Check income groups
     mutate(
       inc_group = case_when(
-        HHINCADJ < 0 ~ "unknown",
-        HHINCADJ < 1000 ~ "INC1",
-        HHINCADJ < 10000 ~ "INC2",
-        HHINCADJ < 100000 ~ "INC3",
-        HHINCADJ >= 100000 ~ "INC4",
+        HHINCADJ < 0 ~ "INCunknown",
+        HHINCADJ < 45000 ~ "INC1",
+        HHINCADJ < 75000 ~ "INC2",
+        HHINCADJ < 125000 ~ "INC3",
+        HHINCADJ >= 125000 ~ "INC4",
         TRUE ~ "Error in income groups"
       )
     )
@@ -37,8 +37,8 @@ read_asim_population <- function(perfile, hhfile){
   hh_other <- hh %>% 
     group_by(TAZ) %>% 
     summarise(
-      num_hh = n(),
-      avg_hh_inc = mean(HHINCADJ, na.rm = TRUE),
+      TOTHH = n(),
+      AVGINCOME = mean(HHINCADJ, na.rm = TRUE),
       hh_size = mean(NP),
       hh_veh = mean(VEH),
       hh_wrk = mean(WIF, na.rm = TRUE)
@@ -48,18 +48,14 @@ read_asim_population <- function(perfile, hhfile){
   hh_full <- full_join(hh_other, hh_inc, join_by(TAZ))
   
   pop <- left_join(per, hh_full, join_by(TAZ)) %>% 
-    rename(
-      TOTPOP = num_persons,
-      TOTHH = num_hh,
-      AVGINCOME = avg_hh_inc,
-      INCunknown_asim = unknown) %>% 
     select(
       TAZ,
       TOTHH,
       TOTPOP,
       AVGINCOME,
       contains("INC")
-    )
+    ) %>% 
+    mutate(across(everything(), \(x) if_else(x < 0, NA, x)))
   
   pop
   
@@ -86,6 +82,7 @@ make_zonal_comparison <- function(asim_pop, se_data, taz_file){
     transmute(TAZ = TAZID)
   
   comp <- asim_pop %>% 
+    rename(INCunknown_asim = INCunknown) %>% 
     full_join(se_data, join_by(TAZ), suffix = c("_asim", "_wfrc")) %>% 
     pivot_longer(
       matches("asim|wfrc"),
@@ -93,7 +90,12 @@ make_zonal_comparison <- function(asim_pop, se_data, taz_file){
       names_sep = "_") %>% 
     select(TAZ, model, metric, value) %>% 
     pivot_wider(names_from = model, values_from = value) %>% 
-    mutate(diff = asim - wfrc, error = diff / wfrc)
+    mutate(
+      diff = asim - wfrc,
+      error = case_when(
+        round(wfrc) == 0 ~ diff,
+        TRUE ~ diff / wfrc
+      ))
 
   full_join(taz, comp, join_by(TAZ))
 }
