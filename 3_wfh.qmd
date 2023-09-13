@@ -33,7 +33,7 @@ In an attempt to keep our models accurate and allow the trip-based analysis to b
 
 -   Home-based work trips decrease while other home-based trips increase:
 
--   There is a greater possibility that home-based work trips are longer:
+There is a greater possibility that home-based work trips are longer: We actually can't do this one on the WFRC model, so we will not worry about it. 
 
 ## Trip-based Model
 
