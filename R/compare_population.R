@@ -82,7 +82,6 @@ make_zonal_comparison <- function(asim_pop, se_data, taz_file){
     transmute(TAZ = TAZID)
   
   comp <- asim_pop %>% 
-    rename(INCunknown_asim = INCunknown) %>% 
     full_join(se_data, join_by(TAZ), suffix = c("_asim", "_wfrc")) %>% 
     pivot_longer(
       matches("asim|wfrc"),
