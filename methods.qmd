@@ -105,17 +105,18 @@ pop_comp %>%
   filter(metric == "TOTPOP") %>% 
   ggplot() +
   annotation_map_tile("cartolight", zoomin=1) +
-  geom_sf(aes(fill = error), color = NA) +
-  scale_fill_binned() +
+  geom_sf(aes(fill = diff), color = NA) +
+  scale_fill_gradient2() +
   theme_void()
 
 pop_comp %>% 
   filter(str_detect(metric, "^INC")) %>% 
   ggplot() +
   annotation_map_tile("cartolight", zoomin=1) +
-  geom_sf(aes(fill = log2(error+1)), color = NA) +
+  geom_sf(aes(fill = diff), color = NA) +
   facet_wrap(~metric) +
-  scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
+  scale_fill_gradient2(limits = c(-500,500)) +
+  # scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
   theme_void()
   
 
