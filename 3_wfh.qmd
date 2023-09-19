@@ -27,17 +27,24 @@ If someone works completely remote, then they will have nothing forcing them to 
 If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week.
 This information could change the trip length frequency distribution of home-based work trips.
 
-In an attempt to keep our models accurate and allow the trip-based analysis to be compared with the activity-based analysis, we focused on these principles in our model design:
+To organize the main ideas of the literature, we kept in mind these three principles as we prepared the models:
 
--   Different employment types have differing levels of telecommuting: We were able to use data provided by WFRC that gives a telecommute percentage for each employment type in each county in Utah. 
+-   Different employment types have differing levels of telecommuting
 
--   Home-based work trips decrease while other home-based trips increase:
+-   Home-based work trips decrease while other home-based trips increase
 
-There is a greater possibility that home-based work trips are longer: We actually can't do this one on the WFRC model, so we will not worry about it. 
+-   There is a greater possibility that home-based work trips are longer 
+
+The last principle mentioned has been used in other models [@moeckel_working_2017], but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.  
+The following sections will describe how we used the first two principles as we prepared the telecommuting scenario in each of the models. 
 
 ## Trip-based Model
 
 In the WFRC trip-based model, it was already programmed to reduce home-based work trips according to the type of employment. In the model set up, we needed to input a telecommute factor that would connect with the telecommute percentages in the county data. This factor was used to determine how many home-based work trips would be telecommute trips. The telecommute trips would not be counted during trip distribution. 
+
+What wasn't already coded in the WFRC model was the fact that home-based other trips increase for people who telecommute. 
+There isn't much guidance in the literature on exactly how other trips increase compared to the telecommute trips, and models that have a travel time budget built in are usually models with a synthetic population (cite).
+Do to the lack of explicit direction in how to model this, we didn't follow any given formula, but this is the way we designed it...
 
 ## Activity-based model
 
