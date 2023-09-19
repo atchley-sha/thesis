@@ -117,7 +117,8 @@ pop_comp %>%
   facet_wrap(~metric) +
   scale_fill_gradient2(limits = c(-500,500)) +
   # scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
-  theme_void()
+  theme_void() +
+  labs(title = "old")
   
 
 # cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 3)

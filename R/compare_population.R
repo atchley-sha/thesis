@@ -20,7 +20,7 @@ read_asim_population <- function(perfile, hhfile){
     ## Check income groups
     mutate(
       inc_group = case_when(
-        HHINCADJ < 0 ~ "INCunknown",
+        HHINCADJ < 0 ~ "INCunknown_asim",
         HHINCADJ < 45000 ~ "INC1",
         HHINCADJ < 75000 ~ "INC2",
         HHINCADJ < 125000 ~ "INC3",
