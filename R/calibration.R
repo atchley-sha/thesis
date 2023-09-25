@@ -6,7 +6,7 @@ run_calibration_tours <- function(in_asc, out_asc, max_error, iteration){
     write_csv(paste0("data/base_model_comparison/calibration/it", iteration, ".csv"))
   
   adjs <- get_adjs(shares)
-  coef0 <- read_tours_asc(in_asc)
+  coef0 <- read_tours_asc(in_asc, adjs)
   coef1 <- adjust_asc(coef0, adjs)
   
   coef1 %>% 
@@ -19,7 +19,7 @@ run_calibration_trips <- function(in_asc, out_asc, max_error){
   shares
   
   adjs <- get_adjs(shares)
-  coef0 <- read_trips_asc(in_asc)
+  coef0 <- read_trips_asc(in_asc, adjs)
   coef1 <- adjust_asc(coef0, adjs)
   
   coef1 %>% 
@@ -65,7 +65,7 @@ get_adjs <- function(shares){
   adjs
 }
 
-read_tours_asc <- function(in_asc){
+read_tours_asc <- function(in_asc, adjs){
   coef0 <- read_csv(in_asc) %>% 
     mutate(
       mode = case_when(
@@ -90,7 +90,7 @@ read_tours_asc <- function(in_asc){
   coef0
 }
 
-read_trips_asc <- function(in_asc){
+read_trips_asc <- function(in_asc, adjs){
   coef0 <- read_csv(in_asc) %>% 
     mutate(
       mode = case_when(

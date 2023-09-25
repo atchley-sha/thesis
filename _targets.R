@@ -39,8 +39,8 @@ abm_tbm_flowchart <- tar_plan(
 # Synthetic population comparison ####
 synth_pop_comparison <- tar_plan(
   # Data
-  tar_target(synth_per_file, "data/base_model_comparison/asim/synthetic_persons_original.csv", format = "file"),
-  tar_target(synth_hh_file, "data/base_model_comparison/asim/synthetic_households_original.csv", format = "file"),
+  tar_target(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv", format = "file"),
+  tar_target(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv", format = "file"),
   tar_target(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv", format = "file"),
   tar_target(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv", format = "file"),
   tar_target(taz_file, "data/WFRC_TAZ.geojson", format = "file"),
