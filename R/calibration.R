@@ -122,3 +122,11 @@ adjust_asc <- function(coef0, adjs){
   
   coef1
 }
+
+read_calibration_iters <- function(dir = "data/base_model_comparison/calibration"){
+  files <- list.files(dir, full.names = TRUE)
+  iters <- str_replace(files, "(.*\\/)*(.*)\\.csv", "\\2")
+  csvs <- map(files, \(x) read_csv(x) %>% select(purpose, mode, error)) %>% 
+    `names<-`(iters)
+  errors <- bind_rows(csvs, .id = "iteration")
+}
