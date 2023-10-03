@@ -13,10 +13,12 @@ We will compare models...
 
 We will forecast several scenarios.
 
-## Models to Use
+In order to compare trip-based and activity-based models, this research takes a specific model from both types to be representative.
+The two models that this research compares are the \acr{WFRC} travel demand model (trip-based) and ActivitySim (activity-based).
 
-We are using the \acr{WFRC} regional travel demand model as a representative trip-based model.
-This model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by \acr{WFRC} for modeling travel in the Salt Lake City, Utah area.
+## WFRC Model
+
+The \acr{WFRC} model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by \acr{WFRC} for modeling travel in the Salt Lake City, Utah area.
 \acr{WFRC} provided the model directly, including land use forecasts and the current long-range transportation plan.
 The model is taken mostly as-is, though some changes were made to better accommodate the different scenarios.
 These modifications are noted in more detail in their respective sections.
@@ -29,12 +31,18 @@ The \acr{WFRC} model uses an iterative process of assigning volumes to the trans
 - **Transportation network.** This includes highway, transit, etc. networks which connect the \acr{TAZ}s to each other.
 These networks contain information such as link speed and capacity.
 Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results.
+However, the network volumes are still used to calculate the travel skims.
 - **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients.
 These are taken directly from the \acr{WFRC} model without modification.
 
 WFRC model steps
 
-WFRC model outputs:
+
+The final output(s) of the \acr{WFRC} model include network volumes and performance measures.
+Additionally, the model outputs intermediate results after each main model step.
+This includes disaggregated household data, trip generation estimates, and origin-destination matrices counting trips by purpose, mode, and time of day.
+
+## ActivitySim
 
 The open-source ActivitySim [@cite] is used as our representative \acr{ABM}.
 ActivitySim was developed....
@@ -45,7 +53,7 @@ Overview of asim model (inputs, outputs, etc.) (also basic flowchart, tours/trip
 
 We used PopulationSim [@cite] to create the synthetic population to use in ActivitySim.
 PopulationSim requires two main categories of inputs: a seed and controls.
-The seed comes from XXXXX, and contains a sample of actual (anonymized) individuals and households in the YYYYY region.
+The seed comes from XXXXX, and contains a sample of actual (anonymized) individuals and households in the Wasatch Front region.
 PopulationSim assigns copies of these seeds to the area in a way that complies with the controls.
 The controls contain targets for the synthetic population in categories such as number of households, **et al**.
 For this we used a combination of the \acr{TAZ}-level socioeconomic data present in the \acr{WFRC} model and Census tract-level data.
