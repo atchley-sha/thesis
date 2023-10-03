@@ -91,34 +91,34 @@ There are some outliers, but they are fringe zones that are less populated anywa
 #| message: false
 #| error: false
 
-targets::tar_load(pop_comp)
-
-pop_comp %>% 
-  filter(metric == "TOTHH") %>% 
-  ggplot() +
-  annotation_map_tile("cartolight", zoomin=1) +
-  geom_sf(aes(fill = diff), color = NA) +
-  scale_fill_binned() +
-  theme_void()
-
-pop_comp %>% 
-  filter(metric == "TOTPOP") %>% 
-  ggplot() +
-  annotation_map_tile("cartolight", zoomin=1) +
-  geom_sf(aes(fill = diff), color = NA) +
-  scale_fill_gradient2() +
-  theme_void()
-
-pop_comp %>% 
-  filter(str_detect(metric, "^INC")) %>% 
-  ggplot() +
-  annotation_map_tile("cartolight", zoomin=1) +
-  geom_sf(aes(fill = diff), color = NA) +
-  facet_wrap(~metric) +
-  scale_fill_gradient2(limits = c(-500,500)) +
-  # scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
-  theme_void() +
-  labs(title = "old")
+# targets::tar_load(pop_comp)
+# 
+# pop_comp %>% 
+#   filter(metric == "TOTHH") %>% 
+#   ggplot() +
+#   annotation_map_tile("cartolight", zoomin=1) +
+#   geom_sf(aes(fill = diff), color = NA) +
+#   scale_fill_binned() +
+#   theme_void()
+# 
+# pop_comp %>% 
+#   filter(metric == "TOTPOP") %>% 
+#   ggplot() +
+#   annotation_map_tile("cartolight", zoomin=1) +
+#   geom_sf(aes(fill = diff), color = NA) +
+#   scale_fill_gradient2() +
+#   theme_void()
+# 
+# pop_comp %>% 
+#   filter(str_detect(metric, "^INC")) %>% 
+#   ggplot() +
+#   annotation_map_tile("cartolight", zoomin=1) +
+#   geom_sf(aes(fill = diff), color = NA) +
+#   facet_wrap(~metric) +
+#   scale_fill_gradient2(limits = c(-500,500)) +
+#   # scale_fill_binned(type = "viridis", limits = c(-4.1,4.1)) +
+#   theme_void() +
+#   labs(title = "old")
   
 
 # cowplot::plot_grid(plotlist = targets::tar_read(pop_comp_maps), nrow = 3)
@@ -136,13 +136,13 @@ We don't need to do that here (R can handle more than 2 decimal places), so we d
 ```{r}
 #| echo: false
 
-targets::tar_read(combined_trips) %>%
-  group_by(model, mode, purpose) %>%
-  summarise(trips = sum(trips)) %>%
-  pivot_wider(names_from = model, values_from = trips) %>%
-  arrange(purpose, mode) %>%
-  mutate(error = asim/wfrc - 1) %>%
-  relocate(purpose)
+# targets::tar_read(combined_trips) %>%
+#   group_by(model, mode, purpose) %>%
+#   summarise(trips = sum(trips)) %>%
+#   pivot_wider(names_from = model, values_from = trips) %>%
+#   arrange(purpose, mode) %>%
+#   mutate(error = asim/wfrc - 1) %>%
+#   relocate(purpose)
 ```
 
 ```{r}
@@ -151,14 +151,14 @@ targets::tar_read(combined_trips) %>%
 #| message: false
 #| error: false
 
-targets::tar_read(combined_trips) %>% 
-  ggplot() +
-  geom_density(aes(x = distance, weight = trips, color = model)) +
-  facet_grid(
-    vars(mode), vars(purpose),
-    switch = "y",
-    scales = "free") +
-  xlim(0,25)
+# targets::tar_read(combined_trips) %>% 
+#   ggplot() +
+#   geom_density(aes(x = distance, weight = trips, color = model)) +
+#   facet_grid(
+#     vars(mode), vars(purpose),
+#     switch = "y",
+#     scales = "free") +
+#   xlim(0,25)
 ```
 
 
