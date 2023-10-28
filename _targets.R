@@ -39,8 +39,8 @@ abm_tbm_flowchart <- tar_plan(
 # Synthetic population comparison ####
 synth_pop_comparison <- tar_plan(
   # Data
-  tar_target(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv", format = "file"),
-  tar_target(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv", format = "file"),
+  tar_target(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz", format = "file"),
+  tar_target(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz", format = "file"),
   tar_target(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv", format = "file"),
   tar_target(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv", format = "file"),
   tar_target(taz_file, "data/WFRC_TAZ.geojson", format = "file"),
@@ -54,7 +54,6 @@ synth_pop_comparison <- tar_plan(
   inc_groups_map = make_inc_groups_map(pop_comp),
   avg_inc_map = make_avg_inc_map(pop_comp),
   inc_comp_plot = make_inc_plot(pop_comp),
-  
 
 )
 
@@ -74,12 +73,16 @@ base_outputs_comparison <- tar_plan(
   wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
   
-  tar_target(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv", format = "file"),
-  tar_target(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv", format = "file"),
+  tar_target(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz", format = "file"),
+  tar_target(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz", format = "file"),
   
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
+  
+  # Viz
+  mode_split_comp = make_mode_split_comp(combined_trips),
+  tlfd_comp_plot = make_tlfd_comp_plot(combined_trips),
 )
 
 

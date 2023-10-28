@@ -185,3 +185,24 @@ get_asim_purpose <- function(modes_df){
 
     combined_purposes$purpose
 }
+
+make_mode_split_comp <- function(combined_trips){
+  combined_trips %>%
+    group_by(model, mode, purpose) %>%
+    summarise(trips = sum(trips)) %>%
+    pivot_wider(names_from = model, values_from = trips) %>%
+    arrange(purpose, mode) %>%
+    mutate(error = asim/wfrc - 1) %>%
+    relocate(purpose)
+}
+
+make_tlfd_comp_plot <- function(combined_trips){
+  combined_trips %>%
+    ggplot() +
+    geom_density(aes(x = distance, weight = trips, color = model)) +
+    facet_grid(
+      vars(mode), vars(purpose),
+      switch = "y",
+      scales = "free") +
+    xlim(0,25)
+}

@@ -126,7 +126,7 @@ make_inc_groups_map <- function(pop_comp) {
         )
     ) %>% 
     ggplot() +
-    annotation_map_tile("cartolight", zoomin=1) +
+    annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = diff), color = NA) +
     facet_wrap(~metric) +
     scale_fill_gradient2(limits = c(-500,500), na.value = alpha("grey50", 0.7)) +
@@ -138,10 +138,10 @@ make_avg_inc_map <- function(pop_comp){
   pop_comp %>% 
     filter(metric == "AVGINCOME") %>% 
     ggplot() +
-    annotation_map_tile("cartolight", zoomin=1) +
+    annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = hrpd), color = NA) +
     scale_fill_gradient2(limits = c(-1,1), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "RPD/2 = (y-x)/(y+x)") +
+    labs(fill = "Difference in mean income,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference/2)") +
     theme_bw_map()
 }
 
@@ -156,65 +156,13 @@ make_inc_plot <- function(pop_comp){
       ),
       metric = case_when(
         metric == "MEDINCOME" ~ "TAZ Median Income",
-        metric == "AVGINCOME" ~ "TAZ Average Income"
+        metric == "AVGINCOME" ~ "TAZ Mean Income"
       )) %>% 
     ggplot() +
-    geom_density(aes(color = model, lty = metric, x = income), size = 1) +
+    geom_density(aes(color = model, lty = metric, x = income), linewidth = 1) +
     scale_x_continuous(labels = scales::comma, limits = c(0,200000), expand = c(0,0)) +
     scale_y_continuous(labels = NULL) +
     theme_bw() +
     theme(axis.ticks.y = element_blank()) +
     labs(x = "Income", y = "Kernel density", color = "Model", lty = "Metric")
-}
-
-zone_comparison_maps <- function(pop_comp, taz){
-  
-  data <- taz %>% 
-    left_join(pop_comp, join_by(TAZID == TAZ))
-  
-  per <- data %>%
-    ggplot() +
-    # annotation_map_tile(type = "stamenwatercolor", zoomin = 1) +
-    geom_sf(aes(fill = log2(per_pct_error+1)), color = NA) +
-    labs(title = "Number of Persons", fill = "Doublings") +
-    scale_fill_fermenter(palette = "RdBu", breaks = -2:2) +
-    theme_void()
-  
-  hh <- data %>% 
-    ggplot() +
-    # annotation_map_tile(type = "cartodark", zoomin = 1) +
-    geom_sf(aes(fill = hh_diff), color = NA) +
-    labs(title = "Number of Households", fill = "Diff") +
-    scale_fill_fermenter(palette = "RdBu") +
-    theme_void()
-  
-  income <- data %>% 
-    ggplot() +
-    # annotation_map_tile(type = "cartodark", zoomin = 1) +
-    geom_sf(aes(fill = log2(income_pct_error+1)), color = NA) +
-    labs(title = "Average Income", fill = "Doublings") +
-    scale_fill_fermenter(palette = "RdBu", breaks = -2:2) +
-    theme_void()
-  
-  # income_diff <- data %>% 
-  #   ggplot() +
-  #   geom_sf(aes(fill = income_diff)) +
-  #   labs(title = "Average Income", fill = "Diff") +
-  #   scale_fill_fermenter(palette = "RdBu") +
-  #   theme_void()
-  
-  maps = list(hh = hh, persons = per, income = income)
-  
-  maps
-}
-
-a <- \(){
-  
-  pop_comp %>% 
-    filter(str_detect(metric, "INCOME")) %>% 
-    pivot_longer(c(asim, wfrc), names_to = "model", values_to = "value") %>% 
-    ggplot() +
-    geom_density(aes(color = model, lty = metric, x = value), size = 1) +
-    theme_bw()
-  
 }
