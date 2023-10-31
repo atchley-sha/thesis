@@ -161,8 +161,6 @@ make_inc_plot <- function(pop_comp){
     ggplot() +
     geom_density(aes(color = model, lty = metric, x = income), linewidth = 1) +
     scale_x_continuous(labels = scales::comma, limits = c(0,200000), expand = c(0,0)) +
-    scale_y_continuous(labels = NULL) +
-    theme_bw() +
-    theme(axis.ticks.y = element_blank()) +
+    theme_density() +
     labs(x = "Income", y = "Kernel density", color = "Model", lty = "Metric")
 }
