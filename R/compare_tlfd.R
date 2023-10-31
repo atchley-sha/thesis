@@ -185,3 +185,52 @@ get_asim_purpose <- function(modes_df){
 
     combined_purposes$purpose
 }
+
+make_mode_split_comp <- function(combined_trips){
+  combined_trips %>%
+    group_by(model, mode, purpose) %>%
+    summarise(trips = sum(trips)) %>%
+    pivot_wider(names_from = model, values_from = trips) %>%
+    arrange(purpose, mode) %>%
+    mutate(error = asim/wfrc - 1) %>%
+    relocate(purpose)
+}
+
+make_tlfd_comp_plot <- function(combined_trips){
+  combined_trips %>%
+    mutate(
+      purpose = case_when(
+        purpose == "hbw" ~ "Home-based Work",
+        purpose == "hbo" ~ "Home-based Other",
+        purpose == "nhb" ~ "Non\u2013Home-based",
+        purpose == "all" ~ "All"
+      ),
+      mode = case_when(
+        mode == "auto" ~ "Auto",
+        mode == "transit" ~ "Transit",
+        mode == "nonmotor" ~ "Non-motorized",
+        mode == "all" ~ "All"
+      ),
+      model = case_when(
+        model == "asim" ~ "ActivitySim",
+        model == "wfrc" ~ "WFRC/MAG"
+      )
+    ) %>% 
+    mutate(
+      purpose = factor(purpose, c("Home-based Work", "Home-based Other", "Non\u2013Home-based", "All")),
+      mode = factor(mode, c("Auto", "Transit", "Non-motorized", "All")),
+    ) %>% 
+    ggplot() +
+    geom_density(aes(x = distance, weight = trips, color = model)) +
+    facet_grid(
+      vars(mode), vars(purpose),
+      scales = "free_y") +
+    scale_x_continuous(
+      limits = c(0,25),
+      sec.axis = sec_axis(~ . , name = "Trip Purpose", breaks = NULL, labels = NULL)) +
+    scale_y_continuous(
+      sec.axis = sec_axis(~ . , name = "Trip Mode", breaks = NULL, labels = NULL)) +
+    labs(x = "Trip Distance (miles)", y = "Kernel density", color = "Model") +
+    theme_density() +
+    theme(legend.position = "bottom")
+}
