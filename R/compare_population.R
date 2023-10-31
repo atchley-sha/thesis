@@ -164,3 +164,14 @@ make_inc_plot <- function(pop_comp){
     theme_density() +
     labs(x = "Income", y = "Kernel density", color = "Model", lty = "Metric")
 }
+
+make_pop_comp_map <- function(pop_comp){
+  pop_comp %>% 
+    filter(metric == "TOTPOP") %>%
+    ggplot() +
+    annotation_map_tile("cartolight", zoomin=0) +
+    geom_sf(aes(fill = hrpd), color = NA) +
+    scale_fill_gradient2(limits = c(-1,1), na.value = alpha("grey50", 0.7)) +
+    labs(fill = "Difference in TAZ population,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference/2)") +
+    theme_bw_map()
+}
