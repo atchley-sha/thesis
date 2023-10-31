@@ -139,9 +139,9 @@ make_avg_inc_map <- function(pop_comp){
     filter(metric == "AVGINCOME") %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
-    geom_sf(aes(fill = hrpd), color = NA) +
-    scale_fill_gradient2(limits = c(-1,1), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in mean income,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference/2)") +
+    geom_sf(aes(fill = rpd), color = NA) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    labs(fill = "Difference in mean income,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }
 
@@ -170,8 +170,8 @@ make_pop_comp_map <- function(pop_comp){
     filter(metric == "TOTPOP") %>%
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
-    geom_sf(aes(fill = hrpd), color = NA) +
-    scale_fill_gradient2(limits = c(-1,1), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in TAZ population,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference/2)") +
+    geom_sf(aes(fill = rpd), color = NA) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    labs(fill = "Difference in TAZ population,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }
