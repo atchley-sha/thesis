@@ -116,13 +116,13 @@ make_inc_groups_map <- function(pop_comp) {
     filter(str_detect(metric, "^INC")) %>% 
     mutate(
       metric = case_when(
-        metric == "INC1" ~ "\u2264 45,000",
-        metric == "INC2" ~ "45,000\u201375,000",
-        metric == "INC3" ~ "75,000\u2013125,000",
-        metric == "INC4" ~ "\u2265 125,000"
+        metric == "INC1" ~ "\u2264 $45,000",
+        metric == "INC2" ~ "$45,000\u2013$75,000",
+        metric == "INC3" ~ "$75,000\u2013$125,000",
+        metric == "INC4" ~ "\u2265 $125,000"
       ) %>% 
         factor(
-          levels = c("\u2264 45,000", "45,000\u201375,000", "75,000\u2013125,000", "\u2265 125,000")
+          levels = c("\u2264 $45,000", "$45,000\u2013$75,000", "$75,000\u2013$125,000", "\u2265 $125,000")
         )
     ) %>% 
     ggplot() +
@@ -160,7 +160,7 @@ make_inc_plot <- function(pop_comp){
       )) %>% 
     ggplot() +
     geom_density(aes(color = model, lty = metric, x = income), linewidth = 1) +
-    scale_x_continuous(labels = scales::comma, limits = c(0,200000), expand = c(0,0)) +
+    scale_x_continuous(labels = label_comma(prefix = "$"), limits = c(0,200000), expand = c(0,0)) +
     theme_density() +
     labs(x = "Income", y = "Kernel density", color = "Model", lty = "Metric")
 }
