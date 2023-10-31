@@ -7,11 +7,11 @@ library(tidyverse)
 library(ggspatial)
 ```
 
-This section lists our methodology.
+<!-- This section lists our methodology. -->
 
-We will compare models...
+<!-- We will compare models... -->
 
-We will forecast several scenarios.
+<!-- We will forecast several scenarios. -->
 
 In order to compare trip-based and activity-based models, this research takes a specific model from both types to be representative.
 The two models that this research compares are the \acr{WFRC} travel demand model (trip-based) and ActivitySim (activity-based).
@@ -35,28 +35,33 @@ However, the network volumes are still used to calculate the travel skims.
 - **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients.
 These are taken directly from the \acr{WFRC} model without modification.
 
-WFRC model steps
-
+The model is comprised of 5 main steps: household disaggregation, trip generation, trip distribution, mode choice, and network assignment.
+Each of these steps has several sub-steps, and there are additional pre- and post-processing steps, but these five steps are the core of the model.
+The household disaggregation model uses the land use and socioeconomic data (containing average household sizes, etc.) and estimates the number of households by type, meaning by number of residents and number of workers.
+An additional part of this step is a vehicle ownership model, which further disaggregates the households by number of owned vehicles.
+The remaining four steps proceed similarly to any other trip-based model, estimating trips from each household type by purpose, time of day, origin/destination, and mode choice, and assigning these trips to the network(s).
 
 The final output(s) of the \acr{WFRC} model include network volumes and performance measures.
+This includes loaded the network skims, which can then be used in subsequent iterations of the destination and mode choice models.
 Additionally, the model outputs intermediate results after each main model step.
 This includes disaggregated household data, trip generation estimates, and origin-destination matrices counting trips by purpose, mode, and time of day.
 
 ## ActivitySim
 
-The open-source ActivitySim [@cite] is used as our representative \acr{ABM}.
-ActivitySim was developed....
-Many agencies currently use a travel demand model based on ActivitySim in some form [@cite].
-another sentence.
+<!-- The open-source ActivitySim [@cite] is used as our representative \acr{ABM}. -->
+<!-- ActivitySim was developed.... -->
+<!-- Many agencies currently use a travel demand model based on ActivitySim in some form [@cite]. -->
+<!-- another sentence. -->
 
-Overview of asim model (inputs, outputs, etc.) (also basic flowchart, tours/trips/etc)
+<!-- Overview of asim model (inputs, outputs, etc.) (also basic flowchart, tours/trips/etc) -->
 
-We used PopulationSim [@cite] to create the synthetic population to use in ActivitySim.
-PopulationSim requires two main categories of inputs: a seed and controls.
-The seed comes from XXXXX, and contains a sample of actual (anonymized) individuals and households in the Wasatch Front region.
-PopulationSim assigns copies of these seeds to the area in a way that complies with the controls.
-The controls contain targets for the synthetic population in categories such as number of households, **et al**.
-For this we used a combination of the \acr{TAZ}-level socioeconomic data present in the \acr{WFRC} model and Census tract-level data.
+<!-- We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via PopulationSim). -->
+<!-- We used PopulationSim [@cite] to create the synthetic population to use in ActivitySim. -->
+<!-- PopulationSim requires two main categories of inputs: a seed and controls. -->
+<!-- The seed comes from XXXXX, and contains a sample of actual (anonymized) individuals and households in the Wasatch Front region. -->
+<!-- PopulationSim assigns copies of these seeds to the area in a way that complies with the controls. -->
+<!-- The controls contain targets for the synthetic population in categories such as number of households, **et al**. -->
+<!-- For this we used a combination of the \acr{TAZ}-level socioeconomic data present in the \acr{WFRC} model and Census tract-level data. -->
 
 ## Initial Model Comparison
 
@@ -80,17 +85,45 @@ pop_comp %>%
   ggplot() +
   annotation_map_tile("cartolight", zoomin=0) +
   geom_sf(aes(fill = error), color = NA) +
-  scale_fill_steps2(breaks = c(-0.75,-0.5,-0.25,0,0.5,1,2,4), trans = "pseudo_log") +
-  labs(fill = "Error") +
+  scale_fill_steps2(breaks = c(-0.75,-0.5,-0.25,0,0.5,1,2,4), trans = "log1p", labels = label_number(scale = 100, suffix = "%")) +
+  labs(fill = "% change,\nPopSim compared to WFRC") +
   theme_void()
 ```
 
+Another important comparison to make is of household income, as this can significantly affect travel behavior.
+Instead of simply comparing average household income by \acr{TAZ}, though, it is more useful to compare the number of households in each binned income group.
+Both the \acr{WFRC} and ActivitySim models use income *groups* as a variable in their model steps rather than the actual income.
+The income groups for the \acr{WFRC} model are given in @tbl-wfrc-income-groups.
 
-Another important comparison to make is of household income. (compare by group because of top-coding)
+```{r}
+#| label: tbl-wfrc-income-groups
+#| tbl-cap: Income Groups in WFRC Model
 
-We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via PopulationSim).
+head(mtcars) %>% knitr::kable()
+```
 
-Enumerate and discuss model inputs/outputs (diagram?)
+@fig-income-group-comparison shows a comparison of the number of households in each income group between the WFRC household disaggregation model and the synthetic population generated by PopSim.
+There is a definite trend of the synthetic population to over-predict low-income households and over-predict high-income households compared to the WFRC disaggregation model.
+However, especially since this research is focused more on a methodological comparison between the two models rather than a comparison of results, the discrepancies are not too severe.
+
+```{r}
+targets::tar_load(pop_comp)
+
+pop_comp %>% 
+  filter(str_detect(metric, "^INC")) %>%
+  ggplot() +
+  annotation_map_tile("cartolight", zoomin=0) +
+  # geom_sf(aes(fill = error), color = NA) +
+  geom_sf(aes(fill = diff), color = NA) +
+  facet_wrap(~metric, nrow = 1) +
+  scale_fill_gradient2(breaks = c(-500, -250, 0, 250, 500, 750)) +
+  # scale_fill_steps2(breaks = c(-0.75,-0.5,-0.25,0,0.5,1,2,4), trans = "log1p", labels = scales::label_number(scale = 100, suffix = "%")) +
+  # labs(fill = "% change,\nPopSim compared to WFRC") +
+  labs(fill = "Difference in # of households,\nPopSim compared to WFRC") +
+  theme_void() +
+  theme(legend.position = "bottom", legend.key.size = unit(0.35,"in"))
+```
+
 
 ### Calibration check
 
@@ -104,25 +137,25 @@ Enumerate and discuss model inputs/outputs (diagram?)
 #nonmotor = bike + walk + small error
 ```
 
-We want to check if the ABM gives similar results to the WFRC model in the base scenario.
-If not, then we can't really compare them.
-They don't have to match exactly, but should be close.
+<!-- We want to check if the ABM gives similar results to the WFRC model in the base scenario. -->
+<!-- If not, then we can't really compare them. -->
+<!-- They don't have to match exactly, but should be close. -->
 
 #### synth pop
 
-Show differences between the actual zonal SE data and the synthetic population data.
-HH is the same since it was heavily weighted, but check some other things too, like avg income.
+<!-- Show differences between the actual zonal SE data and the synthetic population data. -->
+<!-- HH is the same since it was heavily weighted, but check some other things too, like avg income. -->
 
-746 zones in the WFRC input data are listed as having no households.
-Many of these make sense (Utah Lake, etc.).
-Some in more urban areas may also make sense (commercial zoning, etc), but it's possible some are erroneous.
-In any case, the synthetic population matches these targets, as we want the models to perform similarly to be able to make comparisons.
+<!-- 746 zones in the WFRC input data are listed as having no households. -->
+<!-- Many of these make sense (Utah Lake, etc.). -->
+<!-- Some in more urban areas may also make sense (commercial zoning, etc), but it's possible some are erroneous. -->
+<!-- In any case, the synthetic population matches these targets, as we want the models to perform similarly to be able to make comparisons. -->
 
-Many variables such as vehicle ownership were not given at the TAZ level in the input data (**were they given anywhere else?**).
-This data is present in the synthetic population, but we can't compare it (**unless we find that data somewhere else**).
+<!-- Many variables such as vehicle ownership were not given at the TAZ level in the input data (**were they given anywhere else?**). -->
+<!-- This data is present in the synthetic population, but we can't compare it (**unless we find that data somewhere else**). -->
 
-Overall we are pretty good; the vast majority of zones are within a doubling of the WFRC data in both persons and income.
-There are some outliers, but they are fringe zones that are less populated anyway.
+<!-- Overall we are pretty good; the vast majority of zones are within a doubling of the WFRC data in both persons and income. -->
+<!-- There are some outliers, but they are fringe zones that are less populated anyway. -->
 
 ```{r}
 #| echo: false
@@ -166,11 +199,11 @@ There are some outliers, but they are fringe zones that are less populated anywa
 
 #### TLFD
 
-Compare TLFD, hopefully similar.
+<!-- Compare TLFD, hopefully similar. -->
 
-They are similar!
-NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise.
-We don't need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount.
+<!-- They are similar! -->
+<!-- NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise. -->
+<!-- We don't need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount. -->
 
 ```{r}
 #| echo: false
@@ -190,14 +223,15 @@ We don't need to do that here (R can handle more than 2 decimal places), so we d
 #| message: false
 #| error: false
 
-# targets::tar_read(combined_trips) %>% 
-#   ggplot() +
-#   geom_density(aes(x = distance, weight = trips, color = model)) +
-#   facet_grid(
-#     vars(mode), vars(purpose),
-#     switch = "y",
-#     scales = "free") +
-#   xlim(0,25)
+targets::tar_read(combined_trips) %>%
+  ggplot() +
+  geom_density(aes(x = distance, weight = trips, color = model)) +
+  facet_grid(
+    vars(mode), vars(purpose),
+    switch = "y",
+    scales = "free") +
+  xlim(0,25) +
+  labs(y = "Kernel density", x = "Distance (mi)", color = "Model")
 ```
 
 

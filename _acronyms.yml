@@ -13,4 +13,8 @@ acronyms:
       longname: daily activity pattern
     - shortname: BRT
       longname: bus rapid transit
+    - shortname: ACS
+      longname: American Community Survey
+    - shortname: PUMS
+      longname: Public Use Microdata Sample
 ---
