@@ -3,6 +3,7 @@ project:
   
 execute:
   echo: false
+  cache: true
 
 book:
   title: "An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah"
