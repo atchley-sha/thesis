@@ -121,15 +121,16 @@ targets::tar_read(inc_groups_map)
 
 targets::tar_read(mode_split_comp) %>% 
   kbl(
+    booktabs = TRUE,
     col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC/MAG predicted trips", "% Error", "% Error (scaled to WFRC/MAG predicted trips)"),
     digits = c(0,0,0,0,1,1),
     align = "c"
   ) %>% 
-  kable_styling() %>% 
-  column_spec(3, "4cm") %>% 
-  column_spec(4, "4cm") %>% 
-  column_spec(6, "6cm") %>% 
-  collapse_rows(1, valign = "middle", latex_hline = "major")
+  kable_styling(latex_options = "scale_down") %>% 
+  column_spec(3, "3cm") %>% 
+  column_spec(4, "3.5cm") %>% 
+  column_spec(6, "3.7cm") %>% 
+  collapse_rows(1, valign = "middle", latex_hline = "major") 
 ```
 
 ```{r}
