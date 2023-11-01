@@ -8,7 +8,11 @@
 /_book/
 /_targets/
 /output/
+
+# caching for ggspatial and quarto
 /rosm.cache/
+/*_cache/
+/*_files/
 
 # in case of failed render, these temp files are written
 /index.aux
