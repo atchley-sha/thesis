@@ -186,39 +186,44 @@ get_asim_purpose <- function(modes_df){
     combined_purposes$purpose
 }
 
-make_mode_split_comp <- function(combined_trips){
-  combined_trips %>%
+compare_mode_split <- function(combined_trips) {
+  comp_modes <- combined_trips %>%
     group_by(model, mode, purpose) %>%
     summarise(trips = sum(trips)) %>%
     pivot_wider(names_from = model, values_from = trips) %>%
-    arrange(purpose, mode) %>%
-    mutate(error = asim/wfrc - 1) %>%
-    relocate(purpose)
+    arrange(purpose, mode)
+  
+  comp_modes
+}
+
+make_mode_split_comp <- function(comp_modes){
+
+  asim_scale <- comp_modes %>% 
+    filter(purpose == "all" & mode == "all") %>% 
+    {.$wfrc/.$asim}
+  
+  pretty <- comp_modes %>% 
+    make_mode_and_purpose_pretty() %>% 
+    mutate(
+      asim_scaled = asim*asim_scale,
+      error = asim/wfrc - 1,
+      scaled_error = asim_scaled/wfrc - 1,
+      pct_error = label_percent(accuracy = 0.1)(error),
+      pct_scaled_error = label_percent(accuracy = 0.1)(scaled_error),
+    ) %>%
+    select(purpose, mode, asim, wfrc, pct_error, pct_scaled_error)
+  
+  pretty
 }
 
 make_tlfd_comp_plot <- function(combined_trips){
   combined_trips %>%
+    make_mode_and_purpose_pretty() %>% 
     mutate(
-      purpose = case_when(
-        purpose == "hbw" ~ "Home-based Work",
-        purpose == "hbo" ~ "Home-based Other",
-        purpose == "nhb" ~ "Non\u2013Home-based",
-        purpose == "all" ~ "All"
-      ),
-      mode = case_when(
-        mode == "auto" ~ "Auto",
-        mode == "transit" ~ "Transit",
-        mode == "nonmotor" ~ "Non-motorized",
-        mode == "all" ~ "All"
-      ),
       model = case_when(
         model == "asim" ~ "ActivitySim",
         model == "wfrc" ~ "WFRC/MAG"
       )
-    ) %>% 
-    mutate(
-      purpose = factor(purpose, c("Home-based Work", "Home-based Other", "Non\u2013Home-based", "All")),
-      mode = factor(mode, c("Auto", "Transit", "Non-motorized", "All")),
     ) %>% 
     ggplot() +
     geom_density(aes(x = distance, weight = trips, color = model)) +
@@ -233,4 +238,25 @@ make_tlfd_comp_plot <- function(combined_trips){
     labs(x = "Trip Distance (miles)", y = "Kernel density", color = "Model") +
     theme_density() +
     theme(legend.position = "bottom")
+}
+
+make_mode_and_purpose_pretty <- function(x) {
+  x %>% 
+    mutate(
+      purpose = case_when(
+        purpose == "hbw" ~ "Home-based Work",
+        purpose == "hbo" ~ "Home-based Other",
+        purpose == "nhb" ~ "Non\u2013Home-based",
+        purpose == "all" ~ "All"
+      ),
+      mode = case_when(
+        mode == "auto" ~ "Auto",
+        mode == "transit" ~ "Transit",
+        mode == "nonmotor" ~ "Non-motorized",
+        mode == "all" ~ "All"
+      )) %>% 
+    mutate(
+      purpose = factor(purpose, c("All", "Home-based Work", "Home-based Other", "Non\u2013Home-based")),
+      mode = factor(mode, c("All", "Auto", "Transit", "Non-motorized")),
+    )
 }

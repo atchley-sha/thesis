@@ -23,3 +23,24 @@ read_distances <- function(distance_omx, external_zones){
     rename(distance = HBW) %>% 
     filter(!origin %in% external_zones, !destination %in% external_zones)
 }
+
+read_income_groups <- function(income_groups_file) {
+  income_groups_file %>% 
+    read_csv(col_types = cols(group = col_double())) %>% 
+    mutate(
+      across(
+        c(low, high),
+        \(x) paste0("$", prettyNum(x, big.mark = ",")
+        ),
+        .names = "{.col}_chr"
+      ),
+      inc_range = case_when(
+        is.na(low) ~ paste("\u2264", high_chr),
+        is.na(high) ~ paste("\u2265", low_chr),
+        TRUE ~ paste0(low_chr, "\u2013", high_chr)
+      ),
+      low = replace_na(low, 0),
+      inc_range = fct_reorder(inc_range, low)
+    ) %>% 
+    select(group, inc_range)
+}

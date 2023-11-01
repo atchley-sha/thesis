@@ -4,7 +4,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial"),
+  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales"),
   memory = "transient",
   garbage_collection = TRUE,
   format = "qs",
@@ -44,14 +44,16 @@ synth_pop_comparison <- tar_plan(
   tar_target(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv", format = "file"),
   tar_target(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv", format = "file"),
   tar_target(taz_file, "data/WFRC_TAZ.geojson", format = "file"),
+  tar_target(income_groups_file, "data/income_groups.csv", format = "file"),
 
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
   se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
   pop_comp = make_zonal_comparison(asim_pop, se_data, taz_file),  
+  income_groups = read_income_groups(income_groups_file),
   
   # Viz
-  inc_groups_map = make_inc_groups_map(pop_comp),
+  inc_groups_map = make_inc_groups_map(pop_comp, income_groups),
   avg_inc_map = make_avg_inc_map(pop_comp),
   inc_comp_plot = make_inc_plot(pop_comp),
   pop_comp_map = make_pop_comp_map(pop_comp),
@@ -80,9 +82,10 @@ base_outputs_comparison <- tar_plan(
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
+  comp_modes = compare_mode_split(combined_trips),
   
   # Viz
-  mode_split_comp = make_mode_split_comp(combined_trips),
+  mode_split_comp = make_mode_split_comp(comp_modes),
   tlfd_comp_plot = make_tlfd_comp_plot(combined_trips),
 )
 

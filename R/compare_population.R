@@ -111,9 +111,11 @@ make_zonal_comparison <- function(asim_pop, se_data, taz_file){
   full_join(taz, comp, join_by(TAZ))
 }
 
-make_inc_groups_map <- function(pop_comp) {
+make_inc_groups_map <- function(pop_comp, income_groups) {
   pop_comp %>% 
     filter(str_detect(metric, "^INC")) %>% 
+    mutate(inc_group = str_remove(metric, "^INC") %>% as.numeric()) %>% 
+    left_join(income_groups, join_by(inc_group == group)) %>% 
     mutate(
       metric = case_when(
         metric == "INC1" ~ "\u2264 $45,000",
@@ -121,16 +123,14 @@ make_inc_groups_map <- function(pop_comp) {
         metric == "INC3" ~ "$75,000\u2013$125,000",
         metric == "INC4" ~ "\u2265 $125,000"
       ) %>% 
-        factor(
-          levels = c("\u2264 $45,000", "$45,000\u2013$75,000", "$75,000\u2013$125,000", "\u2265 $125,000")
-        )
+        fct_reorder(inc_group)
     ) %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = diff), color = NA) +
     facet_wrap(~metric) +
     scale_fill_gradient2(limits = c(-500,500), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in # of households,\nPopulationSim compared to WFRC/MAG") +
+    labs(fill = "Difference in\n# of households,\nPopulationSim\ncompared to\nWFRC/MAG") +
     theme_bw_map()
 }
 
@@ -141,7 +141,7 @@ make_avg_inc_map <- function(pop_comp){
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
     scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in mean income,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference)") +
+    labs(fill = "Difference in\nmean income,\nPopulationSim\ncompared to\nWFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }
 
@@ -172,6 +172,6 @@ make_pop_comp_map <- function(pop_comp){
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
     scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in TAZ population,\nPopulationSim compared to WFRC/MAG\n(Relative Percent Difference)") +
+    labs(fill = "Difference in\nTAZ population,\nPopulationSim\ncompared to\nWFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }
