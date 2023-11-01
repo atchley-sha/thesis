@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -95,7 +96,7 @@ div.csl-indent {
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./lit-review.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Literature Review</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -239,13 +240,13 @@ div.csl-indent {
 <p><span class="citation" data-cites="bills_looking_2017">Bills and Walker (<a href="references.html#ref-bills_looking_2017" role="doc-biblioref">2017</a>)</span> used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations. With a 20% reduction in travel cost, they found that high income workers benefited more than low income workers. They did similar comparisons for scenarios involving reduced travel times for different mode choices and saw the effects each scenario had on the high and low income workers. These types of analysis, which are not possible with aggregate population data (<strong>this is actually possible; a lot of trip-based models segment high/low income</strong>), can be very valuable in transportation planning and policy making.</p>
 <p>It is important to note that while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well. Trip-based models using a synthetic population—often called trip-based microsimulation models—do exist (see <span class="citation" data-cites="walker_making_2005">Walker (<a href="references.html#ref-walker_making_2005" role="doc-biblioref">2005</a>)</span> and <span class="citation" data-cites="moeckel_agent-based_2020">Moeckel et al. (<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">2020</a>)</span>), but these are relatively rare.</p>
 <p><a href="#fig-pipeline-example">Figure&nbsp;<span>2.1</span></a> gives a visualization of an example “information pipeline” for a trip-based model using aggregate data and an ABM using a synthetic population. In the aggregate data model, it is impossible to know which trips are made by e.g.&nbsp;2-worker, 1-vehicle, low-income households; it only describes which trips are made by households with fewer vehicles than workers. With a synthetic population, however, <em>individuals</em> are being modeled, and so each trip can be traced to a specific person. All information is known at each point in the model regardless of which data is used in previous steps.</p>
-<div id="fig-pipeline-example" class="cell quarto-layout-panel">
+<div id="fig-pipeline-example" class="cell quarto-layout-panel" data-hash="lit-review_cache/html/fig-pipeline-example_66144ca7018998102bcf9cde43be8dda">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
 <div id="fig-pipeline-example-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="output/example_flowchart_comparison/aggregate.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example" width="478"></p>
+<p><img src="output/example_flowchart_comparison/aggregate.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example" width="482"></p>
 <figcaption class="figure-caption">(a) Trip-based</figcaption>
 </figure>
 </div>
@@ -255,7 +256,7 @@ div.csl-indent {
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 100.0%;justify-content: center;">
 <div id="fig-pipeline-example-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="output/example_flowchart_comparison/synthetic.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example" width="390"></p>
+<p><img src="output/example_flowchart_comparison/synthetic.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example" width="393"></p>
 <figcaption class="figure-caption">(b) Activity-based</figcaption>
 </figure>
 </div>
@@ -272,7 +273,7 @@ div.csl-indent {
 <p>ABMs, on the other hand, model <em>tours</em> rather than trips. This attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a “chain” (tour), the trips within a tour are dependent on each other <span class="citation" data-cites="rasouli_activity-based_2014">(<a href="references.html#ref-rasouli_activity-based_2014" role="doc-biblioref">Rasouli and Timmermans 2014</a>)</span>. The open-source ABM ActivitySim <span class="citation" data-cites="association_of_metropolitan_planning_organizations_activitysim_2023">(<a href="references.html#ref-association_of_metropolitan_planning_organizations_activitysim_2023" role="doc-biblioref">Association of Metropolitan Planning Organizations 2023</a>)</span>, for example, has a tour-scheduling model that determines the number of “mandatory” (work, school, etc.) and “discretionary” tours each individual will make, and performs tour-level mode and destination choice for each tour. After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see <span class="citation" data-cites="vovsha_activity-based_2005">Vovsha, Bradley, and Bowman (<a href="references.html#ref-vovsha_activity-based_2005" role="doc-biblioref">2005</a>)</span>, fig.&nbsp;18.1).</p>
 <p>Figures <a href="#fig-network-aggregate"><span>2.2</span></a> and <a href="#fig-network-synth"><span>2.3</span></a> show an example of the trips assigned to a network in the various model forms. <a href="#fig-network-aggregate">Figure&nbsp;<span>2.2</span></a> depicts network assignment in a typical trip-based model where the total number of trips between each zone is given. With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see <a href="#fig-pipeline-example-1">Figure&nbsp;<span>2.1 (a)</span></a>). It is also not possible to construct a coherent daily list of trips for individuals.</p>
 <p><a href="#fig-network-synth">Figure&nbsp;<span>2.3</span></a>, on the other hand, depicts visual representations of an <em>individual’s</em> travel made possible by the use of a synthetic population. <a href="#fig-network-synth-1">Figure&nbsp;<span>2.3 (a)</span></a> depicts the trip list that could be given for an individual in a trip-based microsimulation model. Though each individual’s trips are known, there is no guarantee of consistency between trips. For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip. The activity-based approach, depicted in <a href="#fig-network-synth-2">Figure&nbsp;<span>2.3 (b)</span></a>, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.</p>
-<div class="cell">
+<div class="cell" data-hash="lit-review_cache/html/fig-network-aggregate_52d56ccbe98e8b4e0dff63a460c4f952">
 <div class="cell-output-display">
 <div id="fig-network-aggregate" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -282,7 +283,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div id="fig-network-synth" class="cell quarto-layout-panel">
+<div id="fig-network-synth" class="cell quarto-layout-panel" data-hash="lit-review_cache/html/fig-network-synth_a8032741e2651dde2ebcc48234a8a1d0">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 52.7%;justify-content: center;">

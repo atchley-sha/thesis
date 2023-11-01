@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -57,7 +57,8 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -76,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_land_use.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -187,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see <a href="#fig-draper-prison-location">Figure&nbsp;<span>4.1</span></a>). The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit. A bus rapid transit (BRT) line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah. This scenario is to model this development and its effect on transportation demand.</p>
 <p>To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes. Using the information made publicly available by Point of the Mountain State Land Authority <span class="citation" data-cites="state_land_authority_framework_2021">(<a href="references.html#ref-state_land_authority_framework_2021" role="doc-biblioref"><strong>state_land_authority_framework_2021?</strong></a>)</span>, the increase in population and employment was estimated as shown in <a href="#tbl-point-se-data">Table&nbsp;<span>4.1</span></a>. It is important to note that the development spans five transportation analysis zone (TAZ)s (see <span class="quarto-unresolved-ref">?fig-prison-new-transit</span>), and so the socioeconomic data are spread out across them consistent with the development plan <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span>. To add this information to the model, the csv file containing the socioeconomic data for each zone needed to be adjusted. This involved simply adding the new information to each of the five rows that represented the zones in the new development.</p>
-<div class="cell">
+<div class="cell" data-hash="1_land_use_cache/html/fig-draper-prison-location_650a5d4b01cb8ae126a6bcff356f1959">
 <div class="cell-output-display">
 <div id="fig-draper-prison-location" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -197,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="1_land_use_cache/html/tbl-point-se-data_52daaa713b2fb7590851fcce5fb2690e">
 <div class="cell-output-display">
 <div id="tbl-point-se-data" class="anchored">
 <table class="table table-sm table-striped small">
