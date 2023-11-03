@@ -87,14 +87,16 @@ base_outputs_comparison <- tar_plan(
     pattern = map(calibration_iters_files)
   ),
   
+  # Analysis
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
+  sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = TRUE),
   comp_modes = compare_mode_split(combined_trips),
   
   # Viz
   mode_split_comp = make_mode_split_comp(comp_modes),
-  tlfd_comp_plot = make_tlfd_comp_plot(combined_trips),
+  tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
   calibration_plot = plot_calibration(calibration_iters),
 )
 

@@ -216,8 +216,24 @@ make_mode_split_comp <- function(comp_modes){
   pretty
 }
 
+sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
+  grouped <- combined_trips %>% 
+    group_by(model, mode, purpose)
+  
+  sampled <- if_else(
+    weight,
+    slice_sample(prop = prop, weight_by = trips),
+    slice_sample(prop = prop)
+  )
+  
+  sampled
+    
+}
+
 make_tlfd_comp_plot <- function(combined_trips){
   combined_trips %>%
+    group_by(model, mode, purpose) %>% 
+    slice_sample(prop = 0.1, weight_by = trips) %>% 
     make_mode_and_purpose_pretty() %>% 
     mutate(
       model = case_when(
