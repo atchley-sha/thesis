@@ -79,6 +79,14 @@ base_outputs_comparison <- tar_plan(
   tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
   tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
   
+  # Calibration
+  tar_files(calibration_iters_files, list.files("data/calibration", full.names = TRUE)),
+  tar_target(
+    calibration_iters,
+    combine_calibration_iters(calibration_iters_files),
+    pattern = map(calibration_iters_files)
+  ),
+  
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
@@ -87,6 +95,7 @@ base_outputs_comparison <- tar_plan(
   # Viz
   mode_split_comp = make_mode_split_comp(comp_modes),
   tlfd_comp_plot = make_tlfd_comp_plot(combined_trips),
+  calibration_plot = plot_calibration(calibration_iters),
 )
 
 
