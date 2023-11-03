@@ -44,3 +44,18 @@ read_income_groups <- function(income_groups_file) {
     ) %>% 
     select(group, inc_range)
 }
+
+combine_calibration_iters <- function(files) {
+  read_csv(files, id = "id") %>% 
+    mutate(iter = str_replace(id, "^.*/it(\\d+)\\.csv", "\\1") %>% 
+             as.numeric()) %>% 
+    relocate(iter) %>% 
+    select(-id) %>% 
+    group_by(iter, purpose) %>% 
+    mutate(
+      error = asim/wfrc - 1,
+      asim_share = asim/sum(asim)*2,
+      wfrc_share = wfrc/sum(wfrc)*2,
+      share_error = (asim_share/wfrc_share - 1) %>% round(3)
+    )
+}

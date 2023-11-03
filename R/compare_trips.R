@@ -216,8 +216,24 @@ make_mode_split_comp <- function(comp_modes){
   pretty
 }
 
+sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
+  grouped <- combined_trips %>% 
+    group_by(model, mode, purpose)
+  
+  sampled <- if_else(
+    weight,
+    slice_sample(prop = prop, weight_by = trips),
+    slice_sample(prop = prop)
+  )
+  
+  sampled
+    
+}
+
 make_tlfd_comp_plot <- function(combined_trips){
   combined_trips %>%
+    group_by(model, mode, purpose) %>% 
+    slice_sample(prop = 0.1, weight_by = trips) %>% 
     make_mode_and_purpose_pretty() %>% 
     mutate(
       model = case_when(
@@ -259,4 +275,29 @@ make_mode_and_purpose_pretty <- function(x) {
       purpose = factor(purpose, c("All", "Home-based Work", "Home-based Other", "Non\u2013Home-based")),
       mode = factor(mode, c("All", "Auto", "Transit", "Non-motorized")),
     )
+}
+
+plot_calibration <- function(calibration_iters) {
+  calibration_iters %>% 
+    select(iter, purpose, mode, asim_share, wfrc_share) %>% 
+    rename_with(\(x) str_remove(x, "_share"), c(asim_share, wfrc_share)) %>% 
+    pivot_longer(c(asim, wfrc), names_to = "model", values_to = "share") %>% 
+    filter(purpose == "all", mode != "all") %>% 
+    make_mode_and_purpose_pretty() %>% 
+    mutate(
+      model = case_when(
+        model == "asim" ~ "ActivitySim",
+        model == "wfrc" ~ "WFRC/MAG"
+      )) %>% 
+    ggplot() +
+    geom_path(aes(x = iter, y = share, color = mode, lty = model)) +
+    labs(x = "Calibration Iteration", y = "Mode Share", lty = "Model", color = "Mode") +
+    scale_y_continuous(
+      limits = c(0,1),
+      trans = scales::pseudo_log_trans(0.1),
+      breaks = c(0,0.1,0.2,0.3,0.4,0.5,0.75,1),
+      labels = scales::percent
+      ) +
+    theme_bw() +
+    theme(panel.grid.minor.x = element_blank())
 }

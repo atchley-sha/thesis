@@ -19,14 +19,14 @@ sapply(r_files, source)
 # ABM/TBM flowchart diagram ####
 abm_tbm_flowchart <- tar_plan(
   # Data
-  tar_target(ex_nodes_file, "data/example_flowchart_comparison/nodes.csv", format = "file"),
-  tar_target(ex_trip_file, "data/example_flowchart_comparison/trip-based.csv", format = "file"),
-  tar_target(ex_tour_file, "data/example_flowchart_comparison/tour-based.csv", format = "file"),
-  tar_target(ex_tbm_nodes_file, "data/example_flowchart_comparison/tbm_zones/tbm_nodes.csv", format = "file"),
-  tar_target(ex_tbm_edges_file, "data/example_flowchart_comparison/tbm_zones/tbm_edges.csv", format = "file"),
+  tar_file(ex_nodes_file, "data/example_flowchart_comparison/nodes.csv"),
+  tar_file(ex_trip_file, "data/example_flowchart_comparison/trip-based.csv"),
+  tar_file(ex_tour_file, "data/example_flowchart_comparison/tour-based.csv"),
+  tar_file(ex_tbm_nodes_file, "data/example_flowchart_comparison/tbm_zones/tbm_nodes.csv"),
+  tar_file(ex_tbm_edges_file, "data/example_flowchart_comparison/tbm_zones/tbm_edges.csv"),
   ex_tbm_edges = pivot_tbm_edges(ex_tbm_edges_file),
-  tar_target(ex_aggregate_file, "data/example_flowchart_comparison/information_pipelines/aggregate.dot", format = "file"),
-  tar_target(ex_synthetic_file, "data/example_flowchart_comparison/information_pipelines/synthetic.dot", format = "file"),
+  tar_file(ex_aggregate_file, "data/example_flowchart_comparison/information_pipelines/aggregate.dot"),
+  tar_file(ex_synthetic_file, "data/example_flowchart_comparison/information_pipelines/synthetic.dot"),
   
   # Viz
   trip_ex = make_ex_dap_viz(ex_nodes_file, ex_trip_file, dot_file = "output/example_flowchart_comparison/trip.dot", image_file = "output/example_flowchart_comparison/trip.png"),
@@ -39,12 +39,12 @@ abm_tbm_flowchart <- tar_plan(
 # Synthetic population comparison ####
 synth_pop_comparison <- tar_plan(
   # Data
-  tar_target(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz", format = "file"),
-  tar_target(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz", format = "file"),
-  tar_target(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv", format = "file"),
-  tar_target(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv", format = "file"),
-  tar_target(taz_file, "data/WFRC_TAZ.geojson", format = "file"),
-  tar_target(income_groups_file, "data/income_groups.csv", format = "file"),
+  tar_file(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz"),
+  tar_file(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz"),
+  tar_file(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv"),
+  tar_file(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv"),
+  tar_file(taz_file, "data/WFRC_TAZ.geojson"),
+  tar_file(income_groups_file, "data/income_groups.csv"),
 
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
@@ -63,30 +63,41 @@ synth_pop_comparison <- tar_plan(
 # Base outputs comparison (TLFD/mode choice) ####
 base_outputs_comparison <- tar_plan(
   # Data
-  tar_target(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx", format = "file"),
+  tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
   #some zones have a very high distance and are external; we don't want them
   external_zones = get_ex_zones(distance_skims),
   distances = read_distances(distance_skims, external_zones),
   
-  tar_target(wfrc_hbw_trips_od, "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx", format = "file"),
-  tar_target(wfrc_hbo_trips_od, "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx", format = "file"),
-  tar_target(wfrc_nhb_trips_od, "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx", format = "file"),
+  tar_file(wfrc_hbw_trips_od, "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx"),
+  tar_file(wfrc_hbo_trips_od, "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx"),
+  tar_file(wfrc_nhb_trips_od, "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx"),
   wfrc_hbw_trips = omxr::read_all_omx(wfrc_hbw_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_hbo_trips = omxr::read_all_omx(wfrc_hbo_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
   
-  tar_target(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz", format = "file"),
-  tar_target(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz", format = "file"),
+  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
+  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
   
+  # Calibration
+  tar_files(calibration_iters_files, list.files("data/calibration", full.names = TRUE)),
+  tar_target(
+    calibration_iters,
+    combine_calibration_iters(calibration_iters_files),
+    pattern = map(calibration_iters_files)
+  ),
+  
+  # Analysis
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
+  sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = TRUE),
   comp_modes = compare_mode_split(combined_trips),
   
   # Viz
   mode_split_comp = make_mode_split_comp(comp_modes),
-  tlfd_comp_plot = make_tlfd_comp_plot(combined_trips),
+  tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
+  calibration_plot = plot_calibration(calibration_iters),
 )
 
 
