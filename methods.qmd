@@ -113,7 +113,16 @@ However, especially since this research is focused more on a methodological comp
 targets::tar_read(inc_groups_map)
 ```
 
-
+***Transition to ActivitySim outputs.***
+As with the socioeconomic comparisons between the models, trip patterns should somewhat agree between the WFRC/MAG model and ActivitySim.
+The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC/MAG model, and so calibration efforts were needed.
+The most straightforward adjustments to make in ActivitySim's mode choice model are to the alternative-specific constants.
+These were adjusted iteratively based on the difference in mode shares between the two models.
+@tbl-mode-split compares the mode split of both models after several iterations of this calibration.
+Overall, this calibration is okay, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC/MAG model).
+However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split was converging at this point regardless of the ASC values (see @fig-calibration-plot).
+This is likely due to the mode choice coefficients being unrepresentative of the study area.
+The default ActivitySim configuration is based on San Francisco, and so coefficients on variables such as travel time will be optimized for that area (hence why there are so many more transit trips).
 
 ```{r}
 #| label: tbl-mode-split
@@ -134,46 +143,23 @@ targets::tar_read(mode_split_comp) %>%
 ```
 
 ```{r}
+#| label: fig-calibration-plot
+#| fig-cap: calibration plot
+
+targets::tar_read(calibration_plot)
+```
+
+
+In addition to mode split, the trip length frequency distribution (TLFD) ***is good to check***.
+This compares the length of trips that are predicted in each model.
+@fig-tlfd-comp shows this comparison by mode and purpose.
+These distributions 
+
+```{r}
 #| label: fig-tlfd-comp
 #| fig-cap: tlfd comparison
 
 targets::tar_read(tlfd_comp_plot)
-```
-
-
-<!-- Compare TLFD, hopefully similar. -->
-
-<!-- They are similar! -->
-<!-- NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise. -->
-<!-- We don't need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount. -->
-
-```{r}
-#| echo: false
-
-# targets::tar_read(combined_trips) %>%
-#   group_by(model, mode, purpose) %>%
-#   summarise(trips = sum(trips)) %>%
-#   pivot_wider(names_from = model, values_from = trips) %>%
-#   arrange(purpose, mode) %>%
-#   mutate(error = asim/wfrc - 1) %>%
-#   relocate(purpose)
-```
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| error: false
-
-# targets::tar_read(combined_trips) %>%
-#   ggplot() +
-#   geom_density(aes(x = distance, weight = trips, color = model)) +
-#   facet_grid(
-#     vars(mode), vars(purpose),
-#     switch = "y",
-#     scales = "free") +
-#   xlim(0,25) +
-#   labs(y = "Kernel density", x = "Distance (mi)", color = "Model")
 ```
 
 
