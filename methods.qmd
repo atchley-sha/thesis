@@ -4,6 +4,7 @@
 #| label: setup
 #| include: false
 
+library(tidyverse)
 library(kableExtra)
 ```
 
@@ -79,6 +80,7 @@ However, these discrepancies are generally relatively minor, especially in more 
 ```{r}
 #| label: fig-totpop-comp
 #| fig-cap: Comparison of population by TAZ between WFRC data and PopulationSim synthetic population.
+#| out-width: "100%"
 
 targets::tar_read(pop_comp_map)
 ```
@@ -118,6 +120,7 @@ targets::tar_read(inc_groups_map)
 ```{r}
 #| label: tbl-mode-split
 #| tbl-cap: mode split
+#| cache: false
 
 targets::tar_read(mode_split_comp) %>% 
   kbl(
@@ -125,12 +128,12 @@ targets::tar_read(mode_split_comp) %>%
     col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC/MAG predicted trips", "% Error", "% Error (scaled to WFRC/MAG predicted trips)"),
     digits = c(0,0,0,0,1,1),
     align = "c"
-  ) %>% 
-  kable_styling(latex_options = "scale_down") %>% 
-  column_spec(3, "3cm") %>% 
-  column_spec(4, "3.5cm") %>% 
-  column_spec(6, "3.7cm") %>% 
-  collapse_rows(1, valign = "middle", latex_hline = "major") 
+  ) %>%
+  kable_styling(latex_options = "scale_down") %>%
+  column_spec(3, "3cm") %>%
+  column_spec(4, "3.5cm") %>%
+  column_spec(6, "3.7cm") %>%
+  collapse_rows(1, valign = "middle", latex_hline = "major")
 ```
 
 ```{r}
