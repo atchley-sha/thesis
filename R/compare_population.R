@@ -70,7 +70,7 @@ read_zonal_data <- function(sefile, incomefile){
   
   se <- se_raw %>% 
     rename(TAZ = `;TAZID`) %>% 
-    select(TAZ, TOTHH, HHPOP, HHSIZE, AVGINCOME) %>% 
+    # select(TAZ, TOTHH, HHPOP, HHSIZE, AVGINCOME) %>% 
     #Not sure if there's another median income metric
     mutate(MEDINCOME = AVGINCOME) %>% 
     rename(TOTPOP = HHPOP) %>% 

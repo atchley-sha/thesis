@@ -59,3 +59,81 @@ combine_calibration_iters <- function(files) {
       share_error = (asim_share/wfrc_share - 1) %>% round(3)
     )
 }
+
+get_wfrc_telecommute <- function(file) {
+  table <- file %>% 
+    read_csv() %>% 
+    pivot_longer(
+      -area,
+      names_to = c("purpose", "type"),
+      names_sep = "_",
+      values_to = "trips") %>% 
+    pivot_wider(names_from = type, values_from = trips) %>% 
+    mutate(tcm_pct = tcm/(tcm+ntcm))
+  
+  overall_pct <-
+    (sum(table$tcm)/sum(table$tcm, table$ntcm)) %>% 
+    label_percent(accuracy = 0.1)()
+  
+  pretty_table <- table %>% 
+    mutate(
+      area = str_replace(area, "_", " ") %>% 
+        str_to_title(),
+      purpose = case_match(
+        purpose,
+        "hbw" ~ "Home-based Work",
+        "nhbw" ~ "Non\u2013home-based Work"
+      ),
+      tcm_pct = label_percent(accuracy = 0.1)(tcm_pct)) %>% 
+    rename(
+      "Region" = area,
+      "Trip Purpose" = purpose,
+      "Telecommute Trips" = tcm,
+      "Non-telecommute Trips" = ntcm,
+      "Telecommute %" = tcm_pct
+    )
+  
+  list(pct = overall_pct, table = pretty_table)
+}
+
+sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
+  grouped <- combined_trips %>% 
+    group_by(model, mode, purpose)
+  
+  if(weight) return(slice_sample(grouped, prop = prop, weight_by = trips))
+  if(!weight) return(slice_sample(grouped, prop = prop))
+}
+
+make_mode_and_purpose_pretty <- function(x) {
+  x %>% 
+    mutate(
+      purpose = case_match(
+        purpose,
+        "hbw" ~ "Home-based Work",
+        "hbo" ~ "Home-based Other",
+        "nhb" ~ "Non\u2013home-based",
+        "all" ~ "All"
+      ),
+      mode = case_match(
+        mode,
+        "auto" ~ "Auto",
+        "transit" ~ "Transit",
+        "nonmotor" ~ "Non-motorized",
+        "all" ~ "All"
+      )) %>% 
+    mutate(
+      purpose = factor(purpose, c("All", "Home-based Work", "Home-based Other", "Non\u2013home-based")),
+      mode = factor(mode, c("All", "Auto", "Transit", "Non-motorized")),
+    )
+}
+
+make_model_pretty <- function(x) {
+  x %>% 
+    mutate(
+      model = case_match(
+        model,
+        "asim" ~ "ActivitySim",
+        "wfrc" ~ "WFRC/MAG"
+      )
+    )
+}

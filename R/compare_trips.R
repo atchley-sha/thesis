@@ -216,31 +216,12 @@ make_mode_split_comp <- function(comp_modes){
   pretty
 }
 
-sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
-  grouped <- combined_trips %>% 
-    group_by(model, mode, purpose)
-  
-  sampled <- if_else(
-    weight,
-    slice_sample(prop = prop, weight_by = trips),
-    slice_sample(prop = prop)
-  )
-  
-  sampled
-    
-}
-
 make_tlfd_comp_plot <- function(combined_trips){
   combined_trips %>%
     group_by(model, mode, purpose) %>% 
     slice_sample(prop = 0.1, weight_by = trips) %>% 
     make_mode_and_purpose_pretty() %>% 
-    mutate(
-      model = case_when(
-        model == "asim" ~ "ActivitySim",
-        model == "wfrc" ~ "WFRC/MAG"
-      )
-    ) %>% 
+    make_model_pretty() %>% 
     ggplot() +
     geom_density(aes(x = distance, weight = trips, color = model)) +
     facet_grid(
@@ -256,27 +237,6 @@ make_tlfd_comp_plot <- function(combined_trips){
     theme(legend.position = "bottom")
 }
 
-make_mode_and_purpose_pretty <- function(x) {
-  x %>% 
-    mutate(
-      purpose = case_when(
-        purpose == "hbw" ~ "Home-based Work",
-        purpose == "hbo" ~ "Home-based Other",
-        purpose == "nhb" ~ "Non\u2013Home-based",
-        purpose == "all" ~ "All"
-      ),
-      mode = case_when(
-        mode == "auto" ~ "Auto",
-        mode == "transit" ~ "Transit",
-        mode == "nonmotor" ~ "Non-motorized",
-        mode == "all" ~ "All"
-      )) %>% 
-    mutate(
-      purpose = factor(purpose, c("All", "Home-based Work", "Home-based Other", "Non\u2013Home-based")),
-      mode = factor(mode, c("All", "Auto", "Transit", "Non-motorized")),
-    )
-}
-
 plot_calibration <- function(calibration_iters) {
   calibration_iters %>% 
     select(iter, purpose, mode, asim_share, wfrc_share) %>% 
@@ -284,11 +244,7 @@ plot_calibration <- function(calibration_iters) {
     pivot_longer(c(asim, wfrc), names_to = "model", values_to = "share") %>% 
     filter(purpose == "all", mode != "all") %>% 
     make_mode_and_purpose_pretty() %>% 
-    mutate(
-      model = case_when(
-        model == "asim" ~ "ActivitySim",
-        model == "wfrc" ~ "WFRC/MAG"
-      )) %>% 
+    make_model_pretty() %>% 
     ggplot() +
     geom_path(aes(x = iter, y = share, color = mode, lty = model)) +
     labs(x = "Calibration Iteration", y = "Mode Share", lty = "Model", color = "Mode") +
@@ -300,4 +256,26 @@ plot_calibration <- function(calibration_iters) {
       ) +
     theme_bw() +
     theme(panel.grid.minor.x = element_blank())
+}
+
+make_wfrc_hbj <- function(se_data) {
+  data <- se_data %>% 
+    select(TAZ, ALLEMP, HBJ) %>% 
+    mutate(
+      hbj_pct = case_when(
+        ALLEMP == 0 & HBJ == 0 ~ 0,
+        TRUE ~ HBJ/(ALLEMP+HBJ)))
+  
+  overall_pct <- weighted.mean(data$hbj_pct, data$ALLEMP) %>% 
+    label_percent(accuracy = 0.1)()
+  
+  plot <- data %>% 
+    ggplot() +
+    geom_density(aes(x = hbj_pct, weight = ALLEMP, color = "Weighted")) +
+    geom_density(aes(x = hbj_pct, color = "Unweighted")) +
+    theme_density() +
+    scale_x_continuous(labels = label_percent(), trans = "sqrt") +
+    labs(x = "Home-based Job %", y = "Kernel density", color = "By TAZ\nEmployment")
+  
+  list(pct = overall_pct, plot = plot)
 }

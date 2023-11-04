@@ -62,7 +62,7 @@ synth_pop_comparison <- tar_plan(
 
 # Base outputs comparison (TLFD/mode choice) ####
 base_outputs_comparison <- tar_plan(
-  # Data
+  # Trips
   tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
   #some zones have a very high distance and are external; we don't want them
   external_zones = get_ex_zones(distance_skims),
@@ -79,25 +79,32 @@ base_outputs_comparison <- tar_plan(
   tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
   tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
   
-  # Calibration
+  wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
+  asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
+  combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
+  sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = FALSE),
+  tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
+  
+  # Mode choice
   tar_files(calibration_iters_files, list.files("data/calibration", full.names = TRUE)),
   tar_target(
     calibration_iters,
     combine_calibration_iters(calibration_iters_files),
     pattern = map(calibration_iters_files)
   ),
-  
-  # Analysis
-  wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
-  asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
-  combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
-  sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = TRUE),
-  comp_modes = compare_mode_split(combined_trips),
-  
-  # Viz
-  mode_split_comp = make_mode_split_comp(comp_modes),
-  tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
   calibration_plot = plot_calibration(calibration_iters),
+  comp_modes = compare_mode_split(combined_trips),
+  mode_split_comp = make_mode_split_comp(comp_modes),
+  
+  # WFH
+  tar_file(wfrc_telecommute_base_file, "data/base_model_comparison/wfrc/telecommute_base.csv"),
+  wfrc_telecommute_base = get_wfrc_telecommute(wfrc_telecommute_base_file),
+  wfrc_telecommute_pct = wfrc_telecommute_base$pct,
+  wfrc_telecommute_table = wfrc_telecommute_base$table,
+  
+  wfrc_hbj_base = make_wfrc_hbj(se_data),
+  wfrc_hbj_base_pct = wfrc_hbj_base$pct,
+  wfrc_hbj_base_plot = wfrc_hbj_base$plot,
 )
 
 
