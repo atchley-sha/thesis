@@ -129,7 +129,7 @@ make_inc_groups_map <- function(pop_comp, income_groups) {
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = diff), color = NA) +
     facet_wrap(~metric) +
-    scale_fill_gradient2(limits = c(-500,500), na.value = alpha("grey50", 0.7)) +
+    scale_fill_gradient2(limits = c(-250, 250), na.value = alpha("grey50", 0.7)) +
     labs(fill = "Difference in\n# of households,\nPopulationSim\ncompared to\nWFRC/MAG") +
     theme_bw_map()
 }
