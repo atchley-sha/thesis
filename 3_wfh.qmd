@@ -65,7 +65,6 @@ In trip-based WFRC model, we don't know many of these things about poeple, so, b
 
 ## Activity-based model
 
-***The following is not true; Activitysim has a WFH model that we'll grab from the example and describe here.***
-For Activitysim, we probably will generate a random number for each worker, and based on the type of job they have they also have a certain probability of WFH.
-If they WFH, then they make no work tours, and maybe more discretionary tours.
-If they would have made 2+ work tours, then maybe they make 1 fewer work tour.
+wfh and telecommute_freq models, taken from SEMCOG prototype.
+had to adjust to work with MTC, not too bad.
+Also added job category coefficients to tf model, calibrated to wfrc percent (mention in methodology)
