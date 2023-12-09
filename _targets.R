@@ -112,7 +112,7 @@ base_outputs_comparison <- tar_plan(
 
 # Base output ####
 base_outputs <- tar_plan(
-  # ASIM ####
+  # ASIM
   tar_file(by_trips, "data/asim_output/base_2019/final_trips.csv.gz"),
   tar_file(by_tours, "data/asim_output/base_2019/final_tours.csv.gz"),
   tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
@@ -123,11 +123,15 @@ base_outputs <- tar_plan(
   by_per = readr::read_csv(by_persons),
   by_hh = readr::read_csv(by_households),
   
+  by_lu_tor = get_o_tours(by_tor, lu_tazs),
+  by_lu_trp = get_trips_from_tours(by_trp, by_lu_tor, distances),
+  by_lu_vmt = get_vmt(by_lu_trp),
+  
 )
 
 # Land use ####
 land_use_outputs <- tar_plan(
-  # ASIM ####
+  # ASIM 
   tar_file(lu_trips, "data/asim_output/landuse/final_trips.csv.gz"),
   tar_file(lu_tours, "data/asim_output/landuse/final_tours.csv.gz"),
   tar_file(lu_persons, "data/asim_output/landuse/final_persons.csv.gz"),
@@ -137,11 +141,19 @@ land_use_outputs <- tar_plan(
   lu_tor = readr::read_csv(lu_tours),
   lu_per = readr::read_csv(lu_persons),
   lu_hh = readr::read_csv(lu_households),
+  
+  lu_tazs = c(2138, 2140, 2141, 2149, 2170),
+  
+  lu_new_tours = get_o_tours(lu_tor, lu_tazs),
+  lu_new_trips = get_trips_from_tours(lu_trp, lu_new_tours, distances),
+  lu_new_vmt = get_vmt(lu_new_trips),
+  lu_cf_vmt = combine_scenarios(list(base = by_lu_vmt, land_use = lu_new_vmt)),
+  lu_vmt_plot = compare_lu_vmt_plot(lu_cf_vmt),
 )
 
 # Transit ####
 transit_outputs <- tar_plan(
-  # ASIM ####
+  # ASIM
   tar_file(tr_trips, "data/asim_output/transit/final_trips.csv.gz"),
   tar_file(tr_tours, "data/asim_output/transit/final_tours.csv.gz"),
   tar_file(tr_persons, "data/asim_output/transit/final_persons.csv.gz"),
@@ -155,7 +167,7 @@ transit_outputs <- tar_plan(
 
 # WFH ####
 wfh_outputs <- tar_plan(
-  # ASIM ####
+  # ASIM
   tar_file(wfh_trips, "data/asim_output/wfh/final_trips.csv.gz"),
   tar_file(wfh_tours, "data/asim_output/wfh/final_tours.csv.gz"),
   tar_file(wfh_persons, "data/asim_output/wfh/final_persons.csv.gz"),
