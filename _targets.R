@@ -60,7 +60,7 @@ synth_pop_comparison <- tar_plan(
 
 )
 
-# Base outputs comparison (TLFD/mode choice) ####
+# Base outputs comparison (TLFD/mode choice/WFH) ####
 base_outputs_comparison <- tar_plan(
   # Trips
   tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
@@ -86,12 +86,13 @@ base_outputs_comparison <- tar_plan(
   tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
   
   # Mode choice
-  tar_files(calibration_iters_files, list.files("data/calibration", full.names = TRUE)),
+  tar_files(
+    calibration_iters_files,
+    list.files("data/calibration", full.names = TRUE, pattern = ".*\\.csv")),
   tar_target(
     calibration_iters,
     combine_calibration_iters(calibration_iters_files),
-    pattern = map(calibration_iters_files)
-  ),
+    pattern = map(calibration_iters_files)),
   calibration_plot = plot_calibration(calibration_iters),
   comp_modes = compare_mode_split(combined_trips),
   mode_split_comp = make_mode_split_comp(comp_modes),
@@ -107,6 +108,65 @@ base_outputs_comparison <- tar_plan(
   wfrc_hbj_base_plot = wfrc_hbj_base$plot,
 )
 
+## Analysis #####################
+
+# Base output ####
+base_outputs <- tar_plan(
+  # ASIM ####
+  tar_file(by_trips, "data/asim_output/base_2019/final_trips.csv.gz"),
+  tar_file(by_tours, "data/asim_output/base_2019/final_tours.csv.gz"),
+  tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
+  tar_file(by_households, "data/asim_output/base_2019/final_households.csv.gz"),
+  
+  by_trp = readr::read_csv(by_trips),
+  by_tor = readr::read_csv(by_tours),
+  by_per = readr::read_csv(by_persons),
+  by_hh = readr::read_csv(by_households),
+  
+)
+
+# Land use ####
+land_use_outputs <- tar_plan(
+  # ASIM ####
+  tar_file(lu_trips, "data/asim_output/landuse/final_trips.csv.gz"),
+  tar_file(lu_tours, "data/asim_output/landuse/final_tours.csv.gz"),
+  tar_file(lu_persons, "data/asim_output/landuse/final_persons.csv.gz"),
+  tar_file(lu_households, "data/asim_output/landuse/final_households.csv.gz"),
+  
+  lu_trp = readr::read_csv(lu_trips),
+  lu_tor = readr::read_csv(lu_tours),
+  lu_per = readr::read_csv(lu_persons),
+  lu_hh = readr::read_csv(lu_households),
+)
+
+# Transit ####
+transit_outputs <- tar_plan(
+  # ASIM ####
+  tar_file(tr_trips, "data/asim_output/transit/final_trips.csv.gz"),
+  tar_file(tr_tours, "data/asim_output/transit/final_tours.csv.gz"),
+  tar_file(tr_persons, "data/asim_output/transit/final_persons.csv.gz"),
+  tar_file(tr_households, "data/asim_output/transit/final_households.csv.gz"),
+  
+  tr_trp = readr::read_csv(tr_trips),
+  tr_tor = readr::read_csv(tr_tours),
+  tr_per = readr::read_csv(tr_persons),
+  tr_hh = readr::read_csv(tr_households),
+)
+
+# WFH ####
+wfh_outputs <- tar_plan(
+  # ASIM ####
+  tar_file(wfh_trips, "data/asim_output/wfh/final_trips.csv.gz"),
+  tar_file(wfh_tours, "data/asim_output/wfh/final_tours.csv.gz"),
+  tar_file(wfh_persons, "data/asim_output/wfh/final_persons.csv.gz"),
+  tar_file(wfh_households, "data/asim_output/wfh/final_households.csv.gz"),
+  
+  wfh_trp = readr::read_csv(wfh_trips),
+  wfh_tor = readr::read_csv(wfh_tours),
+  wfh_per = readr::read_csv(wfh_persons),
+  wfh_hh = readr::read_csv(wfh_households),
+)
+
 
 #### Run all targets ###########################################################
 
@@ -114,4 +174,8 @@ tar_plan(
   abm_tbm_flowchart,
   synth_pop_comparison,
   base_outputs_comparison,
+  base_outputs,
+  land_use_outputs,
+  transit_outputs,
+  wfh_outputs,
 )
