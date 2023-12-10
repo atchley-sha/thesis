@@ -13,7 +13,7 @@ get_vmt <- function(trips) {
   trips %>% 
     mutate(
       trip_mode = convert_asim_mode(trip_mode),
-      # primary_purpose = convert_asim_purpose(primary_purpose),
+      primary_purpose = reduce_asim_purposes(primary_purpose),
       # purpose = convert_asim_purpose(purpose),
       # home_based = case_when(
       #   primary_purpose == "atwork" ~ FALSE,
@@ -34,4 +34,13 @@ get_vmt <- function(trips) {
 
 combine_scenarios <- function(scenarios = list()){
   bind_rows(scenarios, .id = "scenario")
+}
+
+reduce_asim_purposes <- function(purpose){
+  case_match(
+    purpose,
+    c("univ", "school") ~ "school",
+    c("othdiscr", "othmaint") ~ "other",
+    .default = purpose
+    )
 }

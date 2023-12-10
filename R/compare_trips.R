@@ -150,7 +150,8 @@ convert_asim_mode <- function(mode){
     str_detect(mode, "COM|EXP|HVY|LOC|LRF|TAXI|TNC") ~ "transit",
     mode %in% c("BIKE", "WALK") ~ "nonmotor",
     TRUE ~ "ERROR IN MODE CONVERSION"
-  )
+  ) %>% 
+    fct_relevel("auto", "transit", "nonmotor")
   new_mode
 }
 
@@ -181,7 +182,8 @@ get_asim_purpose <- function(modes_df){
         tour_purpose == "work" ~ "hbw",
         tour_purpose == "other" ~ "hbo",
         TRUE ~ "ERROR IN PURPOSE CONVERSION"
-      ))
+      ) %>% 
+        fct_relevel("hbw", "hbo", "nhb"))
 
     combined_purposes$purpose
 }

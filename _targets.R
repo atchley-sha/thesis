@@ -4,7 +4,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales"),
+  packages = c("ggalluvial", "tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales"),
   memory = "transient",
   garbage_collection = TRUE,
   format = "qs",
@@ -163,6 +163,8 @@ transit_outputs <- tar_plan(
   tr_tor = readr::read_csv(tr_tours),
   tr_per = readr::read_csv(tr_persons),
   tr_hh = readr::read_csv(tr_households),
+  
+  transit_comparison_map = compare_transit_trips(by_trp, tr_trp)
 )
 
 # WFH ####
