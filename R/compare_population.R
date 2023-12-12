@@ -130,7 +130,7 @@ make_inc_groups_map <- function(pop_comp, income_groups) {
     geom_sf(aes(fill = diff), color = NA) +
     facet_wrap(~metric) +
     scale_fill_gradient2(limits = c(-250, 250), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in\n# of households,\nPopulationSim\ncompared to\nWFRC/MAG") +
+    labs(fill = "Difference in # of households,\nPopulationSim compared to\nWFRC/MAG") +
     theme_bw_map()
 }
 
@@ -141,28 +141,40 @@ make_avg_inc_map <- function(pop_comp){
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
     scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in\nmean income,\nPopulationSim\ncompared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    labs(fill = "Difference in mean income,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    theme_bw_map()
+}
+
+make_med_inc_map <- function(pop_comp){
+  pop_comp %>% 
+    filter(metric == "MEDINCOME") %>% 
+    ggplot() +
+    annotation_map_tile("cartolight", zoomin=0) +
+    geom_sf(aes(fill = rpd), color = NA) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    labs(fill = "Difference in median income,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }
 
 make_inc_plot <- function(pop_comp){
   pop_comp %>% 
-    filter(metric %in% c("MEDINCOME", "AVGINCOME")) %>% 
+    filter(metric %in% c("MEDINCOME")) %>% 
     pivot_longer(c(asim, wfrc), names_to = "model", values_to = "income") %>% 
     mutate(
       model = case_when(
         model == "asim" ~ "PopulationSim",
         model == "wfrc" ~ "WFRC/MAG"
       ),
-      metric = case_when(
-        metric == "MEDINCOME" ~ "TAZ Median Income",
-        metric == "AVGINCOME" ~ "TAZ Mean Income"
-      )) %>% 
+      # metric = case_when(
+      #   metric == "MEDINCOME" ~ "TAZ Median Income",
+      #   metric == "AVGINCOME" ~ "TAZ Mean Income"
+      # )
+      ) %>% 
     ggplot() +
-    geom_density(aes(color = model, lty = metric, x = income), linewidth = 1) +
+    geom_density(aes(color = model, x = income), linewidth = 1) +
     scale_x_continuous(labels = label_comma(prefix = "$"), limits = c(0,200000), expand = c(0,0)) +
     theme_density() +
-    labs(x = "Income", y = "Kernel density", color = "Model", lty = "Metric")
+    labs(x = "TAZ Median Income", y = "Kernel density", color = "Model")
 }
 
 make_pop_comp_map <- function(pop_comp){
@@ -172,6 +184,6 @@ make_pop_comp_map <- function(pop_comp){
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
     scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
-    labs(fill = "Difference in\nTAZ population,\nPopulationSim\ncompared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    labs(fill = "Difference in TAZ population,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
     theme_bw_map()
 }

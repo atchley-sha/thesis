@@ -55,6 +55,7 @@ synth_pop_comparison <- tar_plan(
   # Viz
   inc_groups_map = make_inc_groups_map(pop_comp, income_groups),
   avg_inc_map = make_avg_inc_map(pop_comp),
+  med_inc_map = make_med_inc_map(pop_comp),
   inc_comp_plot = make_inc_plot(pop_comp),
   pop_comp_map = make_pop_comp_map(pop_comp),
 

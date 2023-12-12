@@ -17,7 +17,7 @@ compare_lu_vmt_plot <- function(df) {
     scale_fill_discrete(
       labels = c(auto = "Auto", transit = "Transit", nonmotor = "Non-motorized")) +
     scale_y_discrete(
-      labels = \(x) str_to_upper(x)) +
+      labels = \(x) str_to_title(x)) +
     scale_x_continuous(
       trans = sqrt_trans(),
       breaks = c(0, 10^3, 10^4, 5*10^4, 10^5, 2*10^5),
