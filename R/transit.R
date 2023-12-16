@@ -30,7 +30,7 @@ compare_transit_trips <- function(by_trp, tr_trp) {
         fct_relevel("Work", "Atwork", "School", "Other") %>% 
         fct_relabel(\(x) paste("Purpose:", x))
       ) %>% 
-    filter(primary_purpose != "Atwork") %>% 
+    filter(primary_purpose != "Purpose: Atwork") %>% 
     ggplot(aes(axis1 = base, axis2 = transit, y = n)) +
     geom_alluvium(aes(fill = transit)) +
     geom_stratum() +
@@ -40,6 +40,63 @@ compare_transit_trips <- function(by_trp, tr_trp) {
     scale_y_continuous(expand = c(0,0)) +
     # scale_fill_discrete(na.value = "white") +
     labs(x = "Scenario", fill = "Switched to:", y = "Trips") +
-    theme_minimal()
+    theme_minimal() +
+    theme(
+      legend.position = "bottom"
+    )
 
+}
+
+see_who_switched <- function(by_trp, tr_trp) {
+  by_trip <- by_trp %>% 
+    mutate(
+      trip_mode = convert_asim_mode(trip_mode),
+      primary_purpose = reduce_asim_purposes(primary_purpose)) %>% 
+    select(trip_id, person_id, primary_purpose, trip_mode)
+  
+  tr_trip <- tr_trp %>% 
+    mutate(
+      trip_mode = convert_asim_mode(trip_mode),
+      primary_purpose = reduce_asim_purposes(primary_purpose)) %>% 
+    select(trip_id, person_id, primary_purpose, trip_mode)
+  
+  temp <- bind_rows(base = by_trip, transit = tr_trip, .id = "scenario") %>% 
+    pivot_wider(names_from = "scenario", values_from = "trip_mode") %>% 
+    filter(
+      base != transit,
+      primary_purpose %in% c("work"),
+      transit == "transit",
+      base != "transit"
+      )
+  
+  switched_people <- temp$person_id %>% 
+    unique()
+  
+  temp2 <- bind_rows(base = by_trip, transit = tr_trip, .id = "scenario") %>% 
+    pivot_wider(names_from = "scenario", values_from = "trip_mode") %>% 
+    filter(
+      person_id %in% switched_people,
+      primary_purpose == "atwork") %>% 
+    count(primary_purpose, base, transit) %>% 
+    filter(!is.na(base), !is.na(transit))
+  
+  temp2 %>% 
+    mutate(
+      across(
+        c(base, transit),
+        \(x) if_else(x == "nonmotor", "Non-motorized", str_to_title(x)))
+      ) %>% 
+    ggplot(aes(axis1 = base, axis2 = transit, y = n)) +
+    geom_alluvium(aes(fill = transit)) +
+    geom_stratum() +
+    geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+    scale_x_continuous(breaks = c(1, 2), labels = c("Base", "Improved Transit")) +
+    scale_y_continuous(expand = c(0,0)) +
+    # scale_fill_discrete(na.value = "white") +
+    labs(x = "Scenario", fill = "Switched to:", y = "Trips") +
+    theme_minimal() +
+    theme(
+      legend.position = "right"
+    )
+  
 }
