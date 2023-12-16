@@ -137,3 +137,22 @@ make_model_pretty <- function(x) {
       )
     )
 }
+
+get_taz <- function(taz_file){
+  st_read(taz_file) %>% 
+    transmute(
+      TAZ = TAZID,
+      DISTSML
+    )
+}
+
+get_zone_centroids <- function(zones){
+  zones %>% 
+    st_centroid()
+}
+
+get_districts <- function(taz){
+  taz %>% 
+    group_by(DISTSML) %>% 
+    summarise()
+}

@@ -4,7 +4,7 @@ library(targets)
 library(tarchetypes)
 
 tar_option_set(
-  packages = c("ggalluvial", "tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales"),
+  packages = c("ggalluvial", "tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales", "od"),
   memory = "transient",
   garbage_collection = TRUE,
   format = "qs",
@@ -45,11 +45,19 @@ synth_pop_comparison <- tar_plan(
   tar_file(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv"),
   tar_file(taz_file, "data/WFRC_TAZ.geojson"),
   tar_file(income_groups_file, "data/income_groups.csv"),
+  
+  taz = get_taz(taz_file),
+  taz_centroids = get_zone_centroids(taz),
+  districts = get_districts(taz),
+  dist_centroids = get_zone_centroids(districts),
+  taz_dist_trans = sf::st_drop_geometry(taz),
+  xlim = c(-112.15, -111.60),
+  ylim = c(40.2, 40.8),
 
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
   se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data, taz_file),  
+  pop_comp = make_zonal_comparison(asim_pop, se_data, taz),  
   income_groups = read_income_groups(income_groups_file),
   
   # Viz
@@ -124,10 +132,12 @@ base_outputs <- tar_plan(
   by_per = readr::read_csv(by_persons),
   by_hh = readr::read_csv(by_households),
   
-  by_lu_tor = get_o_tours(by_tor, lu_tazs),
-  by_lu_trp = get_trips_from_tours(by_trp, by_lu_tor, distances),
-  by_lu_vmt = get_vmt(by_lu_trp),
+  by_od = make_district_od(by_trp, taz_dist_trans),
+  by_desire = better_desire_lines(by_od, dist_centroids),
+  by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
   
+  by_vmt = get_vmt_dist(by_trp, distances),
+  by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
 )
 
 # Land use ####
@@ -143,13 +153,21 @@ land_use_outputs <- tar_plan(
   lu_per = readr::read_csv(lu_persons),
   lu_hh = readr::read_csv(lu_households),
   
+  by_lu_tor = get_o_tours(by_tor, lu_tazs),
+  by_lu_trp = get_trips_from_tours(by_trp, by_lu_tor, distances),
+  by_lu_vmt = get_vmt(by_lu_trp),
+  
   lu_tazs = c(2138, 2140, 2141, 2149, 2170),
   
   lu_new_tours = get_o_tours(lu_tor, lu_tazs),
   lu_new_trips = get_trips_from_tours(lu_trp, lu_new_tours, distances),
-  lu_new_vmt = get_vmt(lu_new_trips),
-  lu_cf_vmt = combine_scenarios(list(base = by_lu_vmt, land_use = lu_new_vmt)),
-  lu_vmt_plot = compare_lu_vmt_plot(lu_cf_vmt),
+  lu_new_vmt = get_lu_vmt(lu_new_trips, lu_tazs),
+  # lu_cf_vmt = combine_scenarios(list(base = by_lu_vmt, land_use = lu_new_vmt)),
+  lu_vmt_plot = make_lu_vmt_plot(lu_new_vmt),
+  
+  lu_desire_lines = make_desire_lines(lu_new_trips, dist_centroids, lu_tazs, taz_dist_trans),
+  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, xlim = c(-112.15, -111.60), ylim = c(40.2, 40.8))
+  
 )
 
 # Transit ####
@@ -180,6 +198,15 @@ wfh_outputs <- tar_plan(
   wfh_tor = readr::read_csv(wfh_tours),
   wfh_per = readr::read_csv(wfh_persons),
   wfh_hh = readr::read_csv(wfh_households),
+  
+  wfh_od = make_district_od(wfh_trp, taz_dist_trans),
+  wfh_od_diff = diff_od(list(by = by_od, wfh = wfh_od)),
+  wfh_desire = better_desire_lines(wfh_od_diff, dist_centroids),
+  wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
+  
+  wfh_vmt = get_vmt_dist(wfh_trp, distances),
+  wfh_o_vmt = get_o_vmt(wfh_vmt, taz_dist_trans),
+  comp_wfh_o_vmt = make_comp_o_vmt(wfh_o_vmt, by_o_vmt, districts),
 )
 
 

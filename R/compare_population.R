@@ -79,10 +79,7 @@ read_zonal_data <- function(sefile, incomefile){
   se
 }
 
-make_zonal_comparison <- function(asim_pop, se_data, taz_file){
-  
-  taz <- st_read(taz_file) %>% 
-    transmute(TAZ = TAZID)
+make_zonal_comparison <- function(asim_pop, se_data, taz){
   
   comp <- asim_pop %>% 
     full_join(se_data, join_by(TAZ), suffix = c("_asim", "_wfrc")) %>% 
@@ -111,7 +108,7 @@ make_zonal_comparison <- function(asim_pop, se_data, taz_file){
   full_join(taz, comp, join_by(TAZ))
 }
 
-make_inc_groups_map <- function(pop_comp, income_groups) {
+make_inc_groups_map <- function(pop_comp, income_groups, xlim = c(-112.15,-111.6), ylim = c(40.2,40.8)) {
   pop_comp %>% 
     filter(str_detect(metric, "^INC")) %>% 
     mutate(inc_group = str_remove(metric, "^INC") %>% as.numeric()) %>% 
@@ -125,34 +122,40 @@ make_inc_groups_map <- function(pop_comp, income_groups) {
       ) %>% 
         fct_reorder(inc_group)
     ) %>% 
+    st_transform(4326) %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = diff), color = NA) +
     facet_wrap(~metric) +
-    scale_fill_gradient2(limits = c(-250, 250), na.value = alpha("grey50", 0.7)) +
+    scale_fill_gradient2(limits = c(-250, 250), na.value = NA) +
     labs(fill = "Difference in # of households,\nPopulationSim compared to\nWFRC/MAG") +
+    lims(x = xlim, y = ylim) +
     theme_bw_map()
 }
 
-make_avg_inc_map <- function(pop_comp){
+make_avg_inc_map <- function(pop_comp, xlim = c(-112.15,-111.6), ylim = c(40.2,40.8)){
   pop_comp %>% 
     filter(metric == "AVGINCOME") %>% 
+    st_transform(4326) %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
-    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = NA) +
     labs(fill = "Difference in mean income,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    lims(x = xlim, y = ylim) +
     theme_bw_map()
 }
 
-make_med_inc_map <- function(pop_comp){
+make_med_inc_map <- function(pop_comp, xlim = c(-112.15,-111.6), ylim = c(40.2,40.8)){
   pop_comp %>% 
     filter(metric == "MEDINCOME") %>% 
+    st_transform(4326) %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
-    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = NA) +
     labs(fill = "Difference in median income,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    lims(x = xlim, y = ylim) +
     theme_bw_map()
 }
 
@@ -171,19 +174,21 @@ make_inc_plot <- function(pop_comp){
       # )
       ) %>% 
     ggplot() +
-    geom_density(aes(color = model, x = income), linewidth = 1) +
+    geom_density(aes(color = model, x = income, weight = TOTHH), linewidth = 1) +
     scale_x_continuous(labels = label_comma(prefix = "$"), limits = c(0,200000), expand = c(0,0)) +
     theme_density() +
-    labs(x = "TAZ Median Income", y = "Kernel density", color = "Model")
+    labs(x = "TAZ Median Income (weighted by number of households)", y = "Kernel density", color = "Model")
 }
 
-make_pop_comp_map <- function(pop_comp){
+make_pop_comp_map <- function(pop_comp, xlim = c(-112.15,-111.6), ylim = c(40.2,40.8)){
   pop_comp %>% 
     filter(metric == "TOTPOP") %>%
+    st_transform(4326) %>% 
     ggplot() +
     annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = rpd), color = NA) +
-    scale_fill_gradient2(limits = c(-2,2), na.value = alpha("grey50", 0.7)) +
+    scale_fill_gradient2(limits = c(-2,2), na.value = NA) +
     labs(fill = "Difference in TAZ population,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
+    lims(x = xlim, y = ylim) +
     theme_bw_map()
 }

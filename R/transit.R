@@ -30,6 +30,7 @@ compare_transit_trips <- function(by_trp, tr_trp) {
         fct_relevel("Work", "Atwork", "School", "Other") %>% 
         fct_relabel(\(x) paste("Purpose:", x))
       ) %>% 
+    filter(primary_purpose != "Atwork") %>% 
     ggplot(aes(axis1 = base, axis2 = transit, y = n)) +
     geom_alluvium(aes(fill = transit)) +
     geom_stratum() +
