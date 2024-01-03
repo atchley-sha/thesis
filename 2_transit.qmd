@@ -7,11 +7,18 @@ Additionally, trains occasionally need to wait for each other in order to cross 
 
 There is a planned improvement to the FrontRunner that would "double-track" the entire route, allowing trains to pass each other at any point.
 This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively.
-The improvement would also partially electrify the FrontRunner, which would allow for faster travel speeds.
+The improvement would also partially electrify the FrontRunner, allowing for faster travel speeds, and extend the track farther south with additional stops.
 *elaborate; table/figure?*
 
-In order to model this scenario we adjusted both the headways and speed parameters for the FrontRunner line.
-This is straightforward for both models, as transit data is a direct input in each.
-We simply needed to access the file that stores the FrontRunner headway data and change the values for headway.
-We then added the predicted speed to each link in the transit network and pulled that data into the model instead of the current speed data. 
-*is this true for activitysim? do we need to run the skims instead and use those? also, in cube we need to adjust the network speeds on each link, need to figure out how to do that.*
+## Trip-based Model
+
+To model this scenario in the \acr{WFRC} model, we simply needed to add the new stations and adjust the headway and speed inputs. 
+Since transit is a direct input in the \acr{WFRC} model, we accessed and updated the file that stores the FrontRunner headway and node data. 
+We changed the headways from 60 minutes during off-peak and 30 minutes during peak times to 30 minutes during off-peak and 15 minutes during peak times.
+In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file.
+In the network file, each node on the rail line that is a train station is flagged as a place to park and ride, and, because there were new stations added, we had to flag the new stations' nodes as places to park and ride.
+The last thing we did was change the posted speed of each link to the speeds that \acr{WFRC} had predicted for a partially electrified train system. 
+After changing the speeds, headways, and train stations, we ran the model.
+
+## Activity-based Model
+
