@@ -1,1 +1,79 @@
 # Results {#sec-results}
+
+This sections outlines what we wanted to analyze for each scenario and how that was done using each model.
+It is organized with a section for each scenario where the types of analyses and the implications and limitations of each model are explained.
+
+## Land Use Scenario
+
+### Additional Trips Due to New Development
+
+Because the only things that changed in this scenario were the five updated zones, we wanted to see how that change affected the trips produced and attracted to the area.
+
+#### Trip-based
+
+An output of the trip-based model is a large trip matrix that contains the number of trips that were produced and attracted between each zone.
+By selecting just the zones we wanted to analyze, we could see how many trips the new development produced and where they went, and we could see how many trips the development attracted and where they came from.
+To visualize this, we used the matrix file and the TAZ shape file to create desire lines as seen in *(some figure we can add)*.
+
+Implications: 
+To compare this to the base scenario, we simply subtracted the base scenario trip matrix by the trip matrix from the land use scenario to get desire lines showing the increase in trips.
+As could be reasonably expected, we saw that more trips were produced and attracted by the zones containing the new land use area.
+We were also able to get an idea of where each of the trips from and to the area were going to or coming from.
+
+Limitations: 
+While we could see the different trips leaving and entering the new development, we weren't able to see what types of people were making the trips.
+We also couldn't tell if those trips were part of a series of trips made by the same person.
+
+#### Activity-based
+
+Implications
+
+Limitations
+
+### Trip Mode and Purpose
+Another things we wanted to see what what types of trips were being made and what mode was being used.
+
+#### Trip-based
+As part of the trip matrix that shows productions and attractions between zones there are matrices trip matrices for each mode choice and each purpose. 
+
+Implications
+
+Limitations
+
+#### Activity-based
+
+Implications
+
+Limitations
+
+## Transit Scenario
+
+### Thing to analyze
+
+#### Trip-based
+
+Implications
+
+Limitations
+
+#### Activity-based
+
+Implications
+
+Limitations
+
+## Work-From-Home Scenario
+
+### Thing to analyze
+
+#### Trip-based
+
+Implications
+
+Limitations
+
+#### Activity-based
+
+Implications
+
+Limitations
