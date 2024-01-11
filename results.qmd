@@ -1,53 +1,60 @@
 # Results {#sec-results}
 
 This sections outlines what we wanted to analyze for each scenario and how that was done using each model.
-It is organized with a section for each scenario where the types of analyses and the implications and limitations of each model are explained.
+It is organized with a section for each scenario that discusses the types of analyses and the implications and limitations of each model.
 
 ## Land Use Scenario
 
 ### Additional Trips Due to New Development
 
 Because the only things that changed in this scenario were the five updated zones, the main thing we wanted to see was how the land use change affected the trips produced and attracted to the area.
-We were also interested in seeing what the purposes of the new trips were and what mode was used. 
+We were also interested in seeing what the purposes of the new trips were and what mode was used.
 
 #### Trip-based
 
 An output of the trip-based model is a large trip matrix that contains the number of trips that were produced and attracted between each zone.
-Along with this matrix, there are matrices showing productions and attractions based on each mode and each trip purpose. 
-By selecting just the zones we wanted to analyze, we could see how many trips the new development produced and attracted, and we could see what modes and purposes were connected to those trips. 
+Along with this matrix, there are matrices showing productions and attractions based on each mode and each trip purpose.
+By selecting just the zones we wanted to analyze, we could see how many trips the new development produced and attracted, and we could see what modes and purposes were connected to those trips.
 To visualize this, we used the matrix file and the TAZ shape file to create desire lines as seen in *(some figure we can add)*.
 
 Implications: To compare this to the base scenario, we simply subtracted the base scenario trip matrix by the trip matrix from the land use scenario to get desire lines showing the increase in trips.
 As could be reasonably expected, we saw that more trips were produced and attracted by the zones containing the new land use area.
 We were also able to get an idea of where each of the trips to and from the area were coming from or going to, and what types of modes where being use.
 
+Talk about the numbers we found and describe the results.
 
 Limitations: While we could see the different trips leaving and entering the new development, we weren't able to see what types of people were making the trips.
 We also couldn't tell if those trips were part of a series of trips made by the same person.
 
 #### Activity-based
 
-Implications: Along with seeing where each trip produced in the new development was going, the activity-based model allowed us to see how trips from the development were related to other trips in a travel tour. 
-With the synthetic population, we were also able to see which people were taking the trips from the new development. 
+How we analyzed the data
 
-Limitations
+Implications: Along with seeing where each trip produced in the new development was going, the activity-based model allowed us to see how trips from the development were related to other trips in a travel tour.
+With the synthetic population, we were also able to see which types of people were taking trips from the new development.
+
+Limitations:
 
 ## Transit Scenario
 
 ### Additional Transit Trips and Catchment Area
+
 With greater access the commuter rail by decreasing the headways, we wanted to see how the ridership changed in this scenario.
-We also wanted to see where the commuter rail riders were coming from. 
+We also wanted to see where the commuter rail riders were coming from.
 
 #### Trip-based
+
 Analyzing this with the trip-based model was straightforward since one of the outputs is a file listing the amount of trips made by each form of transit.
-There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions. 
-There is a matrix from driving to the CRT and a matrix for walking to the CRT.
-With these matrices and the taz shape file, we were able to to visualize the catcment area in a plot like *(another figure that we can show)*
+There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions.
+There is a matrix for driving to the CRT and a matrix for walking to the CRT.
+With these matrices and the taz shape file, we were able to to visualize the catchment area in a plot like *(another figure that we can show)*
 
 Implications: We saw that there was more than a 30% increase in commuter rail transit trips in this scenario but not much change in the other transit trips.
-We could see the areas where peoples' CRT trips began on a zonal and a district level and noticed a big increase in the people coming from zones that were closer to the new stations that were part of the extended rail line. 
+We could see the areas where peoples' CRT trips began on a zonal and a district level and noticed a big increase in the people coming from zones that were closer to the new stations that were part of the extended rail line.
+(I think more can be added here as well)
 
-Limitations: Apart from the increase in CRT trips and the catchment areas, there wasn't much more we could see with the trip-based model. By connecting the catchment areas with what we know of the zonal SE data, we could make some assumptions about the income of the new people taking the commuter rail, but we couldn't find anything more about the demographics of the riders. 
+Limitations: Apart from the increase in CRT trips and the catchment areas, there wasn't much more we could see with the trip-based model.
+By connecting the catchment areas with what we know of the zonal SE data, we could make some assumptions about the income of the new people taking the commuter rail, but we couldn't find anything more about the demographics of the riders.
 
 #### Activity-based
 
@@ -57,11 +64,17 @@ Limitations
 
 ## Work-From-Home Scenario
 
-### VMT and TLF
+### Miles Traveled and Trip Length
+
+With an increase in work from home, the two main things we wanted to analyze were the change in VMT and the change in trip length to see how these were affected by more telecommuting jobs.
 
 #### Trip-based
 
-Implications
+Using the outputs from the trip-based model that show lengths and number of trips between zones, we calculated the vehicle miles traveled for each trip.
+This allowed us to see which zones had the biggest decrease in VMT.
+This also allowed us to find the number of trips of certain length to create a trip length frequency distribution that can be seen in (*another figure*).
+
+Implications: Haven't really done the analysis, so I need to do it and put some findings here.
 
 Limitations
 
