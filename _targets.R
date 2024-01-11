@@ -113,7 +113,9 @@ base_outputs_comparison <- tar_plan(
   tar_file(wfrc_telecommute_base_file, "data/base_model_comparison/wfrc/telecommute_base.csv"),
   wfrc_telecommute_base = get_wfrc_telecommute(wfrc_telecommute_base_file),
   wfrc_telecommute_pct = wfrc_telecommute_base$pct,
-  wfrc_telecommute_table = wfrc_telecommute_base$table,
+  FAKE_wfrc_telecommute_table = wfrc_telecommute_base$table,
+  tar_file(wfrc_telecommute_table_file, "data/base_model_comparison/wfrc/telecommute_jobtype.csv"),
+  wfrc_telecommute_table = readr::read_csv(wfrc_telecommute_table_file),
   
   wfrc_hbj_base = make_wfrc_hbj(se_data),
   wfrc_hbj_base_pct = wfrc_hbj_base$pct,

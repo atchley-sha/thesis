@@ -268,16 +268,23 @@ make_wfrc_hbj <- function(se_data) {
         ALLEMP == 0 & HBJ == 0 ~ 0,
         TRUE ~ HBJ/(ALLEMP+HBJ)))
   
-  overall_pct <- weighted.mean(data$hbj_pct, data$ALLEMP) %>% 
+  num_pct <- weighted.mean(data$hbj_pct, data$ALLEMP)
+  overall_pct <- num_pct %>% 
     label_percent(accuracy = 0.1)()
   
   plot <- data %>% 
     ggplot() +
-    geom_density(aes(x = hbj_pct, weight = ALLEMP, color = "Weighted")) +
+    geom_density(aes(x = hbj_pct, weight = ALLEMP, color = "Weighted by\nTAZ employment")) +
     geom_density(aes(x = hbj_pct, color = "Unweighted")) +
+    geom_vline(xintercept = num_pct, lty = "dashed") +
+    annotate(
+      "text",
+      x = num_pct - 0.003, y = 4,
+      label = "ActivitySim target WFH %",
+      angle = 90) +
     theme_density() +
-    scale_x_continuous(labels = label_percent(), trans = "sqrt") +
-    labs(x = "Home-based Job %", y = "Kernel density", color = "By TAZ\nEmployment")
+    scale_x_continuous(labels = label_percent(), trans = "sqrt", expand = expansion(c(0,0.05))) +
+    labs(x = "Home-based Job % by TAZ", y = "Kernel density", color = element_blank())
   
   list(pct = overall_pct, plot = plot)
 }
