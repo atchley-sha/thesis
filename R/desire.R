@@ -18,7 +18,7 @@ make_desire_lines <- function(trips, centroids, lu_tazs, trans){
   od_to_sf(od, centroids)
 }
 
-plot_desire_lines <- function(lines, zones, xlim, ylim){
+plot_desire_lines <- function(lines, zones, lims){
   nlines <- lines %>% 
     # mutate(
     #   in_zone = if_else(in_zone, "Yes", "No") %>% 
@@ -32,7 +32,7 @@ plot_desire_lines <- function(lines, zones, xlim, ylim){
     geom_sf(fill = NA, color = "black") +
     geom_sf(aes(linewidth = n, color = in_zone), data = st_transform(nlines, 4326)) +
     scale_linewidth_continuous(range = c(0.1,3), limits = c(NA,1000)) +
-    lims(x = xlim, y = ylim) +
+    lims(x = lims$x, y = lims$y) +
     labs(color = "Produced in new\ndevelopment", linewidth = "Trips") +
     guides() +
     theme_bw_map()

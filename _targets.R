@@ -16,6 +16,11 @@ sapply(r_files, source)
 
 #### List targets ##############################################################
 
+# Misc ####
+misc_targets <- tar_plan(
+  plot_lims = list(x = c(-112.15,-111.6), y = c(40.2,40.8)),
+)
+
 # ABM/TBM flowchart diagram ####
 abm_tbm_flowchart <- tar_plan(
   # Data
@@ -51,8 +56,6 @@ synth_pop_comparison <- tar_plan(
   districts = get_districts(taz),
   dist_centroids = get_zone_centroids(districts),
   taz_dist_trans = sf::st_drop_geometry(taz),
-  xlim = c(-112.15, -111.60),
-  ylim = c(40.2, 40.8),
 
   # Analysis
   asim_pop = read_asim_population(synth_per_file, synth_hh_file),
@@ -166,7 +169,7 @@ land_use_outputs <- tar_plan(
   lu_vmt_plot = make_lu_vmt_plot(lu_new_vmt),
   
   lu_desire_lines = make_desire_lines(lu_new_trips, dist_centroids, lu_tazs, taz_dist_trans),
-  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, xlim = c(-112.15, -111.60), ylim = c(40.2, 40.8))
+  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims)
   
 )
 
@@ -213,6 +216,7 @@ wfh_outputs <- tar_plan(
 #### Run all targets ###########################################################
 
 tar_plan(
+  misc_targets,
   abm_tbm_flowchart,
   synth_pop_comparison,
   base_outputs_comparison,
