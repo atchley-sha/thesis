@@ -125,6 +125,8 @@ targets::tar_read(inc_groups_map)
 ### Model output comparison
 
 As with the socioeconomic comparisons between the models, trip patterns should somewhat agree between the WFRC/MAG model and ActivitySim.
+This section discusses three types of comparisons between the outputs of the two models: mode split, \acr{TLFD}, and remote work.
+
 The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC/MAG model, and so calibration efforts were needed.
 The most straightforward adjustments to make in ActivitySim's mode choice model are to the alternative-specific constants.
 These were adjusted iteratively based on the difference in mode shares between the two models.
@@ -160,10 +162,11 @@ targets::tar_read(mode_split_comp) %>%
 targets::tar_read(calibration_plot)
 ```
 
-In addition to mode split, the trip length frequency distribution (TLFD) ***is good to check***.
-This compares the length of trips that are predicted in each model.
-@fig-tlfd-comp shows this comparison by mode and purpose.
-These distributions match well enough for the purposes of this research, though further calibration would be required to create a production-ready ActivitySim implementation.
+@fig-tldf-comp compares the trip length frequency distribution of the two models by mode and purpose.
+Both ActivitySim and the WFRC/MAG model contain destination choice models which can be adjusted to affect the distribution of trip length.
+However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
+Again, the most significant discrepancies are with transit trips, likely due to the default "San Francisco" configuration of ActivitySim making transit more attractive.
+Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.
 
 ```{r}
 #| label: fig-tlfd-comp
@@ -172,40 +175,54 @@ These distributions match well enough for the purposes of this research, though 
 targets::tar_read(tlfd_comp_plot)
 ```
 
-***also wfh***.
 The WFRC/MAG model has basic support for predicting telecommuting and work-from-home trips.
 This includes a lookup table of telecommute percentages based on job type and year.
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
 The overall work-from-home and telecommute trip shares should be similar between the baseline scenarios in each model.
-
 It is worth noting that both the WFRC/MAG model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC/MAG model), where an individual's workplace is always at their home.
-The WFRC/MAG model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
-ActivitySim, on the other hand, has separate "work-from-home" and "telecommute" steps which model both types of work separately, and these can be tuned individually.
 
-The WFRC/MAG model baseline scenario gives telecommute shares as seen in @tbl-wfrc-telecommute.
-Only rough calibration is needed for the purposes of this research, and so the overall average of `r targets::tar_read(wfrc_telecommute_pct)` telecommute is taken as a target for ActivitySim.
-Similarly, @fig-wfrc-wfh shows the distribution of home-based job percentages in each TAZ, both unweighted and weighted by total TAZ employment and population.
-Again, this research simply uses an average of `r targets::tar_read(wfrc_hbj_base_pct)` home-based jobs (work-from-home) to calibrate the ActivitySim work-from-home model.
+Both models treat "work-from-home"/"home-based jobs" similarly.
+The WFRC/MAG model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
+ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (these were left unchanged from the default configuration).
+There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
+Individuals with work-from-home status are then prohibited from making a mandatory tour.
+@fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC/MAG land use data.
+A weighted average of `r targets::tar_read(wfrc_hbj_base_pct)` is taken to be the target percent value for ActivitySim, and there are no other adjustments to the ActivitySim work-from-home submodel.
+
+```{r}
+#| label: fig-wfrc-wfh
+#| tbl-cap: wfrc wfh data
+
+targets::tar_read(wfrc_hbj_base_plot)
+```
+
+The two models differ in their approach to telecommuting, however.
+The WFRC/MAG model has a lookup table of telecommuting shares based on job type by year, including predictions for future years (see @tbl-wfrc-telecommute).
+ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week (1--4, since 5 days would be fully work-from-home).
+Based on this status, the model adjusts the likelihood of making a mandatory tour.
+Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
+In order to calibrate to the WFRC/MAG data, however, we added job type variables to match those given in @tbl-wfrc-telecommute.
+Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC/MAG targets.
+However, each job type has a coefficient
 
 ```{r}
 #| label: tbl-wfrc-telecommute
 #| tbl-cap: wfrc telecommute data
 
 targets::tar_read(wfrc_telecommute_table) %>% 
+  mutate(across(
+    c(wfrc_2019, wfrc_2050),
+    \(x) scales::label_percent(accuracy = 0.01)(x))) %>% 
   kbl(
     booktabs = TRUE,
-    align = "c"
+    align = "c",
+    col.names = c("Job Type", "2019", "2050")
   ) %>% 
-  kable_styling() %>% 
-  collapse_rows(1, valign = "middle", latex_hline = "major")
+  add_header_above(c(" ", "WFRC/MAG Model Telecommute Proportion" = 2)) %>% 
+  kable_styling()
 ```
 
-```{r}
-#| label: tbl-wfrc-wfh
-#| tbl-cap: wfrc wfh data
 
-targets::tar_read(wfrc_hbj_base_plot)
-```
 
 
 ## policy scenarios

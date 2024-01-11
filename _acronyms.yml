@@ -17,4 +17,6 @@ acronyms:
       longname: American Community Survey
     - shortname: PUMS
       longname: Public Use Microdata Sample
+    - shortname: TLFD
+      longname: trip length frequency distribution
 ---
