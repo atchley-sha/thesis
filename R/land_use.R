@@ -61,3 +61,13 @@ get_lu_vmt <- function(trips, lu_tazs) {
     summarise(trips = n(), dist = sum(distance, na.rm = TRUE))
 }
 
+
+get_wfrc_trip_diff <- function(trip_gen_file_one,trip_gen_file_two){
+  
+  
+}
+
+plot_wfrc_land_use_trips <- function(){
+  
+}
+

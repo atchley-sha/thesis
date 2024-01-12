@@ -143,6 +143,12 @@ base_outputs <- tar_plan(
   
   by_vmt = get_vmt_dist(by_trp, distances),
   by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
+  
+  
+  # WFRC
+  tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
+  trip_gen_by_wfrc = readr::read_csv(trip_gen_by_wfrc_file)
+  
 )
 
 # Land use ####
