@@ -1,0 +1,78 @@
+# Methods
+
+We are comparing TBMs to ABMs.
+
+We will forecast several specific scenarios and get an idea of computing resources.
+
+## Scenarios
+
+The first scenario is change in land use.
+
+The second scenario is increased transit service.
+
+The third scenario is increased WFH.
+
+All three of these scenarios will be coded in both a representative TBM and ABM.
+
+## WFRC Model
+
+What it is, where it's from.
+
+Inputs required.
+
+How the model works; enumerate and describe each step.
+Probably multiple paragraphs.
+
+Model outputs.
+
+## ASIM
+
+What it is (based on Day et al, in turn based on MTC).
+
+How it works (overview/flowchart).
+
+Describe steps.
+Definitely multiple paragraphs.
+
+### Popsim
+
+What it is.
+
+List inputs (wfrc/census).
+
+(Why not only WFRC?).
+
+Table describing controls.
+
+Outputs?
+
+## Initial model comparison/calibration
+
+We want to calibrate.
+
+Describe baseline scenario for calibration.
+
+### Synth Pop
+
+We compared key attributes (taz population, income, etc).
+Number of HH is identical.
+
+Comparison of population totals.
+
+Comparison of median income.
+
+Comparison of income groups.
+
+### Outputs/Trips
+
+We compared mode split, tlfd, and wfh.
+
+Mode split comparison/calibration.
+
+TLFD comparison.
+
+WFH comparison/calibration.
+
+## Computational resources
+
+?
