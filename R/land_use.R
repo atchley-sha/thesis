@@ -62,8 +62,12 @@ get_lu_vmt <- function(trips, lu_tazs) {
 }
 
 
-get_wfrc_trip_diff <- function(trip_gen_file_one,trip_gen_file_two){
+get_wfrc_trip_diff <- function(trip_gen_file_by,trip_gen_file_scenario){
   
+  tripsscen <- trip_gen_file_scenario %>% pivot_longer(!Z, names_to = "Type", values_to = "Trips")
+  tripsby <- trip_gen_file_by %>% pivot_longer(!Z, names_to = "Type", values_to = "Trips")
+  joined <- left_join(tripsscen,tripsby, join_by(Z,Type), suffix = c('.scen','.by'))
+  mutate(joined, Trips.diff = Trips.scen - Trips.by)
   
 }
 
