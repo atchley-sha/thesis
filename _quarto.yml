@@ -3,7 +3,7 @@ project:
   
 execute:
   echo: false
-  cache: true
+  cache: false
 
 book:
   title: "An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah"
@@ -69,12 +69,12 @@ acronyms:
 format:
   html:
     theme: cosmo
-  # pdf:
-  #   toc-depth: 3
-  #   # template: template.tex
-  #   # mainfont: Gentium Book Basic
-  #   # sansfont: Alte Haas Grotesk
-  #   # monofont: SauceCodePro NF
+  pdf:
+    toc-depth: 3
+    # template: template.tex
+    # mainfont: Gentium Book Basic
+    # sansfont: Alte Haas Grotesk
+    # monofont: SauceCodePro NF
   # docx:
   #   reference-doc: style/template.docx
 

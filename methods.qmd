@@ -162,7 +162,7 @@ targets::tar_read(mode_split_comp) %>%
 targets::tar_read(calibration_plot)
 ```
 
-@fig-tldf-comp compares the trip length frequency distribution of the two models by mode and purpose.
+@fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
 Both ActivitySim and the WFRC/MAG model contain destination choice models which can be adjusted to affect the distribution of trip length.
 However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
 Again, the most significant discrepancies are with transit trips, likely due to the default "San Francisco" configuration of ActivitySim making transit more attractive.
