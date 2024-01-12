@@ -19,7 +19,7 @@ To visualize this, we used the matrix file and the TAZ shape file to create desi
 
 Implications: To compare this to the base scenario, we simply subtracted the base scenario trip matrix by the trip matrix from the land use scenario to get desire lines showing the increase in trips.
 As could be reasonably expected, we saw that more trips were produced and attracted by the zones containing the new land use area.
-We were also able to get an idea of where each of the trips to and from the area were coming from or going to, and what types of modes where being use.
+We were also able to get an idea of where each of the trips to and from the area were coming from or going to, and what types of modes where being used.
 
 Talk about the numbers we found and describe the results.
 
