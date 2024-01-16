@@ -76,3 +76,6 @@ WFH comparison/calibration.
 ## Computational resources
 
 ?
+
+
+? Our results include the experience of coding the scenarios and analyses as well as the analyses themselves.
