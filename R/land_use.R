@@ -71,7 +71,20 @@ get_wfrc_trip_diff <- function(trip_gen_file_by,trip_gen_file_scenario){
   
 }
 
-plot_wfrc_land_use_trips <- function(){
+#I probably need to make the taz file an input as well??
+plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_character){
   
+  trips_connected_to_taz <- taz %>% left_join(trips_diff_data, join_by("TAZID" == "Z")) %>% 
+    filter(TAZID %in% focus_zones & Type == type_of_trip_as_character) %>% 
+    select(TAZID, Type, Trips.scen, Trips.by, Trips.diff, geometry)
+  
+  trips_connected_to_taz %>% 
+    st_transform(4326) %>% 
+    ggplot() +
+    annotation_map_tile("cartolight",zoomin = 0) +
+    geom_sf(aes(fill = Trips.diff), 
+            color = "black") + 
+    scale_fill_gradient(low="#FFFFFF00", high="#002E5D") +
+    ggtitle("Total Productions at The Point (Scenario)") +
+    theme_void()
 }
-
