@@ -25,7 +25,7 @@ The \acr{WFRC} model, like many trip-based models, requires the following inputs
 
 -   **Land use data.** This includes information about population, employment, and socioeconomic variables such as income, delineated by \acr{TAZ}. In our case this was provided by \acr{WFRC} directly, as an output of their land use forecasting model(s).
 -   **Travel skims.** This details travel time, cost, etc. between each origin-destination pair of \acr{TAZ}s. The \acr{WFRC} model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps.
--   **Transportation network.** This includes highway, transit, etc. networks which connect the \acr{TAZ}s to each other. These networks contain information such as link speed and capacity. Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results. However, the network volumes are still used to calculate the travel skims.
+-   **Transportation networks.** These includes highway, transit, etc. networks which connect the \acr{TAZ}s to each other. These networks contain information such as link speed and capacity. Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients. These are taken directly from the \acr{WFRC} model without modification.
 
 How the model works; enumerate and describe each step.
@@ -33,20 +33,47 @@ Probably multiple paragraphs.
 
 Model outputs.
 
-## ASIM
+## ActivitySim
 
 ActivitySim is an open-source \acr{ABM} led by a consortium of transportation planning agencies.
-
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
 This research uses an ActivitySim implementation based on @macfarlane2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@cite].
 
+ActivitySim requires similar inputs to the \acr{WFRC} model, though it does not assign traffic and so does not require any transportation networks.
+Additionally, ActivitySim requires population data at an individual level, including information such as household income, age, and home location.
+Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead.
+@sec-populationsim discusses the population used in this research.
+
 ActivitySim, like all ABMs, simulates transportation decisions on an individual level.
-ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (@fig-asim-flowchart).
+ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
+Each of these steps determines information that will be used in subsequent steps.
+Most of these can be turned on or off depending on what is needed for the model implementation.
 
 ![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
-Describe steps.
-Definitely multiple paragraphs.
+The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart.
+These are aggregate, household/personal, daily, tour-level, and trip-level.
+The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
+In this case, these impedances are supplied directly as network skims, output from the \acr{WFRC} model.
+
+The household/personal steps relate to long-term decisions that are unlikely to change quickly based on daily transportation conditions.
+These steps include determining remote work status, work/school location, auto ownership, transit pass ownership, and free parking availability at work.
+Much of this information can be supplied directly or explicitly modeled.
+This implementation does not supply any of this information directly, and explicitly models remote work status, work/school location, auto ownership, and free parking availability.
+Transit pass ownership is not modeled.
+
+The day-level decisions primarily concern an individual's \acr{DAP}.
+ActivitySim contains a step to assign mandatory, joint, and non-mandatory tours based on personal and household information (joint tours combine both mandatory and non-mandatory activities).
+For example, full-time workers are more likely to make a mandatory tour than part-time workers, all else being equal.
+***one more sentence?***
+
+Once a \acr{DAP} is chosen, ActivitySim creates tours for each major activity in the day.
+Additionally, ActivitySim determines if an individual makes an "at-work" tour (e.g. leaving for lunch and returning to the workplace).
+Each tour is scheduled and assigned a primary mode, as well as a primary destination for non-mandatory and joint tours.
+The tours are then populated with trips, and ActivitySim assigns each trip an origin, destination, time, mode, etc. compatible with the tour-level assignment.
+
+The final steps of ActivitySim are writing the trip matrices and other tables including information on land use, persons, households, tours, and trips.
+This can also include writing summary tables of the above information.
 
 ### Popsim {#sec-populationsim}
 
