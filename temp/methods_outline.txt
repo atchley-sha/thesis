@@ -16,9 +16,23 @@ All three of these scenarios will be coded in both a representative TBM and ABM.
 
 ## WFRC Model
 
-What it is, where it's from.
+The \acr{WFRC} model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by \acr{WFRC} for modeling travel in the Salt Lake City, Utah area.
+\acr{WFRC} provided the model directly, including land use forecasts and the current long-range transportation plan.
+The model is taken mostly as-is, though some changes were made to better accommodate the different scenarios.
+These modifications are noted in more detail in their respective sections.
 
-Inputs required.
+The \acr{WFRC} model, like many trip-based models, requires the following inputs:
+
+- **Land use data.** This includes information about population, employment, and socioeconomic variables such as income, delineated by \acr{TAZ}.
+In our case this was provided by \acr{WFRC} directly, as an output of their land use forecasting model(s).
+- **Travel skims.** This details travel time, cost, etc. between each origin-destination pair of \acr{TAZ}s.
+The \acr{WFRC} model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps.
+- **Transportation network.** This includes highway, transit, etc. networks which connect the \acr{TAZ}s to each other.
+These networks contain information such as link speed and capacity.
+Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results.
+However, the network volumes are still used to calculate the travel skims.
+- **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients.
+These are taken directly from the \acr{WFRC} model without modification.
 
 How the model works; enumerate and describe each step.
 Probably multiple paragraphs.
