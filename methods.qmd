@@ -75,7 +75,7 @@ The tours are then populated with trips, and ActivitySim assigns each trip an or
 The final steps of ActivitySim are writing the trip matrices and other tables including information on land use, persons, households, tours, and trips.
 This can also include writing summary tables of the above information.
 
-### Popsim {#sec-populationsim}
+### PopulationSim {#sec-populationsim}
 
 What it is.
 
