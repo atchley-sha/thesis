@@ -1,33 +1,25 @@
-# Scenario 1: Land Use
+# Land Use
 
-Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
-The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
-A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
-This scenario is to model this development and its effect on transportation demand.
+In our first scenario, we changes the land use at The Point.
 
-To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes.
-Using the information made publicly available by Point of the Mountain State Land Authority [@state_land_authority_framework_2021], the increase in population and employment was estimated by \acr{WFRC} as shown in @tbl-point-se-data.
-The development spans five \acr{TAZ}s (see @fig-prison-new-transit), so the socioeconomic data are spread out across them consistent with the development plan [@cite].
-To add this information to the model, the input file containing socioeconomic data for each zone was adjusted so the five zones in the new development had SE data that matched the 2050 estimates for that area.
-As seen in @tbl-poin-se-data, approximately 7,430 new households and 22,200 new employments were added to these zones. 
+The change is based on WFRC 2050 SE data forecast, in turn based on development plan of The Point.
 
-```{r}
-#| label: fig-draper-prison-location
-#| fig-cap: draper prison location
+This adds X jobs and X households, etc. (show map)
 
-boxplot(mtcars$mpg ~ mtcars$cyl)
-```
+## Creating the scenario
 
-```{r}
-#| label: tbl-point-se-data
-#| tbl-cap: the point se data
+In the WFRC model the change is trivial to implement.
+We just copy/pasted the se data from 2050 to 2019 for the affected zones.
 
-knitr::kable(head(mtcars))
-```
+ActivitySim requires two things for this scenario: updated SE data and a new pop.
+The updated SE data is the same as in the WFRC scenario, so is also trivial to implement.
+The pop, however, is not.
+New controls.
 
-This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
-We used the zonal data as new targets....
+New population for only the affected area, then joined to existing.
+There were no existing households so we didn't need to remove any (we're not double-counting).
 
-Only created a new synthetic population for the 5 zones
+? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn't do that.
 
-Used census targets from Gateway area in SLC
+## Analyses
+
