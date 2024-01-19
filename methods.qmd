@@ -1,4 +1,12 @@
-# Methods
+# Methodology {#sec-methods}
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(kableExtra)
+```
 
 We are comparing TBMs to ABMs.
 
@@ -77,19 +85,47 @@ This can also include writing summary tables of the above information.
 
 ### PopulationSim {#sec-populationsim}
 
-What it is.
+This research uses PopulationSim [@cite] to create a synthetic population for ActivitySim.
+The synthetic population aims to be representative of the study area while maintaining privacy.
+PopulationSim takes as input a "seed" of individuals and households, and populates the area with copies of these to match given control totals.
 
-List inputs (wfrc/census).
+This research uses a seed sample from the \acr{ACS} \acr{PUMS}, which contains a sample of actual (anonymized) individuals and households at the \acr{PUMA} level.
+\acr{PUMA}s partition the United States into areas of around (and no fewer than) 100,000 people each [@census2023].
+The control totals come from two different sources: the Census and the \acr{WFRC} model.
+@tbl-control-totals shows these controls as well as their geographic level and source.
+PopulationSim also allows setting different weights to each control, and @tbl-control-totals gives this information as well.
 
-(Why not only WFRC?).
+```{r}
+#| label: tbl-control-totals
+#| tbl-cap: PopulationSim Control Totals by Geography and Source (with Weights)
 
-Table describing controls.
+tribble(
+  ~Control, ~Geography, ~Source, ~Weight,
+  "Population", "Entire Region", "Census", 5000,
+  "Number of Households", "TAZ", "WFRC Model", 1000000000,
+  "Household Size", "Census Tract", "Census", 10000,
+  "Persons by Age Group", "Census Tract", "Census", 10000,
+  "Households by Income Group", "Census Tract", "Census", 500,
+  "Workers per Household", "Census Tract", "Census", 1000
+) %>% 
+  mutate(Weight = scales::label_comma()(Weight)) %>% 
+  kbl(booktabs = TRUE, linesep = "", align = "lccc") %>%
+  kable_styling()
+```
 
-Outputs?
+Most of these controls come from Census data, with only the number of households per \acr{TAZ} coming from the \acr{WFRC} model data.
+***Justification***.
+Note also that there are many personal and household variables that are not accounted for in these controls, such as sex, vehicle ownership, internet access, etc.
+These are not controlled for and are dependent on which seed persons or households are copied in controlling for the other variables.
+However, this is assumed to still give a representative enough estimate for the uncontrolled variables without needing to model them explicitly.
+
+The outputs of PopulationSim include a persons and households table comprising the synthetic population, as well as summary tables.
 
 ## Initial model comparison/calibration
 
 We want to calibrate.
+Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons to be meaningful.
+We 
 
 Describe baseline scenario for calibration.
 
