@@ -148,19 +148,19 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_land_use.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_transit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Transit</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wfh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Work From Home</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -185,11 +185,18 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#wfrc-model" id="toc-wfrc-model" class="nav-link active" data-scroll-target="#wfrc-model"><span class="header-section-number">3.1</span> WFRC Model</a></li>
-  <li><a href="#activitysim" id="toc-activitysim" class="nav-link" data-scroll-target="#activitysim"><span class="header-section-number">3.2</span> ActivitySim</a></li>
-  <li><a href="#initial-model-comparison" id="toc-initial-model-comparison" class="nav-link" data-scroll-target="#initial-model-comparison"><span class="header-section-number">3.3</span> Initial Model Comparison</a></li>
-  <li><a href="#policy-scenarios" id="toc-policy-scenarios" class="nav-link" data-scroll-target="#policy-scenarios"><span class="header-section-number">3.4</span> policy scenarios</a></li>
-  <li><a href="#computational-resources" id="toc-computational-resources" class="nav-link" data-scroll-target="#computational-resources"><span class="header-section-number">3.5</span> Computational resources?</a></li>
+  <li><a href="#scenarios" id="toc-scenarios" class="nav-link active" data-scroll-target="#scenarios"><span class="header-section-number">3.1</span> Scenarios</a></li>
+  <li><a href="#wfrc-model" id="toc-wfrc-model" class="nav-link" data-scroll-target="#wfrc-model"><span class="header-section-number">3.2</span> WFRC Model</a></li>
+  <li><a href="#activitysim" id="toc-activitysim" class="nav-link" data-scroll-target="#activitysim"><span class="header-section-number">3.3</span> ActivitySim</a>
+  <ul class="collapse">
+  <li><a href="#sec-populationsim" id="toc-sec-populationsim" class="nav-link" data-scroll-target="#sec-populationsim"><span class="header-section-number">3.3.1</span> PopulationSim</a></li>
+  </ul></li>
+  <li><a href="#initial-model-comparisoncalibration" id="toc-initial-model-comparisoncalibration" class="nav-link" data-scroll-target="#initial-model-comparisoncalibration"><span class="header-section-number">3.4</span> Initial model comparison/calibration</a>
+  <ul class="collapse">
+  <li><a href="#synth-pop" id="toc-synth-pop" class="nav-link" data-scroll-target="#synth-pop"><span class="header-section-number">3.4.1</span> Synth Pop</a></li>
+  <li><a href="#outputstrips" id="toc-outputstrips" class="nav-link" data-scroll-target="#outputstrips"><span class="header-section-number">3.4.2</span> Outputs/Trips</a></li>
+  </ul></li>
+  <li><a href="#computational-resources" id="toc-computational-resources" class="nav-link" data-scroll-target="#computational-resources"><span class="header-section-number">3.5</span> Computational resources</a></li>
   </ul>
 </nav>
     </div>
@@ -218,80 +225,97 @@ div.csl-indent {
 
 </header>
 
-<p>This section lists our methodology.</p>
-<!-- We will compare models... -->
-<!-- We will forecast several scenarios. -->
-<p>In order to compare trip-based and activity-based models, this research takes a specific model from both types to be representative. The two models that this research compares are the Wasatch Front Regional Council (WFRC) travel demand model (trip-based) and ActivitySim (activity-based).</p>
-<section id="wfrc-model" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="wfrc-model"><span class="header-section-number">3.1</span> WFRC Model</h2>
-<p>The WFRC model is implemented in the CUBE software by Bentley <span class="citation" data-cites="bentley_systems_cube">(<a href="references.html#ref-bentley_systems_cube" role="doc-biblioref">Bentley Systems n.d.</a>)</span>, and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area. WFRC provided the model directly, including land use forecasts and the current long-range transportation plan. The model is taken mostly as-is, though some changes were made to better accommodate the different scenarios. These modifications are noted in more detail in their respective sections.</p>
-<p>The WFRC model, like many trip-based models, requires the following inputs: - <strong>Land use data.</strong> This includes information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). In our case this was provided by WFRC directly, as an output of their land use forecasting model(s). - <strong>Travel skims.</strong> This details travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps. - <strong>Transportation network.</strong> This includes highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this research does not compare the model’s network assignment results. However, the network volumes are still used to calculate the travel skims. - <strong>Model constants and coefficients.</strong> Many model steps, including mode choice, require calibration constants and coefficients. These are taken directly from the WFRC model without modification.</p>
-<p>The model is comprised of 5 main steps: household disaggregation, trip generation, trip distribution, mode choice, and network assignment. Each of these steps has several sub-steps, and there are additional pre- and post-processing steps, but these five steps are the core of the model. The household disaggregation model uses the land use and socioeconomic data (containing average household sizes, etc.) and estimates the number of households by type, meaning by number of residents and number of workers. An additional part of this step is a vehicle ownership model, which further disaggregates the households by number of owned vehicles. The remaining four steps proceed similarly to any other trip-based model, estimating trips from each household type by purpose, time of day, origin/destination, and mode choice, and assigning these trips to the network(s).</p>
-<p>The final output(s) of the WFRC model include network volumes and performance measures. This includes loaded the network skims, which can then be used in subsequent iterations of the destination and mode choice models. Additionally, the model outputs intermediate results after each main model step. This includes disaggregated household data, trip generation estimates, and origin-destination matrices counting trips by purpose, mode, and time of day.</p>
+<p>We are comparing TBMs to ABMs.</p>
+<p>We will forecast several specific scenarios and get an idea of computing resources.</p>
+<section id="scenarios" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="scenarios"><span class="header-section-number">3.1</span> Scenarios</h2>
+<p>The first scenario is change in land use.</p>
+<p>The second scenario is increased transit service.</p>
+<p>The third scenario is increased WFH.</p>
+<p>All three of these scenarios will be coded in both a representative TBM and ABM.</p>
 </section>
-<section id="activitysim" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="activitysim"><span class="header-section-number">3.2</span> ActivitySim</h2>
-<!-- The open-source ActivitySim [@cite] is used as our representative \acr{ABM}. -->
-<!-- ActivitySim was developed.... -->
-<!-- Many agencies currently use a travel demand model based on ActivitySim in some form [@cite]. -->
-<!-- another sentence. -->
-<!-- Overview of asim model (inputs, outputs, etc.) (also basic flowchart, tours/trips/etc) -->
-<!-- We are getting the input zonal SE data form the WFRC model and using that as targets for our synthetic population generation (via PopulationSim). -->
-<!-- We used PopulationSim [@cite] to create the synthetic population to use in ActivitySim. -->
-<!-- PopulationSim requires two main categories of inputs: a seed and controls. -->
-<!-- The seed comes from XXXXX, and contains a sample of actual (anonymized) individuals and households in the Wasatch Front region. -->
-<!-- PopulationSim assigns copies of these seeds to the area in a way that complies with the controls. -->
-<!-- The controls contain targets for the synthetic population in categories such as number of households, **et al**. -->
-<!-- For this we used a combination of the \acr{TAZ}-level socioeconomic data present in the \acr{WFRC} model and Census tract-level data. -->
+<section id="wfrc-model" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="wfrc-model"><span class="header-section-number">3.2</span> WFRC Model</h2>
+<p>The Wasatch Front Regional Council (WFRC) model is implemented in the CUBE software by Bentley <span class="citation" data-cites="bentley_systems_cube">(<a href="references.html#ref-bentley_systems_cube" role="doc-biblioref">Bentley Systems n.d.</a>)</span>, and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area. WFRC provided the model directly, including land use forecasts and the current long-range transportation plan. The model is taken mostly as-is, though some changes were made to better accommodate the different scenarios. These modifications are noted in more detail in their respective sections.</p>
+<p>The WFRC model, like many trip-based models, requires the following inputs:</p>
+<ul>
+<li><strong>Land use data.</strong> This includes information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). In our case this was provided by WFRC directly, as an output of their land use forecasting model(s).</li>
+<li><strong>Travel skims.</strong> This details travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps.</li>
+<li><strong>Transportation networks.</strong> These includes highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this research does not compare the model’s network assignment results. However, the network volumes are still used to calculate the loaded network skims.</li>
+<li><strong>Model constants and coefficients.</strong> Many model steps, including mode choice, require calibration constants and coefficients. These are taken directly from the WFRC model without modification.</li>
+</ul>
+<p>How the model works; enumerate and describe each step. Probably multiple paragraphs.</p>
+<p>Model outputs.</p>
 </section>
-<section id="initial-model-comparison" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="initial-model-comparison"><span class="header-section-number">3.3</span> Initial Model Comparison</h2>
-<p>In order to reasonably compare the two models, the initial “baseline” scenarios in each should have relatively similar results. Certainly this applies to the predicted trips by purpose, mode, length, etc., but it is also critical to ensure the synthetic population generated by PopulationSim matches the socioeconomic data used in the WFRC/MAG model. Though many controls such as household size and income are specified from the Census at the tract level, the WFRC socioeconomic data contains this information as well. Ideally, then, variables such as number of households per TAZ and TAZ median income should be similar between the two sources.</p>
-<p>The data from both the Census and the WFRC/MAG model become geography-specific control totals which PopulationSim tries to match, with different weights assigned to each control. Number of households, for example, was given at the TAZ level from the WFRC data and weighted very heavily, so there is no difference in number of households in each TAZ between the synthetic population and the WFRC data. Total population, on the other hand, is a control from the Census data, and is in fact specified at the region geography level, and so there is some discrepancy between the synthetic population and the WFRC data (see <a href="#fig-totpop-comp">Figure&nbsp;<span>3.1</span></a>). However, these discrepancies are generally relatively minor, especially in more populated areas.</p>
-<div class="cell" data-hash="methods_cache/html/fig-totpop-comp_8bd39be82ba23cb764d9d00fcc87ea0a">
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required namespace: raster</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Zoom: 9</code></pre>
-</div>
-<div class="cell-output-display">
-<div id="fig-totpop-comp" class="quarto-figure quarto-figure-center anchored">
+<section id="activitysim" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="activitysim"><span class="header-section-number">3.3</span> ActivitySim</h2>
+<p>ActivitySim is an open-source activity-based model (ABM) led by a consortium of transportation planning agencies. ActivitySim is highly configurable, and many agencies have their own bespoke implementation. This research uses an ActivitySim implementation based on <span class="citation" data-cites="macfarlane2021">(<a href="references.html#ref-macfarlane2021" role="doc-biblioref"><strong>macfarlane2021?</strong></a>)</span>, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span>.</p>
+<p>ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks. Additionally, ActivitySim requires population data at an individual level, including information such as household income, age, and home location. Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead. <a href="#sec-populationsim"><span>Section&nbsp;3.3.1</span></a> discusses the population used in this research.</p>
+<p>ActivitySim, like all ABMs, simulates transportation decisions on an individual level. ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see <a href="#fig-asim-flowchart">Figure&nbsp;<span>3.1</span></a>). Each of these steps determines information that will be used in subsequent steps. Most of these can be turned on or off depending on what is needed for the model implementation.</p>
+<div id="fig-asim-flowchart" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="methods_files/figure-html/fig-totpop-comp-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.1: Comparison of population by TAZ between WFRC data and PopulationSim synthetic population.</figcaption>
+<p><img src="images/abmexample.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;3.1: ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<p>Another important comparison to make is of household income, as this can significantly affect travel behavior. Instead of simply comparing average household income by TAZ, it is more useful to compare the number of households in each binned income group. Both the WFRC and ActivitySim models use income <em>groups</em> as a variable in their model steps rather than the actual income. The income groups for the WFRC model are given in <a href="#tbl-wfrc-income-groups">Table&nbsp;<span>3.1</span></a>.</p>
-<div class="cell" data-hash="methods_cache/html/tbl-wfrc-income-groups_48b5729e3368010da4efdc0e192877ad">
+<p>The steps can broadly be categorized into five groups, as shown in <a href="#fig-asim-flowchart">Figure&nbsp;<span>3.1</span></a>. These are aggregate, household/personal, daily, tour-level, and trip-level. The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.). In this case, these impedances are supplied directly as network skims, output from the WFRC model.</p>
+<p>The household/personal steps relate to long-term decisions that are unlikely to change quickly based on daily transportation conditions. These steps include determining remote work status, work/school location, auto ownership, transit pass ownership, and free parking availability at work. Much of this information can be supplied directly or explicitly modeled. This implementation does not supply any of this information directly, and explicitly models remote work status, work/school location, auto ownership, and free parking availability. Transit pass ownership is not modeled.</p>
+<p>The day-level decisions primarily concern an individual’s daily activity pattern (DAP). ActivitySim contains a step to assign mandatory, joint, and non-mandatory tours based on personal and household information (joint tours combine both mandatory and non-mandatory activities). For example, full-time workers are more likely to make a mandatory tour than part-time workers, all else being equal. <strong><em>one more sentence?</em></strong></p>
+<p>Once a DAP is chosen, ActivitySim creates tours for each major activity in the day. Additionally, ActivitySim determines if an individual makes an “at-work” tour (e.g.&nbsp;leaving for lunch and returning to the workplace). Each tour is scheduled and assigned a primary mode, as well as a primary destination for non-mandatory and joint tours. The tours are then populated with trips, and ActivitySim assigns each trip an origin, destination, time, mode, etc. compatible with the tour-level assignment.</p>
+<p>The final steps of ActivitySim are writing the trip matrices and other tables including information on land use, persons, households, tours, and trips. This can also include writing summary tables of the above information.</p>
+<section id="sec-populationsim" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="sec-populationsim"><span class="header-section-number">3.3.1</span> PopulationSim</h3>
+<p>This research uses PopulationSim <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span> to create a synthetic population for ActivitySim. The synthetic population aims to be representative of the study area while maintaining privacy. PopulationSim takes as input a “seed” of individuals and households, and populates the area with copies of these to match given control totals.</p>
+<p>This research uses a seed sample from the American Community Survey (ACS) Public Use Microdata Sample (PUMS), which contains a sample of actual (anonymized) individuals and households at the PUMA level. PUMAs partition the United States into areas of around (and no fewer than) 100,000 people each <span class="citation" data-cites="census2023">(<a href="references.html#ref-census2023" role="doc-biblioref"><strong>census2023?</strong></a>)</span>. The control totals come from two different sources: the Census and the WFRC model. <a href="#tbl-control-totals">Table&nbsp;<span>3.1</span></a> shows these controls as well as their geographic level and source. PopulationSim also allows setting different weights to each control, and <a href="#tbl-control-totals">Table&nbsp;<span>3.1</span></a> gives this information as well.</p>
+<div class="cell">
 <div class="cell-output-display">
-<div id="tbl-wfrc-income-groups" class="anchored">
+<div id="tbl-control-totals" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;3.1: income groups</caption>
+<caption>Table&nbsp;3.1: PopulationSim Control Totals by Geography and Source (with Weights)</caption>
 <thead>
 <tr class="header">
-<th style="text-align: center;" data-quarto-table-cell-role="th">Income Group</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">Income Range</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Control</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Geography</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Source</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Weight</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">≤ $45,000</td>
+<td style="text-align: left;">Population</td>
+<td style="text-align: center;">Entire Region</td>
+<td style="text-align: center;">Census</td>
+<td style="text-align: center;">5,000</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">$45,000–$75,000</td>
+<td style="text-align: left;">Number of Households</td>
+<td style="text-align: center;">TAZ</td>
+<td style="text-align: center;">WFRC Model</td>
+<td style="text-align: center;">1,000,000,000</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: center;">$75,000–$125,000</td>
+<td style="text-align: left;">Household Size</td>
+<td style="text-align: center;">Census Tract</td>
+<td style="text-align: center;">Census</td>
+<td style="text-align: center;">10,000</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: center;">≥ $125,000</td>
+<td style="text-align: left;">Persons by Age Group</td>
+<td style="text-align: center;">Census Tract</td>
+<td style="text-align: center;">Census</td>
+<td style="text-align: center;">10,000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Households by Income Group</td>
+<td style="text-align: center;">Census Tract</td>
+<td style="text-align: center;">Census</td>
+<td style="text-align: center;">500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Workers per Household</td>
+<td style="text-align: center;">Census Tract</td>
+<td style="text-align: center;">Census</td>
+<td style="text-align: center;">1,000</td>
 </tr>
 </tbody>
 </table>
@@ -300,296 +324,32 @@ div.csl-indent {
 
 </div>
 </div>
-<p><a href="#fig-inc-groups-map">Figure&nbsp;<span>3.2</span></a> shows a comparison of the number of households in each income group between the WFRC household disaggregation model and the synthetic population generated by PopulationSim. There is a definite trend of the synthetic population to over-predict low-income households and over-predict high-income households compared to the WFRC disaggregation model. However, especially since this research is focused more on a methodological comparison between the two models rather than a comparison of results, the discrepancies are not too severe to be concerned about.</p>
-<div class="cell" data-hash="methods_cache/html/fig-inc-groups-map_b0e896109f783ce89a8b83842a064ded">
-<div class="cell-output cell-output-stderr">
-<pre><code>Zoom: 9
-Zoom: 9
-Zoom: 9
-Zoom: 9</code></pre>
-</div>
-<div class="cell-output-display">
-<div id="fig-inc-groups-map" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="methods_files/figure-html/fig-inc-groups-map-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.2: income groups</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-hash="methods_cache/html/tbl-mode-split_cd1ab54789ab342c45e4ef481467a30e">
-<div class="cell-output-display">
-<div id="tbl-mode-split" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;3.2: mode split</caption>
-<thead>
-<tr class="header">
-<th style="text-align: center;" data-quarto-table-cell-role="th">Purpose</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">Mode</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">ActivitySim predicted trips</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">WFRC/MAG predicted trips</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">% Error</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">% Error (scaled to WFRC/MAG predicted trips)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 4cm;">7441918</td>
-<td style="text-align: center; width: 4cm;">8737729</td>
-<td style="text-align: center;">-14.8%</td>
-<td style="text-align: center; width: 6cm;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 4cm;">6515379</td>
-<td style="text-align: center; width: 4cm;">7905927</td>
-<td style="text-align: center;">-17.6%</td>
-<td style="text-align: center; width: 6cm;">-3.2%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 4cm;">768463</td>
-<td style="text-align: center; width: 4cm;">732250</td>
-<td style="text-align: center;">4.9%</td>
-<td style="text-align: center; width: 6cm;">23.2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 4cm;">158076</td>
-<td style="text-align: center; width: 4cm;">99551</td>
-<td style="text-align: center;">58.8%</td>
-<td style="text-align: center; width: 6cm;">86.4%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 4cm;">3696056</td>
-<td style="text-align: center; width: 4cm;">4641724</td>
-<td style="text-align: center;">-20.4%</td>
-<td style="text-align: center; width: 6cm;">-6.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 4cm;">3092740</td>
-<td style="text-align: center; width: 4cm;">4094887</td>
-<td style="text-align: center;">-24.5%</td>
-<td style="text-align: center; width: 6cm;">-11.3%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 4cm;">531497</td>
-<td style="text-align: center; width: 4cm;">509491</td>
-<td style="text-align: center;">4.3%</td>
-<td style="text-align: center; width: 6cm;">22.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 4cm;">71819</td>
-<td style="text-align: center; width: 4cm;">37346</td>
-<td style="text-align: center;">92.3%</td>
-<td style="text-align: center; width: 6cm;">125.8%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 4cm;">1759501</td>
-<td style="text-align: center; width: 4cm;">1711578</td>
-<td style="text-align: center;">2.8%</td>
-<td style="text-align: center; width: 6cm;">20.7%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 4cm;">1617449</td>
-<td style="text-align: center; width: 4cm;">1586413</td>
-<td style="text-align: center;">2.0%</td>
-<td style="text-align: center; width: 6cm;">19.7%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 4cm;">85430</td>
-<td style="text-align: center; width: 4cm;">76413</td>
-<td style="text-align: center;">11.8%</td>
-<td style="text-align: center; width: 6cm;">31.3%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 4cm;">56622</td>
-<td style="text-align: center; width: 4cm;">48752</td>
-<td style="text-align: center;">16.1%</td>
-<td style="text-align: center; width: 6cm;">36.4%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Non–Home-based</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 4cm;">1986361</td>
-<td style="text-align: center; width: 4cm;">2384427</td>
-<td style="text-align: center;">-16.7%</td>
-<td style="text-align: center; width: 6cm;">-2.2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Non–Home-based</td>
-<td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 4cm;">1805190</td>
-<td style="text-align: center; width: 4cm;">2224628</td>
-<td style="text-align: center;">-18.9%</td>
-<td style="text-align: center; width: 6cm;">-4.7%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Non–Home-based</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 4cm;">151536</td>
-<td style="text-align: center; width: 4cm;">146346</td>
-<td style="text-align: center;">3.5%</td>
-<td style="text-align: center; width: 6cm;">21.6%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Non–Home-based</td>
-<td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 4cm;">29635</td>
-<td style="text-align: center; width: 4cm;">13453</td>
-<td style="text-align: center;">120.3%</td>
-<td style="text-align: center; width: 6cm;">158.6%</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
-</div>
-</div>
-<div class="cell" data-hash="methods_cache/html/fig-tlfd-comp_7e9d58d0b66074591713b799850547c5">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 19136083 rows containing non-finite values (`stat_density()`).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'
-
-Warning in density.default(x, weights = w, bw = bw, adjust = adjust, kernel =
-kernel, : Selecting bandwidth *not* using 'weights'</code></pre>
-</div>
-<div class="cell-output-display">
-<div id="fig-tlfd-comp" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="methods_files/figure-html/fig-tlfd-comp-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;3.3: tlfd comparison</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<!-- Compare TLFD, hopefully similar. -->
-<!-- They are similar! -->
-<!-- NOTE: The WFRC model multiplies trips by 100 in mode choice because there are a lot of fractional trips that would be lost to rounding otherwise. -->
-<!-- We don't need to do that here (R can handle more than 2 decimal places), so we divided the trips by 100 to get the actual amount. -->
+<p>Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data. <strong><em>Justification</em></strong>. Note also that there are many personal and household variables that are not accounted for in these controls, such as sex, vehicle ownership, internet access, etc. These are not controlled for and are dependent on which seed persons or households are copied in controlling for the other variables. However, this is assumed to still give a representative enough estimate for the uncontrolled variables without needing to model them explicitly.</p>
+<p>The outputs of PopulationSim include a persons and households table comprising the synthetic population, as well as summary tables.</p>
 </section>
-<section id="policy-scenarios" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="policy-scenarios"><span class="header-section-number">3.4</span> policy scenarios</h2>
-<p>We will model the following scenarios: - Land use - Transit - WFH</p>
+</section>
+<section id="initial-model-comparisoncalibration" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="initial-model-comparisoncalibration"><span class="header-section-number">3.4</span> Initial model comparison/calibration</h2>
+<p>Though we are not comparing the outputs of ActivitySim to the WFRC model directly, it is still important to ensure the two models perform similarly to each other for any comparisons to be meaningful. We created a “baseline” scenario in both models in order to calibrate our ActivitySim implementation to the WFRC model. This baseline scenario uses the 2019 WFRC model as-is, and uses 2019 Census and land use data for ActivitySim.</p>
+<section id="synth-pop" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="synth-pop"><span class="header-section-number">3.4.1</span> Synth Pop</h3>
+<p>We compared key attributes (taz population, income, etc). Number of HH is identical.</p>
+<p>Comparison of population totals.</p>
+<p>Comparison of median income.</p>
+<p>Comparison of income groups.</p>
+</section>
+<section id="outputstrips" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="outputstrips"><span class="header-section-number">3.4.2</span> Outputs/Trips</h3>
+<p>We compared mode split, tlfd, and wfh.</p>
+<p>Mode split comparison/calibration.</p>
+<p>TLFD comparison.</p>
+<p>WFH comparison/calibration.</p>
+</section>
 </section>
 <section id="computational-resources" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="computational-resources"><span class="header-section-number">3.5</span> Computational resources?</h2>
-<p>Describe BEAST and the BYU Supercomputer.</p>
+<h2 data-number="3.5" class="anchored" data-anchor-id="computational-resources"><span class="header-section-number">3.5</span> Computational resources</h2>
+<p>?</p>
+<p>? Our results include the experience of coding the scenarios and analyses as well as the analyses themselves.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
@@ -841,7 +601,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./1_land_use.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

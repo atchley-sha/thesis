@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah - 4&nbsp; Scenario 1: Land Use</title>
+<title>An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah - 4&nbsp; Land Use</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_land_use.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1_land_use.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -126,19 +126,19 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_land_use.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2_transit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Transit</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_wfh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Work From Home</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -159,14 +159,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#creating-the-scenario" id="toc-creating-the-scenario" class="nav-link active" data-scroll-target="#creating-the-scenario"><span class="header-section-number">4.1</span> Creating the scenario</a></li>
+  <li><a href="#analyses" id="toc-analyses" class="nav-link" data-scroll-target="#analyses"><span class="header-section-number">4.2</span> Analyses</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Land Use</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></h1>
 </div>
 
 
@@ -186,146 +193,21 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see <a href="#fig-draper-prison-location">Figure&nbsp;<span>4.1</span></a>). The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit. A bus rapid transit (BRT) line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah. This scenario is to model this development and its effect on transportation demand.</p>
-<p>To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes. Using the information made publicly available by Point of the Mountain State Land Authority <span class="citation" data-cites="state_land_authority_framework_2021">(<a href="references.html#ref-state_land_authority_framework_2021" role="doc-biblioref"><strong>state_land_authority_framework_2021?</strong></a>)</span>, the increase in population and employment was estimated as shown in <a href="#tbl-point-se-data">Table&nbsp;<span>4.1</span></a>. It is important to note that the development spans five transportation analysis zone (TAZ)s (see <span class="quarto-unresolved-ref">?fig-prison-new-transit</span>), and so the socioeconomic data are spread out across them consistent with the development plan <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span>. To add this information to the model, the csv file containing the socioeconomic data for each zone needed to be adjusted. This involved simply adding the new information to each of the five rows that represented the zones in the new development.</p>
-<div class="cell" data-hash="1_land_use_cache/html/fig-draper-prison-location_650a5d4b01cb8ae126a6bcff356f1959">
-<div class="cell-output-display">
-<div id="fig-draper-prison-location" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="1_land_use_files/figure-html/fig-draper-prison-location-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;4.1: draper prison location</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell" data-hash="1_land_use_cache/html/tbl-point-se-data_52daaa713b2fb7590851fcce5fb2690e">
-<div class="cell-output-display">
-<div id="tbl-point-se-data" class="anchored">
-<table class="table table-sm table-striped small">
-<caption>Table&nbsp;4.1: the point se data</caption>
-<colgroup>
-<col style="width: 26%">
-<col style="width: 7%">
-<col style="width: 5%">
-<col style="width: 7%">
-<col style="width: 5%">
-<col style="width: 7%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 7%">
-<col style="width: 7%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">mpg</th>
-<th style="text-align: right;">cyl</th>
-<th style="text-align: right;">disp</th>
-<th style="text-align: right;">hp</th>
-<th style="text-align: right;">drat</th>
-<th style="text-align: right;">wt</th>
-<th style="text-align: right;">qsec</th>
-<th style="text-align: right;">vs</th>
-<th style="text-align: right;">am</th>
-<th style="text-align: right;">gear</th>
-<th style="text-align: right;">carb</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Mazda RX4</td>
-<td style="text-align: right;">21.0</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">160</td>
-<td style="text-align: right;">110</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">2.620</td>
-<td style="text-align: right;">16.46</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mazda RX4 Wag</td>
-<td style="text-align: right;">21.0</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">160</td>
-<td style="text-align: right;">110</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">2.875</td>
-<td style="text-align: right;">17.02</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Datsun 710</td>
-<td style="text-align: right;">22.8</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">108</td>
-<td style="text-align: right;">93</td>
-<td style="text-align: right;">3.85</td>
-<td style="text-align: right;">2.320</td>
-<td style="text-align: right;">18.61</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hornet 4 Drive</td>
-<td style="text-align: right;">21.4</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">258</td>
-<td style="text-align: right;">110</td>
-<td style="text-align: right;">3.08</td>
-<td style="text-align: right;">3.215</td>
-<td style="text-align: right;">19.44</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Hornet Sportabout</td>
-<td style="text-align: right;">18.7</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">360</td>
-<td style="text-align: right;">175</td>
-<td style="text-align: right;">3.15</td>
-<td style="text-align: right;">3.440</td>
-<td style="text-align: right;">17.02</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Valiant</td>
-<td style="text-align: right;">18.1</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">225</td>
-<td style="text-align: right;">105</td>
-<td style="text-align: right;">2.76</td>
-<td style="text-align: right;">3.460</td>
-<td style="text-align: right;">20.22</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<p>This zonal data is used directly in the Wasatch Front Regional Council (WFRC) model, but a new synthetic population is needed for ActivitySim. We used the zonal data as new targets….</p>
+<p>In our first scenario, we changes the land use at The Point.</p>
+<p>The change is based on WFRC 2050 SE data forecast, in turn based on development plan of The Point.</p>
+<p>This adds X jobs and X households, etc. (show map)</p>
+<section id="creating-the-scenario" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="creating-the-scenario"><span class="header-section-number">4.1</span> Creating the scenario</h2>
+<p>In the WFRC model the change is trivial to implement. We just copy/pasted the se data from 2050 to 2019 for the affected zones.</p>
+<p>ActivitySim requires two things for this scenario: updated SE data and a new pop. The updated SE data is the same as in the WFRC scenario, so is also trivial to implement. The pop, however, is not. New controls.</p>
+<p>New population for only the affected area, then joined to existing. There were no existing households so we didn’t need to remove any (we’re not double-counting).</p>
+<p>? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn’t do that.</p>
+</section>
+<section id="analyses" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="analyses"><span class="header-section-number">4.2</span> Analyses</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -569,7 +451,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./2_transit.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Transit</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
