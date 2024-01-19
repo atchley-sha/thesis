@@ -123,11 +123,9 @@ The outputs of PopulationSim include a persons and households table comprising t
 
 ## Initial model comparison/calibration
 
-We want to calibrate.
 Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons to be meaningful.
-We 
-
-Describe baseline scenario for calibration.
+We created a "baseline" scenario in both models in order to calibrate our ActivitySim implementation to the \acr{WFRC} model.
+This baseline scenario uses the 2019 \acr{WFRC} model as-is, and uses 2019 Census and land use data for ActivitySim.
 
 ### Synth Pop
 
