@@ -99,11 +99,13 @@ make_zonal_comparison <- function(asim_pop, se_data, taz){
         2*diff/(abs(asim) + abs(wfrc))
       ),
       hrpd = rpd/2,
-      pct = if_else(
-        wfrc == 0,
-        1,
-        diff / wfrc
-      ))
+      pct = case_when(
+        wfrc == 0 & asim == 0 ~ 0,
+        is.na(wfrc) | is.na(asim) ~ NA,
+        wfrc == 0 ~ 1,
+        TRUE ~ diff / wfrc
+      )
+      )
 
   full_join(taz, comp, join_by(TAZ))
 }
@@ -185,12 +187,14 @@ make_pop_comp_map <- function(pop_comp, lims = list(x = c(-112.15,-111.6), y = c
     filter(metric == "TOTPOP") %>%
     st_transform(4326) %>% 
     ggplot() +
-    annotation_map_tile("cartolight", zoomin=0) +
-    geom_sf(aes(fill = diff), color = NA) +
-    scale_fill_gradient2(limits = c(-1500,1000), na.value = NA) +
+    # annotation_map_tile("cartolight", zoomin=0) +
+    geom_sf(aes(fill = pct), color = NA) +
+    scale_percent_diff(4, base = 3, sigma = 1.5) +
+    # geom_sf(aes(fill = diff), color = NA) +
+    # scale_fill_gradient2(limits = c(-1500,1000), na.value = NA) +
     # scale_fill_gradient2(limits = c(-2,2), na.value = NA) +
     # labs(fill = "Difference in TAZ population,\nPopulationSim compared to\nWFRC/MAG\n(Relative Percent Difference)") +
-    labs(fill = "Difference in TAZ population,\nPopulationSim compared to\nWFRC/MAG") +
+    labs(fill = "Percent difference in TAZ\npopulation, PopulationSim\ncompared to WFRC") +
     lims(x = lims$x, y = lims$y) +
     theme_bw_map()
 }
