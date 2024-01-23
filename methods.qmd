@@ -123,14 +123,28 @@ The outputs of PopulationSim include a persons and households table comprising t
 
 ## Initial model comparison/calibration
 
-Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons to be meaningful.
-We created a "baseline" scenario in both models in order to calibrate our ActivitySim implementation to the \acr{WFRC} model.
-This baseline scenario uses the 2019 \acr{WFRC} model as-is, and uses 2019 Census and land use data for ActivitySim.
+Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons/analyses***?*** to be meaningful.
+We created a baseline scenario in both models in order to calibrate our ActivitySim implementation to the \acr{WFRC} model.
+This baseline scenario uses the 2019 \acr{WFRC} model as-is.
+For ActivitySim, the baseline scenario uses 2019 Census data to create the synthetic population, and the choice models use land use data and network skims from the baseline \acr{WFRC} scenario run.
 
 ### Synth Pop
 
-We compared key attributes (taz population, income, etc).
-Number of HH is identical.
+The controls for PopulationSim mostly come from the Census, as can be seen in @tbl-control-totals.
+However, the \acr{WFRC} model contains TAZ-level data including population and median income.
+The model also has a disaggregation step that estimates the number of households by size, income group, and number of workers.
+This section compares the output of PopulationSim to the \acr{WFRC} model on several of these variables ***list them***.
+
+@fig-population-comparison shows the difference in TAZ population between PopulationSim and the \acr{WFRC} data.
+It is worth noting that since the number of households was controlled at the TAZ level from the \acr{WFRC} data with an extremely high weight, the number of households per TAZ in the synthetic population match exactly to the \acr{WFRC} data.
+The average household size will therefore follow a similar error distribution to the one shown in @fig-population-comparison.
+
+```{r}
+#| label: fig-population-comparison
+#| fig-cap: population comparison
+
+targets::tar_read(pop_comp_map)
+```
 
 Comparison of population totals.
 
