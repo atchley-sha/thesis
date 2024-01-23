@@ -147,6 +147,7 @@ targets::tar_read(pop_comp_map)
 ```
 
 Comparison of population totals.
+The areas near Herriman and Eagle Mountain aren't great, but others are pretty good.
 
 Comparison of median income.
 

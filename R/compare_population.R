@@ -187,7 +187,7 @@ make_pop_comp_map <- function(pop_comp, lims = list(x = c(-112.15,-111.6), y = c
     filter(metric == "TOTPOP") %>%
     st_transform(4326) %>% 
     ggplot() +
-    # annotation_map_tile("cartolight", zoomin=0) +
+    annotation_map_tile("cartolight", zoomin=0) +
     geom_sf(aes(fill = pct), color = NA) +
     scale_percent_diff(4, base = 3, sigma = 1.5) +
     # geom_sf(aes(fill = diff), color = NA) +
