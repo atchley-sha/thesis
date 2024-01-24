@@ -67,7 +67,7 @@ synth_pop_comparison <- tar_plan(
   inc_groups_map = make_inc_groups_map(pop_comp, income_groups),
   avg_inc_map = make_avg_inc_map(pop_comp),
   med_inc_map = make_med_inc_map(pop_comp),
-  inc_comp_plot = make_inc_plot(pop_comp),
+  inc_comp_plot = make_inc_plot(pop_comp, income_groups),
   pop_comp_map = make_pop_comp_map(pop_comp),
 
 )
@@ -110,6 +110,9 @@ base_outputs_comparison <- tar_plan(
   mode_split_comp = make_mode_split_comp(comp_modes),
   
   # WFH
+  tar_file(job_code_translation_file, "data/job_code_translation.csv"),
+  job_code_translation = readr::read_csv(job_code_translation_file),
+  
   tar_file(wfrc_telecommute_base_file, "data/base_model_comparison/wfrc/telecommute_base.csv"),
   wfrc_telecommute_base = get_wfrc_telecommute(wfrc_telecommute_base_file),
   wfrc_telecommute_pct = wfrc_telecommute_base$pct,
@@ -120,6 +123,11 @@ base_outputs_comparison <- tar_plan(
   wfrc_hbj_base = make_wfrc_hbj(se_data),
   wfrc_hbj_base_pct = wfrc_hbj_base$pct,
   wfrc_hbj_base_plot = wfrc_hbj_base$plot,
+  
+  tar_file(asim_telecommute_coeffs_2019_file, "data/base_model_comparison/asim/asim_tc_coeffs_2019.csv"),
+  asim_telecommute_coeffs_2019 = read_asim_telecommute_coeffs(asim_telecommute_coeffs_2019_file),
+  
+  compare_tc_2019 = compare_tc(wfrc_telecommute_table[c("jobcode", "wfrc_2019")], asim_telecommute_coeffs_2019, job_code_translation),
 )
 
 ## Analysis #####################

@@ -41,8 +41,7 @@ read_income_groups <- function(income_groups_file) {
       ),
       low = replace_na(low, 0),
       inc_range = fct_reorder(inc_range, low)
-    ) %>% 
-    select(group, inc_range)
+    )
 }
 
 combine_calibration_iters <- function(files) {
@@ -155,4 +154,22 @@ get_districts <- function(taz){
   taz %>% 
     group_by(DISTSML) %>% 
     summarise()
+}
+
+read_asim_telecommute_coeffs <- function(file) {
+  file %>% 
+    read_csv() %>% 
+    filter(str_detect(coefficient_name, "coefj")) %>% 
+    select(coefficient_name, value) %>% 
+    mutate(coefficient_name = str_remove(coefficient_name, "coefj_")) %>% 
+    separate(coefficient_name, c("jobcode", "days")) %>% 
+    mutate(
+      days = case_match(
+        days,
+        "1day" ~ "1 day",
+        "23day" ~ "2\u20133 days",
+        "4day" ~ "4 days"
+      )
+    ) %>% 
+    pivot_wider(names_from = days, values_from = value) 
 }

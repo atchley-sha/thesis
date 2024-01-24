@@ -10,8 +10,8 @@ theme_bw_map <- function() {
 theme_density <- function() {
   theme_bw() +
     theme(
-      axis.ticks.y = element_blank(),
-      axis.text.y = element_blank()
+      # axis.ticks.y = element_blank(),
+      # axis.text.y = element_blank()
     )
 }
 
