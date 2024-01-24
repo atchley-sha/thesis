@@ -1,0 +1,11 @@
+jobcode,name
+RETL,Retail
+FOOD,Food
+MANU,Manufacturing
+OFFI,Office
+GVED,"Gov't/Education"
+HLTH,Health
+AGRI,Agriculture
+MING,Mining
+CONS,Construction
+OTHR,Other
