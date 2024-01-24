@@ -12,6 +12,8 @@ We are comparing TBMs to ABMs.
 
 We will forecast several specific scenarios and get an idea of computing resources.
 
+? Our results include the experience of coding the scenarios and analyses as well as the analyses themselves.
+
 ## Scenarios
 
 The first scenario is change in land use.
@@ -121,19 +123,19 @@ However, this is assumed to still give a representative enough estimate for the 
 
 The outputs of PopulationSim include a persons and households table comprising the synthetic population, as well as summary tables.
 
-## Initial model comparison/calibration
+## Initial Model Comparison/Calibration
 
 Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons/analyses***?*** to be meaningful.
 We created a baseline scenario in both models in order to calibrate our ActivitySim implementation to the \acr{WFRC} model.
 This baseline scenario uses the 2019 \acr{WFRC} model as-is.
 For ActivitySim, the baseline scenario uses 2019 Census data to create the synthetic population, and the choice models use land use data and network skims from the baseline \acr{WFRC} scenario run.
 
-### Synth Pop
+### Verification of the Synthetic Population
 
 The controls for PopulationSim mostly come from the Census, as can be seen in @tbl-control-totals.
 However, the \acr{WFRC} model contains TAZ-level data including population and median income.
 The model also has a disaggregation step that estimates the number of households by size, income group, and number of workers.
-This section compares the output of PopulationSim to the \acr{WFRC} model on several of these variables ***list them***.
+This section compares the output of PopulationSim to the \acr{WFRC} model on each of these variables at the TAZ level.
 
 @fig-population-comparison shows the difference in TAZ population between PopulationSim and the \acr{WFRC} data.
 It is worth noting that since the number of households was controlled at the TAZ level from the \acr{WFRC} data with an extremely high weight, the number of households per TAZ in the synthetic population match exactly to the \acr{WFRC} data.
@@ -146,25 +148,150 @@ The average household size will therefore follow a similar error distribution to
 targets::tar_read(pop_comp_map)
 ```
 
-Comparison of population totals.
-The areas near Herriman and Eagle Mountain aren't great, but others are pretty good.
+The population per TAZ is similar to the WFRC data in most places.
+There are some discrepancies near Herriman and Lehi, but most other places are within a few percent.
+Since total population is a region-level control, but number of households is a TAZ-level control, this shows PopulationSim is predicting a smaller average household size in Herriman and Lehi (and some other places) than the WFRC data suggests.
+This is reasonable, as these are suburban areas which are likely to have larger household sizes on average than places like Salt Lake City.
 
-Comparison of median income.
+Income is also an important factor in travel behavior [@cite?], and @fig-median-income-comparison shows a TAZ-level comparison of median income between the synthetic population and the WFRC data.
+The synthetic population does have a lower median income than the WFRC data in many TAZs, but the error is in most cases fairly small, especially in more populated areas.
+However, both the WFRC model and ActivitySim use household income *groups* rather than individual household income to inform travel decisions.
+@fig-income-group-map shows the difference in number of households by income group (as delineated in the WFRC model), and this shows a similar trend of over-predicting low-income households.
 
-Comparison of income groups.
+```{r}
+#| label: fig-median-income-comparison
+#| fig-cap: med inc
 
-### Outputs/Trips
+targets::tar_read(med_inc_map)
+```
 
-We compared mode split, tlfd, and wfh.
+```{r}
+#| label: fig-income-group-map
+#| fig-cap: inc groups
 
-Mode split comparison/calibration.
+targets::tar_read(inc_groups_map)
+```
 
-TLFD comparison.
+Income was not weighted very heavily as a control in PopulationSim, and this is in part why there are discrepancies between the models.
+However, the overall distribution of income is similar between the models, as @fig-median-income-density shows.
+A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but for the purposes of this research the income distribution is similar enough.
 
-WFH comparison/calibration.
+```{r}
+#| label: fig-median-income-density
+#| fig-cap: inc density
+
+targets::tar_read(inc_comp_plot)
+```
+
+Comparison of number of workers?
+
+### Verification and Calibration of ActivitySim
+
+In addition to verifying the synthetic population, we compared the outputs of each model to verify that trip patterns roughly agreed between them.
+This section discusses three comparisons of interest between the outputs of the two models: mode split, \acr{TLFD}, and remote work.
+
+The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed.
+The most straightforward adjustments to make in ActivitySim's mode choice model are to the alternative-specific constants.
+These were adjusted iteratively based on the difference in mode shares between the two models.
+@tbl-mode-split compares the mode split of both models after several iterations of this calibration.
+Overall, this calibration is okay, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
+However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split was converging at this point regardless of the ASC values (see @fig-calibration-plot).
+This is likely due to the mode choice coefficients being unrepresentative of the study area.
+The ActivitySim configuration is based on the San Francisco area, and so coefficients on variables such as travel time will be optimized for that area (hence in part why there are so many more transit trips).
+
+```{r}
+#| label: tbl-mode-split
+#| tbl-cap: mode split
+#| cache: false
+
+targets::tar_read(mode_split_comp) %>% 
+  kbl(
+    booktabs = TRUE,
+    col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "% Error", "% Error (scaled to WFRC predicted trips)"),
+    digits = c(0,0,0,0,1,1),
+    align = "c"
+  ) %>%
+  kable_styling(latex_options = "scale_down") %>%
+  column_spec(3, "3cm") %>%
+  column_spec(4, "3.5cm") %>%
+  column_spec(6, "3.7cm") %>%
+  collapse_rows(1, valign = "middle", latex_hline = "major")
+```
+
+```{r}
+#| label: fig-calibration-plot
+#| fig-cap: calibration plot
+
+targets::tar_read(calibration_plot)
+```
+
+@fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
+Both ActivitySim and the WFRC model contain destination choice models which can be adjusted to affect the distribution of trip length.
+However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
+Again, the most significant discrepancies are with transit trips, likely due to the "San Francisco" configuration of ActivitySim making transit more attractive.
+Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.
+
+```{r}
+#| label: fig-tlfd-comp
+#| fig-cap: tlfd comparison
+
+targets::tar_read(tlfd_comp_plot)
+```
+
+The WFRC model has basic support for predicting telecommuting and work-from-home trips.
+This includes a lookup table of telecommute percentages based on job type and year.
+ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
+The overall work-from-home and telecommute trip shares should be similar between the baseline scenarios in each model.
+It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
+
+Both models treat "work-from-home"/"home-based jobs" similarly.
+The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
+ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (these were left unchanged from the default configuration).
+There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
+Individuals with work-from-home status are then prohibited from making a mandatory tour.
+@fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data.
+A weighted average of `r targets::tar_read(wfrc_hbj_base_pct)` is taken to be the target percent value for ActivitySim, and there are no other adjustments to the ActivitySim work-from-home submodel.
+
+```{r}
+#| label: fig-wfrc-wfh
+#| tbl-cap: wfrc wfh data
+
+targets::tar_read(wfrc_hbj_base_plot)
+```
+
+The two models differ in their approach to telecommuting, however.
+The WFRC model has a lookup table of telecommuting shares based on job type by year, including predictions for future years (see @tbl-baseline-telecommute).
+ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week (1--4, since 5 days would be fully work-from-home).
+Based on this status, the model adjusts the likelihood of making a mandatory tour.
+Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
+In order to calibrate to the WFRC data, however, we added job type variables to match those given in @tbl-baseline-telecommute.
+Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets.
+The calibration allowed ActivitySim to match these targets exactly without the coefficients becoming too large, and the coefficients are given in @tbl-baseline-telecommute.
+
+```{r}
+#| label: tbl-baseline-telecommute
+#| tbl-cap: wfrc telecommute data
+
+targets::tar_read(compare_tc_2019) %>% 
+  mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>% 
+  rename(
+    "Job Type" = name,
+    "WFRC Telecommute Proportion" = wfrc_2019
+    ) %>% 
+  kbl(
+    booktabs = TRUE,
+    align = "c"
+  ) %>% 
+  add_header_above(c(" ", " ", "ActivitySim Telecommute Utility Coefficients" = 3)) %>% 
+  kable_styling()
+```
 
 ## Computational resources
 
-?
+This research also includes an analysis of the computational resources required to run each model.
 
-? Our results include the experience of coding the scenarios and analyses as well as the analyses themselves.
+The WFRC model....
+
+ActivitySim....
+
+?
