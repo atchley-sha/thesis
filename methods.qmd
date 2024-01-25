@@ -8,21 +8,13 @@ library(tidyverse)
 library(kableExtra)
 ```
 
-We are comparing TBMs to ABMs.
+This research seeks to compare methodological differences between trip- and activity-based modeling frameworks.
+For this, the \acr{WFRC} travel demand model is used as a representative trip-based model, and an ActivitySim implementation in the same study area is used as a representative \acr{ABM}.
+Note that the focus is not on comparing model accuracy or performance, but rather on comparing the process of using each model, including the types of analyses that can be performed.
+Because of this, there are few direct comparisons of model outputs.
+Instead, this research highlights the strengths and weaknesses of each model type in planning and policy analysis, and illustrates these differences.
 
-We will forecast several specific scenarios and get an idea of computing resources.
-
-? Our results include the experience of coding the scenarios and analyses as well as the analyses themselves.
-
-## Scenarios
-
-The first scenario is change in land use.
-
-The second scenario is increased transit service.
-
-The third scenario is increased WFH.
-
-All three of these scenarios will be coded in both a representative TBM and ABM.
+The following sections discuss the specific models in more detail.
 
 ## WFRC Model
 
@@ -75,7 +67,6 @@ Transit pass ownership is not modeled.
 The day-level decisions primarily concern an individual's \acr{DAP}.
 ActivitySim contains a step to assign mandatory, joint, and non-mandatory tours based on personal and household information (joint tours combine both mandatory and non-mandatory activities).
 For example, full-time workers are more likely to make a mandatory tour than part-time workers, all else being equal.
-***one more sentence?***
 
 Once a \acr{DAP} is chosen, ActivitySim creates tours for each major activity in the day.
 Additionally, ActivitySim determines if an individual makes an "at-work" tour (e.g. leaving for lunch and returning to the workplace).
@@ -116,7 +107,6 @@ tribble(
 ```
 
 Most of these controls come from Census data, with only the number of households per \acr{TAZ} coming from the \acr{WFRC} model data.
-***Justification***.
 Note also that there are many personal and household variables that are not accounted for in these controls, such as sex, vehicle ownership, internet access, etc.
 These are not controlled for and are dependent on which seed persons or households are copied in controlling for the other variables.
 However, this is assumed to still give a representative enough estimate for the uncontrolled variables without needing to model them explicitly.
@@ -125,8 +115,8 @@ The outputs of PopulationSim include a persons and households table comprising t
 
 ## Initial Model Comparison/Calibration
 
-Though we are not comparing the outputs of ActivitySim to the \acr{WFRC} model directly, it is still important to ensure the two models perform similarly to each other for any comparisons/analyses***?*** to be meaningful.
-We created a baseline scenario in both models in order to calibrate our ActivitySim implementation to the \acr{WFRC} model.
+While this research does not directly compare the outputs of ActivitySim to those of the \acr{WFRC} model, it remains crucial to ensure consistent performance between the two models for meaningful analyses.
+As such, a baseline scenario in both models is used in order to calibrate the ActivitySim implementation to the \acr{WFRC} model.
 This baseline scenario uses the 2019 \acr{WFRC} model as-is.
 For ActivitySim, the baseline scenario uses 2019 Census data to create the synthetic population, and the choice models use land use data and network skims from the baseline \acr{WFRC} scenario run.
 
@@ -183,7 +173,7 @@ A production-ready synthetic population would match its income distribution more
 targets::tar_read(inc_comp_plot)
 ```
 
-Comparison of number of workers?
+***Comparison of number of workers?***
 
 ### Verification and Calibration of ActivitySim
 
@@ -286,12 +276,27 @@ targets::tar_read(compare_tc_2019) %>%
   kable_styling()
 ```
 
-## Computational resources
+## Example Scenarios
 
-This research also includes an analysis of the computational resources required to run each model.
+To effectively compare the models, we propose three scenarios to model and analyze, which are taken to be representative of the types of planning and development that agencies would like to model and analyze:
 
-The WFRC model....
+The first scenario involves a change in land use near the former state prison site in Draper, Utah.
+Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
+@fig-landuse-site-imagery shows imagery of the site.
+This research scenario will be based on this development, but will include only the land use changes.
+The actual development plans also include expansion of transit, but this will not be a part of this scenario.
 
-ActivitySim....
+The second scenario centers around an augmentation of transit service along the Wasatch Front.
+The FrontRunner, a \acr{CRT} line connecting Provo to Ogden, is slated for expansion.
+This scenario models an increase in the speed and frequency of FrontRunner trains, and adds several stations along its route, in accordance with the planned expansion of the service.
 
-?
+The third scenario addresses the growing trend of remote work.
+Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC.
+
+Each of these scenarios is based on the baseline 2019 scenario in each model.
+Only the noted changes are made, ignoring any additional growth or infrastructure development that is expected.
+For example, the increased \acr{WFH} scenario uses \acr{WFH} projections from 2050, but land use and socioeconomic data from 2019.
+These scenarios are therefore not realistic, but they serve as illustrative examples of the types of planning and development scenarios agencies may wish to analyze.
+
+All three of these scenarios are coded in both the \acr{WFRC} model and the ActivitySim implementation used.
+The results (Sections [-@sec-landuse]--[-@sec-wfh]) describe the process of coding each scenario and analyzing them, as well as the analyses themselves.

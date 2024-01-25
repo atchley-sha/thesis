@@ -19,4 +19,6 @@ acronyms:
       longname: Public Use Microdata Sample
     - shortname: TLFD
       longname: trip length frequency distribution
+    - shortname: WFH
+      longname: work-from-home
 ---
