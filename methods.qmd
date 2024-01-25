@@ -289,9 +289,11 @@ The actual development plans also include expansion of transit, but this will no
 The second scenario centers around an augmentation of transit service along the Wasatch Front.
 The FrontRunner, a \acr{CRT} line connecting Provo to Ogden, is slated for expansion.
 This scenario models an increase in the speed and frequency of FrontRunner trains, and adds several stations along its route, in accordance with the planned expansion of the service.
+@fig-frontrunner-beforeafter
 
 The third scenario addresses the growing trend of remote work.
 Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC.
+@fig-wfh-projections
 
 Each of these scenarios is based on the baseline 2019 scenario in each model.
 Only the noted changes are made, ignoring any additional growth or infrastructure development that is expected.

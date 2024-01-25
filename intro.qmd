@@ -10,5 +10,5 @@ We do this by applying an array of infrastructure and behavior scenarios to both
 
 The document proceeds in a typical fashion: @sec-literature provides a discussion of the differences between trip-based models and ABMs, alongside a discussion of previous studies examining the theoretical and analytical benefits of each framework.
 @sec-methods first describes the model frameworks used in this research, namely the regional trip-based model and an activity-based model constructed to support research activities in the region; this section also describes three scenarios designed to test the usefulness and applicability of the different model frameworks.
-Sections [-@sec-landuse]--[-@sec-wfh] describe the findings from each scenario, alongside a discussion of their limitations and implications.
+Chapters [-@sec-landuse]--[-@sec-wfh] describe the findings from each scenario, alongside a discussion of their limitations and implications.
 @sec-conclusions provides a series of recommendations and opportunities for future research.
