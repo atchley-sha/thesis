@@ -1,15 +1,14 @@
 # Introduction {#sec-introduction}
 
-Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950's.
+Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s.
 
 Despite the theoretical benefits, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns.
-There is also not a consensus that ABMs result in better infrastructure volume forecasts, the primary---or even sole---purpose  of many regions' travel demand analysis efforts.
+There is also not a consensus that ABMs result in better infrastructure volume forecasts, the primary---or even sole---purpose of many regions' travel demand analysis efforts.
 
 In this research, we investigate the quality and characteristics of travel analyses enabled by an ABM.
-We do this by applying an array of infrastructure and behavior scenarios to both an ABM and a trip-based model representing the Wasatch Front (Salt Lake City) region of Utah, USA.
-The results will compare the implications of each model and help inform agencies that are considering adopting an ABM. 
+We do this by applying an array of infrastructure and behavior scenarios to both an ABM and a trip-based model representing the Wasatch Front (Salt Lake City) region of Utah, USA. The results will compare the implications of each model and help inform agencies that are considering adopting an ABM.
 
 The document proceeds in a typical fashion: @sec-literature provides a discussion of the differences between trip-based models and ABMs, alongside a discussion of previous studies examining the theoretical and analytical benefits of each framework.
 @sec-methods first describes the model frameworks used in this research, namely the regional trip-based model and an activity-based model constructed to support research activities in the region; this section also describes three scenarios designed to test the usefulness and applicability of the different model frameworks.
-@sec-results describes the scenario findings, alongside a discussion of their limitations and implications.
-@sec-conclusions provides a series of recommendations and opportunities for future research. 
+Sections [-@sec-landuse]--[-@sec-wfh] describe the findings from each scenario, alongside a discussion of their limitations and implications.
+@sec-conclusions provides a series of recommendations and opportunities for future research.

@@ -1,4 +1,4 @@
-# Land Use
+# Land Use {#sec-landuse}
 
 In our first scenario, we changes the land use at The Point.
 
@@ -22,4 +22,3 @@ There were no existing households so we didn't need to remove any (we're not dou
 ? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn't do that.
 
 ## Analyses
-

@@ -29,8 +29,8 @@ book:
   date-format: DD MMMM YYYY
   chapters:
     - index.qmd
-    # - intro.qmd
-    # - lit-review.qmd
+    - intro.qmd
+    - lit-review.qmd
     - methods.qmd
     # - 1_land_use.qmd
     # - 2_transit.qmd

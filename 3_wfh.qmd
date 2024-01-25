@@ -1,4 +1,4 @@
-# WFH
+# WFH {#sec-wfh}
 
 Third scenario models WFH.
 
