@@ -101,7 +101,6 @@ tribble(
 ) %>% 
   mutate(Weight = scales::label_comma()(Weight)) %>% 
   kbl(booktabs = TRUE, linesep = "", align = "lccr") %>%
-  # flextable()
   kable_styling()
 ```
 
@@ -156,7 +155,6 @@ targets::tar_read(income_groups) %>%
   select(group, inc_range) %>% 
   rename("Income Group" = group, "Income Range" = inc_range) %>% 
   kbl(align = 'cr', booktabs = TRUE, linesep = "") %>% 
-  # flextable()
   kable_styling()
 ```
 
