@@ -20,14 +20,13 @@ The following sections discuss the specific models in more detail.
 
 The \acr{WFRC} model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by \acr{WFRC} for modeling travel in the Salt Lake City, Utah area.
 \acr{WFRC} provided the model directly, including land use forecasts and the current long-range transportation plan.
-The model is taken mostly as-is, though some changes were made to better accommodate the different scenarios.
-These modifications are noted in more detail in their respective sections.
+The model is taken essentially as-is, with no changes other than those notes in Chapters [-@sec-landuse]--[-@sec-wfh].
 
 The \acr{WFRC} model, like many trip-based models, requires the following inputs:
 
 -   **Land use data.** This includes information about population, employment, and socioeconomic variables such as income, delineated by \acr{TAZ}. In our case this was provided by \acr{WFRC} directly, as an output of their land use forecasting model(s).
 -   **Travel skims.** These detail travel time, cost, etc. between each origin-destination pair of \acr{TAZ}s. The \acr{WFRC} model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps.
--   **Transportation networks.** These includes highway, transit, etc. networks which connect the \acr{TAZ}s to each other. These networks contain information such as link speed and capacity. Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
+-   **Transportation networks.** These include highway, transit, etc. networks which connect the \acr{TAZ}s to each other. These networks contain information such as link speed and capacity. Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients. These are taken directly from the \acr{WFRC} model without modification.
 
 How the model works; enumerate and describe each step.
@@ -82,8 +81,7 @@ This research uses PopulationSim [@cite] to create a synthetic population for Ac
 The synthetic population aims to be representative of the study area while maintaining privacy.
 PopulationSim takes as input a "seed" of individuals and households, and populates the area with copies of these to match given control totals.
 
-The seed sample comes from the \acr{ACS} \acr{PUMS}, which contains a sample of actual (anonymized) individuals and households at the \acr{PUMA} level.
-\acr{PUMA}s partition the United States into areas of around (and no fewer than) 100,000 people each [@census2023].
+The seed sample comes from the \acr{ACS} \acr{PUMS}, which contains a sample of actual (anonymized) individuals and households at the \acr{PUMA} level (\acr{PUMA}s partition the United States into areas of around 100,000 people each [@census2023]).
 The control totals come from two different sources: the Census and the \acr{WFRC} model.
 @tbl-control-totals shows these controls as well as their geographic level and source.
 PopulationSim also allows setting different weights to each control, and @tbl-control-totals gives this information as well.
@@ -103,7 +101,7 @@ tribble(
 ) %>% 
   mutate(Weight = scales::label_comma()(Weight)) %>% 
   kbl(booktabs = TRUE, linesep = "", align = "lccr") %>%
-  row_spec(0, align='c') %>% 
+  # flextable()
   kable_styling()
 ```
 
@@ -158,7 +156,7 @@ targets::tar_read(income_groups) %>%
   select(group, inc_range) %>% 
   rename("Income Group" = group, "Income Range" = inc_range) %>% 
   kbl(align = 'cr', booktabs = TRUE, linesep = "") %>% 
-  row_spec(0, align='c') %>% 
+  # flextable()
   kable_styling()
 ```
 
@@ -191,7 +189,7 @@ targets::tar_read(inc_comp_plot)
 
 ### Verification and Calibration of ActivitySim
 
-In addition to verifying the synthetic population, we compared the outputs of each model to verify that trip patterns roughly agreed between them.
+This section compares the outputs of both models to verify that trip patterns roughly agree between them.
 This section discusses three comparisons of interest between the outputs of the two models: mode split, \acr{TLFD}, and remote work.
 
 The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed.
