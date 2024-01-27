@@ -7,7 +7,7 @@ execute:
   warning: false
 
 book:
-  title: "An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah"
+  title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu

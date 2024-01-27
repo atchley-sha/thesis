@@ -14,18 +14,21 @@ WFRC needs only to move 2050 data to 2019 for TC% and HBJ (in SE file ***ask Kam
 #| label: tbl-wfrc-telecommute-years
 #| tbl-cap: wfrc telecommute data
 
-targets::tar_read(wfrc_telecommute_table) %>% 
-  left_join(targets::tar_read(job_code_translation)) %>% 
-  mutate(across(
-    c(wfrc_2019, wfrc_2050),
-    \(x) scales::label_percent(accuracy = 0.01)(x))) %>% 
-  kbl(
-    booktabs = TRUE,
-    align = "c",
-    col.names = c("Job Type", "2019", "2050")
-  ) %>% 
-  add_header_above(c(" ", "WFRC Model Telecommute Proportion" = 2)) %>% 
-  kable_styling()
+# library(tidyverse)
+# library(kableExtra)
+# 
+# targets::tar_read(wfrc_telecommute_table) %>% 
+#   left_join(targets::tar_read(job_code_translation)) %>% 
+#   mutate(across(
+#     c(wfrc_2019, wfrc_2050),
+#     \(x) scales::label_percent(accuracy = 0.01)(x))) %>% 
+#   kbl(
+#     booktabs = TRUE,
+#     align = "c",
+#     col.names = c("Job Type", "2019", "2050")
+#   ) %>% 
+#   add_header_above(c(" ", "WFRC Model Telecommute Proportion" = 2)) %>% 
+#   kable_styling()
 ```
 
 Asim is the same as calibration for the baseline scenario, but with different target %s.
