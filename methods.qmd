@@ -197,7 +197,7 @@ These were adjusted iteratively based on the difference in mode shares between t
 Overall, this calibration is okay, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
 However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split begins converging at this point regardless of the calibration constant values (see @fig-calibration-plot).
 This is likely due to the mode choice coefficients being unrepresentative of the study area.
-The ActivitySim configuration is based on the San Francisco area, and so coefficients on variables such as travel time and income will be optimized for that area (hence in part why there are so many more transit trips).
+This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area (hence in part why there are so many more transit trips).
 
 ```{r}
 #| label: tbl-mode-split
@@ -228,7 +228,7 @@ targets::tar_read(calibration_plot)
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
 Both ActivitySim and the WFRC model contain destination choice models which can be adjusted to affect the distribution of trip length.
 However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
-Again, the most significant discrepancies are with transit trips, likely due to the "San Francisco" configuration of ActivitySim making transit more attractive.
+The most significant discrepancies are with transit trips, again likely due to this configuration of ActivitySim being calibrated to San Francisco, making transit more attractive.
 Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.
 
 ```{r}
@@ -241,7 +241,6 @@ targets::tar_read(tlfd_comp_plot)
 The WFRC model has basic support for predicting telecommuting and work-from-home trips.
 This includes a lookup table of telecommute percentages based on job type and year.
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
-The overall work-from-home and telecommute trip shares should be similar between the baseline scenarios in each model.
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
@@ -264,7 +263,7 @@ The WFRC model has a lookup table of telecommuting shares based on job type (see
 ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
 Based on this status, the model adjusts the likelihood of making a mandatory tour.
 Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
-In order to calibrate to the WFRC data, however, we added job type variables to match those given in @tbl-baseline-telecommute.
+In order to calibrate to the WFRC data, however, there are additional job type variables added to match those given in @tbl-baseline-telecommute.
 Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets.
 The calibration allowed ActivitySim to match these targets exactly without the coefficients becoming too large, and the coefficients are given in @tbl-baseline-telecommute.
 
@@ -288,7 +287,9 @@ targets::tar_read(compare_tc_2019) %>%
 
 ## Example Scenarios
 
-To effectively compare the models, we propose three scenarios to model and analyze, which are taken to be representative of the types of planning and development that agencies would like to model and analyze:
+There are three proposed scenarios to implement and run in each model for comparison.
+These are a sample of the types of planning and development that agencies would like to model.
+This is not a comprehensive list covering all potential scenario possibilities, but is taken to represent many of the types of scenarios an agency would analyze.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
 Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
