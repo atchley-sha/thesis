@@ -29,10 +29,12 @@ The \acr{WFRC} model, like many trip-based models, requires the following inputs
 -   **Transportation networks.** These include highway, transit, etc. networks which connect the \acr{TAZ}s to each other. These networks contain information such as link speed and capacity. Though the \acr{WFRC} model assigns travel volumes to the network, this research does not compare the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   **Model constants and coefficients.** Many model steps, including mode choice, require calibration constants and coefficients. These are taken directly from the \acr{WFRC} model without modification.
 
-How the model works; enumerate and describe each step.
-Probably multiple paragraphs.
+Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
+The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
+The trip generation step uses lookup tables for each household type to determine the number of trips produced by purpose.
+Trip attractions are determined based on the number of jobs in each TAZ, with differing coefficients by job type.
 
-Model outputs.
+The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
 
 ## ActivitySim
 
