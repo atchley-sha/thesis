@@ -33,6 +33,13 @@ Like many trip-based models, the WFRC model follows the "four-step" approach and
 The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
 The trip generation step uses lookup tables for each household type to determine the number of trips produced by purpose.
 Trip attractions are determined based on the number of jobs in each TAZ, with differing coefficients by job type.
+Trip distribution uses a gravity model of the form\
+$$
+T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
+$$\
+where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the productions at $i$, $A_j$ is the attractions at $j$, $F_{ij}$ is the cost term/function from $i$ to $j$, and $J$ is the set of all zones trips from $i$ can be attracted to.
+Mode choice uses....
+Network assignment is done to equalize travel time between potential routes
 
 The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
 
