@@ -32,6 +32,9 @@
 
 --]]
 
+local Helpers = require("acronyms_helpers")
+
+
 -- The table containing all styles, indexed by the style's name.
 local styles = {}
 
@@ -40,7 +43,7 @@ local styles = {}
 -- depending on whether we want to insert links.
 local function create_element(content, key, insert_links)
     if insert_links then
-        return pandoc.Link(content, key_to_link(key))
+        return pandoc.Link(content, Helpers.key_to_link(key))
     else
         return pandoc.Str(content)
     end
@@ -114,13 +117,13 @@ end
 return function(acronym, style_name, insert_links)
     -- Check that the requested strategy exists
     assert(style_name ~= nil,
-        "style_name must not be nil!")
+        "[acronyms] The parameter style_name must not be nil!")
     assert(styles[style_name] ~= nil,
-        "Style " .. style_name .. " does not exist!")
+        "[acronyms] Style " .. style_name .. " does not exist!")
 
     -- Check that the acronym exists
     assert(acronym ~= nil,
-        "acronym must not be nil!")
+        "[acronyms] The acronym must not be nil!")
 
     -- Call the style on this acronym
     return styles[style_name](acronym, insert_links)
