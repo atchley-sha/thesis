@@ -3,7 +3,7 @@ project:
   
 execute:
   echo: false
-  cache: false
+  cache: true
   warning: false
 
 book:
@@ -26,7 +26,7 @@ book:
         - ref: byucce
  
   date: "1 January 1900"
-  date-format: DD MMMM YYYY
+  date-format: D MMMM YYYY
   chapters:
     - index.qmd
     - intro.qmd
@@ -48,25 +48,9 @@ affiliations:
     postal-code: 84602
     
 bibliography: bib/references.bib
-
 lof: true
 lot: true
-fig-align: center
-
-filters:
-  - acronyms
-  
-acronyms:
-  loa_title: ""
-  insert_loa: false
-  insert_links: false
-  include_unused: false
-  sorting: "alphabetical"
-  non_existing: "key"
-  style: "long-short"
-  fromfile:
-    - _acronyms.yml
-    
+fig-align: center    
 number-depth: 2
 toc-depth: 2
 
@@ -82,5 +66,22 @@ format:
   # docx:
   #   reference-doc: style/template.docx
 
-
-
+filters:
+  - acronyms
+  - abstract-section
+  
+acronyms:
+  loa_title: ""
+  insert_loa: false
+  insert_links: false
+  include_unused: true
+  sorting: "alphabetical"
+  non_existing: "??"
+  style: "long-short"
+  on_duplicate: "error"
+  fromfile:
+    - _acronyms.yml
+    
+abstract-section:
+  section-identifiers:
+    - abstract
