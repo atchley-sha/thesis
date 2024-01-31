@@ -85,6 +85,7 @@ plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_charac
     geom_sf(aes(fill = Trips.diff), 
             color = "black") + 
     scale_fill_gradient(low="#FFFFFF00", high="#002E5D") +
-    ggtitle("Total Productions at The Point (Scenario)") +
     theme_void()
 }
+
+
