@@ -132,7 +132,8 @@ For ActivitySim, the baseline scenario uses 2019 Census and WFRC data to create 
 
 The controls for PopulationSim mostly come from the Census, as can be seen in @tbl-control-totals.
 However, the WFRC model contains TAZ-level data including population and median income.
-The WFRC model also has a disaggregation step that estimates the number of households by size, income group, and number of workers.
+The WFRC model also has a disaggregation step that estimates the number of households by size and income group.
+<!-- and number of workers -->\
 This section compares the output of PopulationSim to the WFRC model on each of these variables at the TAZ level.
 
 @fig-population-comparison shows the difference in TAZ population between PopulationSim and the WFRC data.
@@ -146,10 +147,9 @@ The average household size will therefore follow a similar error distribution to
 targets::tar_read(pop_comp_map)
 ```
 
-The population per TAZ is similar to the WFRC data in most places.
-There are some discrepancies near Herriman and Lehi, but most other places are within a few percent.
-Since total population is a region-level control, but number of households is a TAZ-level control, this shows PopulationSim is predicting a smaller average household size in Herriman and Lehi (and some other places) than the WFRC data suggests.
-This may be reasonable, as these are suburban areas which are likely to have larger household sizes on average than places like Salt Lake City.
+The population per TAZ is similar to the WFRC data in most places, though there are some discrepancies especially near Herriman and Lehi.
+Since total population is a region-level control, but number of households is a TAZ-level control, this shows PopulationSim is predicting a smaller average household size in Herriman and Lehi than the WFRC data suggests.
+<!-- This may be reasonable, as these are suburban areas which are likely to have larger household sizes on average than places like Salt Lake City. -->
 
 Income is also an important factor in travel behavior [@cite?], and @fig-median-income-comparison shows a TAZ-level comparison of median income between the synthetic population and the WFRC data.
 The synthetic population does have a lower median income than the WFRC data in many TAZs, but the error is in most cases fairly small, especially in more populated areas.
@@ -201,10 +201,9 @@ This section compares the outputs of both models to verify that trip patterns ro
 There are three comparisons of interest between the outputs of the two models: mode split, trip length frequency distribution, and remote work.
 
 The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed.
-The most straightforward adjustments to make in ActivitySim's mode choice model are to the alternative-specific constants.
-These were adjusted iteratively based on the difference in mode shares between the two models.
+We adjusted the alternative-specific constants in ActivitySim's mode choice model to better match the mode split in the WFRC model.
 @tbl-mode-split compares the mode split of both models after several iterations of this calibration.
-Overall, this calibration is okay, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
+Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
 However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split begins converging at this point regardless of the calibration constant values (see @fig-calibration-plot).
 This is likely due to the mode choice coefficients being unrepresentative of the study area.
 This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area (hence in part why there are so many more transit trips).
@@ -255,11 +254,12 @@ It is worth noting that both the WFRC model and ActivitySim make a distinction b
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
+@fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data.
 ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration).
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
-@fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data.
-A weighted average of `r targets::tar_read(wfrc_hbj_base_pct)` is taken to be the target percent value for ActivitySim, and there are no other adjustments to the ActivitySim work-from-home submodel.
+This target work-from-home percentage is set at `r targets::tar_read(wfrc_hbj_base_pct)`, based on a weighted average from the WFRC model data.
+There are no other adjustments to the ActivitySim work-from-home submodel.
 
 ```{r}
 #| label: fig-wfrc-wfh
@@ -273,9 +273,9 @@ The WFRC model has a lookup table of telecommuting shares based on job type (see
 ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
 Based on this status, ActivitySim adjusts the likelihood of making a mandatory tour.
 Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
-In order to calibrate to the WFRC data, however, there are additional job type variables added to ActivitySim to match those given in @tbl-baseline-telecommute.
+In order to calibrate to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
 Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets.
-The calibration allowed ActivitySim to match these targets exactly without the coefficients becoming too large, and the coefficients are given in @tbl-baseline-telecommute.
+The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in @tbl-baseline-telecommute.
 
 ```{r}
 #| label: tbl-baseline-telecommute
@@ -298,27 +298,28 @@ targets::tar_read(compare_tc_2019) %>%
 ## Example Scenarios
 
 There are three proposed scenarios to implement and run in each model for comparison.
-These are a sample of the types of planning and development that agencies would like to model.
+<!-- Each scenario intends to be representative of a real-world  -->\
 This is not a comprehensive list covering all potential scenario possibilities, but is taken to represent many of the types of scenarios an agency would analyze.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
 Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
-<!-- @fig-landuse-site-imagery shows imagery of the site. --> This research scenario will be based on this development, but will include only the land use changes.
+<!-- @fig-landuse-site-imagery shows imagery of the site. -->\
+This research scenario will be based on this development, but will include only the land use changes.
 The actual development plans also include expansion of transit, but this will not be a part of this scenario.
 
 The second scenario centers around an augmentation of transit service along the Wasatch Front.
 The FrontRunner, a CRT line connecting Provo to Ogden, is slated for expansion.
-This scenario models an increase in the speed and frequency of FrontRunner trains and adds several stations along its route, in accordance with the planned expansion of the service.
+The expansion includes additional stations and increased travel speeds due to vehicle electrification.
+This scenario models these changes in accordance with the planned expansion of the service.
 <!-- @fig-frontrunner-beforeafter -->
 
 The third scenario addresses the growing trend of remote work.
 Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC.
 <!-- @fig-wfh-projections -->
 
-Each of these scenarios is based on the baseline 2019 scenario in the respective model.
-Only the noted changes are made, ignoring any additional growth or infrastructure development that is expected.
+Each of these scenarios is based on the baseline 2019 scenario in the respective model, and ignores any additional expected growth or development beyond the specific changes of each scenario.
 For example, the increased WFH scenario uses WFH projections from 2050, but land use and socioeconomic data from 2019.
 These scenarios are therefore not realistic, but they serve as illustrative examples of the types of planning and development scenarios agencies may wish to analyze.
 
-All three of these scenarios are coded in both the WFRC model and the ActivitySim implementation used.
+All three of these scenarios are coded in both the WFRC model and ActivitySim.
 The results (Chapters [-@sec-landuse]--[-@sec-wfh]) describe the process of coding each scenario and analyzing them, as well as the analyses themselves.
