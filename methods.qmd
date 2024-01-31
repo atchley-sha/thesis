@@ -81,8 +81,8 @@ Additionally, ActivitySim determines if an individual makes an "at-work" tour (e
 Each tour is scheduled and assigned a primary mode, as well as a primary destination for non-mandatory and joint tours.
 The tours are then populated with trips, and ActivitySim assigns each trip a purpose, destination, time of day, and mode compatible with the tour-level assignment.
 
-The final steps of ActivitySim are writing the trip matrices and other tables, including information on land use, persons, households, tours, and trips.
-This can also include writing summary tables of the above information.
+The final steps of ActivitySim are writing output trip matrices and other tables, including information on land use, persons, households, tours, and trips.
+<!-- This can also include writing summary tables of the above information. -->
 
 ### PopulationSim {#sec-populationsim}
 
