@@ -177,7 +177,14 @@ land_use_outputs <- tar_plan(
   lu_vmt_plot = make_lu_vmt_plot(lu_new_vmt),
   
   lu_desire_lines = make_desire_lines(lu_new_trips, dist_centroids, lu_tazs, taz_dist_trans),
-  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims)
+  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims),
+  
+  # WFRC
+  tar_file(trip_gen_lu_wfrc_file, "data/cube_output/land_use/TripGenprison.csv"),
+  trip_gen_lu_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
+  hbw_diff_from_by_to_lu = get_wfrc_trip_diff(trip_gen_by_wfrc, trip_gen_lu_wfrc),
+  lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
+  
   
 )
 

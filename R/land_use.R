@@ -76,10 +76,10 @@ tripgen_by <- read.csv("data/cube_output/base_2019/TripGenBY2019.csv")
 
 #I probably need to make the taz file an input as well??
 plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_character, taz){
-  
-  trips_connected_to_taz <- taz %>% left_join(trips_diff_data, join_by("TAZID" == "Z")) %>% 
-    filter(TAZID %in% focus_zones & Type == type_of_trip_as_character) %>% 
-    select(TAZID, Type, Trips.scen, Trips.by, Trips.diff, geometry)
+  focus_zones <- c(2138,2140, 2141, 2149, 2170)
+  trips_connected_to_taz <- taz %>% left_join(trips_diff_data, join_by("TAZ" == "Z")) %>% 
+    filter(TAZ %in% focus_zones & Type == type_of_trip_as_character) %>% 
+    select(TAZ, Type, Trips.scen, Trips.by, Trips.diff, geometry)
   
   trips_connected_to_taz %>% 
     st_transform(4326) %>% 
@@ -88,7 +88,7 @@ plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_charac
     geom_sf(aes(fill = Trips.diff), 
             color = "black") + 
     scale_fill_gradient(low="#FFFFFF00", high="#002E5D") +
-    theme_void()
+    theme_bw_map()
 }
 
 

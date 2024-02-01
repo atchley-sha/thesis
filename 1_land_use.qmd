@@ -31,3 +31,13 @@ We used the zonal data as new targets....
 Only created a new synthetic population for the 5 zones
 
 Used census targets from Gateway area in SLC
+@fig-point-hbw-productions
+# Plots made by Kamryn to put somewhere
+
+```{r}
+#| label: fig-point-hbw-productions
+#| fig-cap: Additional HBW Productions at "The Point"
+
+targets::tar_read(lu_hbw_trip_diff)
+
+```
