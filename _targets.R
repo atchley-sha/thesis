@@ -88,8 +88,8 @@ base_outputs_comparison <- tar_plan(
   wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
   
-  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
-  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
+  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),                     
+  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),                                  
   
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
