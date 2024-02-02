@@ -13,9 +13,9 @@ As seen in @tbl-poin-se-data, approximately 7,430 new households and 22,200 new 
 
 ```{r}
 #| label: fig-draper-prison-location
-#| fig-cap: draper prison location
+#| fig-cap: the 5 TAZs in draper prison location
 
-boxplot(mtcars$mpg ~ mtcars$cyl)
+targets::tar_read(lu_show_location)
 ```
 
 ```{r}
@@ -39,5 +39,4 @@ Used census targets from Gateway area in SLC
 #| fig-cap: Additional HBW Productions at "The Point"
 
 targets::tar_read(lu_hbw_trip_diff)
-
 ```

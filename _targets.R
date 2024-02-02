@@ -184,6 +184,7 @@ land_use_outputs <- tar_plan(
   trip_gen_lu_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
   hbw_diff_from_by_to_lu = get_wfrc_trip_diff(trip_gen_by_wfrc, trip_gen_lu_wfrc),
   lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
+  lu_show_location = plot_land_use_location(taz)
   
   
 )

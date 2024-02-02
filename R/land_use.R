@@ -92,3 +92,28 @@ plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_charac
 }
 
 
+plot_land_use_location <- function(taz) {
+  taz.data <- taz %>% 
+    select(TAZ) %>% 
+    filter(TAZ %in% c(2138, 2140, 2141, 2149, 2170)) %>%
+    mutate(value = 1) %>%
+    st_transform(4326)
+  
+  taz.data %>% ggplot() +
+    annotation_map_tile("cartolight",zoomin = 0)+
+    geom_sf(lwd = 1, color = "#002E5D", fill = "#0062B800") + 
+    coord_sf(xlim = c(-111.945,-111.86), ylim = c(40.46,40.525)) +
+    theme_void()
+}
+
+get_land_use_se_data <- function(landuse.file){
+  focus_zones <- c(2138,2140, 2141, 2149, 2170)
+  landuse.file %>% filter()
+    
+  
+}
+
+
+
+
+
