@@ -106,10 +106,11 @@ plot_land_use_location <- function(taz) {
     theme_void()
 }
 
-get_land_use_se_data <- function(landuse.file){
+get_se_data_for_point_zones <- function(landuse.data){
   focus_zones <- c(2138,2140, 2141, 2149, 2170)
-  landuse.file %>% filter()
-    
+  landuse.data %>%
+    select(`;TAZID`, TOTHH, HHPOP, HHSIZE, TOTEMP, HBJ, AVGINCOME) %>% 
+    filter(`;TAZID` %in% focus_zones)
   
 }
 

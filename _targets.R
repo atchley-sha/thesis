@@ -147,7 +147,12 @@ base_outputs <- tar_plan(
   
   # WFRC
   tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
-  trip_gen_by_wfrc = readr::read_csv(trip_gen_by_wfrc_file)
+  tar_file(by_se_file, "data/cube_input/SE_2019.csv"),
+  
+  by_trip_gen_wfrc = readr::read_csv(trip_gen_by_wfrc_file),
+  by_se_data = readr::read_csv(by_se_file), 
+  
+  simple_by_se_data = get_se_data_for_point_zones(by_se_data),
   
 )
 
@@ -181,10 +186,17 @@ land_use_outputs <- tar_plan(
   
   # WFRC
   tar_file(trip_gen_lu_wfrc_file, "data/cube_output/land_use/TripGenprison.csv"),
-  trip_gen_lu_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
-  hbw_diff_from_by_to_lu = get_wfrc_trip_diff(trip_gen_by_wfrc, trip_gen_lu_wfrc),
+  tar_file(land_use_se_file, "data/cube_input/SE_prison.csv"),
+  
+  lu_trip_gen_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
+  lu_se_data = readr::read_csv(land_use_se_file),
+  
+
+  hbw_diff_from_by_to_lu = get_wfrc_trip_diff(by_trip_gen_wfrc, lu_trip_gen_wfrc),
   lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
-  lu_show_location = plot_land_use_location(taz)
+  lu_show_location = plot_land_use_location(taz),
+  simple_lu_se_data = get_se_data_for_point_zones(lu_se_data),
+  
   
   
 )
