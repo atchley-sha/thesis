@@ -60,7 +60,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).

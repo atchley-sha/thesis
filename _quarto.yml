@@ -4,8 +4,9 @@ project:
   
 execute:
   echo: false
-  cache: true
   warning: false
+  cache: true
+  freeze: auto
 
 book:
   title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
@@ -30,15 +31,15 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - intro.qmd
-    - lit-review.qmd
-    - methods.qmd
-    - 1_land_use.qmd
-    - 2_transit.qmd
-    - 3_wfh.qmd
-    # - discussion.qmd
-    - conclusions.qmd
-    - references.qmd
+    - qmd/intro.qmd
+    - qmd/lit-review.qmd
+    - qmd/methods.qmd
+    - qmd/1_land_use.qmd
+    - qmd/2_transit.qmd
+    - qmd/3_wfh.qmd
+    # qmd/- discussion.qmd
+    - qmd/conclusions.qmd
+    - qmd/references.qmd
  
 affiliations:
   - id: byucce

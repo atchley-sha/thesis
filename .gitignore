@@ -9,10 +9,17 @@
 /_targets/
 /output/
 
+# maybe should be checked in? for now we ignore
+/_freeze/
+
 # caching for ggspatial and quarto
 /rosm.cache/
 /*_cache/
 /*_files/
+/qmd/rosm.cache/
+/qmd/*_cache/
+/qmd/*_files/
+
 
 # in case of failed render, these temp files are written
 /index.aux
