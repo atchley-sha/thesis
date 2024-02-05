@@ -1,5 +1,6 @@
 project:
   type: book
+  execute-dir: project
   
 execute:
   echo: false
