@@ -16,10 +16,16 @@
 local sorting_strategies = {}
 
 
--- Sort acronyms by their shortname, in alphabetical order.
+-- Sort acronyms by their shortname, in case-sensitive alphabetical order.
 sorting_strategies["alphabetical"] = function(acronym1, acronym2)
     -- TODO: check that this works with UTF-8 characters
     return acronym1.shortname < acronym2.shortname
+end
+
+
+-- Sort acronyms by their shortname, in case-insensitive alphabetical order.
+sorting_strategies["alphabetical-case-insensitive"] = function(acronym1, acronym2)
+    return acronym1.shortname:upper() < acronym2.shortname:upper()
 end
 
 
@@ -39,17 +45,26 @@ end
 -- The "public" API, i.e., the function returned by `require`.
 function sort_acronyms(acronyms, criterion, include_unused)
     assert(acronyms ~= nil,
-        "The acronyms table must not be nil!")
+        "[acronyms] The acronyms table must not be nil in sort_acronyms!")
     assert(criterion ~= nil,
-        "The criterion must be not nil!")
+        "[acronyms] The criterion must be not nil in sort_acronyms!")
     local comparator = sorting_strategies[criterion]
-    assert(comparator ~= nil,
-        "Sorting criterion unrecognized: " .. criterion)
+    if (comparator == nil) then
+        local msg = "[acronyms] Error when sorting acronyms:\n"
+        msg = msg .. "! Sorting criterion unrecognized: " .. tostring(criterion) .. "\n"
+        msg = msg .. "i Please check the `acronyms.sorting` metadata option.\n"
+        quarto.log.error(msg)
+        assert(false)
+    end
 
     -- Special rule: cannot use `usage` criterion if `include_unused` is true.
     -- Otherwise, comparison of potentially nil values will crash.
     if criterion == "usage" and include_unused then
-        error("When the 'usage' sorting is used, 'include_unused' must be set to false!")
+        local msg = "[acronyms] Error when sorting acronyms:\n"
+        msg = msg .. "! Cannot sort by `usage` when `include_unused` is true\n"
+        msg = msg .. "i Please set another sorting or set `include_unused` to `false`."
+        quarto.log.error(msg)
+        assert(false)
     end
 
     -- The acronyms table is indexed by keys, not by ints. Thus,

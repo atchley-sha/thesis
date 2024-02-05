@@ -3,11 +3,11 @@ project:
   
 execute:
   echo: false
-  cache: false
+  cache: true
   warning: false
 
 book:
-  title: "An Illustrated Comparison of Activity-Based and Trip-Based Models in Utah"
+  title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
@@ -25,19 +25,19 @@ book:
       affiliations:
         - ref: byucce
  
-  date: "6/23/2023"
-  date-format: DD MMMM YYYY
+  date: "1 January 1900"
+  date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    # - intro.qmd
-    # - lit-review.qmd
+    - intro.qmd
+    - lit-review.qmd
     - methods.qmd
-    # - 1_land_use.qmd
-    # - 2_transit.qmd
-    # - 3_wfh.qmd
+    - 1_land_use.qmd
+    - 2_transit.qmd
+    - 3_wfh.qmd
     # - discussion.qmd
-    # - conclusions.qmd
-    # - references.qmd
+    - conclusions.qmd
+    - references.qmd
  
 affiliations:
   - id: byucce
@@ -48,30 +48,17 @@ affiliations:
     postal-code: 84602
     
 bibliography: bib/references.bib
-
 lof: true
 lot: true
-fig-align: center
-
-filters:
-  - acronyms
-  
-acronyms:
-  loa_title: ""
-  insert_loa: false
-  insert_links: false
-  include_unused: false
-  sorting: "alphabetical"
-  non_existing: "key"
-  style: "long-short"
-  fromfile:
-    - _acronyms.yml
+fig-align: center    
+number-depth: 2
+toc-depth: 2
 
 format:
   html:
     theme: cosmo
   pdf:
-    toc-depth: 3
+    keep-tex: false
     # template: template.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
@@ -79,5 +66,22 @@ format:
   # docx:
   #   reference-doc: style/template.docx
 
-
-
+filters:
+  - acronyms
+  - abstract-section
+  
+acronyms:
+  loa_title: ""
+  insert_loa: false
+  insert_links: false
+  include_unused: true
+  sorting: "alphabetical"
+  non_existing: "??"
+  style: "long-short"
+  on_duplicate: "error"
+  fromfile:
+    - _acronyms.yml
+    
+abstract-section:
+  section-identifiers:
+    - abstract
