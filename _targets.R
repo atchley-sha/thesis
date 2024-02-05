@@ -88,8 +88,8 @@ base_outputs_comparison <- tar_plan(
   wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
   wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
   
-  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
-  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
+  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),                     
+  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),                                  
   
   wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
@@ -151,6 +151,17 @@ base_outputs <- tar_plan(
   
   by_vmt = get_vmt_dist(by_trp, distances),
   by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
+  
+  
+  # WFRC
+  tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
+  tar_file(by_se_file, "data/cube_input/SE_2019.csv"),
+  
+  by_trip_gen_wfrc = readr::read_csv(trip_gen_by_wfrc_file),
+  by_se_data = readr::read_csv(by_se_file), 
+  
+  simple_by_se_data = get_se_data_for_point_zones(by_se_data),
+  
 )
 
 # Land use ####
@@ -179,7 +190,22 @@ land_use_outputs <- tar_plan(
   lu_vmt_plot = make_lu_vmt_plot(lu_new_vmt),
   
   lu_desire_lines = make_desire_lines(lu_new_trips, dist_centroids, lu_tazs, taz_dist_trans),
-  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims)
+  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims),
+  
+  # WFRC
+  tar_file(trip_gen_lu_wfrc_file, "data/cube_output/land_use/TripGenprison.csv"),
+  tar_file(land_use_se_file, "data/cube_input/SE_prison.csv"),
+  
+  lu_trip_gen_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
+  lu_se_data = readr::read_csv(land_use_se_file),
+  
+
+  hbw_diff_from_by_to_lu = get_wfrc_trip_diff(by_trip_gen_wfrc, lu_trip_gen_wfrc),
+  lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
+  lu_show_location = plot_land_use_location(taz),
+  simple_lu_se_data = get_se_data_for_point_zones(lu_se_data),
+  
+  
   
 )
 

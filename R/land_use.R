@@ -61,3 +61,59 @@ get_lu_vmt <- function(trips, lu_tazs) {
     summarise(trips = n(), dist = sum(distance, na.rm = TRUE))
 }
 
+
+get_wfrc_trip_diff <- function(trip_gen_file_by,trip_gen_file_scenario){
+  
+  tripsscen <- trip_gen_file_scenario %>% pivot_longer(!Z, names_to = "Type", values_to = "Trips")
+  tripsby <- trip_gen_file_by %>% pivot_longer(!Z, names_to = "Type", values_to = "Trips")
+  joined <- left_join(tripsscen,tripsby, join_by(Z,Type), suffix = c('.scen','.by'))
+  mutate(joined, Trips.diff = Trips.scen - Trips.by)
+  
+}
+
+tripgen_scen <- read.csv("data/cube_output/land_use/TripGenprison.csv")
+tripgen_by <- read.csv("data/cube_output/base_2019/TripGenBY2019.csv")
+
+#I probably need to make the taz file an input as well??
+plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_character, taz){
+  focus_zones <- c(2138,2140, 2141, 2149, 2170)
+  trips_connected_to_taz <- taz %>% left_join(trips_diff_data, join_by("TAZ" == "Z")) %>% 
+    filter(TAZ %in% focus_zones & Type == type_of_trip_as_character) %>% 
+    select(TAZ, Type, Trips.scen, Trips.by, Trips.diff, geometry)
+  
+  trips_connected_to_taz %>% 
+    st_transform(4326) %>% 
+    ggplot() +
+    annotation_map_tile("cartolight",zoomin = 0) +
+    geom_sf(aes(fill = Trips.diff), 
+            color = "black") + 
+    scale_fill_gradient(low="#FFFFFF00", high="#002E5D") +
+    theme_bw_map()
+}
+
+
+plot_land_use_location <- function(taz) {
+  taz.data <- taz %>% 
+    select(TAZ) %>% 
+    filter(TAZ %in% c(2138, 2140, 2141, 2149, 2170)) %>%
+    mutate(value = 1) %>%
+    st_transform(4326)
+  
+  taz.data %>% ggplot() +
+    annotation_map_tile("cartolight",zoomin = 0)+
+    geom_sf(lwd = 1, color = "#002E5D", fill = "#0062B800") + 
+    coord_sf(xlim = c(-111.945,-111.86), ylim = c(40.46,40.525)) +
+    theme_void()
+}
+
+get_se_data_for_point_zones <- function(landuse.data){
+  focus_zones <- c(2138,2140, 2141, 2149, 2170)
+  landuse.data %>%
+    select(`;TAZID`, TOTHH, HHPOP, HHSIZE, TOTEMP, HBJ, AVGINCOME) %>% 
+    filter(`;TAZID` %in% focus_zones)
+  
+}
+
+
+
+

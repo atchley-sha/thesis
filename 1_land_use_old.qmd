@@ -1,4 +1,11 @@
 # Scenario 1: Land Use
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(kableExtra)
+```
 
 Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
 The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
@@ -13,16 +20,37 @@ As seen in @tbl-poin-se-data, approximately 7,430 new households and 22,200 new 
 
 ```{r}
 #| label: fig-draper-prison-location
-#| fig-cap: draper prison location
+#| fig-cap: the 5 TAZs in draper prison location
 
-boxplot(mtcars$mpg ~ mtcars$cyl)
+targets::tar_read(lu_show_location)
 ```
 
 ```{r}
 #| label: tbl-point-se-data
 #| tbl-cap: the point se data
 
-knitr::kable(head(mtcars))
+targets::tar_read(simple_lu_se_data) %>% 
+  kbl(
+    col.names = c("TAZ", "Households", "Population", "Household Size", "Employees", "Home-based-jobs", "Avg. Income"),
+    align = "c",
+    booktabs = TRUE,
+    linesep = ""
+  ) %>% 
+  kable_styling()
+```
+
+```{r}
+#| label: tbl-base-year-se-data
+#| tbl-cap: base year se data
+
+targets::tar_read(simple_by_se_data) %>% 
+  kbl(
+    col.names = c("TAZ", "Households", "Population", "Household Size", "Employees", "Home-based-jobs", "Avg. Income"),
+    align = "c",
+    booktabs = TRUE,
+    linesep = ""
+  ) %>% 
+  kable_styling()
 ```
 
 This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
@@ -31,3 +59,12 @@ We used the zonal data as new targets....
 Only created a new synthetic population for the 5 zones
 
 Used census targets from Gateway area in SLC
+@fig-point-hbw-productions
+# Plots made by Kamryn to put somewhere
+
+```{r}
+#| label: fig-point-hbw-productions
+#| fig-cap: Additional HBW Productions at "The Point"
+
+targets::tar_read(lu_hbw_trip_diff)
+```
