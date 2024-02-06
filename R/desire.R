@@ -18,6 +18,20 @@ make_desire_lines <- function(trips, centroids, lu_tazs, trans){
   od_to_sf(od, centroids)
 }
 
+make_desire_lines_new <- function(trips, centroids, trans){
+  od <- trips %>% 
+    left_join(trans, join_by(origin == TAZ)) %>% 
+    left_join(trans, join_by(destination == TAZ), suffix = c("_o", "_d")) %>% 
+    select(DISTSML_o, DISTSML_d, mode, trips) %>% 
+    rename(origin = DISTSML_o, destination = DISTSML_d) %>% 
+    group_by(origin, destination, mode) %>% 
+    summarise(trips = sum(trips))
+  # pivot_wider(names_from = mode, values_from = n) %>%
+  # mutate(across(-c(origin, destination), \(x) replace_na(x, 0)))
+  
+  od_to_sf(od, centroids)
+}
+
 plot_desire_lines <- function(lines, zones, lims){
   nlines <- lines %>% 
     # mutate(
@@ -34,6 +48,19 @@ plot_desire_lines <- function(lines, zones, lims){
     scale_linewidth_continuous(range = c(0.1,3), limits = c(NA,1000)) +
     lims(x = lims$x, y = lims$y) +
     labs(color = "Produced in new\ndevelopment", linewidth = "Trips") +
+    guides() +
+    theme_bw_map()
+}
+
+plot_desire_lines_new <- function(lines, zones, lims){
+  
+  ggplot(st_transform(zones, 4326)) +
+    annotation_map_tile("cartolight", zoomin = 1) +
+    geom_sf(fill = NA, color = "black") +
+    geom_sf(aes(linewidth = trips), data = st_transform(lines, 4326)) +
+    scale_linewidth_continuous(range = c(0.1,3), limits = c(NA,1000)) +
+    lims(x = lims$x, y = lims$y) +
+    labs(linewidth = "Trips") +
     guides() +
     theme_bw_map()
 }
