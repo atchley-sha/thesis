@@ -34,27 +34,27 @@ plot_wfh_vs_by_tlfd <- function(trips) {
     scale_y_continuous(expand = expansion(c(0,0.05))) +
     facet_wrap(vars(mode), nrow = 3, scales = "free_y") +
     labs(
-      x = "Distance (mi.)",
+      x = "Trip Length (mi.)",
       y = "Trip Frequency (kernel density)",
       color = "Scenario"
     ) +
     scale_color_brewer(
       labels = c(
-        by = "All trips (baseline scenario)",
-        wfh_diff = "Reduced trips in WFH scenario"),
+        by = "Baseline",
+        wfh = "Increased WFH"),
       palette = "Paired") +
     theme_bw()
 }
 
-make_all_asim_tlfd_trips <- function(by, wfh, dist) {
+make_all_asim_tlfd_trips <- function(by, wfh, distances) {
    by %>% 
     filter(purpose == "hbw") %>% 
     full_join(select(wfh, -distance), join_by(o_TAZ, d_TAZ, o_DIST, d_DIST, purpose, mode)) %>%
     mutate(
       o_TAZ, d_TAZ, mode, purpose,
-      by = trips, wfh_diff = -trips_difference,
+      by = trips, wfh = trips_scenario, #wfh_diff = -trips_difference,
       .keep = "none") %>% 
     left_join(distances, join_by(o_TAZ == origin, d_TAZ == destination)) %>% 
-    pivot_longer(c(by, wfh_diff), names_to = "scenario", values_to = "trips") %>% 
+    pivot_longer(c(by, wfh), names_to = "scenario", values_to = "trips") %>% 
     filter(!is.na(trips))
 }

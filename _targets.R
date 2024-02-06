@@ -260,19 +260,19 @@ wfh_outputs <- tar_plan(
     weight_by = trips_reference
     ),
   
-  wfh_abm_purpose_histogram = plot_trip_diff_by_purpose(wfh_trip_diff),
+  wfh_abm_purpose_histogram = plot_wfh_trip_diff_by_purpose(wfh_trip_diff),
   
-  wfh_diff_for_tlfd_asim = dplyr::filter(
-    wfh_trip_diff_dist,
-    purpose == "hbw", trips_difference < 0),
+  # wfh_diff_for_tlfd_asim = dplyr::filter(
+  #   wfh_trip_diff_dist,
+  #   purpose == "hbw", trips_difference < 0),
   
   # THIS NEEDS FIXING AND IS ONLY HERE FOR TESTING:
-  wfh_diff_for_tlfd_wfrc = wfh_diff_for_tlfd_asim,
+  # wfh_diff_for_tlfd_wfrc = wfh_diff_for_tlfd_asim,
   
-  wfh_diff_tlfd_plot = plot_wfh_diff_tlfd(trips = list(
-    asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
+  # wfh_diff_tlfd_plot = plot_wfh_diff_tlfd(trips = list(
+  #   asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
   all_asim_trips_for_tlfd = make_all_asim_tlfd_trips(
-    by_trip_count, wfh_diff_for_tlfd_wfrc, distances),
+    by_trip_count, wfh_trip_diff_dist, distances),
   wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(all_asim_trips_for_tlfd),
   
   # wfh_desire = district_desire_lines(wfh_od_diff, dist_centroids),
