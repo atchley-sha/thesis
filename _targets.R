@@ -140,6 +140,8 @@ base_outputs <- tar_plan(
   tar_file(by_tours, "data/asim_output/base_2019/final_tours.csv.gz"),
   tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
   tar_file(by_households, "data/asim_output/base_2019/final_households.csv.gz"),
+  tar_file(by_alltrips_omx, "data/cube_output/land_use/AllTrips_pkok.omx"),
+  tar_file(by_nhb_omx,"data/cube_output/land_use/NHB_trips_allsegs_pkok.omx"),
   
   by_trp = readr::read_csv(by_trips),
   by_tor = readr::read_csv(by_tours),
@@ -206,6 +208,8 @@ land_use_outputs <- tar_plan(
   # WFRC
   tar_file(trip_gen_lu_wfrc_file, "data/cube_output/land_use/TripGenprison.csv"),
   tar_file(land_use_se_file, "data/cube_input/SE_prison.csv"),
+  tar_file(lu_alltrips_omx, "data/cube_output/land_use/AllTrips_pkok.omx"),
+  tar_file(lu_nhb_omx,"data/cube_output/land_use/NHB_trips_allsegs_pkok.omx"),
   
   lu_trip_gen_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
   lu_se_data = readr::read_csv(land_use_se_file),
@@ -215,6 +219,9 @@ land_use_outputs <- tar_plan(
   lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
   lu_show_location = plot_land_use_location(taz),
   simple_lu_se_data = get_se_data_for_point_zones(lu_se_data),
+  
+  lu_alltrips = read_trip_matrix(lu_alltrips_omx),
+  lu_nhb = read_trip_matrix(lu_nhb_omx),
   
   
   

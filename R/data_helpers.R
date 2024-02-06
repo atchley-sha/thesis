@@ -156,6 +156,14 @@ get_districts <- function(taz){
     summarise()
 }
 
+read_trip_matrix <- function(omx_file) {
+  omx_file %>%
+    read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
+    pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>% 
+    mutate(trips = trips /100)
+}
+
+
 read_asim_telecommute_coeffs <- function(file) {
   file %>% 
     read_csv() %>% 
@@ -173,10 +181,3 @@ read_asim_telecommute_coeffs <- function(file) {
     ) %>% 
     pivot_wider(names_from = days, values_from = value) 
 }
-
-read_trip_matrix <- function(omx_file) {
-  omx_file %>% 
-    read_all_omx(names = c("auto", "transit", "nonmotor")) %>% 
-    pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips")
-}
-
