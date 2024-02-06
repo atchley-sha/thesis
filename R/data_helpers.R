@@ -156,3 +156,10 @@ get_districts <- function(taz){
     group_by(DISTSML) %>% 
     summarise()
 }
+
+read_trip_matrix <- function(omx_file) {
+  omx_file %>%
+    read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
+    pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>% 
+    mutate(trips = trips /100)
+}
