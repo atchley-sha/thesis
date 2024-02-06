@@ -38,6 +38,11 @@ plot_wfh_vs_by_tlfd <- function(trips) {
       y = "Trip Frequency (kernel density)",
       color = "Scenario"
     ) +
+    scale_color_brewer(
+      labels = c(
+        by = "All trips (baseline scenario)",
+        wfh_diff = "Reduced trips in WFH scenario"),
+      palette = "Paired") +
     theme_bw()
 }
 
