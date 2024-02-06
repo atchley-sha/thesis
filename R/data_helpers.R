@@ -103,18 +103,18 @@ sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
   if(!weight) return(slice_sample(grouped, prop = prop))
 }
 
-make_mode_and_purpose_pretty <- function(x) {
+make_mode_and_purpose_pretty <- function(x, factors = TRUE) {
   x %>% 
     mutate(
       purpose = case_match(
-        purpose,
+        as.character(purpose),
         "hbw" ~ "Home-based Work",
         "hbo" ~ "Home-based Other",
         "nhb" ~ "Non\u2013home-based",
         "all" ~ "All"
       ),
       mode = case_match(
-        mode,
+        as.character(mode),
         "auto" ~ "Auto",
         "transit" ~ "Transit",
         "nonmotor" ~ "Non-motorized",
@@ -132,7 +132,7 @@ make_model_pretty <- function(x) {
       model = case_match(
         model,
         "asim" ~ "ActivitySim",
-        "wfrc" ~ "WFRC/MAG"
+        "wfrc" ~ "WFRC Model"
       )
     )
 }
@@ -173,3 +173,10 @@ read_asim_telecommute_coeffs <- function(file) {
     ) %>% 
     pivot_wider(names_from = days, values_from = value) 
 }
+
+read_trip_matrix <- function(omx_file) {
+  omx_file %>% 
+    read_all_omx(names = c("auto", "transit", "nonmotor")) %>% 
+    pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips")
+}
+

@@ -13,6 +13,7 @@ tar_option_set(
 r_files <- list.files("R", full.names = TRUE)
 sapply(r_files, source)
 
+tar_seed_set(34985723)
 
 #### List targets ##############################################################
 
@@ -145,15 +146,25 @@ base_outputs <- tar_plan(
   by_per = readr::read_csv(by_persons),
   by_hh = readr::read_csv(by_households),
   
-  by_od = make_district_od(by_trp, taz_dist_trans),
-  by_desire = better_desire_lines(by_od, dist_centroids),
-  by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
+  # by_od = make_district_od(by_trp, taz_dist_trans),
+  # by_desire = better_desire_lines(by_od, dist_centroids),
+  # by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
   
   by_vmt = get_vmt_dist(by_trp, distances),
   by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
   
+  by_trip_count = count_trips(by_trp, taz_dist_trans),
+  
   
   # WFRC
+  # tar_files(
+  #   calibration_iters_files,
+  #   list.files("data/calibration", full.names = TRUE, pattern = ".*\\.csv")),
+  # tar_target(
+  #   calibration_iters,
+  #   combine_calibration_iters(calibration_iters_files),
+  #   pattern = map(calibration_iters_files)),
+  
   tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
   tar_file(by_se_file, "data/cube_input/SE_2019.csv"),
   
@@ -238,10 +249,34 @@ wfh_outputs <- tar_plan(
   wfh_per = readr::read_csv(wfh_persons),
   wfh_hh = readr::read_csv(wfh_households),
   
-  wfh_od = make_district_od(wfh_trp, taz_dist_trans),
-  wfh_od_diff = diff_od(list(by = by_od, wfh = wfh_od)),
-  wfh_desire = better_desire_lines(wfh_od_diff, dist_centroids),
-  wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
+  wfh_trip_count = count_trips(wfh_trp, taz_dist_trans),
+  wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
+  
+  wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
+  
+  wfh_diff_sample = dplyr::slice_sample(
+    wfh_trip_diff_dist,
+    prop = 0.1,
+    weight_by = trips_reference
+    ),
+  
+  wfh_abm_purpose_histogram = plot_trip_diff_by_purpose(wfh_trip_diff),
+  
+  wfh_diff_for_tlfd_asim = dplyr::filter(
+    wfh_trip_diff_dist,
+    purpose == "hbw", trips_difference < 0),
+  
+  # THIS NEEDS FIXING AND IS ONLY HERE FOR TESTING:
+  wfh_diff_for_tlfd_wfrc = wfh_diff_for_tlfd_asim,
+  
+  wfh_diff_tlfd_plot = plot_wfh_diff_tlfd(trips = list(
+    asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
+  all_asim_trips_for_tlfd = make_all_asim_tlfd_trips(
+    by_trip_count, wfh_diff_for_tlfd_wfrc, distances),
+  wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(all_asim_trips_for_tlfd),
+  
+  # wfh_desire = district_desire_lines(wfh_od_diff, dist_centroids),
+  # wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
   
   wfh_vmt = get_vmt_dist(wfh_trp, distances),
   wfh_o_vmt = get_o_vmt(wfh_vmt, taz_dist_trans),

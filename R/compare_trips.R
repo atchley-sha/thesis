@@ -288,3 +288,18 @@ make_wfrc_hbj <- function(se_data) {
   
   list(pct = overall_pct, plot = plot)
 }
+
+get_trip_difference <- function(trips, reference) {
+  diff <- trips %>% 
+    full_join(
+      reference,
+      join_by(o_TAZ, d_TAZ, o_DIST, d_DIST, purpose, mode),
+      suffix = c("_scenario", "_reference")) %>% 
+    mutate(across(contains("trips_"), \(x) replace_na(x, 0))) %>% 
+    mutate(trips_difference = trips_scenario - trips_reference)
+}
+
+add_taz_distances <- function(trips, distances) {
+  trips %>% 
+    left_join(distances, join_by(o_TAZ == origin, d_TAZ == destination))
+}
