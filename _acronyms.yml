@@ -13,10 +13,17 @@ acronyms:
       longname: daily activity pattern
     - shortname: BRT
       longname: bus rapid transit
+    - shortname: CRT
+      longname: commuter rail transit
     - shortname: ACS
       longname: American Community Survey
     - shortname: PUMS
       longname: Public Use Microdata Sample
+    - shortname: PUMA
+      longname: Public Use Microdata Area
     - shortname: TLFD
       longname: trip length frequency distribution
+    - shortname: WFH
+      longname: work-from-home
+    
 ---

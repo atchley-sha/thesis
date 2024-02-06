@@ -1,0 +1,17 @@
+# Transit {#sec-transit}
+
+The second sceario updates the transit network (frontrunner).
+
+Data comes from the WFRC 2050 build plan.
+Includes new stations, new headways, and faster speeds.
+
+Show map of changes.
+
+## Creating scenario
+
+WFRC model needs three adjustments: edit the headways, point the model to the new frontrunner network (which includes speeds), and add park-and-ride option at new station locations in highway?
+network.
+
+Asim just needs new skims, gotten from the new WFRC scenario.
+
+## Analyses

@@ -1,7 +1,31 @@
 ::: {.content-hidden when-format="html"}
-
 # List of Acronyms {.unnumbered .unlisted}
 
 \printacronyms
-
 :::
+
+<!-- # LOA -->
+
+```{r}
+# #| warning: false
+# 
+# library(tidyverse)
+# library(flextable)
+# library(ftExtra)
+# 
+# set_flextable_defaults(float = "float")
+# 
+# read_csv("_acronyms.csv") %>% 
+#   arrange(short, .locale = "en") %>% 
+#   flextable() %>% 
+#   theme_box() %>%
+#   border_remove() %>%
+#   delete_part("header") %>%
+#   align(align = "left", part = "all") %>%
+#   autofit() %>%
+#   bold(j = 1)
+```
+
+# Abstract
+
+This is where an abstract goes.

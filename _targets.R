@@ -13,6 +13,7 @@ tar_option_set(
 r_files <- list.files("R", full.names = TRUE)
 sapply(r_files, source)
 
+tar_seed_set(34985723)
 
 #### List targets ##############################################################
 
@@ -67,7 +68,7 @@ synth_pop_comparison <- tar_plan(
   inc_groups_map = make_inc_groups_map(pop_comp, income_groups),
   avg_inc_map = make_avg_inc_map(pop_comp),
   med_inc_map = make_med_inc_map(pop_comp),
-  inc_comp_plot = make_inc_plot(pop_comp),
+  inc_comp_plot = make_inc_plot(pop_comp, income_groups),
   pop_comp_map = make_pop_comp_map(pop_comp),
 
 )
@@ -110,6 +111,9 @@ base_outputs_comparison <- tar_plan(
   mode_split_comp = make_mode_split_comp(comp_modes),
   
   # WFH
+  tar_file(job_code_translation_file, "data/job_code_translation.csv"),
+  job_code_translation = readr::read_csv(job_code_translation_file),
+  
   tar_file(wfrc_telecommute_base_file, "data/base_model_comparison/wfrc/telecommute_base.csv"),
   wfrc_telecommute_base = get_wfrc_telecommute(wfrc_telecommute_base_file),
   wfrc_telecommute_pct = wfrc_telecommute_base$pct,
@@ -120,6 +124,11 @@ base_outputs_comparison <- tar_plan(
   wfrc_hbj_base = make_wfrc_hbj(se_data),
   wfrc_hbj_base_pct = wfrc_hbj_base$pct,
   wfrc_hbj_base_plot = wfrc_hbj_base$plot,
+  
+  tar_file(asim_telecommute_coeffs_2019_file, "data/base_model_comparison/asim/asim_tc_coeffs_2019.csv"),
+  asim_telecommute_coeffs_2019 = read_asim_telecommute_coeffs(asim_telecommute_coeffs_2019_file),
+  
+  compare_tc_2019 = compare_tc(wfrc_telecommute_table[c("jobcode", "wfrc_2019")], asim_telecommute_coeffs_2019, job_code_translation),
 )
 
 ## Analysis #####################
@@ -139,15 +148,25 @@ base_outputs <- tar_plan(
   by_per = readr::read_csv(by_persons),
   by_hh = readr::read_csv(by_households),
   
-  by_od = make_district_od(by_trp, taz_dist_trans),
-  by_desire = better_desire_lines(by_od, dist_centroids),
-  by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
+  # by_od = make_district_od(by_trp, taz_dist_trans),
+  # by_desire = better_desire_lines(by_od, dist_centroids),
+  # by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
   
   by_vmt = get_vmt_dist(by_trp, distances),
   by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
   
+  by_trip_count = count_trips(by_trp, taz_dist_trans),
+  
   
   # WFRC
+  # tar_files(
+  #   calibration_iters_files,
+  #   list.files("data/calibration", full.names = TRUE, pattern = ".*\\.csv")),
+  # tar_target(
+  #   calibration_iters,
+  #   combine_calibration_iters(calibration_iters_files),
+  #   pattern = map(calibration_iters_files)),
+  
   tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
   tar_file(by_se_file, "data/cube_input/SE_2019.csv"),
   
@@ -237,10 +256,34 @@ wfh_outputs <- tar_plan(
   wfh_per = readr::read_csv(wfh_persons),
   wfh_hh = readr::read_csv(wfh_households),
   
-  wfh_od = make_district_od(wfh_trp, taz_dist_trans),
-  wfh_od_diff = diff_od(list(by = by_od, wfh = wfh_od)),
-  wfh_desire = better_desire_lines(wfh_od_diff, dist_centroids),
-  wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
+  wfh_trip_count = count_trips(wfh_trp, taz_dist_trans),
+  wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
+  
+  wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
+  
+  wfh_diff_sample = dplyr::slice_sample(
+    wfh_trip_diff_dist,
+    prop = 0.1,
+    weight_by = trips_reference
+    ),
+  
+  wfh_abm_purpose_histogram = plot_wfh_trip_diff_by_purpose(wfh_trip_diff),
+  
+  # wfh_diff_for_tlfd_asim = dplyr::filter(
+  #   wfh_trip_diff_dist,
+  #   purpose == "hbw", trips_difference < 0),
+  
+  # THIS NEEDS FIXING AND IS ONLY HERE FOR TESTING:
+  # wfh_diff_for_tlfd_wfrc = wfh_diff_for_tlfd_asim,
+  
+  # wfh_diff_tlfd_plot = plot_wfh_diff_tlfd(trips = list(
+  #   asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
+  all_asim_trips_for_tlfd = make_all_asim_tlfd_trips(
+    by_trip_count, wfh_trip_diff_dist, distances),
+  wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(all_asim_trips_for_tlfd),
+  
+  # wfh_desire = district_desire_lines(wfh_od_diff, dist_centroids),
+  # wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
   
   wfh_vmt = get_vmt_dist(wfh_trp, distances),
   wfh_o_vmt = get_o_vmt(wfh_vmt, taz_dist_trans),

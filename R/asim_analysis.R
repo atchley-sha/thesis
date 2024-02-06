@@ -111,3 +111,25 @@ make_comp_o_vmt <- function(scen, by, zones) {
     theme_bw_map()
     
 }
+
+count_trips <- function(trips, trans){
+  trips %>% 
+    rename(
+      o_TAZ = origin,
+      d_TAZ = destination
+    ) %>% 
+    left_join(trans, join_by(o_TAZ == TAZ)) %>% 
+    rename(o_DIST = DISTSML) %>% 
+    left_join(trans, join_by(d_TAZ == TAZ)) %>% 
+    rename(d_DIST = DISTSML) %>% 
+    relocate(o_TAZ, d_TAZ, o_DIST, d_DIST) %>% 
+    mutate(primary_purpose = convert_asim_purpose(primary_purpose)) %>%
+    mutate(
+      purpose = get_asim_purpose(select(
+        .,
+        tour_id, tour_purpose = primary_purpose, trip_purpose = purpose
+      )),
+      mode = convert_asim_mode(trip_mode)
+    ) %>%
+    count(o_TAZ, d_TAZ, o_DIST, d_DIST, purpose, mode, name = "trips")
+}

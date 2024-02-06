@@ -1,0 +1,24 @@
+# Land Use {#sec-landuse}
+
+In our first scenario, we changes the land use at The Point.
+
+The change is based on WFRC 2050 SE data forecast, in turn based on development plan of The Point.
+
+This adds X jobs and X households, etc. (show map)
+
+## Creating the scenario
+
+In the WFRC model the change is trivial to implement.
+We just copy/pasted the se data from 2050 to 2019 for the affected zones.
+
+ActivitySim requires two things for this scenario: updated SE data and a new pop.
+The updated SE data is the same as in the WFRC scenario, so is also trivial to implement.
+The pop, however, is not.
+New controls.
+
+New population for only the affected area, then joined to existing.
+There were no existing households so we didn't need to remove any (we're not double-counting).
+
+? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn't do that.
+
+## Analyses

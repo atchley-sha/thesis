@@ -38,8 +38,14 @@ plot_desire_lines <- function(lines, zones, lims){
     theme_bw_map()
 }
 
-better_desire_lines <- function(od, dist_centroids){
-  od_to_sf(od, dist_centroids)
+district_desire_lines <- function(trip_count, dist_centroids){
+  trip_count %>% 
+    group_by(o_DIST, d_DIST, purpose, mode) %>% 
+    summarise(across(
+      contains("trips"),
+      sum
+    )) %>% 
+    od_to_sf(dist_centroids)
 }
 
 better_plot_desire_lines <- function(lines, zones){
