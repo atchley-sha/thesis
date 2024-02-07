@@ -1,146 +1,146 @@
 #' @param od A named list of OD trip counts (long format)
 combine_wfrc_od <- function(od, ex_zones){
-  
+
   trips_mode_purpose <- imap(
     od, \(df, i) rename_with(
       df,
       \(x) paste(x, i, sep = "_"),
       .cols = -c(origin, destination)
-    )) %>% 
-    reduce(function(x,y) left_join(x, y, join_by(origin, destination))) %>% 
-    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
-    filter(if_any(-c(origin, destination), \(x) x != 0)) %>% 
+    )) %>%
+    reduce(function(x,y) left_join(x, y, join_by(origin, destination))) %>%
+    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>%
+    filter(if_any(-c(origin, destination), \(x) x != 0)) %>%
     pivot_longer(
       -c(origin, destination),
       names_to = c("mode", "purpose"),
       names_sep = "_",
-      values_to = "trips") %>% 
+      values_to = "trips") %>%
     filter(trips > 0)
-    
+
   # There is a lot of data here, so we're trying to do this in the least
   # memory-intensive way
-    
-  purpose_all <- trips_mode_purpose %>% 
-    group_by(origin, destination, mode) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  purpose_all <- trips_mode_purpose %>%
+    group_by(origin, destination, mode) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(purpose = "all")
-  
-  trips <- bind_rows(trips_mode_purpose, purpose_all) %>% 
+
+  trips <- bind_rows(trips_mode_purpose, purpose_all) %>%
     filter(trips > 0)
-  
+
   rm(purpose_all)
   gc()
-  
-  mode_all <- trips_mode_purpose %>% 
-    group_by(origin, destination, purpose) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  mode_all <- trips_mode_purpose %>%
+    group_by(origin, destination, purpose) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(mode = "all")
-  
-  trips <- bind_rows(trips, mode_all) %>% 
+
+  trips <- bind_rows(trips, mode_all) %>%
     filter(trips > 0)
-  
+
   rm(mode_all)
   gc()
-  
-  all_trips <- trips_mode_purpose %>% 
-    group_by(origin, destination) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  all_trips <- trips_mode_purpose %>%
+    group_by(origin, destination) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(mode = "all", purpose = "all")
-  
-  trips <- bind_rows(trips, all_trips) %>% 
+
+  trips <- bind_rows(trips, all_trips) %>%
     filter(trips > 0)
-  
+
   rm(all_trips)
   rm(trips_mode_purpose)
   gc()
-  
-  
-  trips %>% 
+
+
+  trips %>%
     #WFRC multiplies the trips by 100 to avoid rounding away small trip numbers
     #that add up. We don't need that here, because R can handle more than 2
     #decimal places.
     mutate(trips = trips/100) %>%
     mutate(model = "wfrc", .after = destination)
-  
+
 }
 
 get_asim_od <- function(tripsfile, toursfile, ex_zones){
-  
-  trips <- read_csv(tripsfile) %>% 
+
+  trips <- read_csv(tripsfile) %>%
     select(tour_id, origin, destination, primary_purpose, purpose, trip_mode) %>%
     rename(tour_purpose = primary_purpose, trip_purpose = purpose)
-  # tours <- read_csv(toursfile) %>% 
+  # tours <- read_csv(toursfile) %>%
   #   select(tour_id, tour_mode)
-  
-  trips_mode_purpose <- trips %>% 
+
+  trips_mode_purpose <- trips %>%
     # left_join(
     #   trips, tours,
     #   join_by(tour_id),
     #   suffix = c("_trip", "_tour")
-    # ) %>% 
+    # ) %>%
     mutate(
       trip_mode = convert_asim_mode(trip_mode),
       # tour_mode = convert_asim_mode(tour_mode),
       trip_purpose = convert_asim_purpose(trip_purpose),
       tour_purpose = convert_asim_purpose(tour_purpose),
-      purpose = get_asim_purpose(pick(tour_id, tour_purpose, trip_purpose))) %>% 
-    select(origin, destination, trip_mode, purpose) %>% 
-    rename(mode = trip_mode) %>% 
-    group_by(origin, destination, mode, purpose) %>% 
-    summarise(trips = n(), .groups = "drop") %>% 
-    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>% 
+      purpose = get_asim_purpose(pick(tour_id, tour_purpose, trip_purpose))) %>%
+    select(origin, destination, trip_mode, purpose) %>%
+    rename(mode = trip_mode) %>%
+    group_by(origin, destination, mode, purpose) %>%
+    summarise(trips = n(), .groups = "drop") %>%
+    filter(!origin %in% ex_zones, !destination %in% ex_zones) %>%
     filter(trips > 0)
-  
+
   # There is a lot of data here, so we're trying to do this in the least
   # memory-intensive way
-  
-  purpose_all <- trips_mode_purpose %>% 
-    group_by(origin, destination, mode) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  purpose_all <- trips_mode_purpose %>%
+    group_by(origin, destination, mode) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(purpose = "all")
-  
-  trips <- bind_rows(trips_mode_purpose, purpose_all) %>% 
+
+  trips <- bind_rows(trips_mode_purpose, purpose_all) %>%
     filter(trips > 0)
-  
+
   rm(purpose_all)
   gc()
-  
-  mode_all <- trips_mode_purpose %>% 
-    group_by(origin, destination, purpose) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  mode_all <- trips_mode_purpose %>%
+    group_by(origin, destination, purpose) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(mode = "all")
-  
-  trips <- bind_rows(trips, mode_all) %>% 
+
+  trips <- bind_rows(trips, mode_all) %>%
     filter(trips > 0)
-  
+
   rm(mode_all)
   gc()
-  
-  all_trips <- trips_mode_purpose %>% 
-    group_by(origin, destination) %>% 
-    summarise(trips = sum(trips)) %>% 
+
+  all_trips <- trips_mode_purpose %>%
+    group_by(origin, destination) %>%
+    summarise(trips = sum(trips)) %>%
     mutate(mode = "all", purpose = "all")
-  
-  trips <- bind_rows(trips, all_trips) %>% 
+
+  trips <- bind_rows(trips, all_trips) %>%
     filter(trips > 0)
-  
+
   rm(all_trips)
   rm(trips_mode_purpose)
   gc()
-  
-  trips %>% 
+
+  trips %>%
     mutate(model = "asim", .after = destination)
 }
 
 combine_all_od <- function(wfrc_trips, asim_trips, distances){
-  
+
   all_trips <- bind_rows(wfrc_trips, asim_trips)
-  
+
   rm(asim_trips, wfrc_trips)
   gc()
-  
-  all_trips %>% 
-    left_join(distances, join_by(origin, destination)) %>% 
+
+  all_trips %>%
+    left_join(distances, join_by(origin, destination)) %>%
     filter(trips > 0, distance < 1000)
 }
 
@@ -150,7 +150,7 @@ convert_asim_mode <- function(mode){
     str_detect(mode, "COM|EXP|HVY|LOC|LRF|TAXI|TNC") ~ "transit",
     mode %in% c("BIKE", "WALK") ~ "nonmotor",
     TRUE ~ "ERROR IN MODE CONVERSION"
-  ) %>% 
+  ) %>%
     fct_relevel("auto", "transit", "nonmotor")
   new_mode
 }
@@ -182,7 +182,7 @@ get_asim_purpose <- function(modes_df){
         tour_purpose == "work" ~ "hbw",
         tour_purpose == "other" ~ "hbo",
         TRUE ~ "ERROR IN PURPOSE CONVERSION"
-      ) %>% 
+      ) %>%
         fct_relevel("hbw", "hbo", "nhb"))
 
     combined_purposes$purpose
@@ -194,18 +194,18 @@ compare_mode_split <- function(combined_trips) {
     summarise(trips = sum(trips)) %>%
     pivot_wider(names_from = model, values_from = trips) %>%
     arrange(purpose, mode)
-  
+
   comp_modes
 }
 
 make_mode_split_comp <- function(comp_modes){
 
-  asim_scale <- comp_modes %>% 
-    filter(purpose == "all" & mode == "all") %>% 
+  asim_scale <- comp_modes %>%
+    filter(purpose == "all" & mode == "all") %>%
     {.$wfrc/.$asim}
-  
-  pretty <- comp_modes %>% 
-    make_mode_and_purpose_pretty() %>% 
+
+  pretty <- comp_modes %>%
+    make_mode_and_purpose_pretty() %>%
     mutate(
       asim_scaled = asim*asim_scale,
       error = asim/wfrc - 1,
@@ -214,16 +214,16 @@ make_mode_split_comp <- function(comp_modes){
       pct_scaled_error = label_percent(accuracy = 0.1)(scaled_error),
     ) %>%
     select(purpose, mode, asim, wfrc, pct_error, pct_scaled_error)
-  
+
   pretty
 }
 
 make_tlfd_comp_plot <- function(combined_trips){
   combined_trips %>%
-    group_by(model, mode, purpose) %>% 
-    slice_sample(prop = 0.1, weight_by = trips) %>% 
-    make_mode_and_purpose_pretty() %>% 
-    make_model_pretty() %>% 
+    group_by(model, mode, purpose) %>%
+    slice_sample(prop = 0.1, weight_by = trips) %>%
+    make_mode_and_purpose_pretty() %>%
+    make_model_pretty() %>%
     ggplot() +
     geom_density(aes(x = distance, weight = trips, color = model)) +
     facet_grid(
@@ -240,13 +240,13 @@ make_tlfd_comp_plot <- function(combined_trips){
 }
 
 plot_calibration <- function(calibration_iters) {
-  calibration_iters %>% 
-    select(iter, purpose, mode, asim_share, wfrc_share) %>% 
-    rename_with(\(x) str_remove(x, "_share"), c(asim_share, wfrc_share)) %>% 
-    pivot_longer(c(asim, wfrc), names_to = "model", values_to = "share") %>% 
-    filter(purpose == "all", mode != "all") %>% 
-    make_mode_and_purpose_pretty() %>% 
-    make_model_pretty() %>% 
+  calibration_iters %>%
+    select(iter, purpose, mode, asim_share, wfrc_share) %>%
+    rename_with(\(x) str_remove(x, "_share"), c(asim_share, wfrc_share)) %>%
+    pivot_longer(c(asim, wfrc), names_to = "model", values_to = "share") %>%
+    filter(purpose == "all", mode != "all") %>%
+    make_mode_and_purpose_pretty() %>%
+    make_model_pretty() %>%
     ggplot() +
     geom_path(aes(x = iter, y = share, color = mode, lty = model)) +
     labs(x = "Calibration Iteration", y = "Mode Share", lty = "Model", color = "Mode") +
@@ -261,18 +261,18 @@ plot_calibration <- function(calibration_iters) {
 }
 
 make_wfrc_hbj <- function(se_data) {
-  data <- se_data %>% 
-    select(TAZ, ALLEMP, HBJ) %>% 
+  data <- se_data %>%
+    select(TAZ, ALLEMP, HBJ) %>%
     mutate(
       hbj_pct = case_when(
         ALLEMP == 0 & HBJ == 0 ~ 0,
         TRUE ~ HBJ/(ALLEMP+HBJ)))
-  
+
   num_pct <- weighted.mean(data$hbj_pct, data$ALLEMP)
-  overall_pct <- num_pct %>% 
+  overall_pct <- num_pct %>%
     label_percent(accuracy = 0.1)()
-  
-  plot <- data %>% 
+
+  plot <- data %>%
     ggplot() +
     geom_density(aes(x = hbj_pct, weight = ALLEMP, color = "Weighted by\nTAZ employment")) +
     geom_density(aes(x = hbj_pct, color = "Unweighted")) +
@@ -285,21 +285,33 @@ make_wfrc_hbj <- function(se_data) {
     theme_density() +
     scale_x_continuous(labels = label_percent(), trans = "sqrt", expand = expansion(c(0,0.05))) +
     labs(x = "Home-based Job % by TAZ", y = "Kernel density", color = element_blank())
-  
+
   list(pct = overall_pct, plot = plot)
 }
 
 get_trip_difference <- function(trips, reference) {
-  diff <- trips %>% 
+  diff <- trips %>%
     full_join(
       reference,
       join_by(o_TAZ, d_TAZ, o_DIST, d_DIST, purpose, mode),
-      suffix = c("_scenario", "_reference")) %>% 
-    mutate(across(contains("trips_"), \(x) replace_na(x, 0))) %>% 
+      suffix = c("_scenario", "_reference")) %>%
+    mutate(across(contains("trips_"), \(x) replace_na(x, 0))) %>%
     mutate(trips_difference = trips_scenario - trips_reference)
 }
 
 add_taz_distances <- function(trips, distances) {
-  trips %>% 
+  trips %>%
     left_join(distances, join_by(o_TAZ == origin, d_TAZ == destination))
+}
+
+diff_trip_matrix <- function(scen, by) {
+  full_join(
+    scen, by,
+    join_by(origin, destination, mode),
+    suffix = c("_scen", "_by")) %>%
+    mutate(
+      diff = trips_scen - trips_by
+    ) %>%
+    filter(round(diff) != 0) %>%
+    mutate(origin, destination, mode, trips = diff, .keep = "none")
 }
