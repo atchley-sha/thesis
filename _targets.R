@@ -226,7 +226,12 @@ land_use_outputs <- tar_plan(
 
   lu_alltrips = read_trip_matrix(lu_alltrips_omx),
   lu_nhb = read_trip_matrix(lu_nhb_omx),
-
+  
+  lu_alltrips_desire = make_desire_lines_new(lu_alltrips,dist_centroids,taz_dist_trans),
+  lu_alltrips_desire_plot = plot_desire_lines_new(lu_alltrips_desire, districts,  plot_lims),
+  
+  
+  
 )
 
 # Transit ####
