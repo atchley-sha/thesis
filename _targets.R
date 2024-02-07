@@ -226,12 +226,12 @@ land_use_outputs <- tar_plan(
 
   lu_alltrips = read_trip_matrix(lu_alltrips_omx),
   lu_nhb = read_trip_matrix(lu_nhb_omx),
-  
+
   lu_alltrips_desire = make_desire_lines_new(lu_alltrips,dist_centroids,taz_dist_trans),
   lu_alltrips_desire_plot = plot_desire_lines_new(lu_alltrips_desire, districts,  plot_lims),
-  
-  
-  
+
+
+
 )
 
 # Transit ####
@@ -267,6 +267,8 @@ wfh_outputs <- tar_plan(
   wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
 
   wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
+
+  wfh_trip_dist_summary = summarise_trip_diff(wfh_trip_diff_dist),
 
   # wfh_diff_sample = dplyr::slice_sample(
   #   wfh_trip_diff_dist,
