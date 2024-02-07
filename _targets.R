@@ -263,11 +263,11 @@ wfh_outputs <- tar_plan(
 
   wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
 
-  wfh_diff_sample = dplyr::slice_sample(
-    wfh_trip_diff_dist,
-    prop = 0.1,
-    weight_by = trips_reference
-    ),
+  # wfh_diff_sample = dplyr::slice_sample(
+  #   wfh_trip_diff_dist,
+  #   prop = 0.1,
+  #   weight_by = trips_reference
+  #   ),
 
   wfh_abm_purpose_histogram = plot_wfh_trip_diff_by_purpose(wfh_trip_diff),
 
