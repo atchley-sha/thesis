@@ -20,6 +20,8 @@
 /qmd/*_cache/
 /qmd/*_files/
 
+/temp
+
 
 # in case of failed render, these temp files are written
 /index.aux

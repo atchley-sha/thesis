@@ -162,6 +162,8 @@ base_outputs <- tar_plan(
 
   by_trip_count = count_trips(by_trp, taz_dist_trans),
 
+  by_nhb = read_trip_matrix(by_nhb_omx),
+
   # WFRC
   # tar_files(
   #   calibration_iters_files,
@@ -225,13 +227,17 @@ land_use_outputs <- tar_plan(
   simple_lu_se_data = get_se_data_for_point_zones(lu_se_data),
 
   lu_alltrips = read_trip_matrix(lu_alltrips_omx),
+  lu_new_productions = dplyr::filter(lu_alltrips, origin %in% lu_tazs),
+
+  lu_new_trips_desire = make_desire_lines_new(lu_new_productions, dist_centroids, taz_dist_trans),
+  lu_new_trips_desire_plot = plot_desire_lines_new(lu_new_trips_desire, districts, plot_lims),
+
+
   lu_nhb = read_trip_matrix(lu_nhb_omx),
-  
-  lu_alltrips_desire = make_desire_lines_new(lu_alltrips,dist_centroids,taz_dist_trans),
-  lu_alltrips_desire_plot = plot_desire_lines_new(lu_alltrips_desire, districts,  plot_lims),
-  
-  
-  
+  lu_nhb_diff = diff_trip_matrix(lu_nhb, by_nhb),
+  lu_nhb_diff_desire = make_desire_lines_new(lu_nhb_diff, dist_centroids, taz_dist_trans),
+  lu_nhb_diff_plot = plot_desire_lines_new(lu_nhb_diff_desire, districts, plot_lims),
+
 )
 
 # Transit ####
@@ -267,6 +273,8 @@ wfh_outputs <- tar_plan(
   wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
 
   wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
+
+  wfh_trip_dist_summary = summarise_trip_diff(wfh_trip_diff_dist),
 
   # wfh_diff_sample = dplyr::slice_sample(
   #   wfh_trip_diff_dist,
