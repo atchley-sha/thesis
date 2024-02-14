@@ -44,8 +44,8 @@ plot_wfh_trip_diff_by_purpose <- function(trip_diff) {
 
 plot_wfh_vs_by_mode <- function(trips){
   trips %>%
+    mutate(purpose = "hbw") %>%
     make_mode_and_purpose_pretty()
-
 }
 
 plot_frontrunner <- function(line, stops) {

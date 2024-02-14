@@ -148,6 +148,8 @@ base_outputs <- tar_plan(
   tar_file(by_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
   tar_file(by_nhb_omx,"data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
 
+  all_asim_by_trips = new_count_trips(by_trp),
+
   by_trp = readr::read_csv(by_trips),
   by_tor = readr::read_csv(by_tours),
   by_per = readr::read_csv(by_persons),
@@ -163,7 +165,23 @@ base_outputs <- tar_plan(
   by_trip_count = count_trips(by_trp, taz_dist_trans),
 
   by_nhb = read_trip_matrix(by_nhb_omx),
-  wfrc_by_hbw = read_trip_matrix(by_hbw_omx),
+  #wfrc_by_hbw = read_trip_matrix(by_hbw_omx),
+
+  tar_file(wfrc_by_hbw_omx, "data/cube_output/base_2019/HBW_trips_allsegs_pkok.omx"),
+  wfrc_by_hbw = read_trip_matrix(wfrc_by_hbw_omx),
+  tar_file(wfrc_by_hbo_omx, "data/cube_output/base_2019/HBO_trips_allsegs_pkok.omx"),
+  wfrc_by_hbo = read_trip_matrix(wfrc_by_hbo_omx),
+  tar_file(wfrc_by_nhb_omx, "data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
+  wfrc_by_nhb = read_trip_matrix(wfrc_by_nhb_omx),
+
+  all_wfrc_by_trips = dplyr::bind_rows(
+    list(
+      hbw = wfrc_by_hbw,
+      hbo = wfrc_by_hbo,
+      nhb = wfrc_by_nhb
+    ),
+    .id = "purpose"
+  ),
 
   # WFRC
   # tar_files(
@@ -270,8 +288,40 @@ wfh_outputs <- tar_plan(
   wfh_per = readr::read_csv(wfh_persons),
   wfh_hh = readr::read_csv(wfh_households),
 
+  all_asim_wfh_trips = new_count_trips(wfh_trp),
+
   tar_file(wfrc_wfh_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
   wfrc_wfh_hbw = read_trip_matrix(wfrc_wfh_hbw_omx),
+  tar_file(wfrc_wfh_hbo_omx, "data/cube_output/wfh/HBO_trips_allsegs_pkok.omx"),
+  wfrc_wfh_hbo = read_trip_matrix(wfrc_wfh_hbo_omx),
+  tar_file(wfrc_wfh_nhb_omx, "data/cube_output/wfh/NHB_trips_allsegs_pkok.omx"),
+  wfrc_wfh_nhb = read_trip_matrix(wfrc_wfh_nhb_omx),
+
+  all_wfrc_wfh_trips = dplyr::bind_rows(
+    list(
+      hbw = wfrc_wfh_hbw,
+      hbo = wfrc_wfh_hbo,
+      nhb = wfrc_wfh_nhb
+    ),
+    .id = "purpose"
+  ),
+
+  wfrc_wfh_trip_diff = get_trip_diff(
+    list(
+      by = all_wfrc_by_trips,
+      wfh = all_wfrc_wfh_trips
+    )
+  ),
+
+  asim_wfh_trip_diff = get_trip_diff(
+    list(
+      by = all_asim_by_trips,
+      wfh = all_asim_wfh_trips
+    )
+  ),
+
+  wfrc_wfh_diff_summary = summ_trip_diff(wfrc_wfh_trip_diff),
+  asim_wfh_diff_summary = summ_trip_diff(asim_wfh_trip_diff),
 
   wfh_trip_count = count_trips(wfh_trp, taz_dist_trans),
   wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
@@ -299,14 +349,15 @@ wfh_outputs <- tar_plan(
   #   asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
   all_asim_trips_for_wfh = make_all_asim_tlfd_trips(
     by_trip_count, wfh_trip_diff_dist, distances),
-  wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(all_asim_trips_for_wfh),
+  hbw_asim_trips_for_wfh = dplyr::filter(all_asim_trips_for_wfh, purpose == "hbw"),
+  wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(hbw_asim_trips_for_wfh),
 
   wfrc_trips_for_wfh = make_all_wfrc_tlfd_trips(
     wfrc_wfh_hbw, wfrc_by_hbw, distances
   ),
   wfrc_wfh_tlfd_plot = plot_wfh_vs_by_tlfd(wfrc_trips_for_wfh),
 
-  wfh_by_mode_plot = plot_wfh_vs_by_mode(all_asim_trips_for_wfh),
+  wfh_by_mode_plot = plot_wfh_vs_by_mode(hbw_asim_trips_for_wfh),
 
   # wfh_desire = district_desire_lines(wfh_od_diff, dist_centroids),
   # wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),

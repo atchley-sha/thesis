@@ -37,13 +37,23 @@ plot_wfh_vs_by_tlfd <- function(trips) {
     labs(
       x = "Trip Length (mi.)",
       y = "Trip Frequency (kernel density)",
-      color = "Scenario"
+      color = "Scenario",
+      lty = "Scenario"
     ) +
     scale_color_brewer(
       labels = c(
         by = "Baseline",
         wfh = "Increased WFH"),
       palette = "Paired") +
+    scale_linetype_manual(
+      values = c(
+        by = "solid",
+        wfh = "dotted"
+      ),
+      labels = c(
+        by = "Baseline",
+        wfh = "Increased WFH")
+    ) +
     theme_bw()
 }
 

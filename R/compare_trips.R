@@ -315,3 +315,31 @@ diff_trip_matrix <- function(scen, by) {
     filter(round(diff) != 0) %>%
     mutate(origin, destination, mode, trips = diff, .keep = "none")
 }
+
+get_trip_diff <- function(trip_list = list()) {
+  trip_list[[1]] %>%
+    left_join(
+      trip_list[[2]],
+      join_by(origin, destination, purpose, mode),
+      suffix = c("_1", "_2")) %>%
+    mutate(
+      diff = trips_2 - trips_1
+      # pct_diff = diff / trips_1
+    ) %>%
+    rename_with(
+      \(x) case_match(
+        x,
+        "trips_1" ~ names(trip_list)[1],
+        "trips_2" ~ names(trip_list)[2]
+      ),
+      .cols = c(trips_1, trips_2)
+    )
+}
+
+summ_trip_diff <- function(trips, groups = NULL) {
+  trips %>%
+    group_by(any_of(groups)) %>%
+    summarise(
+
+    )
+}
