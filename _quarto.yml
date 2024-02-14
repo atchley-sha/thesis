@@ -1,7 +1,7 @@
 project:
   type: book
   execute-dir: project
-  
+
 execute:
   echo: false
   warning: false
@@ -26,7 +26,7 @@ book:
       orcid: 0000-0003-3999-7584
       affiliations:
         - ref: byucce
- 
+
   date: "1 January 1900"
   date-format: D MMMM YYYY
   chapters:
@@ -48,11 +48,11 @@ affiliations:
     city: Provo
     state: UT
     postal-code: 84602
-    
+
 bibliography: bib/references.bib
 lof: true
 lot: true
-fig-align: center    
+fig-align: center
 number-depth: 2
 toc-depth: 2
 
@@ -71,7 +71,7 @@ format:
 filters:
   - acronyms
   - abstract-section
-  
+
 acronyms:
   loa_title: ""
   insert_loa: false
@@ -83,7 +83,7 @@ acronyms:
   on_duplicate: "error"
   fromfile:
     - _acronyms.yml
-    
+
 abstract-section:
   section-identifiers:
     - abstract
