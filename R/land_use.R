@@ -71,8 +71,6 @@ get_wfrc_trip_diff <- function(trip_gen_file_by,trip_gen_file_scenario){
   
 }
 
-tripgen_scen <- read.csv("data/cube_output/land_use/TripGenprison.csv")
-tripgen_by <- read.csv("data/cube_output/base_2019/TripGenBY2019.csv")
 
 #I probably need to make the taz file an input as well??
 plot_wfrc_land_use_trip_diff <- function(trips_diff_data, type_of_trip_as_character, taz){

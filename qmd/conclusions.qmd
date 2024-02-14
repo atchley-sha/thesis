@@ -1,0 +1,13 @@
+# Summary {#sec-conclusions}
+
+In summary, this book has no content whatsoever.
+
+## Computational resources
+
+This research also includes an analysis of the computational resources required to run each model.
+
+The WFRC model....
+
+ActivitySim....
+
+?

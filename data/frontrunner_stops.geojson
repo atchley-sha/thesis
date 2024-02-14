@@ -1,0 +1,26 @@
+{
+"type": "FeatureCollection",
+"name": "frontrunner_stops",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Provo" }, "geometry": { "type": "Point", "coordinates": [ -111.660692, 40.22557 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Orem" }, "geometry": { "type": "Point", "coordinates": [ -111.724488002396427, 40.279235721899134 ] } },
+{ "type": "Feature", "properties": { "Year": 2050, "Name": "Vineyard" }, "geometry": { "type": "Point", "coordinates": [ -111.749452474234545, 40.31215042911861 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "American Fork" }, "geometry": { "type": "Point", "coordinates": [ -111.820706, 40.375077 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Lehi" }, "geometry": { "type": "Point", "coordinates": [ -111.89666, 40.425686 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Draper" }, "geometry": { "type": "Point", "coordinates": [ -111.904192631638949, 40.515544561575908 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "South Jordan" }, "geometry": { "type": "Point", "coordinates": [ -111.900533, 40.563546 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Murray" }, "geometry": { "type": "Point", "coordinates": [ -111.896532, 40.660132 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Salt Lake Central" }, "geometry": { "type": "Point", "coordinates": [ -111.908764932908895, 40.761606178480889 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "North Temple" }, "geometry": { "type": "Point", "coordinates": [ -111.905174504027002, 40.772472721403084 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Farmington" }, "geometry": { "type": "Point", "coordinates": [ -111.903738332474191, 40.987238987788395 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Layton" }, "geometry": { "type": "Point", "coordinates": [ -111.96518, 41.05698 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Clearfield" }, "geometry": { "type": "Point", "coordinates": [ -112.013935189525284, 41.09466608541635 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Roy" }, "geometry": { "type": "Point", "coordinates": [ -112.039419907181014, 41.188852560616482 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Ogden" }, "geometry": { "type": "Point", "coordinates": [ -111.980646, 41.224352 ] } },
+{ "type": "Feature", "properties": { "Year": 2019, "Name": "Woods Cross" }, "geometry": { "type": "Point", "coordinates": [ -111.903020246697764, 40.880867036607349 ] } },
+{ "type": "Feature", "properties": { "Year": 2050, "Name": "Springville" }, "geometry": { "type": "Point", "coordinates": [ -111.637475057553843, 40.166518237224714 ] } },
+{ "type": "Feature", "properties": { "Year": 2050, "Name": "Spanish Fork" }, "geometry": { "type": "Point", "coordinates": [ -111.698191693156801, 40.108446762592457 ] } },
+{ "type": "Feature", "properties": { "Year": 2050, "Name": "Payson" }, "geometry": { "type": "Point", "coordinates": [ -111.770319890712258, 40.031617828180011 ] } }
+]
+}
