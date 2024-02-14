@@ -1,9 +1,11 @@
+#' @export
 read_cube_taz_se_file <- function(cube_taz_se_file) {
 	cube_taz_se_file %>%
 		read_csv() %>%
 		rename(TAZ = `;TAZID`, medinc = AVGINCOME)
 }
 
+#' @export
 read_cube_taz_inc_groups_file <- function(cube_taz_inc_groups_file) {
 	cube_taz_inc_groups_file %>%
 		read_csv() %>%
@@ -13,6 +15,7 @@ read_cube_taz_inc_groups_file <- function(cube_taz_inc_groups_file) {
 			names_to = "inc_group", values_to = "n", names_prefix = "INC")
 }
 
+#' @export
 read_trip_matrix <- function(omx_file) {
 	omx_file %>%
 		read_all_omx(names = c("auto", "transit", "nonmotor")) %>%

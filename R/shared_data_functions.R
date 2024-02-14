@@ -1,9 +1,11 @@
+#' @export
 read_taz_file <- function(taz_file) {
 	taz_file %>%
 		st_read() %>%
 		select(TAZ = TAZID)
 }
 
+#' @export
 get_sml_districts_from_taz_file <- function(taz_file) {
 	taz_file %>%
 		st_read() %>%
@@ -12,6 +14,7 @@ get_sml_districts_from_taz_file <- function(taz_file) {
 		rename(DIST = DISTSML)
 }
 
+#' @export
 get_med_districts_from_taz_file <- function(taz_file) {
 	taz_file %>%
 		st_read() %>%
@@ -20,6 +23,7 @@ get_med_districts_from_taz_file <- function(taz_file) {
 		rename(DIST = DISTMED)
 }
 
+#' @export
 make_taz_distsml_transl <- function(taz_file) {
 	taz_file %>%
 		st_read() %>%
@@ -28,6 +32,7 @@ make_taz_distsml_transl <- function(taz_file) {
 		rename(DIST = DISTSML)
 }
 
+#' @export
 make_taz_distmed_transl <- function(taz_file) {
 	taz_file %>%
 		st_read() %>%
@@ -36,6 +41,7 @@ make_taz_distmed_transl <- function(taz_file) {
 		rename(DIST = DISTMED)
 }
 
+#' @export
 read_income_groups <- function(income_groups_file) {
 	income_groups_file %>%
 		read_csv() %>%
@@ -56,6 +62,7 @@ read_income_groups <- function(income_groups_file) {
 		)
 }
 
+#' @export
 read_distance_skims <- function(distance_skims_file) {
 	distance_skims_file %>%
 		read_all_omx("HBW") %>%
