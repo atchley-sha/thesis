@@ -53,18 +53,20 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 compare_mode_split <- function(combined_trips) {
 	combined_trips %>%
 		group_by(model, mode, purpose) %>%
-		summarise(trips = sum(trips)) %>%
+		summarise(trips = sum(trips), .groups = "drop") %>%
 		pivot_wider(names_from = model, values_from = trips) %>%
 		arrange(purpose, mode) %>%
 		mutate(
 			mode = pretty_mode(mode),
 			purpose = pretty_purpose(purpose),
-			model = pretty_model(model)
+			# model = pretty_model(model)
 		) %>%
 		mutate(
-			diff = asim/wfrc - 1,
-			pct_diff = label_percent(accuracy = 0.1)(diff)
-		)
+			diff = asim - cube,
+			pct_diff = diff/cube,
+			label_pct_diff = label_percent(accuracy = 0.1)(pct_diff)
+		) %>%
+		select(-pct_diff)
 }
 
 combine_se_data <- function(se = list()) {
