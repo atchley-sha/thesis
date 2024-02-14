@@ -15,3 +15,9 @@ network.
 Asim just needs new skims, gotten from the new WFRC scenario.
 
 ## Analyses
+
+```{r}
+#| fig-cap: needs to be redone
+library(tidyverse)
+targets::tar_read(transit_comparison_map)
+```

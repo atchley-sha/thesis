@@ -27,9 +27,10 @@ plot_wfh_diff_tlfd <- function(trips = list()) {
 
 plot_wfh_vs_by_tlfd <- function(trips) {
   trips %>%
+    mutate(purpose = "hbw") %>%
     make_mode_and_purpose_pretty() %>%
     ggplot() +
-    geom_density(aes(x = distance, weight = trips, color = scenario)) +
+    geom_density(aes(x = distance, weight = trips, color = scenario, lty = scenario)) +
     coord_cartesian(xlim = c(0,25)) +
     scale_y_continuous(expand = expansion(c(0,0.05))) +
     facet_wrap(vars(mode), nrow = 3, scales = "free_y") +
@@ -57,6 +58,14 @@ make_all_asim_tlfd_trips <- function(by, wfh, distances) {
     left_join(distances, join_by(o_TAZ == origin, d_TAZ == destination)) %>%
     pivot_longer(c(by, wfh), names_to = "scenario", values_to = "trips") %>%
     filter(!is.na(trips))
+}
+
+make_all_wfrc_tlfd_trips <- function(by, wfh, distances) {
+  by %>%
+    full_join(wfh, join_by(origin, destination, mode), suffix = c("_by", "_wfh")) %>%
+    left_join(distances, join_by(origin, destination)) %>%
+    pivot_longer(c(trips_by, trips_wfh), names_prefix = "trips_", names_to = "scenario", values_to = "trips") %>%
+    filter(trips > 0)
 }
 
 summarise_trip_diff <- function(trips) {

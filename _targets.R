@@ -10,8 +10,7 @@ tar_option_set(
   format = "qs",
   )
 
-r_files <- list.files("R", full.names = TRUE)
-sapply(r_files, source)
+tar_source("R")
 
 tar_seed_set(34985723)
 
@@ -146,6 +145,7 @@ base_outputs <- tar_plan(
   tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
   tar_file(by_households, "data/asim_output/base_2019/final_households.csv.gz"),
   tar_file(by_alltrips_omx, "data/cube_output/base_2019/AllTrips_pkok.omx"),
+  tar_file(by_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
   tar_file(by_nhb_omx,"data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
 
   by_trp = readr::read_csv(by_trips),
@@ -163,6 +163,7 @@ base_outputs <- tar_plan(
   by_trip_count = count_trips(by_trp, taz_dist_trans),
 
   by_nhb = read_trip_matrix(by_nhb_omx),
+  wfrc_by_hbw = read_trip_matrix(by_hbw_omx),
 
   # WFRC
   # tar_files(
@@ -269,6 +270,9 @@ wfh_outputs <- tar_plan(
   wfh_per = readr::read_csv(wfh_persons),
   wfh_hh = readr::read_csv(wfh_households),
 
+  tar_file(wfrc_wfh_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
+  wfrc_wfh_hbw = read_trip_matrix(wfrc_wfh_hbw_omx),
+
   wfh_trip_count = count_trips(wfh_trp, taz_dist_trans),
   wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
 
@@ -296,6 +300,11 @@ wfh_outputs <- tar_plan(
   all_asim_trips_for_wfh = make_all_asim_tlfd_trips(
     by_trip_count, wfh_trip_diff_dist, distances),
   wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(all_asim_trips_for_wfh),
+
+  wfrc_trips_for_wfh = make_all_wfrc_tlfd_trips(
+    wfrc_wfh_hbw, wfrc_by_hbw, distances
+  ),
+  wfrc_wfh_tlfd_plot = plot_wfh_vs_by_tlfd(wfrc_trips_for_wfh),
 
   wfh_by_mode_plot = plot_wfh_vs_by_mode(all_asim_trips_for_wfh),
 

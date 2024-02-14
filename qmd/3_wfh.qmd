@@ -36,3 +36,15 @@ List these.
 (table of %s and coefficients for 2019/2050 side-by-side?)
 
 ## Analyses
+
+```{r}
+#| fig-cap: asim
+
+targets::tar_read(wfh_by_tlfd_plot)
+```
+
+```{r}
+#| fig-cap: wfrc
+
+targets::tar_read(wfrc_wfh_tlfd_plot)
+```
