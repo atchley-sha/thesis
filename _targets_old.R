@@ -49,12 +49,12 @@ abm_tbm_flowchart <- tar_plan(
 # Synthetic population comparison ####
 synth_pop_comparison <- tar_plan(
   # Data
-  tar_file(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz"),
-  tar_file(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz"),
-  tar_file(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv"),
-  tar_file(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv"),
-  tar_file(taz_file, "data/WFRC_TAZ.geojson"),
-  tar_file(income_groups_file, "data/income_groups.csv"),
+  # tar_file(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz"),
+  # tar_file(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz"),
+  # tar_file(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv"),
+  # tar_file(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv"),
+  # tar_file(taz_file, "data/WFRC_TAZ.geojson"),
+  # tar_file(income_groups_file, "data/income_groups.csv"),
 
   # taz = get_taz(taz_file),
   # taz_centroids = get_zone_centroids(taz),
@@ -80,23 +80,23 @@ synth_pop_comparison <- tar_plan(
 # Base outputs comparison (TLFD/mode choice/WFH) ####
 base_outputs_comparison <- tar_plan(
   # Trips
-  tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
+  # tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
   #some zones have a very high distance and are external; we don't want them
-  external_zones = get_ex_zones(distance_skims),
-  distances = read_distances(distance_skims, external_zones),
+  # external_zones = get_ex_zones(distance_skims),
+  # distances = read_distances(distance_skims, external_zones),
 
-  tar_file(wfrc_hbw_trips_od, "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx"),
-  tar_file(wfrc_hbo_trips_od, "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx"),
-  tar_file(wfrc_nhb_trips_od, "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx"),
-  wfrc_hbw_trips = omxr::read_all_omx(wfrc_hbw_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_hbo_trips = omxr::read_all_omx(wfrc_hbo_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
+  # tar_file(wfrc_hbw_trips_od, "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx"),
+  # tar_file(wfrc_hbo_trips_od, "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx"),
+  # tar_file(wfrc_nhb_trips_od, "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx"),
+  # wfrc_hbw_trips = omxr::read_all_omx(wfrc_hbw_trips_od, c("auto", "transit", "nonmotor")),
+  # wfrc_hbo_trips = omxr::read_all_omx(wfrc_hbo_trips_od, c("auto", "transit", "nonmotor")),
+  # wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
+  # wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
 
   tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
   tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
 
-  wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
+  # wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
   asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
   combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
   sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = FALSE),
@@ -144,9 +144,9 @@ base_outputs <- tar_plan(
   tar_file(by_tours, "data/asim_output/base_2019/final_tours.csv.gz"),
   tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
   tar_file(by_households, "data/asim_output/base_2019/final_households.csv.gz"),
-  tar_file(by_alltrips_omx, "data/cube_output/base_2019/AllTrips_pkok.omx"),
-  tar_file(by_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
-  tar_file(by_nhb_omx,"data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
+  # tar_file(by_alltrips_omx, "data/cube_output/base_2019/AllTrips_pkok.omx"),
+  # tar_file(by_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
+  # tar_file(by_nhb_omx,"data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
 
   all_asim_by_trips = new_count_trips(by_trp),
 
@@ -167,21 +167,21 @@ base_outputs <- tar_plan(
   by_nhb = read_trip_matrix(by_nhb_omx),
   #wfrc_by_hbw = read_trip_matrix(by_hbw_omx),
 
-  tar_file(wfrc_by_hbw_omx, "data/cube_output/base_2019/HBW_trips_allsegs_pkok.omx"),
-  wfrc_by_hbw = read_trip_matrix(wfrc_by_hbw_omx),
-  tar_file(wfrc_by_hbo_omx, "data/cube_output/base_2019/HBO_trips_allsegs_pkok.omx"),
-  wfrc_by_hbo = read_trip_matrix(wfrc_by_hbo_omx),
-  tar_file(wfrc_by_nhb_omx, "data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
-  wfrc_by_nhb = read_trip_matrix(wfrc_by_nhb_omx),
-
-  all_wfrc_by_trips = dplyr::bind_rows(
-    list(
-      hbw = wfrc_by_hbw,
-      hbo = wfrc_by_hbo,
-      nhb = wfrc_by_nhb
-    ),
-    .id = "purpose"
-  ),
+  # tar_file(wfrc_by_hbw_omx, "data/cube_output/base_2019/HBW_trips_allsegs_pkok.omx"),
+  # wfrc_by_hbw = read_trip_matrix(wfrc_by_hbw_omx),
+  # tar_file(wfrc_by_hbo_omx, "data/cube_output/base_2019/HBO_trips_allsegs_pkok.omx"),
+  # wfrc_by_hbo = read_trip_matrix(wfrc_by_hbo_omx),
+  # tar_file(wfrc_by_nhb_omx, "data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
+  # wfrc_by_nhb = read_trip_matrix(wfrc_by_nhb_omx),
+  #
+  # all_wfrc_by_trips = dplyr::bind_rows(
+  #   list(
+  #     hbw = wfrc_by_hbw,
+  #     hbo = wfrc_by_hbo,
+  #     nhb = wfrc_by_nhb
+  #   ),
+  #   .id = "purpose"
+  # ),
 
   # WFRC
   # tar_files(
@@ -252,7 +252,7 @@ land_use_outputs <- tar_plan(
   lu_new_trips_desire_plot = plot_desire_lines_new(lu_new_trips_desire, districts, plot_lims),
 
 
-  lu_nhb = read_trip_matrix(lu_nhb_omx),
+  # lu_nhb = read_trip_matrix(lu_nhb_omx),
   lu_nhb_diff = diff_trip_matrix(lu_nhb, by_nhb),
   lu_nhb_diff_desire = make_desire_lines_new(lu_nhb_diff, dist_centroids, taz_dist_trans),
   lu_nhb_diff_plot = plot_desire_lines_new(lu_nhb_diff_desire, districts, plot_lims),
@@ -290,21 +290,21 @@ wfh_outputs <- tar_plan(
 
   all_asim_wfh_trips = new_count_trips(wfh_trp),
 
-  tar_file(wfrc_wfh_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
-  wfrc_wfh_hbw = read_trip_matrix(wfrc_wfh_hbw_omx),
-  tar_file(wfrc_wfh_hbo_omx, "data/cube_output/wfh/HBO_trips_allsegs_pkok.omx"),
-  wfrc_wfh_hbo = read_trip_matrix(wfrc_wfh_hbo_omx),
-  tar_file(wfrc_wfh_nhb_omx, "data/cube_output/wfh/NHB_trips_allsegs_pkok.omx"),
-  wfrc_wfh_nhb = read_trip_matrix(wfrc_wfh_nhb_omx),
-
-  all_wfrc_wfh_trips = dplyr::bind_rows(
-    list(
-      hbw = wfrc_wfh_hbw,
-      hbo = wfrc_wfh_hbo,
-      nhb = wfrc_wfh_nhb
-    ),
-    .id = "purpose"
-  ),
+  # tar_file(wfrc_wfh_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
+  # wfrc_wfh_hbw = read_trip_matrix(wfrc_wfh_hbw_omx),
+  # tar_file(wfrc_wfh_hbo_omx, "data/cube_output/wfh/HBO_trips_allsegs_pkok.omx"),
+  # wfrc_wfh_hbo = read_trip_matrix(wfrc_wfh_hbo_omx),
+  # tar_file(wfrc_wfh_nhb_omx, "data/cube_output/wfh/NHB_trips_allsegs_pkok.omx"),
+  # wfrc_wfh_nhb = read_trip_matrix(wfrc_wfh_nhb_omx),
+  #
+  # all_wfrc_wfh_trips = dplyr::bind_rows(
+  #   list(
+  #     hbw = wfrc_wfh_hbw,
+  #     hbo = wfrc_wfh_hbo,
+  #     nhb = wfrc_wfh_nhb
+  #   ),
+  #   .id = "purpose"
+  # ),
 
   wfrc_wfh_trip_diff = get_trip_diff(
     list(
