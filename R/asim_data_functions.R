@@ -8,6 +8,50 @@ read_asim_trips_file <- function(trips_file) {
 		)
 }
 
+summarise_asim_hh <- function(asim_hh, income_groups) {
+	annotated_hh <- asim_hh %>%
+		left_join(
+			select(income_groups, group, low, high),
+			join_by(between(income, low, high, bounds = "[)"))) %>%
+		select(
+			household_id, home_zone_id,
+			income,
+			# income_group = group,
+			# income_segment,
+			inc_group = income_segment,
+			hhsize)
+
+	income_groups_wide <- annotated_hh %>%
+		group_by(home_zone_id) %>%
+		count(inc_group) %>%
+		pivot_wider(
+			names_from = inc_group, values_from = n,
+			names_prefix = "inc_group_"
+		)
+
+	# income_segments <- annotated_hh %>%
+	# 	group_by(home_zone_id) %>%
+	# 	count(income_segment) %>%
+	# 	pivot_wider(
+	# 		names_from = income_segment, values_from = n,
+	# 		names_prefix = "income_segment_"
+	# 	)
+
+	annotated_hh %>%
+		group_by(home_zone_id) %>%
+		summarise(
+			med_income = median(income),
+			pop = sum(hhsize),
+			hh_size = mean(hhsize),
+			num_hh = n()
+		) %>%
+		full_join(income_groups_wide, join_by(home_zone_id)) %>%
+		# full_join(income_segments, join_by(home_zone_id)) %>%
+		mutate(across(!where(is.character), \(x) replace_na(x, 0))) %>%
+		rename(TAZ = home_zone_id)
+
+}
+
 count_asim_trips <- function(trips) {
 	trips %>%
 		mutate(

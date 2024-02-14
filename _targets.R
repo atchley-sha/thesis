@@ -75,8 +75,10 @@ cube_data_targets <- tar_plan(
 	tar_file(cube_lu_taz_se_file, "data/cube/SE_prison.csv"),
 	cube_lu_taz_se = read_cube_taz_se_file(cube_lu_taz_se_file),
 
-	tar_file(cube_taz_inc_groups_file, "data/cube/Marginal_Income.csv"),
-	cube_taz_inc_groups = read_cube_taz_inc_groups_file(cube_taz_inc_groups_file),
+	tar_file(cube_by_taz_inc_groups_file, "data/cube/Marginal_Income.csv"),
+	cube_by_taz_inc_groups = read_cube_taz_inc_groups_file(cube_by_taz_inc_groups_file),
+
+	cube_by_combined_se = combine_cube_se(cube_by_taz_se, cube_by_taz_inc_groups),
 
 	# Base year
 	tar_file(cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
@@ -89,10 +91,8 @@ cube_data_targets <- tar_plan(
 		list(
 			hbw = cube_by_hbw,
 			hbo = cube_by_hbo,
-			nhb = cube_by_nhb
-		),
-		.id = "purpose"
-	),
+			nhb = cube_by_nhb),
+		.id = "purpose"),
 
 	# Land Use
 	tar_file(cube_lu_hbw_omx, "data/cube/output/land_use/HBW_trips_allsegs_pkok.omx"),
@@ -105,10 +105,8 @@ cube_data_targets <- tar_plan(
 		list(
 			hbw = cube_lu_hbw,
 			hbo = cube_lu_hbo,
-			nhb = cube_lu_nhb
-		),
-		.id = "purpose"
-	),
+			nhb = cube_lu_nhb),
+		.id = "purpose"),
 
 	# Transit
 	tar_file(cube_tr_hbw_omx, "data/cube/output/transit/HBW_trips_allsegs_pkok.omx"),
@@ -121,10 +119,8 @@ cube_data_targets <- tar_plan(
 		list(
 			hbw = cube_tr_hbw,
 			hbo = cube_tr_hbo,
-			nhb = cube_tr_nhb
-		),
-		.id = "purpose"
-	),
+			nhb = cube_tr_nhb),
+		.id = "purpose"),
 
 	# WFH
 	tar_file(cube_wfh_hbw_omx, "data/cube/output/wfh/HBW_trips_allsegs_pkok.omx"),
@@ -137,10 +133,8 @@ cube_data_targets <- tar_plan(
 		list(
 			hbw = cube_wfh_hbw,
 			hbo = cube_wfh_hbo,
-			nhb = cube_wfh_nhb
-		),
-		.id = "purpose"
-	),
+			nhb = cube_wfh_nhb),
+		.id = "purpose"),
 )
 
 # ASIM data targets ####
@@ -155,6 +149,8 @@ asim_data_targets <- tar_plan(
 	asim_by_raw_trips = read_asim_trips_file(asim_by_trips_file),
 	asim_by_trips = count_asim_trips(asim_by_raw_trips),
 	asim_by_per = readr::read_csv(asim_by_per_file),
+	asim_by_raw_hh = readr::read_csv(asim_by_hh_file),
+	asim_by_hh_taz = summarise_asim_hh(asim_by_raw_hh, income_groups),
 
 	# Land use
 	tar_file(asim_lu_trips_file, "data/asim/output/land_use/final_trips.csv.gz"),
@@ -192,28 +188,45 @@ base_year_targets <- tar_plan(
 	# Data
 	combined_by_trips = dplyr::bind_rows(
 		list(asim = asim_by_trips, cube = cube_by_trips),
-		.id = "model"
+		.id = "model"),
+	combined_by_trips_sampled = sample_trips(
+		combined_by_trips, prop = 0.1, weight = TRUE),
+
+	combined_by_se_data = combine_se_data(
+		list(cube = cube_by_combined_se, asim = asim_by_hh_taz)),
+	combined_by_se_data_distsml = summarise_combined_se_data(
+		combined_by_se_data, taz_distsml_transl, distsml
 	),
-	combined_by_trips_sampled = sample_trips(combined_by_trips, prop = 0.1, weight = TRUE),
+
+	# Population
+	comparison_pop_map = make_pop_comparison_map(
+		combined_by_se_data_distsml),
+	comparison_med_income_map = make_med_income_comparison_map(
+		combined_by_se_data_distsml),
+	comparison_inc_groups_map = make_inc_groups_comparison_map(
+		combined_by_se_data_distsml, income_groups),
+	comparison_inc_density_plot = make_inc_density_comparison_plot(
+		combined_by_se_data_distsml, income_groups),
 
 	# Mode choice
 	by_mode_split_comparison = compare_mode_split(combined_by_trips),
 
 	tar_files(
 		asim_mode_choice_calibration_iters_files,
-		list.files("data/calibration/mode_choice", full.names = TRUE, pattern = ".*\\.csv")
-	),
+		list.files(
+			"data/calibration/mode_choice",
+			full.names = TRUE, pattern = ".*\\.csv")),
 	tar_target(
 		asim_mode_choice_calibration_iters,
-		combine_asim_mode_choice_calibration_iters(asim_mode_choice_calibration_iters_files),
-		pattern = map(asim_mode_choice_calibration_iters_files)
-	),
+		combine_asim_mode_choice_calibration_iters(
+			asim_mode_choice_calibration_iters_files),
+		pattern = map(asim_mode_choice_calibration_iters_files)),
 	asim_mode_choice_calibration_plot = plot_asim_mode_choice_calibration(
-		asim_mode_choice_calibration_iters
-	),
+		asim_mode_choice_calibration_iters),
 
 	# TLFD
-	combined_by_tlfd_plot = plot_combined_tlfd(combined_by_trips_sampled, distances),
+	combined_by_tlfd_plot = plot_combined_tlfd(
+		combined_by_trips_sampled, distances),
 
 
 )
@@ -222,16 +235,20 @@ base_year_targets <- tar_plan(
 land_use_targets <- tar_plan(
 	cube_lu_nhb_diff_distsml = get_trip_diff(list(
 		lu = sum_trips_by_district(cube_lu_trips, taz_distsml_transl),
-		by = sum_trips_by_district(cube_by_trips, taz_distsml_transl)
-	)),
-	cube_lu_nhb_diff_desire = od::od_to_sf(cube_lu_nhb_diff_distsml, distsml_centroids),
-	cube_lu_nhb_diff_desire_map = plot_cube_lu_desire_lines(cube_lu_nhb_diff_desire, distsml),
+		by = sum_trips_by_district(cube_by_trips, taz_distsml_transl))),
+	cube_lu_nhb_diff_desire = od::od_to_sf(
+		cube_lu_nhb_diff_distsml, distsml_centroids),
+	cube_lu_nhb_diff_desire_map = plot_cube_lu_desire_lines(
+		cube_lu_nhb_diff_desire, distsml),
 
 	asim_lu_new_persons = get_asim_new_persons(asim_lu_per, asim_by_per, lu_tazs),
-	asim_lu_new_trips = get_asim_lu_new_trips(asim_lu_trips_raw, asim_lu_new_persons),
-	asim_lu_new_trips_distsml = sum_trips_by_district(asim_lu_new_trips, taz_distsml_transl),
-	asim_lu_new_desire_lines = od::od_to_sf(asim_lu_new_trips_distsml, distsml_centroids),
-	asim_lu_new_desire_map = plot_asim_lu_desire_lines(asim_lu_new_desire_lines, lu_distsml, distsml),
+	asim_lu_new_trips = get_asim_lu_new_trips(asim_lu_raw_trips, asim_lu_new_persons),
+	asim_lu_new_trips_distsml = sum_trips_by_district(
+		asim_lu_new_trips, taz_distsml_transl),
+	asim_lu_new_desire_lines = od::od_to_sf(
+		asim_lu_new_trips_distsml, distsml_centroids),
+	asim_lu_new_desire_map = plot_asim_lu_desire_lines(
+		asim_lu_new_desire_lines, lu_distsml, distsml),
 )
 
 # Transit ####

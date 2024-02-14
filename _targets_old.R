@@ -23,11 +23,6 @@ abm_tbm_flowchart <- tar_plan(
 synth_pop_comparison <- tar_plan(
 
 
-  # Analysis
-  asim_pop = read_asim_population(synth_per_file, synth_hh_file),
-  se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data, taz),
-  # income_groups = read_income_groups(income_groups_file),
 
   # Viz
   inc_groups_map = make_inc_groups_map(pop_comp, income_groups),

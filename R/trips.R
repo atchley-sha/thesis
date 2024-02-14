@@ -24,11 +24,11 @@ sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
 sum_trips_by_district <- function(trips, dist_transl) {
 	trips %>%
 		join_dist_to_taz(dist_transl) %>%
-		group_by(o_DIST, d_DIST) %>%
+		group_by(o_DIST, d_DIST, purpose, mode) %>%
 		summarise(
 			trips = sum(trips)
 		) %>%
-		rename(origin = o_TAZ, destination = d_TAZ)
+		rename(origin = o_DIST, destination = d_DIST)
 }
 
 #' @export

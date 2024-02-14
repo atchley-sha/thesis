@@ -46,18 +46,15 @@ read_income_groups <- function(income_groups_file) {
 	income_groups_file %>%
 		read_csv() %>%
 		mutate(
-			across(
-				c(low, high),
-				\(x) paste0("$", prettyNum(x, big.mark = ",")
-				),
-				.names = "{.col}_chr"
-			),
 			inc_range = case_when(
-				is.na(low) ~ paste("\u2264", high_chr),
-				is.na(high) ~ paste("\u2265", low_chr),
-				TRUE ~ paste0(low_chr, "\u2013", high_chr)
+				low <= 0 ~ paste("\u2264", label_comma(prefix = "$")(high)),
+				is.infinite(high) ~ paste("\u2265", label_comma(prefix = "$")(low)),
+				TRUE ~ paste0(
+					label_comma(prefix = "$")(low),
+					"\u2013",
+					label_comma(prefix = "$")(high)
+				)
 			),
-			low = replace_na(low, 0),
 			inc_range = fct_reorder(inc_range, low)
 		)
 }

@@ -1,26 +1,36 @@
-plot_combined_tlfd <- function(combined_trips, distances){
-	combined_trips %>%
-		left_join(distances, join_by(origin, destination)) %>%
-		group_by(model, mode, purpose) %>%
-		slice_sample(prop = 0.1, weight_by = trips) %>%
+summarise_combined_se_data <- function(combined_se, transl = NULL, zones_geom) {
+	if(!is.null(transl)) {
+		se <- combined_se %>%
+			left_join(transl, join_by(TAZ)) %>%
+			group_by(model, DIST, name) %>%
+			summarise(
+				sum = sum(value),
+				mean = mean(value),
+				median = median(value),
+				.groups = "drop"
+			) %>%
+			mutate(
+				value = case_match(
+					name,
+					c("med_income") ~ median,
+					c("hh_size") ~ mean,
+					.default = sum
+				)
+			) %>%
+			select(model, DIST, name, value)
+	} else {
+		se <- combined_se
+	}
+
+	se %>%
+		left_join(zones_geom) %>%
+		st_as_sf() %>%
+		pivot_wider(names_from = "model", values_from = "value") %>%
+		mutate(across(c(cube, asim), \(x) replace_na(x, 0))) %>%
 		mutate(
-			mode = pretty_mode(mode),
-			purpose = pretty_purpose(purpose),
-			model = pretty_model(model)
-		) %>%
-		ggplot() +
-		geom_density(aes(x = distance, weight = trips, color = model)) +
-		facet_grid(
-			rows = vars(mode), cols = vars(purpose),
-			scales = "free_y") +
-		scale_x_continuous(
-			limits = c(0,25),
-			sec.axis = sec_axis(~ . , name = "Trip Purpose", breaks = NULL, labels = NULL)) +
-		scale_y_continuous(
-			sec.axis = sec_axis(~ . , name = "Trip Mode", breaks = NULL, labels = NULL)) +
-		labs(x = "Trip Distance (miles)", y = "Kernel density", color = "Model") +
-		# theme_density() +
-		theme(legend.position = "bottom")
+			diff = asim - cube,
+			diff_pct = diff/cube
+		)
 }
 
 combine_asim_mode_choice_calibration_iters <- function(iters_files) {
@@ -37,31 +47,6 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 			asim_share = asim/sum(asim)*2,
 			cube_share = cube/sum(cube)*2,
 			share_error = asim_share/cube_share - 1
-		)
-}
-
-plot_asim_mode_choice_calibration <- function(calibration_iters) {
-	calibration_iters %>%
-		select(iter, purpose, mode, asim_share, cube_share) %>%
-		rename_with(\(x) str_remove(x, "_share"), c(asim_share, cube_share)) %>%
-		pivot_longer(c(asim, cube), names_to = "model", values_to = "share") %>%
-		filter(purpose == "all", mode != "all") %>%
-		mutate(
-			mode = pretty_mode(mode),
-			purpose = pretty_purpose(purpose),
-			model = pretty_model(model)
-		) %>%
-		ggplot() +
-		geom_path(aes(x = iter, y = share, color = mode, lty = model)) +
-		labs(
-			x = "Calibration Iteration", y = "Mode Share",
-			lty = "Model", color = "Mode"
-		) +
-		scale_y_continuous(
-			limits = c(0,1),
-			trans = scales::pseudo_log_trans(0.1),
-			breaks = c(0,0.1,0.2,0.3,0.4,0.5,0.75,1),
-			labels = scales::percent
 		)
 }
 
@@ -82,3 +67,8 @@ compare_mode_split <- function(combined_trips) {
 		)
 }
 
+combine_se_data <- function(se = list()) {
+	se %>%
+		bind_rows(.id = "model") %>%
+		pivot_longer(-c(model, TAZ), names_to = "name", values_to = "value")
+}

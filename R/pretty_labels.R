@@ -35,6 +35,7 @@ pretty_model <- function(model) {
 	case_match(
 		model,
 		"asim" ~ "ActivitySim",
-		"cube" ~ "WFRC Model"
+		"cube" ~ "WFRC Model",
+		"popsim" ~ "PopulationSim"
 	)
 }
