@@ -49,7 +49,7 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 
 ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
-This paper uses an ActivitySim implementation based on @macfarlane2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@cite].
+This paper uses an ActivitySim implementation based on @gregory_s_macfarlane_estimation_2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
 
 ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
 Additionally, ActivitySim requires population data at an individual level, including information such as age, household income, and home location.
@@ -86,7 +86,7 @@ The final steps of ActivitySim are writing output trip matrices and other tables
 
 ### PopulationSim {#sec-populationsim}
 
-This paper uses PopulationSim [@cite] to create a synthetic population for ActivitySim.
+This paper uses PopulationSim [@populationsim_2023] to create a synthetic population for ActivitySim.
 The synthetic population aims to be representative of the study area while maintaining privacy.
 PopulationSim takes as input a "seed" of individuals and households, and populates the area with copies of these to match given control totals.
 
@@ -151,7 +151,7 @@ The population per TAZ is similar to the WFRC data in most places, though there 
 Since total population is a region-level control, but number of households is a TAZ-level control, this shows PopulationSim is predicting a smaller average household size in Herriman and Lehi than the WFRC data suggests.
 <!-- This may be reasonable, as these are suburban areas which are likely to have larger household sizes on average than places like Salt Lake City. -->
 
-Income is also an important factor in travel behavior [@cite?], and @fig-median-income-comparison shows a TAZ-level comparison of median income between the synthetic population and the WFRC data.
+Income is also an important factor in travel behavior [@zegras_household_2007], and @fig-median-income-comparison shows a TAZ-level comparison of median income between the synthetic population and the WFRC data.
 The synthetic population does have a lower median income than the WFRC data in many TAZs, but the error is in most cases fairly small, especially in more populated areas.
 However, both the WFRC model and ActivitySim use household income *groups* rather than individual household income to inform travel decisions.
 These groups are taken from the WFRC model (see @tbl-income-groups), and the groups in PopulationSim and ActivitySim were adjusted to match.
