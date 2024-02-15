@@ -1,13 +1,4 @@
-get_o_tours <- function(tours, zones){
-  tours %>%
-    filter(origin %in% zones)
-}
 
-get_trips_from_tours <- function(trips, tours, distances){
-  trips %>%
-    filter(tour_id %in% tours$tour_id) %>%
-    left_join(distances, join_by(origin, destination))
-}
 
 get_vmt <- function(trips) {
   trips %>%
@@ -32,9 +23,7 @@ get_vmt <- function(trips) {
     summarise(trips = n(), dist = sum(distance, na.rm = TRUE))
 }
 
-combine_scenarios <- function(scenarios = list()){
-  bind_rows(scenarios, .id = "scenario")
-}
+
 
 reduce_asim_purposes <- function(purpose){
   case_match(
@@ -45,22 +34,6 @@ reduce_asim_purposes <- function(purpose){
     )
 }
 
-make_district_od <- function(trips, trans){
-  trips %>%
-    left_join(trans, join_by(origin == TAZ)) %>%
-    left_join(trans, join_by(destination == TAZ), suffix = c("_o", "_d")) %>%
-    mutate(trip_mode = convert_asim_mode(trip_mode)) %>%
-    count(DISTSML_o, DISTSML_d, primary_purpose, trip_mode)
-}
-
-diff_od <- function(scenarios = list()){
-  reduce(scenarios, \(x,y) full_join(x,y, join_by(DISTSML_o, DISTSML_d, primary_purpose, trip_mode))) %>%
-    mutate(
-      across(contains("n"), \(x) replace_na(x, 0)),
-      diff = n.y - n.x
-    ) %>%
-    `colnames<-`(c("origin", "destination", "purpose", "mode", names(scenarios), "diff"))
-}
 
 get_vmt_dist <- function(trips, distances) {
   trips %>%
@@ -112,42 +85,4 @@ make_comp_o_vmt <- function(scen, by, zones) {
 
 }
 
-count_trips <- function(trips, trans){
-  trips %>%
-    rename(
-      o_TAZ = origin,
-      d_TAZ = destination
-    ) %>%
-    left_join(trans, join_by(o_TAZ == TAZ)) %>%
-    rename(o_DIST = DISTSML) %>%
-    left_join(trans, join_by(d_TAZ == TAZ)) %>%
-    rename(d_DIST = DISTSML) %>%
-    relocate(o_TAZ, d_TAZ, o_DIST, d_DIST) %>%
-    mutate(primary_purpose = convert_asim_purpose(primary_purpose)) %>%
-    mutate(
-      purpose = get_asim_purpose(select(
-        .,
-        tour_id, tour_purpose = primary_purpose, trip_purpose = purpose
-      )),
-      mode = convert_asim_mode(trip_mode)
-    ) %>%
-    count(o_TAZ, d_TAZ, o_DIST, d_DIST, purpose, mode, name = "trips")
-}
 
-new_count_trips <- function(trips){
-  trips %>%
-    # left_join(trans, join_by(o_TAZ == TAZ)) %>%
-    # rename(o_DIST = DISTSML) %>%
-    # left_join(trans, join_by(d_TAZ == TAZ)) %>%
-    # rename(d_DIST = DISTSML) %>%
-    # relocate(o_TAZ, d_TAZ, o_DIST, d_DIST) %>%
-    mutate(primary_purpose = convert_asim_purpose(primary_purpose)) %>%
-    mutate(
-      purpose = get_asim_purpose(select(
-        .,
-        tour_id, tour_purpose = primary_purpose, trip_purpose = purpose
-      )),
-      mode = convert_asim_mode(trip_mode)
-    ) %>%
-    count(origin, destination, purpose, mode, name = "trips")
-}

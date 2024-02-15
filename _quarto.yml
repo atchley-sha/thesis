@@ -40,7 +40,7 @@ book:
     # qmd/- discussion.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
- 
+
 affiliations:
   - id: byucce
     name: Civil and Construction Engineering Department, Brigham Young University
@@ -61,6 +61,8 @@ format:
     theme: cosmo
   pdf:
     keep-tex: false
+    include-in-header:
+      - text: \usepackage{flafter}
     # template: template.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk

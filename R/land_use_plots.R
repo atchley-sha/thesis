@@ -17,7 +17,7 @@ plot_asim_lu_desire_lines <- function(lines, dists_list, dists_geom) {
 
 plot_cube_lu_desire_lines <- function(lines, dists_geom) {
 	lines %>%
-		filter(trips != 0) %>%
+		filter(diff != 0) %>%
 		st_transform(4326) %>%
 		ggplot(aes(linewidth = abs(trips), color = as.character(sign(trips)))) +
 		facet_wrap(~mode) +

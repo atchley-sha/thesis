@@ -1,13 +1,6 @@
 # Methodology {#sec-methods}
 
-```{r}
-#| label: setup
-#| include: false
-#| cache: false
-
-library(tidyverse)
-library(kableExtra)
-```
+{{< include _setup.qmd >}}
 
 This paper seeks to compare methodological differences between trip- and activity-based modeling frameworks.
 The Wasatch Front Regional Council (WFRC) travel demand model is used as a representative trip-based model, and an ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).

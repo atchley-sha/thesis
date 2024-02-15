@@ -34,6 +34,7 @@ misc_targets <- tar_plan(
 	map_lims_slc = list(x = c(-112.15,-111.6), y = c(40.2,40.8)),
 	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
 	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
+	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
 )
 
 # FrontRunner ####
@@ -74,11 +75,15 @@ cube_data_targets <- tar_plan(
 	cube_by_taz_se = read_cube_taz_se_file(cube_by_taz_se_file),
 	tar_file(cube_lu_taz_se_file, "data/cube/SE_prison.csv"),
 	cube_lu_taz_se = read_cube_taz_se_file(cube_lu_taz_se_file),
-
 	tar_file(cube_by_taz_inc_groups_file, "data/cube/Marginal_Income.csv"),
 	cube_by_taz_inc_groups = read_cube_taz_inc_groups_file(cube_by_taz_inc_groups_file),
-
 	cube_by_combined_se = combine_cube_se(cube_by_taz_se, cube_by_taz_inc_groups),
+
+	# Calibration
+	tar_file(
+		cube_telecommute_percentages_file,
+		"data/cube/telecommute_jobtype.csv"),
+	cube_telecommute_percentages = readr::read_csv(cube_telecommute_percentages_file),
 
 	# Base year
 	tar_file(cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
@@ -139,6 +144,24 @@ cube_data_targets <- tar_plan(
 
 # ASIM data targets ####
 asim_data_targets <- tar_plan(
+	# Calibration
+	tar_files(
+		asim_mode_choice_calibration_iters_files,
+		list.files(
+			"data/calibration/mode_choice",
+			full.names = TRUE, pattern = ".*\\.csv")),
+	tar_target(
+		asim_mode_choice_calibration_iters,
+		combine_asim_mode_choice_calibration_iters(
+			asim_mode_choice_calibration_iters_files),
+		pattern = map(asim_mode_choice_calibration_iters_files)),
+	tar_file(
+		asim_by_telecommute_coefficients_file,
+		"data/asim/asim_tc_coeffs_2019.csv"
+	),
+	asim_by_telecommute_coefficients = read_asim_telecommute_coefficients(
+		asim_by_telecommute_coefficients_file
+	),
 
 	# Base year
 	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
@@ -179,8 +202,6 @@ asim_data_targets <- tar_plan(
 
 	asim_wfh_raw_trips = read_asim_trips_file(asim_wfh_trips_file),
 	asim_wfh_trips = count_asim_trips(asim_wfh_raw_trips),
-
-
 )
 
 # Base year ####
@@ -190,7 +211,7 @@ base_year_targets <- tar_plan(
 		list(asim = asim_by_trips, cube = cube_by_trips),
 		.id = "model"),
 	combined_by_trips_sampled = sample_trips(
-		combined_by_trips, prop = 0.1, weight = TRUE),
+		combined_by_trips, prop = 0.1, weight = FALSE),
 
 	combined_by_se_data = combine_se_data(
 		list(cube = cube_by_combined_se, asim = asim_by_hh_taz)),
@@ -210,17 +231,6 @@ base_year_targets <- tar_plan(
 
 	# Mode choice
 	by_mode_split_comparison = compare_mode_split(combined_by_trips),
-
-	tar_files(
-		asim_mode_choice_calibration_iters_files,
-		list.files(
-			"data/calibration/mode_choice",
-			full.names = TRUE, pattern = ".*\\.csv")),
-	tar_target(
-		asim_mode_choice_calibration_iters,
-		combine_asim_mode_choice_calibration_iters(
-			asim_mode_choice_calibration_iters_files),
-		pattern = map(asim_mode_choice_calibration_iters_files)),
 	asim_mode_choice_calibration_plot = plot_asim_mode_choice_calibration(
 		asim_mode_choice_calibration_iters),
 
@@ -228,11 +238,21 @@ base_year_targets <- tar_plan(
 	combined_by_tlfd_plot = plot_combined_tlfd(
 		combined_by_trips_sampled, distances),
 
-
+	# WFH
+	comparison_by_telecommute_coeffs = compare_telecommute(
+		cube_telecommute_percentages[c("jobcode", "wfrc_2019")],
+		asim_by_telecommute_coefficients,
+		job_code_translation
+	),
 )
 
 # Land use ####
 land_use_targets <- tar_plan(
+	# PMT/VMT
+
+
+
+	# Desire lines
 	cube_lu_nhb_diff_distsml = get_trip_diff(list(
 		lu = sum_trips_by_district(cube_lu_trips, taz_distsml_transl),
 		by = sum_trips_by_district(cube_by_trips, taz_distsml_transl))),

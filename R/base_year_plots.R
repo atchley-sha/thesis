@@ -116,7 +116,7 @@ plot_combined_tlfd <- function(combined_trips, distances){
 			rows = vars(mode), cols = vars(purpose),
 			scales = "free_y") +
 		scale_x_continuous(
-			limits = c(0,25),
+			limits = c(0,20),
 			sec.axis = sec_axis(~ . , name = "Trip Purpose", breaks = NULL, labels = NULL)) +
 		scale_y_continuous(
 			sec.axis = sec_axis(~ . , name = "Trip Mode", breaks = NULL, labels = NULL)) +

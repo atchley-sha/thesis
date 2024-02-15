@@ -1,3 +1,5 @@
+# Functions related to trips that are not for a specific scenario
+
 join_trip_distances <- function(trips, distances) {
 	trips %>%
 		left_join(distances, join_by(origin, destination))
@@ -12,8 +14,9 @@ join_dist_to_taz <- function(df, dist_transl) {
 }
 
 #' @export
-sample_trips <- function(combined_trips, prop = 0.1, weight = TRUE){
+sample_trips <- function(combined_trips, prop = 0.1, weight = FALSE){
 	grouped <- combined_trips %>%
+		filter(trips > 0) %>%
 		group_by(model, mode, purpose)
 
 	if(weight) return(slice_sample(grouped, prop = prop, weight_by = trips))

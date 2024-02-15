@@ -1,0 +1,13 @@
+<!-- Include at the start of every doc -->
+
+```{r}
+#| include: false
+#| cache: false
+
+library(targets)
+library(tidyverse)
+library(tinytable)
+
+options(digits = 3) # how many significant digits to print by default
+options("tinytable_tabularray_placement" = "htbp") # for LaTeX
+```
