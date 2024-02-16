@@ -32,14 +32,14 @@ book:
   chapters:
     - index.qmd
     - qmd/intro.qmd
-    # - qmd/lit-review.qmd
-    # - qmd/methods.qmd
-    # - qmd/1_land_use.qmd
-    # - qmd/2_transit.qmd
-    # - qmd/3_wfh.qmd
-    # # qmd/- discussion.qmd
-    # - qmd/conclusions.qmd
-    # - qmd/references.qmd
+    - qmd/lit-review.qmd
+    - qmd/methods.qmd
+    - qmd/1_land_use.qmd
+    - qmd/2_transit.qmd
+    - qmd/3_wfh.qmd
+    # qmd/- discussion.qmd
+    - qmd/conclusions.qmd
+    - qmd/references.qmd
 
 affiliations:
   - id: byucce
@@ -59,11 +59,11 @@ toc-depth: 2
 format:
   html:
     theme: cosmo
-  pdf:
-    keep-tex: false
+  # pdf:
+  #   keep-tex: false
     # include-in-header:
     #   - style/latex_preamble.tex
-    # template: template.tex
+    # template: style/template.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF

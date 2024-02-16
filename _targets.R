@@ -335,6 +335,12 @@ wfh_targets <- tar_plan(
 		join_by(purpose, mode)
 	),
 
+	# Trip and PMT diff
+	cube_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(
+		cube_wfh_all_trips_diff, distances),
+	asim_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(
+		asim_wfh_all_trips_diff, distances),
+
 )
 
 #### Run all targets ###################################################
