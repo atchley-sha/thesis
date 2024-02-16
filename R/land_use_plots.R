@@ -8,37 +8,47 @@
 	)
 }
 
-plot_asim_lu_desire_lines <- function(lines, dists_list, dists_geom) {
+plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 	max <- 1000
-	lines %>%
+	desire_lines %>%
 		filter(round(trips) > 0) %>%
 		mutate(
 			in_zone = (origin %in% dists_list | destination %in% dists_list),
 			trips = pmin(trips, max)
 		) %>%
 		ggplot(aes(linewidth = trips, color = in_zone)) +
-		.lu_desire_bg(dists_geom) +
+		# .lu_desire_bg(dists_geom) +
+		facet_wrap(~mode) +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
+		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf() +
 		labs(color = "Produced in new\ndevelopment", linewidth = "Trips") +
 		theme_map()
 }
 
-plot_cube_lu_desire_lines <- function(lines, dists_geom) {
+plot_cube_lu_desire_lines <- function(desire_lines, dists_geom) {
 	max <- 400
-	lines %>%
+	desire_lines %>%
 		filter(round(diff) > 0) %>%
 		mutate(
 			mode = pretty_mode(mode),
 			diff = pmin(diff, max)
 		) %>%
 		ggplot(aes(linewidth = diff)) +
-		.lu_desire_bg(dists_geom) +
+		# .lu_desire_bg(dists_geom) +
+		facet_wrap(~mode) +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
+		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf() +
 		labs(color = "More trips in:", linewidth = "Trips") +
 		theme_map()
 }
 
-plot_cube_lu_nhb_desire_lines <- function(lines, dists_geom) {
+plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
 	max <- 400
-	lines %>%
+	desire_lines %>%
 		filter(abs(round(diff)) > 0) %>%
 		mutate(
 			mode = pretty_mode(mode),
@@ -46,7 +56,12 @@ plot_cube_lu_nhb_desire_lines <- function(lines, dists_geom) {
 		) %>%
 		# filter(diff < 0) %>%
 		ggplot(aes(linewidth = abs(diff), color = as.character(sign(diff)))) +
-		.lu_desire_bg(dists_geom) +
+		# .lu_desire_bg(dists_geom) +
+		facet_wrap(~mode) +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
+		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf() +
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),
 			labels = c("-1" = "Base year", "1" = "Land use")) +
@@ -116,4 +131,19 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 			strip.background = element_blank(),
 			strip.text.y.left = element_text(angle = 0)
 		)
+}
+
+plot_lu_new_tazs <- function(taz_geom, taz_list, se_diff) {
+	taz_geom %>%
+		filter(TAZ %in% taz_list) %>%
+		# left_join(se_diff, join_by(TAZ)) %>%
+		# filter(name %in% c("TOTHH", "HHPOP", "TOTEMP")) %>%
+		ggplot() +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		geom_sf(fill = NA, linewidth = 2, color = "black") +
+		geom_sf_label(aes(label = TAZ)) +
+		# coord_sf(
+		# 	xlim = c(-111.93, -111.88), ylim = c(40.47, 40.53),
+		# 	crs = 4326) +
+		theme_map(zoom = FALSE)
 }

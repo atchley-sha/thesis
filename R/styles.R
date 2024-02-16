@@ -1,4 +1,4 @@
-theme_map <- function(zoomin = TRUE) {
+theme_map <- function(zoom = TRUE) {
 	list(
 		theme(
 			axis.text = element_blank(),
@@ -6,7 +6,7 @@ theme_map <- function(zoomin = TRUE) {
 			panel.grid = element_blank(),
 			axis.title = element_blank()
 		),
-		if(zoomin) {
+		if(zoom) {
 			coord_sf(
 				xlim =  c(-112.15,-111.6),
 				ylim = c(40.2,40.8),

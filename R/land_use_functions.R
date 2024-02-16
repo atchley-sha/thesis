@@ -14,3 +14,12 @@ get_asim_lu_new_trips <- function(trips_raw, persons) {
 		filter(person_id %in% persons) %>%
 		count_asim_trips()
 }
+
+make_lu_new_se_table <- function(taz_list, se_diff) {
+	se_diff %>%
+		filter(
+			TAZ %in% taz_list,
+			name %in% c("TOTHH", "HHPOP", "TOTEMP")) %>%
+		select(TAZ, name, diff) %>%
+		pivot_wider(values_from = diff)
+}

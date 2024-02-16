@@ -137,7 +137,7 @@ The average household size will therefore follow a similar error distribution to
 #| label: fig-population-comparison
 #| fig-cap: population comparison
 
-targets::tar_read(pop_comp_map)
+targets::tar_read(comparison_pop_map)
 ```
 
 The population per TAZ is similar to the WFRC data in most places, though there are some discrepancies especially near Herriman and Lehi.
@@ -165,14 +165,14 @@ targets::tar_read(income_groups) %>%
 #| label: fig-median-income-comparison
 #| fig-cap: med inc
 
-targets::tar_read(med_inc_map)
+targets::tar_read(comparison_med_income_map)
 ```
 
 ```{r}
 #| label: fig-income-group-map
 #| fig-cap: inc groups
 
-targets::tar_read(inc_groups_map)
+targets::tar_read(comparison_inc_groups_map)
 ```
 
 Income was not weighted very heavily as a control in PopulationSim (see @tbl-control-totals), and this is in part why there are discrepancies between the models.
@@ -183,7 +183,7 @@ However, the overall distribution of income is similar between the models, as @f
 #| label: fig-median-income-density
 #| fig-cap: inc density
 
-targets::tar_read(inc_comp_plot)
+targets::tar_read(comparison_inc_density_plot)
 ```
 
 <!-- ***Comparison of number of workers?*** -->
@@ -205,7 +205,7 @@ This ActivitySim configuration is ultimately based on the San Francisco area, an
 #| label: tbl-mode-split
 #| tbl-cap: mode split
 
-targets::tar_read(mode_split_comp) %>% 
+targets::tar_read(by_mode_split_comparison) %>% 
   kbl(
     booktabs = TRUE,
     col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "% Error", "% Error (scaled to WFRC predicted trips)"),
@@ -224,7 +224,7 @@ targets::tar_read(mode_split_comp) %>%
 #| label: fig-calibration-plot
 #| fig-cap: calibration plot
 
-targets::tar_read(calibration_plot)
+targets::tar_read(asim_mode_choice_calibration_plot)
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
@@ -237,7 +237,7 @@ Note that though these distributions match well enough for the purposes of this 
 #| label: fig-tlfd-comp
 #| fig-cap: tlfd comparison
 
-targets::tar_read(tlfd_comp_plot)
+targets::tar_read(combined_by_tlfd_plot)
 ```
 
 The WFRC model has basic support for predicting telecommuting and work-from-home trips.
@@ -251,14 +251,13 @@ The WFRC model's land use data contains employment by type in each TAZ, and it c
 ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration).
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
-This target work-from-home percentage is set at `r targets::tar_read(wfrc_hbj_base_pct)`, based on a weighted average from the WFRC model data.
 There are no other adjustments to the ActivitySim work-from-home submodel.
 
 ```{r}
 #| label: fig-wfrc-wfh
 #| tbl-cap: wfrc wfh data
 
-targets::tar_read(wfrc_hbj_base_plot)
+# targets::tar_read(wfrc_hbj_base_plot)
 ```
 
 The two models differ in their approach to telecommuting, however.
@@ -274,18 +273,19 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| label: tbl-baseline-telecommute
 #| tbl-cap: wfrc telecommute data
 
-targets::tar_read(compare_tc_2019) %>% 
-  mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>% 
-  rename(
-    "Job Type" = name,
-    "WFRC Telecommute Proportion" = wfrc_2019
-    ) %>% 
-  kbl(
-    booktabs = TRUE,
-    align = "c"
-  ) %>% 
-  add_header_above(c(" ", " ", "ActivitySim Telecommute Utility Coefficients" = 3)) %>% 
-  kable_styling()
+targets::tar_read(comparison_by_telecommute_coeffs) 
+# %>% 
+#   mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>% 
+#   rename(
+#     "Job Type" = name,
+#     "WFRC Telecommute Proportion" = wfrc_2019
+#     ) %>% 
+#   kbl(
+#     booktabs = TRUE,
+#     align = "c"
+#   ) %>% 
+#   add_header_above(c(" ", " ", "ActivitySim Telecommute Utility Coefficients" = 3)) %>% 
+#   kable_styling()
 ```
 
 ## Example Scenarios

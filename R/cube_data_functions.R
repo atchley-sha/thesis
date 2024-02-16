@@ -29,5 +29,11 @@ combine_cube_se <- function(taz_se, taz_inc_groups) {
 			taz_inc_groups,
 			join_by(TAZ)
 		)
+}
 
+read_cube_tc_percentages <- function(tc_pct_file, jobe_code_transl) {
+	tc_pct_file %>%
+		read_csv() %>%
+		left_join(jobe_code_transl, join_by(jobcode)) %>%
+		select(name, wfrc_2019, wfrc_2050)
 }

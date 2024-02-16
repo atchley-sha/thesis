@@ -11,6 +11,7 @@ package_list <- c(
 	"omxr",
 	"ggspatial",
 	"ggalluvial",
+	"ggh4x",
 	"ggrepel",
 	"DiagrammeR",
 	"od"
@@ -76,6 +77,8 @@ cube_data_targets <- tar_plan(
 		cube_telecommute_percentages_file,
 		"data/cube/telecommute_jobtype.csv"),
 	cube_telecommute_percentages = readr::read_csv(cube_telecommute_percentages_file),
+	cube_telecommute_percentages_2 = read_cube_tc_percentages(
+		cube_telecommute_percentages_file, job_code_translation),
 
 	# Base year
 	tar_file(cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
@@ -232,7 +235,7 @@ base_year_targets <- tar_plan(
 
 	# WFH
 	comparison_by_telecommute_coeffs = compare_telecommute(
-		cube_telecommute_percentages[c("jobcode", "wfrc_2019")],
+		cube_telecommute_percentages,
 		asim_by_telecommute_coefficients,
 		job_code_translation
 	),
@@ -244,6 +247,10 @@ land_use_targets <- tar_plan(
 	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
 	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
 	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
+	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs, cube_lu_se_diff),
+	lu_new_se_table = make_lu_new_se_table(lu_tazs, cube_lu_by_se_diff),
+
+	cube_lu_by_se_diff = get_cube_se_diff(list(lu = cube_lu_taz_se, by = cube_by_taz_se)),
 
 	cube_lu_all_diff = get_trip_diff(list(lu = cube_lu_trips,	by = cube_by_trips)),
 	cube_lu_all_diff_distsml = get_trip_diff(list(
@@ -327,6 +334,9 @@ wfh_targets <- tar_plan(
 		wfh = cube_wfh_trips, by = cube_by_trips)),
 	asim_wfh_all_trips_diff = get_trip_diff(list(
 		wfh = asim_wfh_trips, by = asim_by_trips)),
+	combined_wfh_trips_diff = dplyr::bind_rows(list(
+		cube = cube_wfh_all_trips_diff, asim = asim_wfh_all_trips_diff),
+		.id = "model"),
 
 	# Mode split
 	combined_wfh_mode_split_diff = dplyr::full_join(
@@ -340,6 +350,10 @@ wfh_targets <- tar_plan(
 		cube_wfh_all_trips_diff, distances),
 	asim_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(
 		asim_wfh_all_trips_diff, distances),
+
+	# TLFD
+	combined_wfh_tlfd_diff_plot = plot_wfh_tlfd_diff(
+		combined_wfh_trips_diff, distances)
 
 )
 
