@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../qmd/3_wfh.html" rel="next">
-<link href="../qmd/1_land_use_notes.html" rel="prev">
+<link href="../qmd/1_land_use.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -132,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/1_land_use_notes.html" class="sidebar-item-text sidebar-link">
+  <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
   </div>
 </li>
@@ -202,6 +202,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<!-- Include at the start of every doc -->
 <p>The second sceario updates the transit network (frontrunner).</p>
 <p>Data comes from the WFRC 2050 build plan. Includes new stations, new headways, and faster speeds.</p>
 <p>Show map of changes.</p>
@@ -213,11 +214,27 @@ ul.task-list li input[type="checkbox"] {
 <section id="analyses" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="analyses"><span class="header-section-number">5.2</span> Analyses</h2>
 <div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 8
+  purpose mode      cube_tr  cube_by cube_diff_pct asim_tr asim_by asim_diff_pct
+  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;         &lt;dbl&gt;
+1 hbo     auto     4095127. 4096688.    -0.000381  3050647 3042754      0.00259 
+2 hbo     nonmotor  510103.  510143.    -0.0000779  593154  591164      0.00337 
+3 hbo     transit    38912.   37346.     0.0419     220137  218438      0.00778 
+4 hbw     auto     1582865. 1586414.    -0.00224   1286434 1288620     -0.00170 
+5 hbw     nonmotor   76396.   76506.    -0.00144    191827  191880     -0.000276
+6 hbw     transit    52380.   48752.     0.0744     191873  189610      0.0119  
+7 nhb     auto     2224420. 2224878.    -0.000206  1646759 1645356      0.000853
+8 nhb     nonmotor  146409.  146404.     0.0000375  224443  224248      0.000870
+9 nhb     transit    13870.   13453.     0.0310     104323  103398      0.00895 </code></pre>
+</div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_transit_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>needs to be redone</figcaption>
+<p><img src="2_transit_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>needs to be redone?</figcaption>
 </figure>
 </div>
 </div>
@@ -616,12 +633,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/1_land_use_notes.html" class="pagination-link  aria-label=" &lt;span="" use&lt;="" span&gt;"="">
+      <a href="../qmd/1_land_use.html" class="pagination-link" aria-label="Land Use">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/3_wfh.html" class="pagination-link" aria-label="<span class='chapter-number'>6</span>&nbsp; <span class='chapter-title'>WFH</span>">
+      <a href="../qmd/3_wfh.html" class="pagination-link" aria-label="WFH">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

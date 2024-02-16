@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -132,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/1_land_use_notes.html" class="sidebar-item-text sidebar-link">
+  <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
   </div>
 </li>
@@ -202,6 +202,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<!-- Include at the start of every doc -->
 <p>Third scenario models WFH.</p>
 <p>Uses WFRC projections from 2050.</p>
 <p>Show plot of some kind showing increase from 2019 to 2050.</p>
@@ -214,7 +215,21 @@ ul.task-list li input[type="checkbox"] {
 Table&nbsp;6.1: wfrc telecommute data
 </figcaption>
 <div aria-describedby="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   name            wfrc_2019 wfrc_2050
+   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Retail             0.027          0
+ 2 Food               0.0187        NA
+ 3 Manufacturing      0.0202        NA
+ 4 Office             0.0666        NA
+ 5 Gov't/Education    0.0167        NA
+ 6 Health             0.0286        NA
+ 7 Agriculture        0.0693        NA
+ 8 Mining             0.0053        NA
+ 9 Construction       0.0328        NA
+10 Other              0.0537        NA</code></pre>
+</div>
 </div>
 </figure>
 </div>
@@ -223,23 +238,51 @@ Table&nbsp;6.1: wfrc telecommute data
 <section id="analyses" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="analyses"><span class="header-section-number">6.2</span> Analyses</h2>
 <div class="cell">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="3_wfh_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>asim</figcaption>
-</figure>
-</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 8
+  purpose mode     cube_wfh cube_by cube_diff_pct asim_wfh asim_by asim_diff_pct
+  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;    &lt;int&gt;   &lt;int&gt;         &lt;dbl&gt;
+1 hbo     auto     4097821.  4.10e6      0.000277  3078596 3042754        0.0118
+2 hbo     nonmotor  508869.  5.10e5     -0.00250    597323  591164        0.0104
+3 hbo     transit    37359.  3.73e4      0.000344   220937  218438        0.0114
+4 hbw     auto     1483120.  1.59e6     -0.0651    1209400 1288620       -0.0615
+5 hbw     nonmotor   71063.  7.65e4     -0.0712     180968  191880       -0.0569
+6 hbw     transit    44977.  4.88e4     -0.0774     178056  189610       -0.0609
+7 nhb     auto     2193201.  2.22e6     -0.0142    1606889 1645356       -0.0234
+8 nhb     nonmotor  144126.  1.46e5     -0.0156     216257  224248       -0.0356
+9 nhb     transit    13199.  1.35e4     -0.0189     100654  103398       -0.0265</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="3_wfh_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>wfrc</figcaption>
-</figure>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 8
+  purpose mode     wfh_trips by_trips trips_pct   wfh_pmt    by_pmt   pmt_pct
+  &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1 hbo     auto      4097821. 4096688.  0.000277 19571300. 19509401.  0.00317 
+2 hbo     nonmotor   508869.  510143. -0.00250    590349.   591297. -0.00160 
+3 hbo     transit     37359.   37346.  0.000344   264432.   264203.  0.000867
+4 hbw     auto      1483120. 1586414. -0.0651   15015364. 15941522. -0.0581  
+5 hbw     nonmotor    71063.   76506. -0.0712     122930.   132216. -0.0702  
+6 hbw     transit     44977.   48752. -0.0774     500953.   547804. -0.0855  
+7 nhb     auto      2193201. 2224878. -0.0142   12275574. 12427922. -0.0123  
+8 nhb     nonmotor   144126.  146404. -0.0156     134784.   136914. -0.0156  
+9 nhb     transit     13199.   13453. -0.0189      72018.    73563. -0.0210  </code></pre>
 </div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 8
+  purpose mode     wfh_trips by_trips trips_pct   wfh_pmt    by_pmt  pmt_pct
+  &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 hbw     auto       1209400  1288620   -0.0615 12012008. 12831073. -0.0638 
+2 hbw     transit     178056   189610   -0.0609  1726785.  1840776. -0.0619 
+3 hbw     nonmotor    180968   191880   -0.0569   429773.   456097. -0.0577 
+4 hbo     auto       3078596  3042754    0.0118 17079259. 16886907.  0.0114 
+5 hbo     transit     220937   218438    0.0114  1597334.  1589804.  0.00474
+6 hbo     nonmotor    597323   591164    0.0104   972346.   961824.  0.0109 
+7 nhb     auto       1606889  1645356   -0.0234  7982697.  8218401. -0.0287 
+8 nhb     transit     100654   103398   -0.0265   582557.   600727. -0.0302 
+9 nhb     nonmotor    216257   224248   -0.0356   254643.   263963. -0.0353 </code></pre>
 </div>
 </div>
 
@@ -636,12 +679,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/2_transit.html" class="pagination-link  aria-label=" &lt;span="">
+      <a href="../qmd/2_transit.html" class="pagination-link" aria-label="Transit">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/conclusions.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>Summary</span>">
+      <a href="../qmd/conclusions.html" class="pagination-link" aria-label="Summary">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

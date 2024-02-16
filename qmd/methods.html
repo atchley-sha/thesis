@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../qmd/1_land_use_notes.html" rel="next">
+<link href="../qmd/1_land_use.html" rel="next">
 <link href="../qmd/lit-review.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -183,7 +183,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/1_land_use_notes.html" class="sidebar-item-text sidebar-link">
+  <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
   </div>
 </li>
@@ -255,11 +255,12 @@ window.Quarto = {
 </header>
 
 
+<!-- Include at the start of every doc -->
 <p>This paper seeks to compare methodological differences between trip- and activity-based modeling frameworks. The Wasatch Front Regional Council (WFRC) travel demand model is used as a representative trip-based model, and an ActivitySim implementation in the same study area is used as a representative activity-based model (ABM). Note that the focus is not on comparing model accuracy or performance, but rather on comparing the process of using each model, including the types of analyses that can be performed. There are therefore few direct comparisons of model outputs between each type. Instead, this research highlights the strengths and weaknesses of each model type in planning and policy analysis, and illustrates these differences.</p>
 <p>The following sections discuss the specific models in more detail.</p>
 <section id="wfrc-model" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="wfrc-model"><span class="header-section-number">3.1</span> WFRC Model</h2>
-<p>The WFRC model is implemented in the CUBE software by Bentley <span class="citation" data-cites="bentley_systems_cube">(<a href="references.html#ref-bentley_systems_cube" role="doc-biblioref">Bentley Systems n.d.</a>)</span>, and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area. WFRC provided the model directly, including land use forecasts and the current long-range transportation plan. The model is taken essentially as-is, with no changes other than those noted in Chapters <a href="1_land_use_notes.html" class="quarto-xref"><span>4</span></a>–<a href="3_wfh.html" class="quarto-xref"><span>6</span></a>.</p>
+<p>The WFRC model is implemented in the CUBE software by Bentley <span class="citation" data-cites="bentley_systems_cube">(<a href="references.html#ref-bentley_systems_cube" role="doc-biblioref">Bentley Systems n.d.</a>)</span>, and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area. WFRC provided the model directly, including land use forecasts and the current long-range transportation plan. The model is taken essentially as-is, with no changes other than those noted in Chapters <a href="1_land_use.html" class="quarto-xref"><span>4</span></a>–<a href="3_wfh.html" class="quarto-xref"><span>6</span></a>.</p>
 <p>The WFRC model, like many trip-based models, requires the following inputs:</p>
 <ul>
 <li>Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).</li>
@@ -307,6 +308,7 @@ Table&nbsp;3.1: PopulationSim Control Totals by Geography and Source
 </figcaption>
 <div aria-describedby="tbl-control-totals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
+<div>
 <table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -359,6 +361,7 @@ Table&nbsp;3.1: PopulationSim Control Totals by Geography and Source
 
 </div>
 </div>
+</div>
 </figure>
 </div>
 </div>
@@ -398,6 +401,7 @@ Table&nbsp;3.2: income groups
 </figcaption>
 <div aria-describedby="tbl-income-groups-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
+<div>
 <table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -426,6 +430,7 @@ Table&nbsp;3.2: income groups
 </table>
 
 
+</div>
 </div>
 </div>
 </figure>
@@ -488,6 +493,7 @@ Table&nbsp;3.3: mode split
 </figcaption>
 <div aria-describedby="tbl-mode-split-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
+<div>
 <table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -501,137 +507,82 @@ Table&nbsp;3.3: mode split
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 3cm;">7441918</td>
-<td style="text-align: center; width: 3.5cm;">8737729</td>
-<td style="text-align: center;">-14.8%</td>
-<td style="text-align: center; width: 3.7cm;">0.0%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">All</td>
 <td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 3cm;">6515379</td>
-<td style="text-align: center; width: 3.5cm;">7905927</td>
-<td style="text-align: center;">-17.6%</td>
-<td style="text-align: center; width: 3.7cm;">-3.2%</td>
+<td style="text-align: center;">Home-based Other</td>
+<td style="text-align: center; width: 3cm;">3042754</td>
+<td style="text-align: center; width: 3.5cm;">4096688</td>
+<td style="text-align: center;">-1053934</td>
+<td style="text-align: center; width: 3.7cm;">-25.7%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center;">All</td>
+<tr class="even">
 <td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 3cm;">768463</td>
-<td style="text-align: center; width: 3.5cm;">732250</td>
-<td style="text-align: center;">4.9%</td>
-<td style="text-align: center; width: 3.7cm;">23.2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">All</td>
-<td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 3cm;">158076</td>
-<td style="text-align: center; width: 3.5cm;">99551</td>
-<td style="text-align: center;">58.8%</td>
-<td style="text-align: center; width: 3.7cm;">86.4%</td>
+<td style="text-align: center;">Home-based Other</td>
+<td style="text-align: center; width: 3cm;">591164</td>
+<td style="text-align: center; width: 3.5cm;">510143</td>
+<td style="text-align: center;">81021</td>
+<td style="text-align: center; width: 3.7cm;">15.9%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 3cm;">3696056</td>
-<td style="text-align: center; width: 3.5cm;">4641724</td>
-<td style="text-align: center;">-20.4%</td>
-<td style="text-align: center; width: 3.7cm;">-6.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 3cm;">3092740</td>
-<td style="text-align: center; width: 3.5cm;">4094887</td>
-<td style="text-align: center;">-24.5%</td>
-<td style="text-align: center; width: 3.7cm;">-11.3%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 3cm;">531497</td>
-<td style="text-align: center; width: 3.5cm;">509491</td>
-<td style="text-align: center;">4.3%</td>
-<td style="text-align: center; width: 3.7cm;">22.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Home-based Other</td>
 <td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 3cm;">71819</td>
+<td style="text-align: center;">Home-based Other</td>
+<td style="text-align: center; width: 3cm;">218438</td>
 <td style="text-align: center; width: 3.5cm;">37346</td>
-<td style="text-align: center;">92.3%</td>
-<td style="text-align: center; width: 3.7cm;">125.8%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 3cm;">1759501</td>
-<td style="text-align: center; width: 3.5cm;">1711578</td>
-<td style="text-align: center;">2.8%</td>
-<td style="text-align: center; width: 3.7cm;">20.7%</td>
+<td style="text-align: center;">181092</td>
+<td style="text-align: center; width: 3.7cm;">484.9%</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Home-based Work</td>
 <td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 3cm;">1617449</td>
-<td style="text-align: center; width: 3.5cm;">1586413</td>
-<td style="text-align: center;">2.0%</td>
-<td style="text-align: center; width: 3.7cm;">19.7%</td>
+<td style="text-align: center;">Home-based Work</td>
+<td style="text-align: center; width: 3cm;">1288620</td>
+<td style="text-align: center; width: 3.5cm;">1586414</td>
+<td style="text-align: center;">-297794</td>
+<td style="text-align: center; width: 3.7cm;">-18.8%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Home-based Work</td>
 <td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 3cm;">85430</td>
-<td style="text-align: center; width: 3.5cm;">76413</td>
-<td style="text-align: center;">11.8%</td>
-<td style="text-align: center; width: 3.7cm;">31.3%</td>
+<td style="text-align: center;">Home-based Work</td>
+<td style="text-align: center; width: 3cm;">191880</td>
+<td style="text-align: center; width: 3.5cm;">76506</td>
+<td style="text-align: center;">115374</td>
+<td style="text-align: center; width: 3.7cm;">150.8%</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Home-based Work</td>
 <td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 3cm;">56622</td>
+<td style="text-align: center;">Home-based Work</td>
+<td style="text-align: center; width: 3cm;">189610</td>
 <td style="text-align: center; width: 3.5cm;">48752</td>
-<td style="text-align: center;">16.1%</td>
-<td style="text-align: center; width: 3.7cm;">36.4%</td>
+<td style="text-align: center;">140858</td>
+<td style="text-align: center; width: 3.7cm;">288.9%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Non–home-based</td>
-<td style="text-align: center;">All</td>
-<td style="text-align: center; width: 3cm;">1986361</td>
-<td style="text-align: center; width: 3.5cm;">2384427</td>
-<td style="text-align: center;">-16.7%</td>
-<td style="text-align: center; width: 3.7cm;">-2.2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Non–home-based</td>
 <td style="text-align: center;">Auto</td>
-<td style="text-align: center; width: 3cm;">1805190</td>
-<td style="text-align: center; width: 3.5cm;">2224628</td>
-<td style="text-align: center;">-18.9%</td>
-<td style="text-align: center; width: 3.7cm;">-4.7%</td>
-</tr>
-<tr class="odd">
 <td style="text-align: center;">Non–home-based</td>
-<td style="text-align: center;">Non-motorized</td>
-<td style="text-align: center; width: 3cm;">151536</td>
-<td style="text-align: center; width: 3.5cm;">146346</td>
-<td style="text-align: center;">3.5%</td>
-<td style="text-align: center; width: 3.7cm;">21.6%</td>
+<td style="text-align: center; width: 3cm;">1645356</td>
+<td style="text-align: center; width: 3.5cm;">2224878</td>
+<td style="text-align: center;">-579522</td>
+<td style="text-align: center; width: 3.7cm;">-26.0%</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;">Non-motorized</td>
 <td style="text-align: center;">Non–home-based</td>
+<td style="text-align: center; width: 3cm;">224248</td>
+<td style="text-align: center; width: 3.5cm;">146404</td>
+<td style="text-align: center;">77844</td>
+<td style="text-align: center; width: 3.7cm;">53.2%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: center;">Transit</td>
-<td style="text-align: center; width: 3cm;">29635</td>
+<td style="text-align: center;">Non–home-based</td>
+<td style="text-align: center; width: 3cm;">103398</td>
 <td style="text-align: center; width: 3.5cm;">13453</td>
-<td style="text-align: center;">120.3%</td>
-<td style="text-align: center; width: 3.7cm;">158.6%</td>
+<td style="text-align: center;">89945</td>
+<td style="text-align: center; width: 3.7cm;">668.6%</td>
 </tr>
 </tbody>
 </table>
 
 
+</div>
 </div>
 </div>
 </figure>
@@ -667,133 +618,31 @@ Figure&nbsp;3.7: tlfd comparison
 </div>
 </div>
 <p>The WFRC model has basic support for predicting telecommuting and work-from-home trips. This includes a lookup table of telecommute percentages based on job type and year. ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions. It is worth noting that both the WFRC model and ActivitySim make a distinction between “telecommuting”, where an individual commutes to work some days and does not others, and “work-from-home” (or “home-based jobs” in the WFRC model), where an individual’s workplace is always at their home.</p>
-<p>Both models treat “work-from-home”/“home-based jobs” similarly. The WFRC model’s land use data contains employment by type in each TAZ, and it considers a “home-based job” as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps. <a href="#fig-wfrc-wfh" class="quarto-xref">Figure&nbsp;<span>3.8</span></a> shows the distribution of home-based job percentage by TAZ in the WFRC land use data. ActivitySim has a “work from home” submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration). There is also a “target work-from-home percent” value that adjusts the model to reach the specified work-from-home proportion of all workers. Individuals with work-from-home status are then prohibited from making a mandatory tour. This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data. There are no other adjustments to the ActivitySim work-from-home submodel.</p>
-<div class="cell" data-tbl-cap="wfrc wfh data">
-<div class="cell-output-display">
-<div id="fig-wfrc-wfh" class="quarto-figure quarto-figure-center quarto-float anchored" width="672">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-wfrc-wfh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="methods_files/figure-html/fig-wfrc-wfh-1.png" id="fig-wfrc-wfh" class="img-fluid figure-img" width="672">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-wfrc-wfh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3.8
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<p>Both models treat “work-from-home”/“home-based jobs” similarly. The WFRC model’s land use data contains employment by type in each TAZ, and it considers a “home-based job” as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps. <span class="quarto-unresolved-ref">?fig-wfrc-wfh</span> shows the distribution of home-based job percentage by TAZ in the WFRC land use data. ActivitySim has a “work from home” submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration). There is also a “target work-from-home percent” value that adjusts the model to reach the specified work-from-home proportion of all workers. Individuals with work-from-home status are then prohibited from making a mandatory tour. There are no other adjustments to the ActivitySim work-from-home submodel.</p>
 <p>The two models differ in their approach to telecommuting, however. The WFRC model has a lookup table of telecommuting shares based on job type (see <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>), including predictions for future years. ActivitySim has a “telecommute frequency” submodel which assigns workers a telecommute status indicating the number of days they work remotely per week. Based on this status, ActivitySim adjusts the likelihood of making a mandatory tour. Telecommute status depends on personal variables similar to those in the work-from-home submodel by default. In order to calibrate to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>. Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets. The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>.</p>
-<div class="cell">
 <div id="tbl-baseline-telecommute" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-baseline-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3.4: wfrc telecommute data
 </figcaption>
 <div aria-describedby="tbl-baseline-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: center; empty-cells: hide; border-bottom: hidden;"></th>
-<th data-quarto-table-cell-role="th" style="text-align: center; empty-cells: hide; border-bottom: hidden;"></th>
-<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-ActivitySim Telecommute Utility Coefficients
-</div></th>
-</tr>
-<tr class="odd">
-<th style="text-align: center;" data-quarto-table-cell-role="th">Job Type</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">WFRC Telecommute Proportion</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">1 day</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">2–3 days</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">4 days</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">Retail</td>
-<td style="text-align: center;">2.70%</td>
-<td style="text-align: center;">0.312</td>
-<td style="text-align: center;">0.125</td>
-<td style="text-align: center;">0.078</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Food</td>
-<td style="text-align: center;">1.87%</td>
-<td style="text-align: center;">-0.368</td>
-<td style="text-align: center;">-0.148</td>
-<td style="text-align: center;">-0.092</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Manufacturing</td>
-<td style="text-align: center;">2.02%</td>
-<td style="text-align: center;">0.038</td>
-<td style="text-align: center;">0.015</td>
-<td style="text-align: center;">0.010</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Office</td>
-<td style="text-align: center;">6.66%</td>
-<td style="text-align: center;">1.782</td>
-<td style="text-align: center;">0.712</td>
-<td style="text-align: center;">0.445</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Gov't/Education</td>
-<td style="text-align: center;">1.67%</td>
-<td style="text-align: center;">-0.560</td>
-<td style="text-align: center;">-0.224</td>
-<td style="text-align: center;">-0.140</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Health</td>
-<td style="text-align: center;">2.86%</td>
-<td style="text-align: center;">0.158</td>
-<td style="text-align: center;">0.063</td>
-<td style="text-align: center;">0.039</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Agriculture</td>
-<td style="text-align: center;">6.93%</td>
-<td style="text-align: center;">2.262</td>
-<td style="text-align: center;">0.904</td>
-<td style="text-align: center;">0.566</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Mining</td>
-<td style="text-align: center;">0.53%</td>
-<td style="text-align: center;">-2.030</td>
-<td style="text-align: center;">-0.810</td>
-<td style="text-align: center;">-0.511</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">Construction</td>
-<td style="text-align: center;">3.28%</td>
-<td style="text-align: center;">0.816</td>
-<td style="text-align: center;">0.326</td>
-<td style="text-align: center;">0.204</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">Other</td>
-<td style="text-align: center;">5.37%</td>
-<td style="text-align: center;">1.535</td>
-<td style="text-align: center;">0.614</td>
-<td style="text-align: center;">0.384</td>
-</tr>
-</tbody>
-</table>
-
-
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 6
+   name            wfrc_2019 wfrc_2050 `1 day` `2–3 days` `4 days`
+   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Retail             0.027          0   0.312      0.125    0.078
+ 2 Food               0.0187        NA  -0.368     -0.148   -0.092
+ 3 Manufacturing      0.0202        NA   0.038      0.015    0.01 
+ 4 Office             0.0666        NA   1.78       0.712    0.445
+ 5 Gov't/Education    0.0167        NA  -0.56      -0.224   -0.14 
+ 6 Health             0.0286        NA   0.158      0.063    0.039
+ 7 Agriculture        0.0693        NA   2.26       0.904    0.566
+ 8 Mining             0.0053        NA  -2.03      -0.81    -0.511
+ 9 Construction       0.0328        NA   0.816      0.326    0.204
+10 Other              0.0537        NA   1.54       0.614    0.384</code></pre>
 </div>
 </div>
 </figure>
-</div>
 </div>
 </section>
 </section>
@@ -806,7 +655,7 @@ This research scenario will be based on this development, but will include only 
 <p>The second scenario centers around an augmentation of transit service along the Wasatch Front. The FrontRunner, a CRT line connecting Provo to Ogden, is slated for expansion. The expansion includes additional stations and increased travel speeds due to vehicle electrification. This scenario models these changes in accordance with the planned expansion of the service. <!-- @fig-frontrunner-beforeafter --></p>
 <p>The third scenario addresses the growing trend of remote work. Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC. <!-- @fig-wfh-projections --></p>
 <p>Each of these scenarios is based on the baseline 2019 scenario in the respective model, and ignores any additional expected growth or development beyond the specific changes of each scenario. For example, the increased WFH scenario uses WFH projections from 2050, but land use and socioeconomic data from 2019. These scenarios are therefore not realistic, but they serve as illustrative examples of the types of planning and development scenarios agencies may wish to analyze.</p>
-<p>All three of these scenarios are coded in both the WFRC model and ActivitySim. The results (Chapters <a href="1_land_use_notes.html" class="quarto-xref"><span>4</span></a>–<a href="3_wfh.html" class="quarto-xref"><span>6</span></a>) describe the process of coding each scenario and analyzing them, as well as the analyses themselves.</p>
+<p>All three of these scenarios are coded in both the WFRC model and ActivitySim. The results (Chapters <a href="1_land_use.html" class="quarto-xref"><span>4</span></a>–<a href="3_wfh.html" class="quarto-xref"><span>6</span></a>) describe the process of coding each scenario and analyzing them, as well as the analyses themselves.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1206,12 +1055,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/lit-review.html" class="pagination-link  aria-label=" &lt;span="" review&lt;="" span&gt;"="">
+      <a href="../qmd/lit-review.html" class="pagination-link" aria-label="Literature Review">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Literature Review</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/1_land_use_notes.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Land Use</span>">
+      <a href="../qmd/1_land_use.html" class="pagination-link" aria-label="Land Use">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
