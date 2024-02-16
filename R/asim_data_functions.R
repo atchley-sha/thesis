@@ -63,6 +63,15 @@ count_asim_trips <- function(trips) {
 		count(origin, destination, purpose, mode, name = "trips")
 }
 
+count_asim_trips_keep_purpose <- function(trips) {
+	trips %>%
+		mutate(
+			purpose = keep_asim_purpose(tour_purpose),
+			mode = convert_asim_mode(mode)
+		) %>%
+		count(origin, destination, purpose, mode, name = "trips")
+}
+
 make_asim_purpose <- function(df) {
 	df %>%
 		group_by(tour_id) %>%
@@ -82,6 +91,17 @@ make_asim_purpose <- function(df) {
 				factor(c("hbw", "hbo", "nhb"))
 		) %>%
 		pull(purpose)
+}
+
+keep_asim_purpose <- function(purpose) {
+	case_match(
+		purpose,
+		c("univ", "school") ~ "school",
+		c("othdiscr", "othmaint") ~ "other",
+		"eatout" ~ "eat out",
+		"atwork" ~ "at-work",
+		.default = purpose
+	)
 }
 
 convert_asim_mode <- function(mode){

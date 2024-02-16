@@ -27,6 +27,8 @@ sample_trips <- function(combined_trips, prop = 0.1, weight = FALSE){
 sum_trips_by_district <- function(trips, dist_transl) {
 	trips %>%
 		join_dist_to_taz(dist_transl) %>%
+		# group_by(pick(any_of(
+		# 	c("model", "o_DIST", "d_DIST", "purpose", "mode")))) %>%
 		group_by(o_DIST, d_DIST, purpose, mode) %>%
 		summarise(
 			trips = sum(trips)
@@ -46,7 +48,7 @@ get_trip_diff <- function(trip_list = list()) {
 			\(x) replace_na(x, 0)
 		)) %>%
 		mutate(
-			diff = trips_2 - trips_1
+			diff = trips_1 - trips_2
 			# pct_diff = diff / trips_1
 		) %>%
 		rename_with(

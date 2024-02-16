@@ -1,31 +1,34 @@
 # Population ####
+.by_population_bg <- function(...) {
+	list(
+		annotation_map_tile("cartolight", zoomin=0),
+		geom_sf(aes(fill = diff_pct, color = as.character(is.na(diff_pct)))),
+		scale_percent_diff(...),
+		scale_color_manual(
+			values = c("TRUE" = "#00000000", "FALSE" = "black"),
+			guide = "none")
+	)
+}
+
 make_pop_comparison_map <- function(combined_se_data){
 	combined_se_data %>%
 		filter(name == "pop") %>%
-		st_transform(4326) %>%
 		ggplot() +
-		annotation_map_tile("cartolight", zoomin=0) +
-		geom_sf(aes(fill = diff_pct, color = as.character(is.na(diff_pct)))) +
-		scale_percent_diff(4, base = 3, sigma = 1.5) +
-		scale_color_manual(
-			values = c("TRUE" = "#00000000", "FALSE" = "black"),
-			guide = "none") +
-		labs(fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WFRC")
+		.by_population_bg(high_val = 4, base = 3, sigma = 1.5) +
+		labs(
+			fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WFRC") +
+		theme_map()
 }
 
 make_med_income_comparison_map <- function(combined_se_data){
 	combined_se_data %>%
 		filter(name == "med_income") %>%
 		mutate(diff_pct = if_else(asim == 0, NA, diff_pct)) %>%
-		st_transform(4326) %>%
 		ggplot() +
-		annotation_map_tile("cartolight", zoomin=0) +
-		geom_sf(aes(fill = diff_pct, color = as.character(is.na(diff_pct)))) +
-		scale_percent_diff(2, base = 2, sigma = 1.5) +
-		scale_color_manual(
-			values = c("TRUE" = "#00000000", "FALSE" = "black"),
-			guide = "none") +
-		labs(fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WFRC")
+		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
+		labs(
+			fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WFRC") +
+		theme_map()
 }
 
 make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
@@ -34,16 +37,12 @@ make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
 		mutate(group = str_remove(name, "inc_group_") %>% as.numeric()) %>%
 		left_join(select(income_groups, group, inc_range)) %>%
 		mutate(inc_range = fct_reorder(inc_range, group)) %>%
-		st_transform(4326) %>%
 		ggplot() +
 		facet_wrap(~inc_range, ncol = 2) +
-		annotation_map_tile("cartolight", zoomin=0) +
-		geom_sf(aes(fill = diff_pct, color = as.character(is.na(diff_pct)))) +
-		scale_percent_diff(2, base = 2, sigma = 1.5) +
-		scale_color_manual(
-			values = c("TRUE" = "#00000000", "FALSE" = "black"),
-			guide = "none") +
-		labs(fill = "Percent difference in number\nof households,\nPopulationSim compared\nto WFRC")
+		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
+		labs(
+			fill = "Percent difference in number\nof households,\nPopulationSim compared\nto WFRC") +
+		theme_map()
 }
 
 make_inc_density_comparison_plot <- function(combined_se_data, income_groups) {

@@ -29,14 +29,6 @@ tar_seed_set(34985723)
 
 #### List targets ######################################################
 
-# Misc ####
-misc_targets <- tar_plan(
-	map_lims_slc = list(x = c(-112.15,-111.6), y = c(40.2,40.8)),
-	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
-	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
-	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
-)
-
 # FrontRunner ####
 frontrunner_targets <- tar_plan(
 	tar_file(frontrunner_line_file, "data/frontrunner_line.geojson"),
@@ -248,23 +240,41 @@ base_year_targets <- tar_plan(
 
 # Land use ####
 land_use_targets <- tar_plan(
-	# PMT/VMT
+	# Data
+	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
+	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
+	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
 
-
-
-	# Desire lines
-	cube_lu_nhb_diff_distsml = get_trip_diff(list(
+	cube_lu_all_diff = get_trip_diff(list(lu = cube_lu_trips,	by = cube_by_trips)),
+	cube_lu_all_diff_distsml = get_trip_diff(list(
 		lu = sum_trips_by_district(cube_lu_trips, taz_distsml_transl),
 		by = sum_trips_by_district(cube_by_trips, taz_distsml_transl))),
-	cube_lu_nhb_diff_desire = od::od_to_sf(
-		cube_lu_nhb_diff_distsml, distsml_centroids),
-	cube_lu_nhb_diff_desire_map = plot_cube_lu_desire_lines(
-		cube_lu_nhb_diff_desire, distsml),
+	cube_lu_nhb_diff_distsml = dplyr::filter(
+		cube_lu_all_diff_distsml, purpose == "nhb"),
+	cube_lu_new_productions_distsml = dplyr::filter(
+		cube_lu_all_diff_distsml, origin %in% lu_distsml, purpose != "nhb"),
 
 	asim_lu_new_persons = get_asim_new_persons(asim_lu_per, asim_by_per, lu_tazs),
 	asim_lu_new_trips = get_asim_lu_new_trips(asim_lu_raw_trips, asim_lu_new_persons),
 	asim_lu_new_trips_distsml = sum_trips_by_district(
 		asim_lu_new_trips, taz_distsml_transl),
+
+	# PMT/VMT
+	cube_lu_new_pmt_plot = plot_cube_lu_new_pmt(
+		cube_lu_all_diff, distances, lu_tazs),
+	asim_lu_new_pmt_plot = plot_asim_lu_pmt(
+		asim_lu_raw_trips, asim_lu_new_persons, distances, lu_tazs),
+
+	# Desire lines
+	cube_lu_new_productions_desire = od::od_to_sf(
+		cube_lu_new_productions_distsml, distsml_centroids),
+	cube_lu_new_productions_desire_map = plot_cube_lu_desire_lines(
+		cube_lu_new_productions_desire, distsml),
+	cube_lu_nhb_diff_desire = od::od_to_sf(
+		cube_lu_nhb_diff_distsml, distsml_centroids),
+	cube_lu_nhb_diff_desire_map = plot_cube_lu_nhb_desire_lines(
+		cube_lu_nhb_diff_desire, distsml),
+
 	asim_lu_new_desire_lines = od::od_to_sf(
 		asim_lu_new_trips_distsml, distsml_centroids),
 	asim_lu_new_desire_map = plot_asim_lu_desire_lines(
@@ -273,18 +283,42 @@ land_use_targets <- tar_plan(
 
 # Transit ####
 transit_targets <- tar_plan(
+	# Data
+	asim_tr_mode_switching_table = get_asim_trip_diff_by_person(
+		asim_tr_raw_trips, asim_by_raw_trips),
+	asim_tr_mode_switching_table_no_new_or_missing = dplyr::filter(
+		asim_tr_mode_switching_table, !new_person & !missing_person),
+	asim_tr_mode_switching_table_new = dplyr::filter(
+		asim_tr_mode_switching_table, new_person),
+	asim_tr_mode_switching_table_missing = dplyr::filter(
+		asim_tr_mode_switching_table, missing_person),
 
+	# Mode switching
+	asim_tr_mode_switching_summary_new = summarise_asim_mode_switching(
+		asim_tr_mode_switching_table_new),
+	asim_tr_mode_switching_summary_missing = summarise_asim_mode_switching(
+		asim_tr_mode_switching_table_missing),
+	asim_tr_mode_switching_summary_new_and_missing = dplyr::full_join(
+		asim_tr_mode_switching_summary_new,
+		asim_tr_mode_switching_summary_missing,
+		join_by(purpose, mode), suffix = c("_new", "_missing")),
+
+	asim_tr_mode_switching_plot = plot_asim_mode_switching(
+		asim_tr_mode_switching_table_no_new_or_missing),
+
+	# cube_tr_all_diff
 )
 
 # WFH ####
 wfh_targets <- tar_plan(
+	# Data
+
 
 )
 
 #### Run all targets ###################################################
 
 tar_plan(
-	misc_targets,
 	frontrunner_targets,
 	shared_data_targets,
 	cube_data_targets,

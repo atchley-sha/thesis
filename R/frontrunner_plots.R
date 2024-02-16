@@ -16,10 +16,10 @@ plot_frontrunner <- function(line, stops) {
 			box.padding = 0.4, point.padding = 0.5,
 			nudge_x = 0.04, show.legend = FALSE,
 			stat = "sf_coordinates", data = format_stops) +
-		coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326)) +
+		coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326), expand = FALSE) +
 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
 		scale_color_manual(values = c("2019" = "purple4", "2050" = "coral"), labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")) +
-		theme_bw_map() +
-		labs(color = "Scenario")
+		labs(color = "Scenario") +
+		theme_map(zoomin = FALSE)
 
 }

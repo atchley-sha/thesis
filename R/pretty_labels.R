@@ -1,6 +1,8 @@
 pretty_mode <- function(mode) {
 	case_match(
 		as.character(mode),
+		"drivealone" ~ "Drive Alone",
+		"carpool" ~ "Carpool",
 		"auto" ~ "Auto",
 		"transit" ~ "Transit",
 		"nonmotor" ~ "Non-motorized",
@@ -9,6 +11,8 @@ pretty_mode <- function(mode) {
 	) %>%
 		factor(levels = c(
 			"All",
+			"Drive Alone",
+			"Carpool",
 			"Auto",
 			"Transit",
 			"Non-motorized")
