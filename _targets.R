@@ -222,7 +222,7 @@ base_year_targets <- tar_plan(
 		combined_by_se_data_distsml, income_groups),
 
 	# Mode choice
-	by_mode_split_comparison = compare_mode_split(combined_by_trips),
+	by_mode_split_comparison = compare_by_mode_split(combined_by_trips),
 	asim_mode_choice_calibration_plot = plot_asim_mode_choice_calibration(
 		asim_mode_choice_calibration_iters),
 
@@ -293,6 +293,18 @@ transit_targets <- tar_plan(
 	asim_tr_mode_switching_table_missing = dplyr::filter(
 		asim_tr_mode_switching_table, missing_person),
 
+	cube_tr_all_trips_diff = get_trip_diff(list(
+		tr = cube_tr_trips, by = cube_by_trips)),
+	asim_tr_all_trips_diff = get_trip_diff(list(
+		tr = asim_tr_trips, by = asim_by_trips)),
+
+	# Mode split
+	combined_tr_mode_split_diff = dplyr::full_join(
+		calculate_mode_split_diff_pct(cube_tr_all_trips_diff, "cube"),
+		calculate_mode_split_diff_pct(asim_tr_all_trips_diff, "asim"),
+		join_by(purpose, mode)
+	),
+
 	# Mode switching
 	asim_tr_mode_switching_summary_new = summarise_asim_mode_switching(
 		asim_tr_mode_switching_table_new),
@@ -306,13 +318,22 @@ transit_targets <- tar_plan(
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
 		asim_tr_mode_switching_table_no_new_or_missing),
 
-	# cube_tr_all_diff
 )
 
 # WFH ####
 wfh_targets <- tar_plan(
 	# Data
+	cube_wfh_all_trips_diff = get_trip_diff(list(
+		wfh = cube_wfh_trips, by = cube_by_trips)),
+	asim_wfh_all_trips_diff = get_trip_diff(list(
+		wfh = asim_wfh_trips, by = asim_by_trips)),
 
+	# Mode split
+	combined_wfh_mode_split_diff = dplyr::full_join(
+		calculate_mode_split_diff_pct(cube_wfh_all_trips_diff, "cube"),
+		calculate_mode_split_diff_pct(asim_wfh_all_trips_diff, "asim"),
+		join_by(purpose, mode)
+	),
 
 )
 

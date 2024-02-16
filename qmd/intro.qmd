@@ -1,5 +1,12 @@
 # Introduction {#sec-introduction}
 
+{{< include _setup.qmd >}}
+
+```{r}
+head(mtcars) %>% 
+	tt() 
+```
+
 Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s.
 
 Despite the theoretical benefits, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns.

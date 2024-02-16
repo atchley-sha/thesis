@@ -8,6 +8,15 @@ library(targets)
 library(tidyverse)
 library(tinytable)
 
-options(digits = 3) # how many significant digits to print by default
-options("tinytable_tabularray_placement" = "htbp") # for LaTeX
+options(
+	digits = 3, # how many significant digits to print by default
+	tinytable_tabularray_placement = "htbp" # for LaTeX
+)
+
+tt_borders <- function(t) {
+	t %>%
+		style_tt(i = 0, line = "t", line_color = "grey20", line_width = 0.8) %>% 
+		style_tt(i = 0, line = "b", line_width = 0.1, line_color = "grey20") %>% 
+		style_tt(i = nrow(t), line = "b", line_width = 0.2,line_color = "grey20")
+}
 ```

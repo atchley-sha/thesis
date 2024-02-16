@@ -33,7 +33,7 @@ summarise_combined_se_data <- function(combined_se, transl = NULL, zones_geom) {
 		)
 }
 
-compare_mode_split <- function(combined_trips) {
+compare_by_mode_split <- function(combined_trips) {
 	combined_trips %>%
 		group_by(model, mode, purpose) %>%
 		summarise(trips = sum(trips), .groups = "drop") %>%

@@ -42,18 +42,22 @@ plot_asim_mode_switching <- function(table) {
 		summarise(trips = sum(trips), .groups = "drop")
 
 	switching %>%
+		filter(from != "missing", to != "missing") %>%
 		mutate(
 			purpose = str_to_title(purpose),
 			across(c(from, to), \(x) pretty_mode(x)),
-			across(c(from, to), \(x) fct_expand(x, "Missing")),
-			across(c(from, to), \(x) replace_na(x, "Missing"))
+			across(c(from, to), \(x) fct_expand(x, "", after = 0)),
+			across(c(from, to), \(x) replace_na(x, ""))
 		) %>%
 		ggplot(aes(axis1 = from, axis2 = to, y = trips)) +
 		facet_wrap(~purpose, scales = "free") +
 		scale_x_discrete(limits = c("Original mode", "New mode"), expand = c(.2, .05)) +
-		geom_alluvium(aes(fill = to)) +
+		geom_alluvium(aes(fill = from), color = "black") +
+		guides(fill = "none") +
+		# new_scale_fill() +
 		geom_stratum() +
+		# scale_fill_manual(values = c("-" = "black")) +
 		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
-		labs(x = "Number of Trips", fill = "New Mode")
+		labs(y = "Number of Trips")
 
 }

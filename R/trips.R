@@ -60,3 +60,16 @@ get_trip_diff <- function(trip_list = list()) {
 			.cols = c(trips_1, trips_2)
 		)
 }
+
+calculate_mode_split_diff_pct <- function(trip_diff, model) {
+	trip_diff %>%
+		select(-any_of(c("origin", "destination", "diff"))) %>%
+		group_by(purpose, mode) %>%
+		summarise(across(everything(), \(x) sum(x)), .groups = "drop") %>%
+		mutate(
+			diff = pull(., 3) - pull(., 4),
+			diff_pct = diff / pull(., 4),
+			diff = NULL
+		) %>%
+		rename_with(\(x) paste(model, x, sep = "_"), -c(purpose, mode))
+}

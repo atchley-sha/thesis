@@ -18,6 +18,7 @@ read_trip_matrix <- function(omx_file) {
 	omx_file %>%
 		read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
 		pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>%
+		filter(trips > 0) %>%
 		mutate(trips = trips/100) #The trip matrices are multiplied by 100
 }
 
