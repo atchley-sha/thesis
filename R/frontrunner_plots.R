@@ -18,8 +18,35 @@ plot_frontrunner <- function(line, stops) {
 			stat = "sf_coordinates", data = format_stops) +
 		coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326), expand = FALSE) +
 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
-		scale_color_manual(values = c("2019" = "purple4", "2050" = "coral"), labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")) +
+		scale_color_manual(
+			values = c("2019" = "purple4", "2050" = "coral"),
+			labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")) +
 		labs(color = "Scenario") +
 		theme_map(zoom = FALSE)
 
 }
+
+# .add_frontrunner_to_plot <- function(fr_line, fr_stops) {
+# 	list(
+# 		ggnewscale::new_scale_color(),
+# 		ggnewscale::new_scale_fill(),
+# 		geom_sf(
+# 			aes(color = Year), linewidth = 1,
+# 			data = mutate(fr_line, Year = factor(Year, levels = c("2019", "2050")))),
+# 		geom_sf(
+# 			aes(color = Year), size = 3,
+# 			data = mutate(fr_stops, Year = factor(Year, levels = c("2019", "2050")))),
+# 		# geom_label_repel(
+# 		# 	aes(label = Name, geometry = geometry, fill = Year),
+# 		# 	box.padding = 0.4, point.padding = 0.5,
+# 		# 	nudge_x = 0.04, show.legend = FALSE,
+# 		# 	stat = "sf_coordinates",
+# 		# 	data = mutate(fr_stops, Year = factor(Year, levels = c("2019", "2050"))) %>%
+# 		# 		bind_cols(st_coordinates(.) %>% as_tibble())),
+# 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90"), guide = "none"),
+# 		scale_color_manual(
+# 			values = c("2019" = "purple4", "2050" = "coral"),
+# 			labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")),
+# 		labs(color = "Scenario")
+# 	)
+# }

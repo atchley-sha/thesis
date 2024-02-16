@@ -12,6 +12,7 @@ package_list <- c(
 	"ggspatial",
 	"ggalluvial",
 	"ggh4x",
+	"ggnewscale",
 	"ggrepel",
 	"DiagrammeR",
 	"od"
@@ -324,6 +325,11 @@ transit_targets <- tar_plan(
 
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
 		asim_tr_mode_switching_table_no_new_or_missing),
+
+	# New transit trips
+	cube_tr_transit_diff_by_district_plot = plot_transit_diff_by_district(
+		cube_tr_all_trips_diff, frontrunner_line, frontrunner_stops
+	)
 
 )
 
