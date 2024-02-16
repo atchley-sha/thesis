@@ -1,382 +1,372 @@
-#### Setup #####################################################################
+#### Setup #############################################################
 
 library(targets)
 library(tarchetypes)
 
+package_list <- c(
+	"qs",
+	"tidyverse",
+	"scales",
+	"sf",
+	"omxr",
+	"ggspatial",
+	"ggalluvial",
+	"ggh4x",
+	"ggrepel",
+	"DiagrammeR",
+	"od"
+)
+
 tar_option_set(
-  packages = c("ggalluvial", "tidyverse", "DiagrammeR", "sf", "ggspatial", "omxr", "qs", "wesanderson", "ggspatial", "scales", "od", "ggrepel"),
-  memory = "transient",
-  garbage_collection = TRUE,
-  format = "qs",
-  )
+	packages = package_list,
+	# memory = "transient",
+	# garbage_collection = TRUE,
+	format = "qs",
+)
 
 tar_source("R")
 
 tar_seed_set(34985723)
 
-#### List targets ##############################################################
+#### List targets ######################################################
 
-# Misc ####
-misc_targets <- tar_plan(
-  plot_lims = list(x = c(-112.15,-111.6), y = c(40.2,40.8)),
-  tar_file(frontrunner_line_file, "data/frontrunner_line.geojson"),
-  tar_file(frontrunner_stops_file, "data/frontrunner_stops.geojson"),
-  frontrunner_line = sf::st_read(frontrunner_line_file),
-  frontrunner_stops = sf::st_read(frontrunner_stops_file),
-  frontrunner_plot = plot_frontrunner(frontrunner_line, frontrunner_stops),
+# FrontRunner ####
+frontrunner_targets <- tar_plan(
+	tar_file(frontrunner_line_file, "data/frontrunner_line.geojson"),
+	tar_file(frontrunner_stops_file, "data/frontrunner_stops.geojson"),
+	frontrunner_line = sf::st_read(frontrunner_line_file),
+	frontrunner_stops = sf::st_read(frontrunner_stops_file),
+	frontrunner_plot = plot_frontrunner(frontrunner_line, frontrunner_stops),
 )
 
-# ABM/TBM flowchart diagram ####
-abm_tbm_flowchart <- tar_plan(
-  # Data
-  tar_file(ex_nodes_file, "data/example_flowchart_comparison/nodes.csv"),
-  tar_file(ex_trip_file, "data/example_flowchart_comparison/trip-based.csv"),
-  tar_file(ex_tour_file, "data/example_flowchart_comparison/tour-based.csv"),
-  tar_file(ex_tbm_nodes_file, "data/example_flowchart_comparison/tbm_zones/tbm_nodes.csv"),
-  tar_file(ex_tbm_edges_file, "data/example_flowchart_comparison/tbm_zones/tbm_edges.csv"),
-  ex_tbm_edges = pivot_tbm_edges(ex_tbm_edges_file),
-  tar_file(ex_aggregate_file, "data/example_flowchart_comparison/information_pipelines/aggregate.dot"),
-  tar_file(ex_synthetic_file, "data/example_flowchart_comparison/information_pipelines/synthetic.dot"),
+# Shared data targets ####
+shared_data_targets <- tar_plan(
+	tar_file(taz_file, "data/WFRC_TAZ.geojson"),
+	taz = read_taz_file(taz_file),
+	distsml = get_sml_districts_from_taz_file(taz_file),
+	distmed = get_med_districts_from_taz_file(taz_file),
+	taz_distsml_transl = make_taz_distsml_transl(taz_file),
+	taz_distmed_transl = make_taz_distmed_transl(taz_file),
+	taz_centroids = sf::st_centroid(taz),
+	distsml_centroids = sf::st_centroid(distsml),
+	distmed_centroids = sf::st_centroid(distmed),
 
-  # Viz
-  trip_ex = make_ex_dap_viz(ex_nodes_file, ex_trip_file, dot_file = "output/example_flowchart_comparison/trip.dot", image_file = "output/example_flowchart_comparison/trip.png"),
-  tour_ex = make_ex_dap_viz(ex_nodes_file, ex_tour_file, dot_file = "output/example_flowchart_comparison/tour.dot", image_file = "output/example_flowchart_comparison/tour.png"),
-  tbm_ex = make_ex_tbm_viz(ex_tbm_nodes_file, ex_tbm_edges, dot_file = "output/example_flowchart_comparison/tbm.dot", image_file = "output/example_flowchart_comparison/tbm.png"),
-  ex_aggregate = render_dot_graph(dot_file = ex_aggregate_file, image_file = "output/example_flowchart_comparison/aggregate.png"),
-  ex_synthetic = render_dot_graph(dot_file = ex_synthetic_file, image_file = "output/example_flowchart_comparison/synthetic.png"),
+	tar_file(income_groups_file, "data/income_groups.csv"),
+	income_groups = read_income_groups(income_groups_file),
+
+	tar_file(distance_skims_file, "data/cube/skm_DY_Dist.omx"),
+	distances = read_distance_skims(distance_skims_file),
+
+	tar_file(job_code_translation_file, "data/job_code_translation.csv"),
+	job_code_translation = readr::read_csv(job_code_translation_file),
 )
 
-# Synthetic population comparison ####
-synth_pop_comparison <- tar_plan(
-  # Data
-  tar_file(synth_per_file, "data/base_model_comparison/asim/synthetic_persons.csv.gz"),
-  tar_file(synth_hh_file, "data/base_model_comparison/asim/synthetic_households.csv.gz"),
-  tar_file(zonal_se_file, "data/base_model_comparison/wfrc/TAZ_SE_2019_WFRC.csv"),
-  tar_file(zonal_income_groups_file, "data/base_model_comparison/wfrc/Marginal_Income.csv"),
-  tar_file(taz_file, "data/WFRC_TAZ.geojson"),
-  tar_file(income_groups_file, "data/income_groups.csv"),
+# CUBE data targets ####
+cube_data_targets <- tar_plan(
+	# SE
+	tar_file(cube_by_taz_se_file, "data/cube/TAZ_SE_2019_WFRC.csv"),
+	cube_by_taz_se = read_cube_taz_se_file(cube_by_taz_se_file),
+	tar_file(cube_lu_taz_se_file, "data/cube/SE_prison.csv"),
+	cube_lu_taz_se = read_cube_taz_se_file(cube_lu_taz_se_file),
+	tar_file(cube_by_taz_inc_groups_file, "data/cube/Marginal_Income.csv"),
+	cube_by_taz_inc_groups = read_cube_taz_inc_groups_file(cube_by_taz_inc_groups_file),
+	cube_by_combined_se = combine_cube_se(cube_by_taz_se, cube_by_taz_inc_groups),
 
-  taz = get_taz(taz_file),
-  taz_centroids = get_zone_centroids(taz),
-  districts = get_districts(taz),
-  dist_centroids = get_zone_centroids(districts),
-  taz_dist_trans = sf::st_drop_geometry(taz),
+	# Calibration
+	tar_file(
+		cube_telecommute_percentages_file,
+		"data/cube/telecommute_jobtype.csv"),
+	cube_telecommute_percentages = readr::read_csv(cube_telecommute_percentages_file),
+	cube_telecommute_percentages_2 = read_cube_tc_percentages(
+		cube_telecommute_percentages_file, job_code_translation),
 
-  # Analysis
-  asim_pop = read_asim_population(synth_per_file, synth_hh_file),
-  se_data = read_zonal_data(zonal_se_file, zonal_income_groups_file),
-  pop_comp = make_zonal_comparison(asim_pop, se_data, taz),
-  income_groups = read_income_groups(income_groups_file),
+	# Base year
+	tar_file(cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
+	cube_by_hbw = read_trip_matrix(cube_by_hbw_omx),
+	tar_file(cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
+	cube_by_hbo = read_trip_matrix(cube_by_hbo_omx),
+	tar_file(cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
+	cube_by_nhb = read_trip_matrix(cube_by_nhb_omx),
+	cube_by_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_by_hbw,
+			hbo = cube_by_hbo,
+			nhb = cube_by_nhb),
+		.id = "purpose"),
 
-  # Viz
-  inc_groups_map = make_inc_groups_map(pop_comp, income_groups),
-  avg_inc_map = make_avg_inc_map(pop_comp),
-  med_inc_map = make_med_inc_map(pop_comp),
-  inc_comp_plot = make_inc_plot(pop_comp, income_groups),
-  pop_comp_map = make_pop_comp_map(pop_comp),
+	# Land Use
+	tar_file(cube_lu_hbw_omx, "data/cube/output/land_use/HBW_trips_allsegs_pkok.omx"),
+	cube_lu_hbw = read_trip_matrix(cube_lu_hbw_omx),
+	tar_file(cube_lu_hbo_omx, "data/cube/output/land_use/HBO_trips_allsegs_pkok.omx"),
+	cube_lu_hbo = read_trip_matrix(cube_lu_hbo_omx),
+	tar_file(cube_lu_nhb_omx, "data/cube/output/land_use/NHB_trips_allsegs_pkok.omx"),
+	cube_lu_nhb = read_trip_matrix(cube_lu_nhb_omx),
+	cube_lu_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_lu_hbw,
+			hbo = cube_lu_hbo,
+			nhb = cube_lu_nhb),
+		.id = "purpose"),
 
+	# Transit
+	tar_file(cube_tr_hbw_omx, "data/cube/output/transit/HBW_trips_allsegs_pkok.omx"),
+	cube_tr_hbw = read_trip_matrix(cube_tr_hbw_omx),
+	tar_file(cube_tr_hbo_omx, "data/cube/output/transit/HBO_trips_allsegs_pkok.omx"),
+	cube_tr_hbo = read_trip_matrix(cube_tr_hbo_omx),
+	tar_file(cube_tr_nhb_omx, "data/cube/output/transit/NHB_trips_allsegs_pkok.omx"),
+	cube_tr_nhb = read_trip_matrix(cube_tr_nhb_omx),
+	cube_tr_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_tr_hbw,
+			hbo = cube_tr_hbo,
+			nhb = cube_tr_nhb),
+		.id = "purpose"),
+
+	# WFH
+	tar_file(cube_wfh_hbw_omx, "data/cube/output/wfh/HBW_trips_allsegs_pkok.omx"),
+	cube_wfh_hbw = read_trip_matrix(cube_wfh_hbw_omx),
+	tar_file(cube_wfh_hbo_omx, "data/cube/output/wfh/HBO_trips_allsegs_pkok.omx"),
+	cube_wfh_hbo = read_trip_matrix(cube_wfh_hbo_omx),
+	tar_file(cube_wfh_nhb_omx, "data/cube/output/wfh/NHB_trips_allsegs_pkok.omx"),
+	cube_wfh_nhb = read_trip_matrix(cube_wfh_nhb_omx),
+	cube_wfh_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_wfh_hbw,
+			hbo = cube_wfh_hbo,
+			nhb = cube_wfh_nhb),
+		.id = "purpose"),
 )
 
-# Base outputs comparison (TLFD/mode choice/WFH) ####
-base_outputs_comparison <- tar_plan(
-  # Trips
-  tar_file(distance_skims, "data/base_model_comparison/wfrc/skm_DY_Dist.omx"),
-  #some zones have a very high distance and are external; we don't want them
-  external_zones = get_ex_zones(distance_skims),
-  distances = read_distances(distance_skims, external_zones),
+# ASIM data targets ####
+asim_data_targets <- tar_plan(
+	# Calibration
+	tar_files(
+		asim_mode_choice_calibration_iters_files,
+		list.files(
+			"data/calibration/mode_choice",
+			full.names = TRUE, pattern = ".*\\.csv")),
+	tar_target(
+		asim_mode_choice_calibration_iters,
+		combine_asim_mode_choice_calibration_iters(
+			asim_mode_choice_calibration_iters_files),
+		pattern = map(asim_mode_choice_calibration_iters_files)),
+	tar_file(
+		asim_by_telecommute_coefficients_file,
+		"data/asim/asim_tc_coeffs_2019.csv"
+	),
+	asim_by_telecommute_coefficients = read_asim_telecommute_coefficients(
+		asim_by_telecommute_coefficients_file
+	),
 
-  tar_file(wfrc_hbw_trips_od, "data/base_model_comparison/wfrc/trips/HBW_trips_allsegs_pkok.omx"),
-  tar_file(wfrc_hbo_trips_od, "data/base_model_comparison/wfrc/trips/HBO_trips_allsegs_pkok.omx"),
-  tar_file(wfrc_nhb_trips_od, "data/base_model_comparison/wfrc/trips/NHB_trips_allsegs_pkok.omx"),
-  wfrc_hbw_trips = omxr::read_all_omx(wfrc_hbw_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_hbo_trips = omxr::read_all_omx(wfrc_hbo_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_nhb_trips = omxr::read_all_omx(wfrc_nhb_trips_od, c("auto", "transit", "nonmotor")),
-  wfrc_trips_od = list(hbw = wfrc_hbw_trips, hbo = wfrc_hbo_trips, nhb = wfrc_nhb_trips),
+	# Base year
+	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
+	tar_file(asim_by_tours_file, "data/asim/output/base_2019/final_tours.csv.gz"),
+	tar_file(asim_by_per_file, "data/asim/output/base_2019/final_persons.csv.gz"),
+	tar_file(asim_by_hh_file, "data/asim/output/base_2019/final_households.csv.gz"),
 
-  tar_file(asim_trips_file, "data/base_model_comparison/asim/final_trips.csv.gz"),
-  tar_file(asim_tours_file, "data/base_model_comparison/asim/final_tours.csv.gz"),
+	asim_by_raw_trips = read_asim_trips_file(asim_by_trips_file),
+	asim_by_trips = count_asim_trips(asim_by_raw_trips),
+	asim_by_per = readr::read_csv(asim_by_per_file),
+	asim_by_raw_hh = readr::read_csv(asim_by_hh_file),
+	asim_by_hh_taz = summarise_asim_hh(asim_by_raw_hh, income_groups),
 
-  wfrc_trips = combine_wfrc_od(wfrc_trips_od, external_zones),
-  asim_trips = get_asim_od(asim_trips_file, asim_tours_file, external_zones),
-  combined_trips = combine_all_od(wfrc_trips, asim_trips, distances),
-  sampled_trips = sample_trips(combined_trips, prop = 0.1, weight = FALSE),
-  tlfd_comp_plot = make_tlfd_comp_plot(sampled_trips),
+	# Land use
+	tar_file(asim_lu_trips_file, "data/asim/output/land_use/final_trips.csv.gz"),
+	tar_file(asim_lu_tours_file, "data/asim/output/land_use/final_tours.csv.gz"),
+	tar_file(asim_lu_per_file, "data/asim/output/land_use/final_persons.csv.gz"),
+	tar_file(asim_lu_hh_file, "data/asim/output/land_use/final_households.csv.gz"),
 
-  # Mode choice
-  tar_files(
-    calibration_iters_files,
-    list.files("data/calibration", full.names = TRUE, pattern = ".*\\.csv")),
-  tar_target(
-    calibration_iters,
-    combine_calibration_iters(calibration_iters_files),
-    pattern = map(calibration_iters_files)),
-  calibration_plot = plot_calibration(calibration_iters),
-  comp_modes = compare_mode_split(combined_trips),
-  mode_split_comp = make_mode_split_comp(comp_modes),
+	asim_lu_raw_trips = read_asim_trips_file(asim_lu_trips_file),
+	asim_lu_trips = count_asim_trips(asim_lu_raw_trips),
+	asim_lu_per = readr::read_csv(asim_lu_per_file),
 
-  # WFH
-  tar_file(job_code_translation_file, "data/job_code_translation.csv"),
-  job_code_translation = readr::read_csv(job_code_translation_file),
+	# Transit
+	tar_file(asim_tr_trips_file, "data/asim/output/transit/final_trips.csv.gz"),
+	tar_file(asim_tr_tours_file, "data/asim/output/transit/final_tours.csv.gz"),
+	tar_file(asim_tr_per_file, "data/asim/output/transit/final_persons.csv.gz"),
+	tar_file(asim_tr_hh_file, "data/asim/output/transit/final_households.csv.gz"),
 
-  tar_file(wfrc_telecommute_base_file, "data/base_model_comparison/wfrc/telecommute_base.csv"),
-  wfrc_telecommute_base = get_wfrc_telecommute(wfrc_telecommute_base_file),
-  wfrc_telecommute_pct = wfrc_telecommute_base$pct,
-  FAKE_wfrc_telecommute_table = wfrc_telecommute_base$table,
-  tar_file(wfrc_telecommute_table_file, "data/base_model_comparison/wfrc/telecommute_jobtype.csv"),
-  wfrc_telecommute_table = readr::read_csv(wfrc_telecommute_table_file),
+	asim_tr_raw_trips = read_asim_trips_file(asim_tr_trips_file),
+	asim_tr_trips = count_asim_trips(asim_tr_raw_trips),
 
-  wfrc_hbj_base = make_wfrc_hbj(se_data),
-  wfrc_hbj_base_pct = wfrc_hbj_base$pct,
-  wfrc_hbj_base_plot = wfrc_hbj_base$plot,
+	# WFH
+	tar_file(asim_wfh_trips_file, "data/asim/output/wfh/final_trips.csv.gz"),
+	tar_file(asim_wfh_tours_file, "data/asim/output/wfh/final_tours.csv.gz"),
+	tar_file(asim_wfh_per_file, "data/asim/output/wfh/final_persons.csv.gz"),
+	tar_file(asim_wfh_hh_file, "data/asim/output/wfh/final_households.csv.gz"),
 
-  tar_file(asim_telecommute_coeffs_2019_file, "data/base_model_comparison/asim/asim_tc_coeffs_2019.csv"),
-  asim_telecommute_coeffs_2019 = read_asim_telecommute_coeffs(asim_telecommute_coeffs_2019_file),
-
-  compare_tc_2019 = compare_tc(wfrc_telecommute_table[c("jobcode", "wfrc_2019")], asim_telecommute_coeffs_2019, job_code_translation),
+	asim_wfh_raw_trips = read_asim_trips_file(asim_wfh_trips_file),
+	asim_wfh_trips = count_asim_trips(asim_wfh_raw_trips),
 )
 
-## Analysis #####################
+# Base year ####
+base_year_targets <- tar_plan(
+	# Data
+	combined_by_trips = dplyr::bind_rows(
+		list(asim = asim_by_trips, cube = cube_by_trips),
+		.id = "model"),
+	combined_by_trips_sampled = sample_trips(
+		combined_by_trips, prop = 0.1, weight = FALSE),
 
-# Base output ####
-base_outputs <- tar_plan(
-  # ASIM
-  tar_file(by_trips, "data/asim_output/base_2019/final_trips.csv.gz"),
-  tar_file(by_tours, "data/asim_output/base_2019/final_tours.csv.gz"),
-  tar_file(by_persons, "data/asim_output/base_2019/final_persons.csv.gz"),
-  tar_file(by_households, "data/asim_output/base_2019/final_households.csv.gz"),
-  tar_file(by_alltrips_omx, "data/cube_output/base_2019/AllTrips_pkok.omx"),
-  tar_file(by_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
-  tar_file(by_nhb_omx,"data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
+	combined_by_se_data = combine_se_data(
+		list(cube = cube_by_combined_se, asim = asim_by_hh_taz)),
+	combined_by_se_data_distsml = summarise_combined_se_data(
+		combined_by_se_data, taz_distsml_transl, distsml
+	),
 
-  all_asim_by_trips = new_count_trips(by_trp),
+	# Population
+	comparison_pop_map = make_pop_comparison_map(
+		combined_by_se_data_distsml),
+	comparison_med_income_map = make_med_income_comparison_map(
+		combined_by_se_data_distsml),
+	comparison_inc_groups_map = make_inc_groups_comparison_map(
+		combined_by_se_data_distsml, income_groups),
+	comparison_inc_density_plot = make_inc_density_comparison_plot(
+		combined_by_se_data_distsml, income_groups),
 
-  by_trp = readr::read_csv(by_trips),
-  by_tor = readr::read_csv(by_tours),
-  by_per = readr::read_csv(by_persons),
-  by_hh = readr::read_csv(by_households),
+	# Mode choice
+	by_mode_split_comparison = compare_by_mode_split(combined_by_trips),
+	asim_mode_choice_calibration_plot = plot_asim_mode_choice_calibration(
+		asim_mode_choice_calibration_iters),
 
-  # by_od = make_district_od(by_trp, taz_dist_trans),
-  # by_desire = better_desire_lines(by_od, dist_centroids),
-  # by_desire_plot = base_plot_desire_lines(wfh_desire, districts),
+	# TLFD
+	combined_by_tlfd_plot = plot_combined_tlfd(
+		combined_by_trips_sampled, distances),
 
-  by_vmt = get_vmt_dist(by_trp, distances),
-  by_o_vmt = get_o_vmt(by_vmt, taz_dist_trans),
-
-  by_trip_count = count_trips(by_trp, taz_dist_trans),
-
-  by_nhb = read_trip_matrix(by_nhb_omx),
-  #wfrc_by_hbw = read_trip_matrix(by_hbw_omx),
-
-  tar_file(wfrc_by_hbw_omx, "data/cube_output/base_2019/HBW_trips_allsegs_pkok.omx"),
-  wfrc_by_hbw = read_trip_matrix(wfrc_by_hbw_omx),
-  tar_file(wfrc_by_hbo_omx, "data/cube_output/base_2019/HBO_trips_allsegs_pkok.omx"),
-  wfrc_by_hbo = read_trip_matrix(wfrc_by_hbo_omx),
-  tar_file(wfrc_by_nhb_omx, "data/cube_output/base_2019/NHB_trips_allsegs_pkok.omx"),
-  wfrc_by_nhb = read_trip_matrix(wfrc_by_nhb_omx),
-
-  all_wfrc_by_trips = dplyr::bind_rows(
-    list(
-      hbw = wfrc_by_hbw,
-      hbo = wfrc_by_hbo,
-      nhb = wfrc_by_nhb
-    ),
-    .id = "purpose"
-  ),
-
-  # WFRC
-  # tar_files(
-  #   calibration_iters_files,
-  #   list.files("data/calibration", full.names = TRUE, pattern = ".*\\.csv")),
-  # tar_target(
-  #   calibration_iters,
-  #   combine_calibration_iters(calibration_iters_files),
-  #   pattern = map(calibration_iters_files)),
-
-  tar_file(trip_gen_by_wfrc_file, "data/cube_output/base_2019/TripGenBY2019.csv"),
-  tar_file(by_se_file, "data/cube_input/SE_2019.csv"),
-
-  by_trip_gen_wfrc = readr::read_csv(trip_gen_by_wfrc_file),
-  by_se_data = readr::read_csv(by_se_file),
-
-  simple_by_se_data = get_se_data_for_point_zones(by_se_data),
-
+	# WFH
+	comparison_by_telecommute_coeffs = compare_telecommute(
+		cube_telecommute_percentages,
+		asim_by_telecommute_coefficients,
+		job_code_translation
+	),
 )
 
 # Land use ####
-land_use_outputs <- tar_plan(
-  # ASIM
-  tar_file(lu_trips, "data/asim_output/landuse/final_trips.csv.gz"),
-  tar_file(lu_tours, "data/asim_output/landuse/final_tours.csv.gz"),
-  tar_file(lu_persons, "data/asim_output/landuse/final_persons.csv.gz"),
-  tar_file(lu_households, "data/asim_output/landuse/final_households.csv.gz"),
+land_use_targets <- tar_plan(
+	# Data
+	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
+	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
+	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
+	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs, cube_lu_se_diff),
+	lu_new_se_table = make_lu_new_se_table(lu_tazs, cube_lu_by_se_diff),
 
-  lu_trp = readr::read_csv(lu_trips),
-  lu_tor = readr::read_csv(lu_tours),
-  lu_per = readr::read_csv(lu_persons),
-  lu_hh = readr::read_csv(lu_households),
+	cube_lu_by_se_diff = get_cube_se_diff(list(lu = cube_lu_taz_se, by = cube_by_taz_se)),
 
-  by_lu_tor = get_o_tours(by_tor, lu_tazs),
-  by_lu_trp = get_trips_from_tours(by_trp, by_lu_tor, distances),
-  by_lu_vmt = get_vmt(by_lu_trp),
+	cube_lu_all_diff = get_trip_diff(list(lu = cube_lu_trips,	by = cube_by_trips)),
+	cube_lu_all_diff_distsml = get_trip_diff(list(
+		lu = sum_trips_by_district(cube_lu_trips, taz_distsml_transl),
+		by = sum_trips_by_district(cube_by_trips, taz_distsml_transl))),
+	cube_lu_nhb_diff_distsml = dplyr::filter(
+		cube_lu_all_diff_distsml, purpose == "nhb"),
+	cube_lu_new_productions_distsml = dplyr::filter(
+		cube_lu_all_diff_distsml, origin %in% lu_distsml, purpose != "nhb"),
 
-  lu_tazs = c(2138, 2140, 2141, 2149, 2170),
+	asim_lu_new_persons = get_asim_new_persons(asim_lu_per, asim_by_per, lu_tazs),
+	asim_lu_new_trips = get_asim_lu_new_trips(asim_lu_raw_trips, asim_lu_new_persons),
+	asim_lu_new_trips_distsml = sum_trips_by_district(
+		asim_lu_new_trips, taz_distsml_transl),
 
-  lu_new_tours = get_o_tours(lu_tor, lu_tazs),
-  lu_new_trips = get_trips_from_tours(lu_trp, lu_new_tours, distances),
-  lu_new_vmt = get_lu_vmt(lu_new_trips, lu_tazs),
-  # lu_cf_vmt = combine_scenarios(list(base = by_lu_vmt, land_use = lu_new_vmt)),
-  lu_vmt_plot = make_lu_vmt_plot(lu_new_vmt),
+	# PMT/VMT
+	cube_lu_new_pmt_plot = plot_cube_lu_new_pmt(
+		cube_lu_all_diff, distances, lu_tazs),
+	asim_lu_new_pmt_plot = plot_asim_lu_pmt(
+		asim_lu_raw_trips, asim_lu_new_persons, distances, lu_tazs),
 
-  lu_desire_lines = make_desire_lines(lu_new_trips, dist_centroids, lu_tazs, taz_dist_trans),
-  lu_desire_map = plot_desire_lines(lu_desire_lines, districts, plot_lims),
+	# Desire lines
+	cube_lu_new_productions_desire = od::od_to_sf(
+		cube_lu_new_productions_distsml, distsml_centroids),
+	cube_lu_new_productions_desire_map = plot_cube_lu_desire_lines(
+		cube_lu_new_productions_desire, distsml),
+	cube_lu_nhb_diff_desire = od::od_to_sf(
+		cube_lu_nhb_diff_distsml, distsml_centroids),
+	cube_lu_nhb_diff_desire_map = plot_cube_lu_nhb_desire_lines(
+		cube_lu_nhb_diff_desire, distsml),
 
-  # WFRC
-  tar_file(trip_gen_lu_wfrc_file, "data/cube_output/land_use/TripGenprison.csv"),
-  tar_file(land_use_se_file, "data/cube_input/SE_prison.csv"),
-  tar_file(lu_alltrips_omx, "data/cube_output/land_use/AllTrips_pkok.omx"),
-  tar_file(lu_nhb_omx,"data/cube_output/land_use/NHB_trips_allsegs_pkok.omx"),
-
-  lu_trip_gen_wfrc = readr::read_csv(trip_gen_lu_wfrc_file),
-  lu_se_data = readr::read_csv(land_use_se_file),
-
-
-  hbw_diff_from_by_to_lu = get_wfrc_trip_diff(by_trip_gen_wfrc, lu_trip_gen_wfrc),
-  lu_hbw_trip_diff = plot_wfrc_land_use_trip_diff(hbw_diff_from_by_to_lu, "HBW_P", taz),
-  lu_show_location = plot_land_use_location(taz),
-  simple_lu_se_data = get_se_data_for_point_zones(lu_se_data),
-
-  lu_alltrips = read_trip_matrix(lu_alltrips_omx),
-  lu_new_productions = dplyr::filter(lu_alltrips, origin %in% lu_tazs),
-
-  lu_new_trips_desire = make_desire_lines_new(lu_new_productions, dist_centroids, taz_dist_trans),
-  lu_new_trips_desire_plot = plot_desire_lines_new(lu_new_trips_desire, districts, plot_lims),
-
-
-  lu_nhb = read_trip_matrix(lu_nhb_omx),
-  lu_nhb_diff = diff_trip_matrix(lu_nhb, by_nhb),
-  lu_nhb_diff_desire = make_desire_lines_new(lu_nhb_diff, dist_centroids, taz_dist_trans),
-  lu_nhb_diff_plot = plot_desire_lines_new(lu_nhb_diff_desire, districts, plot_lims),
-
+	asim_lu_new_desire_lines = od::od_to_sf(
+		asim_lu_new_trips_distsml, distsml_centroids),
+	asim_lu_new_desire_map = plot_asim_lu_desire_lines(
+		asim_lu_new_desire_lines, lu_distsml, distsml),
 )
 
 # Transit ####
-transit_outputs <- tar_plan(
-  # ASIM
-  tar_file(tr_trips, "data/asim_output/transit/final_trips.csv.gz"),
-  tar_file(tr_tours, "data/asim_output/transit/final_tours.csv.gz"),
-  tar_file(tr_persons, "data/asim_output/transit/final_persons.csv.gz"),
-  tar_file(tr_households, "data/asim_output/transit/final_households.csv.gz"),
+transit_targets <- tar_plan(
+	# Data
+	asim_tr_mode_switching_table = get_asim_trip_diff_by_person(
+		asim_tr_raw_trips, asim_by_raw_trips),
+	asim_tr_mode_switching_table_no_new_or_missing = dplyr::filter(
+		asim_tr_mode_switching_table, !new_person & !missing_person),
+	asim_tr_mode_switching_table_new = dplyr::filter(
+		asim_tr_mode_switching_table, new_person),
+	asim_tr_mode_switching_table_missing = dplyr::filter(
+		asim_tr_mode_switching_table, missing_person),
 
-  tr_trp = readr::read_csv(tr_trips),
-  tr_tor = readr::read_csv(tr_tours),
-  tr_per = readr::read_csv(tr_persons),
-  tr_hh = readr::read_csv(tr_households),
+	cube_tr_all_trips_diff = get_trip_diff(list(
+		tr = cube_tr_trips, by = cube_by_trips)),
+	asim_tr_all_trips_diff = get_trip_diff(list(
+		tr = asim_tr_trips, by = asim_by_trips)),
 
-  transit_comparison_map = compare_transit_trips(by_trp, tr_trp)
+	# Mode split
+	combined_tr_mode_split_diff = dplyr::full_join(
+		calculate_mode_split_diff_pct(cube_tr_all_trips_diff, "cube"),
+		calculate_mode_split_diff_pct(asim_tr_all_trips_diff, "asim"),
+		join_by(purpose, mode)
+	),
+
+	# Mode switching
+	asim_tr_mode_switching_summary_new = summarise_asim_mode_switching(
+		asim_tr_mode_switching_table_new),
+	asim_tr_mode_switching_summary_missing = summarise_asim_mode_switching(
+		asim_tr_mode_switching_table_missing),
+	asim_tr_mode_switching_summary_new_and_missing = dplyr::full_join(
+		asim_tr_mode_switching_summary_new,
+		asim_tr_mode_switching_summary_missing,
+		join_by(purpose, mode), suffix = c("_new", "_missing")),
+
+	asim_tr_mode_switching_plot = plot_asim_mode_switching(
+		asim_tr_mode_switching_table_no_new_or_missing),
+
 )
 
 # WFH ####
-wfh_outputs <- tar_plan(
-  # ASIM
-  tar_file(wfh_trips, "data/asim_output/wfh/final_trips.csv.gz"),
-  tar_file(wfh_tours, "data/asim_output/wfh/final_tours.csv.gz"),
-  tar_file(wfh_persons, "data/asim_output/wfh/final_persons.csv.gz"),
-  tar_file(wfh_households, "data/asim_output/wfh/final_households.csv.gz"),
+wfh_targets <- tar_plan(
+	# Data
+	cube_wfh_all_trips_diff = get_trip_diff(list(
+		wfh = cube_wfh_trips, by = cube_by_trips)),
+	asim_wfh_all_trips_diff = get_trip_diff(list(
+		wfh = asim_wfh_trips, by = asim_by_trips)),
+	combined_wfh_trips_diff = dplyr::bind_rows(list(
+		cube = cube_wfh_all_trips_diff, asim = asim_wfh_all_trips_diff),
+		.id = "model"),
 
-  wfh_trp = readr::read_csv(wfh_trips),
-  wfh_tor = readr::read_csv(wfh_tours),
-  wfh_per = readr::read_csv(wfh_persons),
-  wfh_hh = readr::read_csv(wfh_households),
+	# Mode split
+	combined_wfh_mode_split_diff = dplyr::full_join(
+		calculate_mode_split_diff_pct(cube_wfh_all_trips_diff, "cube"),
+		calculate_mode_split_diff_pct(asim_wfh_all_trips_diff, "asim"),
+		join_by(purpose, mode)
+	),
 
-  all_asim_wfh_trips = new_count_trips(wfh_trp),
+	# Trip and PMT diff
+	cube_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(
+		cube_wfh_all_trips_diff, distances),
+	asim_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(
+		asim_wfh_all_trips_diff, distances),
 
-  tar_file(wfrc_wfh_hbw_omx, "data/cube_output/wfh/HBW_trips_allsegs_pkok.omx"),
-  wfrc_wfh_hbw = read_trip_matrix(wfrc_wfh_hbw_omx),
-  tar_file(wfrc_wfh_hbo_omx, "data/cube_output/wfh/HBO_trips_allsegs_pkok.omx"),
-  wfrc_wfh_hbo = read_trip_matrix(wfrc_wfh_hbo_omx),
-  tar_file(wfrc_wfh_nhb_omx, "data/cube_output/wfh/NHB_trips_allsegs_pkok.omx"),
-  wfrc_wfh_nhb = read_trip_matrix(wfrc_wfh_nhb_omx),
+	# TLFD
+	combined_wfh_tlfd_diff_plot = plot_wfh_tlfd_diff(
+		combined_wfh_trips_diff, distances)
 
-  all_wfrc_wfh_trips = dplyr::bind_rows(
-    list(
-      hbw = wfrc_wfh_hbw,
-      hbo = wfrc_wfh_hbo,
-      nhb = wfrc_wfh_nhb
-    ),
-    .id = "purpose"
-  ),
-
-  wfrc_wfh_trip_diff = get_trip_diff(
-    list(
-      by = all_wfrc_by_trips,
-      wfh = all_wfrc_wfh_trips
-    )
-  ),
-
-  asim_wfh_trip_diff = get_trip_diff(
-    list(
-      by = all_asim_by_trips,
-      wfh = all_asim_wfh_trips
-    )
-  ),
-
-  wfrc_wfh_diff_summary = summ_trip_diff(wfrc_wfh_trip_diff),
-  asim_wfh_diff_summary = summ_trip_diff(asim_wfh_trip_diff),
-
-  wfh_trip_count = count_trips(wfh_trp, taz_dist_trans),
-  wfh_trip_diff = get_trip_difference(wfh_trip_count, by_trip_count),
-
-  wfh_trip_diff_dist = add_taz_distances(wfh_trip_diff, distances),
-
-  wfh_trip_dist_summary = summarise_trip_diff(wfh_trip_diff_dist),
-
-  # wfh_diff_sample = dplyr::slice_sample(
-  #   wfh_trip_diff_dist,
-  #   prop = 0.1,
-  #   weight_by = trips_reference
-  #   ),
-
-  wfh_abm_purpose_histogram = plot_wfh_trip_diff_by_purpose(wfh_trip_diff),
-
-  # wfh_diff_for_tlfd_asim = dplyr::filter(
-  #   wfh_trip_diff_dist,
-  #   purpose == "hbw", trips_difference < 0),
-
-  # THIS NEEDS FIXING AND IS ONLY HERE FOR TESTING:
-  # wfh_diff_for_tlfd_wfrc = wfh_diff_for_tlfd_asim,
-
-  # wfh_diff_tlfd_plot = plot_wfh_diff_tlfd(trips = list(
-  #   asim = wfh_diff_for_tlfd_asim, wfrc = wfh_diff_for_tlfd_wfrc)),
-  all_asim_trips_for_wfh = make_all_asim_tlfd_trips(
-    by_trip_count, wfh_trip_diff_dist, distances),
-  hbw_asim_trips_for_wfh = dplyr::filter(all_asim_trips_for_wfh, purpose == "hbw"),
-  wfh_by_tlfd_plot = plot_wfh_vs_by_tlfd(hbw_asim_trips_for_wfh),
-
-  wfrc_trips_for_wfh = make_all_wfrc_tlfd_trips(
-    wfrc_wfh_hbw, wfrc_by_hbw, distances
-  ),
-  wfrc_wfh_tlfd_plot = plot_wfh_vs_by_tlfd(wfrc_trips_for_wfh),
-
-  wfh_by_mode_plot = plot_wfh_vs_by_mode(hbw_asim_trips_for_wfh),
-
-  # wfh_desire = district_desire_lines(wfh_od_diff, dist_centroids),
-  # wfh_desire_plot = better_plot_desire_lines(wfh_desire, districts),
-
-  wfh_vmt = get_vmt_dist(wfh_trp, distances),
-  wfh_o_vmt = get_o_vmt(wfh_vmt, taz_dist_trans),
-  comp_wfh_o_vmt = make_comp_o_vmt(wfh_o_vmt, by_o_vmt, districts),
 )
 
-
-#### Run all targets ###########################################################
+#### Run all targets ###################################################
 
 tar_plan(
-  misc_targets,
-  abm_tbm_flowchart,
-  synth_pop_comparison,
-  base_outputs_comparison,
-  base_outputs,
-  land_use_outputs,
-  transit_outputs,
-  wfh_outputs,
+	frontrunner_targets,
+	shared_data_targets,
+	cube_data_targets,
+	asim_data_targets,
+
+	base_year_targets,
+	land_use_targets,
+	transit_targets,
+	wfh_targets,
 )

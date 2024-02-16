@@ -1,0 +1,26 @@
+<!-- Include at the start of every doc -->
+
+```{r}
+#| include: false
+#| cache: false
+
+library(targets)
+library(tidyverse)
+library(tinytable)
+library(kableExtra)
+library(sf)
+
+options(
+	digits = 3, # how many significant digits to print by default
+	tinytable_tabularray_placement = "htbp" # for LaTeX
+)
+
+ggplot2::theme_set(theme_bw())
+
+tt_borders <- function(t) {
+	t %>%
+		style_tt(i = 0, line = "t", line_color = "grey20", line_width = 0.8) %>% 
+		style_tt(i = 0, line = "b", line_width = 0.1, line_color = "grey20") %>% 
+		style_tt(i = nrow(t), line = "b", line_width = 0.2,line_color = "grey20")
+}
+```

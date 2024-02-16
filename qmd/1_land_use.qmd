@@ -1,10 +1,6 @@
 # Land Use {#sec-landuse}
 
-```{r}
-library(tidyverse)
-library(targets)
-library(kableExtra)
-```
+{{< include _setup.qmd >}}
 
 In our first scenario, we changes the land use at The Point.
 
@@ -18,15 +14,14 @@ This adds X jobs and X households, etc. (show map/table)
 #| label: tbl-the-point-overview
 #| tbl-cap: the point overview
 
-#tar_read(lu_se_data_comp)
-head(mtcars) %>% kbl()
+tar_read(lu_new_se_table)
 ```
 
 ```{r}
 #| label: fig-the-point-zones
 #| fig-cap: the point zones
 
-tar_read(lu_show_location)
+tar_read(lu_plot_new_tazs)
 ```
 
 ## Creating the scenario
@@ -56,14 +51,14 @@ Shaded based on "in-zone".
 #| label: fig-lu-personmiles-abm
 #| fig-cap: personmiles abm
 
-tar_read(lu_vmt_plot)
+tar_read(cube_lu_new_pmt_plot)
 ```
 
 ```{r}
 #| label: fig-lu-personmiles-tbm
 #| fig-cap: personmiles tbm
 
-tar_read(lu_vmt_plot)
+tar_read(asim_lu_new_pmt_plot)
 ```
 
 Can't really shade since nhb relocation happens before mode choice.
@@ -76,13 +71,12 @@ Best you can do is difference the NHB matrices (@fig-lu-desire-tbm (2-panel)) (I
 #| fig-subcap: 
 #|   - hb
 #|   - nhb
-#| layout-ncol: 2
 
-tar_read(lu_new_trips_desire_plot) +
-  facet_wrap(~mode)
+tar_read(cube_lu_new_productions_desire_map)
 
-tar_read(lu_nhb_diff_plot) +
-  facet_wrap(~mode)
+tar_read(cube_lu_nhb_diff_desire_map)
+
+
 ```
 
 With abm, you can follow people and trace their exact paths (@fig-lu-desire-abm).
@@ -91,6 +85,5 @@ With abm, you can follow people and trace their exact paths (@fig-lu-desire-abm)
 #| label: fig-lu-desire-abm
 #| fig-cap: desire abm
 
-tar_read(lu_desire_map) +
-  facet_wrap(~mode)
+tar_read(asim_lu_new_desire_map)
 ```

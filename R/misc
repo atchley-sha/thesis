@@ -1,0 +1,63 @@
+pivot_tbm_edges <- function(edges) {
+
+  read_csv(edges) %>%
+    mutate(across(where(is.numeric), ~ ifelse(.x < 0, 0, .x))) %>%
+    pivot_longer(-c(from, to), names_to = "mode", values_to = "number")
+
+}
+
+
+
+plot_wfh_vs_by_tlfd <- function(trips) {
+  trips %>%
+    mutate(purpose = "hbw") %>%
+    make_mode_and_purpose_pretty() %>%
+    ggplot() +
+    geom_density(aes(x = distance, weight = trips, color = scenario, lty = scenario)) +
+    coord_cartesian(xlim = c(0,25)) +
+    scale_y_continuous(expand = expansion(c(0,0.05))) +
+    facet_wrap(vars(mode), nrow = 3, scales = "free_y") +
+    labs(
+      x = "Trip Length (mi.)",
+      y = "Trip Frequency (kernel density)",
+      color = "Scenario",
+      lty = "Scenario"
+    ) +
+    scale_color_brewer(
+      labels = c(
+        by = "Baseline",
+        wfh = "Increased WFH"),
+      palette = "Paired") +
+    scale_linetype_manual(
+      values = c(
+        by = "solid",
+        wfh = "dotted"
+      ),
+      labels = c(
+        by = "Baseline",
+        wfh = "Increased WFH")
+    ) +
+    theme_bw()
+}
+
+plot_land_use_location <- function(taz) {
+  taz.data <- taz %>%
+    select(TAZ) %>%
+    filter(TAZ %in% c(2138, 2140, 2141, 2149, 2170)) %>%
+    mutate(value = 1) %>%
+    st_transform(4326)
+
+  taz.data %>% ggplot() +
+    annotation_map_tile("cartolight",zoomin = 0)+
+    geom_sf(lwd = 1, color = "#002E5D", fill = "#0062B800") +
+    coord_sf(xlim = c(-111.945,-111.86), ylim = c(40.46,40.525)) +
+    theme_void()
+}
+
+get_se_data_for_point_zones <- function(landuse.data){
+  focus_zones <- c(2138,2140, 2141, 2149, 2170)
+  landuse.data %>%
+    select(`;TAZID`, TOTHH, HHPOP, HHSIZE, TOTEMP, HBJ, AVGINCOME) %>%
+    filter(`;TAZID` %in% focus_zones)
+
+}

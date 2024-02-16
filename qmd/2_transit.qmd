@@ -1,5 +1,7 @@
 # Transit {#sec-transit}
 
+{{< include _setup.qmd >}}
+
 The second sceario updates the transit network (frontrunner).
 
 Data comes from the WFRC 2050 build plan.
@@ -17,7 +19,10 @@ Asim just needs new skims, gotten from the new WFRC scenario.
 ## Analyses
 
 ```{r}
-#| fig-cap: needs to be redone
-library(tidyverse)
-targets::tar_read(transit_comparison_map)
+tar_read(combined_tr_mode_split_diff)
+```
+
+```{r}
+#| fig-cap: needs to be redone?
+tar_read(asim_tr_mode_switching_plot)
 ```

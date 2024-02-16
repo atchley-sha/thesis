@@ -5,7 +5,7 @@ project:
 execute:
   echo: false
   warning: false
-  cache: true
+  cache: false
   freeze: auto
 
 book:
@@ -40,7 +40,7 @@ book:
     # qmd/- discussion.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
- 
+
 affiliations:
   - id: byucce
     name: Civil and Construction Engineering Department, Brigham Young University
@@ -59,9 +59,11 @@ toc-depth: 2
 format:
   html:
     theme: cosmo
-  pdf:
-    keep-tex: false
-    # template: template.tex
+  # pdf:
+  #   keep-tex: false
+    # include-in-header:
+    #   - style/latex_preamble.tex
+    # template: style/template.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF
