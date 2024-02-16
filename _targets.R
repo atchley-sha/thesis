@@ -328,8 +328,11 @@ transit_targets <- tar_plan(
 
 	# New transit trips
 	cube_tr_transit_diff_by_district_plot = plot_transit_diff_by_district(
-		cube_tr_all_trips_diff, frontrunner_line, frontrunner_stops
-	)
+		cube_tr_all_trips_diff, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_transit_diff_by_district_plot = plot_transit_diff_by_district(
+		asim_tr_all_trips_diff, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
 
 )
 

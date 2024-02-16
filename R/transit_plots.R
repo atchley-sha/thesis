@@ -75,8 +75,9 @@ plot_transit_diff_by_district <- function(
 		left_join(dist_transl, join_by(origin == TAZ)) %>%
 		group_by(purpose, mode, DIST) %>%
 		summarise(diff = sum(diff)) %>%
+		mutate(mode = pretty_mode(mode)) %>%
 		filter(!round(diff) == 0) %>%
-		left_join(distsml, join_by(DIST)) %>%
+		left_join(dist_geom, join_by(DIST)) %>%
 		st_as_sf()
 
 	ggplot() +
@@ -95,7 +96,7 @@ plot_transit_diff_by_district <- function(
 		# coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326), expand = FALSE) +
 		# scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
 		scale_color_manual(
-			values = c("2019" = "purple4", "2050" = "coral"),
+			values = c("2019" = "black", "2050" = "coral"),
 			labels = c("2019" = "Existing FrontRunner", "2050" = "Improved FrontRunner (addt'l)")) +
 		labs(color = element_blank(), fill = "Change in trips by\nproduction district") +
 		theme_map(zoom = FALSE) +
