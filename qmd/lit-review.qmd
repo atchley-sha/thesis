@@ -88,23 +88,23 @@ With a synthetic population, however, *individuals* are being modeled, and so ea
 All information is known at each point in the model regardless of which data is used in previous steps.
 
 ```{r}
-# #| label: fig-pipeline-example
-# #| fig-cap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
-# #| fig-scap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
-# #| fig-subcap:
-# #|   - Trip-based
-# #|   - Activity-based
-# #| layout-ncol: 1
-# 
-# knitr::include_graphics("output/example_flowchart_comparison/aggregate.png")
-# 
-# knitr::include_graphics("output/example_flowchart_comparison/synthetic.png")
+#| label: fig-pipeline-examplea
+#| fig-cap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
+#| fig-scap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
+#| fig-subcap:
+#|   - Trip-based
+#|   - Activity-based
+#| layout-ncol: 1
+
+knitr::include_graphics("../images/aggregate.png")
+
+knitr::include_graphics("../images/synthetic.png")
 ```
 
 ::: {#fig-pipeline-example layout-ncol="1"}
-![Trip-based](../output/example_flowchart_comparison/aggregate.png){#fig-pipeline-example-1}
+![Trip-based](../images/aggregate.png){#fig-pipeline-example-1}
 
-![Activity-based](../output/example_flowchart_comparison/synthetic.png){#fig-pipeline-example-2}
+![Activity-based](../images/synthetic.png){#fig-pipeline-example-2}
 
 Example "information pipeline" for a trip-based model and an ABM.
 :::
@@ -143,7 +143,7 @@ The activity-based approach, depicted in @fig-network-synth-2, attempts to add t
 #| fig-cap: Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.
 #| fig-scap: Example network assignment using aggregate data.
 
-knitr::include_graphics("output/example_flowchart_comparison/tbm.png")
+knitr::include_graphics("../images/tbm.png")
 ```
 
 ```{r}
@@ -155,9 +155,9 @@ knitr::include_graphics("output/example_flowchart_comparison/tbm.png")
 #|   - Activity (tour)-based
 #| layout-ncol: 2
 
-knitr::include_graphics("output/example_flowchart_comparison/trip.png")
+knitr::include_graphics("../images/trip.png")
 
-knitr::include_graphics("output/example_flowchart_comparison/tour.png")
+knitr::include_graphics("../images/tour.png")
 ```
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that \acr{ABM}s can model dependencies between members of a household as well.
