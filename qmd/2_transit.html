@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Comparative Illustration of Trip- and Activity-Based Modeling Techniques - 5&nbsp; Transit</title>
+<title>A Comparative Illustration of Trip- and Activity-Based Modeling Techniques - 5&nbsp; Scenario 2: Increased Transit Service</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,6 +68,8 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 </head>
@@ -81,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/2_transit.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/2_transit.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -133,25 +135,25 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/2_transit.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/3_wfh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/conclusions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conclusions and Recommendations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -170,8 +172,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#creating-scenario" id="toc-creating-scenario" class="nav-link active" data-scroll-target="#creating-scenario"><span class="header-section-number">5.1</span> Creating scenario</a></li>
-  <li><a href="#analyses" id="toc-analyses" class="nav-link" data-scroll-target="#analyses"><span class="header-section-number">5.2</span> Analyses</a></li>
+  <li><a href="#scenario-creation" id="toc-scenario-creation" class="nav-link active" data-scroll-target="#scenario-creation"><span class="header-section-number">5.1</span> Scenario Creation</a></li>
+  <li><a href="#scenario-analysis" id="toc-scenario-analysis" class="nav-link" data-scroll-target="#scenario-analysis"><span class="header-section-number">5.2</span> Scenario Analysis</a></li>
   </ul>
 </nav>
     </div>
@@ -180,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-transit" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span></h1>
+<h1 class="title"><span id="sec-transit" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></span></h1>
 </div>
 
 
@@ -203,38 +205,271 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- Include at the start of every doc -->
-<p>The second sceario updates the transit network (frontrunner).</p>
+<p>The second scenario updates the transit network (frontrunner).</p>
+<p>The FrontRunner is a commuter rail line between Provo and Ogden, Utah, with several stops in-between. Currently, there is only one set of tracks for much of the line, and train crossings are only possible near stations. Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods. Additionally, trains occasionally need to wait for each other in order to cross paths.</p>
+<p>There is a planned improvement to the FrontRunner that would “double-track” the entire route, allowing trains to pass each other at any point. This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively. The improvement would also partially electrify the FrontRunner, allowing for faster travel speeds, and extend the track farther south with additional stops.</p>
 <p>Data comes from the WFRC 2050 build plan. Includes new stations, new headways, and faster speeds.</p>
+<p>With the proposed double-tracking and potential electric updates to FrontRunner, there is a potential to cut headways in half and increase train speeds. Both the increased speed and shorter headways are modeled in this scenario. The BYU team adjusted the FrontRunner headways from 30 to 15 minutes in peak, and 60 to 30 minutes off-peak. Additionally, the proposed 2050 FrontRunner network is used, which includes higher speeds due in part to electrification of the corridor. This network also adds additional stations in Vineyard, Springville, Spanish Fork, and Payson. No other modifications were made to the Base 2019 scenario; for example, a revised bus service network serving the Springville station is not included.</p>
 <p>Show map of changes.</p>
-<section id="creating-scenario" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="creating-scenario"><span class="header-section-number">5.1</span> Creating scenario</h2>
-<p>WFRC model needs three adjustments: edit the headways, point the model to the new frontrunner network (which includes speeds), and add park-and-ride option at new station locations in highway? network.</p>
-<p>Asim just needs new skims, gotten from the new WFRC scenario.</p>
-</section>
-<section id="analyses" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="analyses"><span class="header-section-number">5.2</span> Analyses</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 8
-  purpose mode      cube_tr  cube_by cube_diff_pct asim_tr asim_by asim_diff_pct
-  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt;         &lt;dbl&gt;
-1 hbo     auto     4095127. 4096688.    -0.000381  3050647 3042754      0.00259 
-2 hbo     nonmotor  510103.  510143.    -0.0000779  593154  591164      0.00337 
-3 hbo     transit    38912.   37346.     0.0419     220137  218438      0.00778 
-4 hbw     auto     1582865. 1586414.    -0.00224   1286434 1288620     -0.00170 
-5 hbw     nonmotor   76396.   76506.    -0.00144    191827  191880     -0.000276
-6 hbw     transit    52380.   48752.     0.0744     191873  189610      0.0119  
-7 nhb     auto     2224420. 2224878.    -0.000206  1646759 1645356      0.000853
-8 nhb     nonmotor  146409.  146404.     0.0000375  224443  224248      0.000870
-9 nhb     transit    13870.   13453.     0.0310     104323  103398      0.00895 </code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2_transit_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="scenario-creation" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">5.1</span> Scenario Creation</h2>
+<p>WFRC model needs three adjustments: edit the headways, point the model to the new frontrunner network (which includes speeds), and add park-and-ride option at new station locations in highway? network.</p>
+<p>To model this scenario in the Wasatch Front Regional Council (WFRC) model, we simply needed to add the new stations and adjust the headway and speed inputs. Since transit is a direct input in the WFRC model, we accessed and updated the file that stores the FrontRunner headway and node data. We changed the headways from 60 minutes during off-peak and 30 minutes during peak times to 30 minutes during off-peak and 15 minutes during peak times. In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file. In the network file, each node on the rail line that is a train station is flagged as a place to park and ride, and, because there were new stations added, we had to flag the new stations’ nodes as places to park and ride. The last thing we did was change the posted speed of each link to the speeds that WFRC had predicted for a partially electrified train system. After changing the speeds, headways, and train stations, we ran the model.</p>
+<p>The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario.</p>
+<p>The output of the WFRC/MAG model for this scenario will contain new transit network skims. These updated skims will be used in ActivitySim instead of the baseline scenario skims. Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the baseline highway skims will remain fixed. No other changes to ActivitySim are necessary to model this scenario.</p>
+<p>Asim just needs new skims, gotten from the new WFRC scenario.</p>
+<p>In the WFRC model, this change was relatively easy to implement. The headways are stored in the input data and are easily modified, and the 2050 network is already built in to the model for future-year analysis. Including network assignment is outside the scope of this research, and the BYU implementation of ActivitySim uses the same skim files that the WFRC demand model uses. In this case, the team used the new congested network skims from the WFRC transit scenario to feed the ActivitySim demand model representing this scenario. This is the only change needed for this scenario.</p>
+</section>
+<section id="scenario-analysis" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">5.2</span> Scenario Analysis</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">mode</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_tr</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_by</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_diff_pct</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_tr</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_by</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_diff_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">4095127</td>
+<td style="text-align: right;">4096688</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3050647</td>
+<td style="text-align: right;">3042754</td>
+<td style="text-align: right;">0.003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">510103</td>
+<td style="text-align: right;">510143</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">593154</td>
+<td style="text-align: right;">591164</td>
+<td style="text-align: right;">0.003</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">38912</td>
+<td style="text-align: right;">37346</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">220137</td>
+<td style="text-align: right;">218438</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">1582865</td>
+<td style="text-align: right;">1586414</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">1286434</td>
+<td style="text-align: right;">1288620</td>
+<td style="text-align: right;">-0.002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">76396</td>
+<td style="text-align: right;">76506</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">191827</td>
+<td style="text-align: right;">191880</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">52380</td>
+<td style="text-align: right;">48752</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">191873</td>
+<td style="text-align: right;">189610</td>
+<td style="text-align: right;">0.012</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">2224420</td>
+<td style="text-align: right;">2224878</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1646759</td>
+<td style="text-align: right;">1645356</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">146409</td>
+<td style="text-align: right;">146404</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">224443</td>
+<td style="text-align: right;">224248</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">13870</td>
+<td style="text-align: right;">13453</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">104323</td>
+<td style="text-align: right;">103398</td>
+<td style="text-align: right;">0.009</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_transit_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2_transit_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>needs to be redone?</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>With greater access the commuter rail by decreasing the headways, we wanted to see how the ridership changed in this scenario. We also wanted to see where the commuter rail riders were coming from.</p>
+<p>Analyzing this with the trip-based model was straightforward since one of the outputs is a file listing the amount of trips made by each form of transit. There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions. There is a matrix for driving to the CRT and a matrix for walking to the CRT. With these matrices and the taz shape file, we were able to to visualize the catchment area in a plot like <em>(another figure that we can show)</em></p>
+<p>Implications: We saw that there was more than a 30% increase in commuter rail transit trips in this scenario but not much change in the other transit trips. We could see the areas where peoples’ CRT trips began on a zonal and a district level and noticed a big increase in the people coming from zones that were closer to the new stations that were part of the extended rail line. (I think more can be added here as well)</p>
+<p>Limitations: Apart from the increase in CRT trips and the catchment areas, there wasn’t much more we could see with the trip-based model. By connecting the catchment areas with what we know of the zonal SE data, we could make some assumptions about the income of the new people taking the commuter rail, but we couldn’t find anything more about the demographics of the riders.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>cube</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">transit_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">TOTHH</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ALLEMP</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">med_income</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: right;">38912</td>
+<td style="text-align: right;">456</td>
+<td style="text-align: right;">426</td>
+<td style="text-align: right;">51230</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: right;">52380</td>
+<td style="text-align: right;">468</td>
+<td style="text-align: right;">357</td>
+<td style="text-align: right;">60187</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: right;">13870</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">1365</td>
+<td style="text-align: right;">50921</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>asim</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">transit_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">income</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: right;">191873</td>
+<td style="text-align: right;">69064</td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: right;">220137</td>
+<td style="text-align: right;">58326</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: right;">104323</td>
+<td style="text-align: right;">63814</td>
+<td style="text-align: right;">32</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2_transit_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<p>Figure 8 shows the increased productions and attractions of the “drive to CRT” mode by district. These could as an example be further analyzed by TAZ/district median income or similar variables. However, there is no indication of which types of individuals are switching their mode. In an ABM, this can be analyzed. Figure 9 shows the trips that switched modes from the base scenario, as well as which mode they switched to. Though some of this switching is due to the internal randomness in ActivitySim, the majority of the mode-switching was from auto to transit, and this shows a clear increase in transit usage over the base scenario.</p>
+<p>ActivitySim also has an “at-work” tour purpose, indicating a subtour from the workplace. The team analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour. Figure 10 shows that most people did not switch subtour modes from the base scenario. The similar number of switches between auto and non-motorized modes indicates that the switching here may be mostly due to ActivitySim’s randomness and not any changes in the network.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2_transit_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>cube</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2_transit_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>asim</figcaption>
 </figure>
 </div>
 </div>
@@ -633,13 +868,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/1_land_use.html" class="pagination-link" aria-label="Land Use">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span>
+      <a href="../qmd/1_land_use.html" class="pagination-link" aria-label="Scenario 1: Change in Land Use">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/3_wfh.html" class="pagination-link" aria-label="WFH">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../qmd/3_wfh.html" class="pagination-link" aria-label="Scenario 3: Increase in Remote Work">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Comparative Illustration of Trip- and Activity-Based Modeling Techniques - 6&nbsp; WFH</title>
+<title>A Comparative Illustration of Trip- and Activity-Based Modeling Techniques - 6&nbsp; Scenario 3: Increase in Remote Work</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -81,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/3_wfh.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../qmd/3_wfh.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -133,25 +153,25 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Land Use</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/2_transit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/3_wfh.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/conclusions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conclusions and Recommendations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -170,8 +190,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#create-scenario" id="toc-create-scenario" class="nav-link active" data-scroll-target="#create-scenario"><span class="header-section-number">6.1</span> Create scenario</a></li>
-  <li><a href="#analyses" id="toc-analyses" class="nav-link" data-scroll-target="#analyses"><span class="header-section-number">6.2</span> Analyses</a></li>
+  <li><a href="#considerations-for-modelling-remote-work" id="toc-considerations-for-modelling-remote-work" class="nav-link active" data-scroll-target="#considerations-for-modelling-remote-work"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work</a></li>
+  <li><a href="#scenario-creation" id="toc-scenario-creation" class="nav-link" data-scroll-target="#scenario-creation"><span class="header-section-number">6.2</span> Scenario Creation</a></li>
+  <li><a href="#scenario-analysis" id="toc-scenario-analysis" class="nav-link" data-scroll-target="#scenario-analysis"><span class="header-section-number">6.3</span> Scenario Analysis</a></li>
   </ul>
 </nav>
     </div>
@@ -180,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-wfh" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">WFH</span></span></h1>
+<h1 class="title"><span id="sec-wfh" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span></h1>
 </div>
 
 
@@ -203,12 +224,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- Include at the start of every doc -->
-<p>Third scenario models WFH.</p>
-<p>Uses WFRC projections from 2050.</p>
-<p>Show plot of some kind showing increase from 2019 to 2050.</p>
-<section id="create-scenario" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="create-scenario"><span class="header-section-number">6.1</span> Create scenario</h2>
-<p>WFRC needs only to move 2050 data to 2019 for TC% and HBJ (in SE file <strong><em>ask Kamryn if we did this part</em></strong>).</p>
+<p>With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home <span class="citation" data-cites="bick_work_2021">(<a href="references.html#ref-bick_work_2021" role="doc-biblioref">Bick, Blandin, and Mertens 2021</a>)</span>. This scenario is an attempt to model an increase in people working from home, or telecommuting. There has been much research, especially in recent years, on the implications of remote work. While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. <span class="citation" data-cites="bramberga_teleworking_2023">Bramberga (<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">2023</a>)</span> even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach. Before describing how we set up the telecommuting scenario for our research, we will first describe some general considerations we had based on what is in the literature.</p>
+<section id="considerations-for-modelling-remote-work" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="considerations-for-modelling-remote-work"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work</h2>
+<p>The first thing to consider is the fact that different job types allow different levels of telecommuting <span class="citation" data-cites="yasenov_who_2020">(<a href="references.html#ref-yasenov_who_2020" role="doc-biblioref">Yasenov 2020</a>)</span>. An office worker using a computer is much more capable to work from home than a construction worker. This fact is something that has been considered for telecommuting in most travel demand models <span class="citation" data-cites="bramberga_teleworking_2023 moeckel_working_2017 sener_copula-based_2011">(<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">Bramberga 2023</a>; <a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>; <a href="references.html#ref-sener_copula-based_2011" role="doc-biblioref">Sener and Bhat 2011</a>)</span>.</p>
+<p>Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting. What isn’t as obvious is the idea that there may be more discretionary trips produced when people are able to telecommute. There have been many studies on this subject, and, when comparing the results of each study, it is hard to tell if that really is the case. <span class="citation" data-cites="kim_is_2017">Kim (<a href="references.html#ref-kim_is_2017" role="doc-biblioref">2017</a>)</span> talks about a “rebound effect” where travel behavior changes on the days people don’t have to commute to work and they make more trips for different reasons. In another study, <span class="citation" data-cites="zhu_impact_2014">Zhu and Mason (<a href="references.html#ref-zhu_impact_2014" role="doc-biblioref">2014</a>)</span> find that there are more miles traveled on the days people telecommute. This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose <span class="citation" data-cites="moreno_microscopic_2017">(<a href="references.html#ref-moreno_microscopic_2017" role="doc-biblioref">Moreno and Moeckel 2017</a>)</span>. Taking it a little further, <span class="citation" data-cites="ellder_telework_2020">Elldér (<a href="references.html#ref-ellder_telework_2020" role="doc-biblioref">2020</a>)</span> finds that distinguishing between people that work from home all day and part of the day might make a difference. Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled. Using data from the 2007 Chicago Regional Household Travel Inventory, <span class="citation" data-cites="he_telecommuting_2015">(<a href="references.html#ref-he_telecommuting_2015" role="doc-biblioref"><strong>he_telecommuting_2015?</strong></a>)</span> found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don’t telecommute. <span class="citation" data-cites="mokhtarian_the_1998">(<a href="references.html#ref-mokhtarian_the_1998" role="doc-biblioref"><strong>mokhtarian_the_1998?</strong></a>)</span> saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. Because there isn’t a solid conclusion on whether more discretionary trips are created as more people telecommute, we will not put that into the model.</p>
+<p>The last consideration we will discuss is the distance people are willing to travel when they telecommute. <span class="citation" data-cites="moeckel_working_2017">Moeckel (<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">2017</a>)</span> explains the correlation between the number of days people telecommute and the distance they are willing to live from their job. If someone works completely remote, then they will have nothing forcing them to live close to their job. If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week. This information could change the trip length frequency distribution of home-based work trips.</p>
+<p>To organize the main ideas of the literature, we kept in mind these three principles as we prepared the models:</p>
+<ul>
+<li><p>Different employment types have differing levels of telecommuting</p></li>
+<li><p>Home-based work trips decrease</p></li>
+<li><p>There is a greater possibility that home-based work trips are longer</p></li>
+</ul>
+<p>The last principle mentioned has been used in other models <span class="citation" data-cites="moeckel_working_2017">(<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>)</span>, but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.<br>
+The following sections will describe how we used the first two principles as we prepared the telecommuting scenario in each of the models.</p>
+</section>
+<section id="scenario-creation" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">6.2</span> Scenario Creation</h2>
+<p>WFRC needs only to move 2050 data to 2019 for TC% and HBJ.</p>
 <div id="tbl-wfrc-telecommute-years" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -233,10 +266,14 @@ Table&nbsp;6.1: wfrc telecommute data
 </div>
 </figure>
 </div>
-<p>Asim is the same as calibration for the baseline scenario, but with different target %s. List these. (table of %s and coefficients for 2019/2050 side-by-side?)</p>
+<p>This model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type. This data is used to create telecommuting trips that don’t get assigned during trip distribution. Additionally, there is a global scaling factor to adjust all telecommute percentages. The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages in place of the base year values. Figure 3 shows a plot of the average telecommute percentage by year as forecasted in the WFRC/MAG model.</p>
+<p>In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs. We simply changed the telecommute and home-based job percentages to align with projections for 2050. which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent. If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages. With the Wasatch Front Regional Council (WFRC) model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips. <em>(I’m not sure about this. I’ll have to look more into it)</em></p>
+<p>Asim is the same as calibration for the baseline scenario, but with different target %s (show table).</p>
+<p>The WFRC model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type, as well as SE data indicating the number of fully-remote jobs by TAZ. The BYU Team used the WFRC predicted 2050 data for these in place of the base year values. The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.</p>
+<p>The team adjusted ActivitySim’s two remote work models to match the WFRC targets in both the base year and the increased WFH scenario. An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting. Note that only the remote work parameters were adjusted in this scenario. The scenario still uses the “Base” 2019 population and SE data.</p>
 </section>
-<section id="analyses" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="analyses"><span class="header-section-number">6.2</span> Analyses</h2>
+<section id="scenario-analysis" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">6.3</span> Scenario Analysis</h2>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 8
@@ -253,6 +290,7 @@ Table&nbsp;6.1: wfrc telecommute data
 9 nhb     transit    13199.  1.35e4     -0.0189     100654  103398       -0.0265</code></pre>
 </div>
 </div>
+<p>Using the outputs from the trip-based model that show lengths and number of trips between zones, we calculated the vehicle miles traveled for each trip. This allowed us to see which zones had the biggest decrease in VMT. This also allowed us to find the number of trips of certain length to create a trip length frequency distribution that can be seen in (<em>another figure</em>).</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 8
@@ -285,8 +323,48 @@ Table&nbsp;6.1: wfrc telecommute data
 9 nhb     nonmotor    216257   224248   -0.0356   254643.   263963. -0.0353 </code></pre>
 </div>
 </div>
+<p>It is straightforward to determine decreased VMT by production zone (and similar analyses) in both models (see Figure 11Figures 11 andFigure 12 12). Additionally, the team made a desire line plot in the WFRC model of decreased trips. This, however, is essentially a scaled-down version of the total trips in the Base scenario (see Figure 13). Remote work percentages do vary by industry, but there is no accounting for trips lengths or personal variables. Figure 14 shows these same plots for ActivitySim. At first glance, this also seems like a scaled-down version of the total trips, even though ActivitySim’s remote work models do include distance to work and personal attributes. It is difficult to tell from the figure alone. The team plans to do more analysis on this point.</p>
+<p>Include a table of the asim tc and wfh coefficients. Maybe put it in the methodology.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_wfh_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-bick_work_2021" class="csl-entry" role="listitem">
+Bick, Alexander, Adam Blandin, and Karel Mertens. 2021. <span>“Work from <span>Home</span> <span>Before</span> and <span>After</span> the <span>COVID</span>-19 <span>Outbreak</span>.”</span> https://doi.org/<a href="https://doi.org/10.24149/wp2017r2">https://doi.org/10.24149/wp2017r2</a>.
+</div>
+<div id="ref-bramberga_teleworking_2023" class="csl-entry" role="listitem">
+Bramberga, Katrina Aleksandra. 2023. <span>“Teleworking in <span>Four</span>-<span>Step</span> <span>Transport</span> <span>Demand</span> <span>Models</span>.”</span> PhD thesis, KTH Royal Institute of Technology.
+</div>
+<div id="ref-ellder_telework_2020" class="csl-entry" role="listitem">
+Elldér, Erik. 2020. <span>“Telework and Daily Travel: <span>New</span> Evidence from <span>Sweden</span>.”</span> <em>Journal of Transport Geography</em> 86 (June): 102777. <a href="https://doi.org/10.1016/j.jtrangeo.2020.102777">https://doi.org/10.1016/j.jtrangeo.2020.102777</a>.
+</div>
+<div id="ref-kim_is_2017" class="csl-entry" role="listitem">
+Kim, Seung-Nam. 2017. <span>“Is Telecommuting Sustainable? <span>An</span> Alternative Approach to Estimating the Impact of Home-Based Telecommuting on Household Travel.”</span> <em>International Journal of Sustainable Transportation</em> 11 (2): 72–85. <a href="https://doi.org/10.1080/15568318.2016.1193779">https://doi.org/10.1080/15568318.2016.1193779</a>.
+</div>
+<div id="ref-moeckel_working_2017" class="csl-entry" role="listitem">
+Moeckel, Rolf. 2017. <span>“Working from <span>Home</span>: <span>Modeling</span> the <span>Impact</span> of <span>Telework</span> on <span>Transportation</span> and <span>Land</span> <span>Use</span>.”</span> <em>Transportation Research Procedia</em>, Emerging technologies and models for transport and mobility, 26 (January): 207–14. <a href="https://doi.org/10.1016/j.trpro.2017.07.021">https://doi.org/10.1016/j.trpro.2017.07.021</a>.
+</div>
+<div id="ref-moreno_microscopic_2017" class="csl-entry" role="listitem">
+Moreno, Ana Tsui, and Rolf Moeckel. 2017. <span>“Microscopic <span>Destination</span> <span>Choice</span>: <span>Incorporating</span> <span>Travel</span> <span>Time</span> <span>Budgets</span> as <span>Constraints</span>.”</span> <em>Transportation Research Procedia</em>.
+</div>
+<div id="ref-sener_copula-based_2011" class="csl-entry" role="listitem">
+Sener, Ipek N, and Chandra R Bhat. 2011. <span>“A <span>Copula</span>-<span>Based</span> <span>Sample</span> <span>Selection</span> <span>Model</span> of <span>Telecommuting</span> <span>Choice</span> and <span>Frequency</span>.”</span> <em>Environment and Planning A: Economy and Space</em> 43 (1): 126–45. <a href="https://doi.org/10.1068/a43133">https://doi.org/10.1068/a43133</a>.
+</div>
+<div id="ref-yasenov_who_2020" class="csl-entry" role="listitem">
+Yasenov, Vasil I. 2020. <span>“Who <span>Can</span> <span>Work</span> from <span>Home</span>?”</span> {SSRN} {Scholarly} {Paper}. Rochester, NY. <a href="https://doi.org/10.2139/ssrn.3590895">https://doi.org/10.2139/ssrn.3590895</a>.
+</div>
+<div id="ref-zhu_impact_2014" class="csl-entry" role="listitem">
+Zhu, P., and S. G. Mason. 2014. <span>“The Impact of Telecommuting on Personal Vehicle Usage and Environmental Sustainability.”</span> <em>International Journal of Environmental Science and Technology</em> 11 (8): 2185–2200. <a href="https://doi.org/10.1007/s13762-014-0556-5">https://doi.org/10.1007/s13762-014-0556-5</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -679,13 +757,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../qmd/2_transit.html" class="pagination-link" aria-label="Transit">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transit</span></span>
+      <a href="../qmd/2_transit.html" class="pagination-link" aria-label="Scenario 2: Increased Transit Service">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/conclusions.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../qmd/conclusions.html" class="pagination-link" aria-label="Conclusions and Recommendations">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conclusions and Recommendations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
