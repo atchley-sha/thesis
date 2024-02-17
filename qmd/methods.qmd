@@ -45,7 +45,11 @@ ActivitySim is highly configurable, and many agencies have their own bespoke imp
 This paper uses an ActivitySim implementation based on @gregory_s_macfarlane_estimation_2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
 
 ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
-Additionally, ActivitySim requires population data at an individual level, including information such as age, household income, and home location.
+However, ActivitySim does require network skims for information on travel time, cost, etc.
+These skims are obtained from any network assignment process, though ActivitySim itself does not include network assignment.
+A discussion and comparison of network assignment processes is outside the scope of this project, so this ActivitySim implementation uses the travel skims output from the WFRC model directly.
+
+ActivitySim additionally requires population data at an individual level, including information such as age, household income, and home location.
 Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead.
 @sec-populationsim discusses the population used in more detail.
 
