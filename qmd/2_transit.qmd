@@ -16,14 +16,12 @@ The improvement would also partially electrify the FrontRunner, allowing for fas
 Data comes from the WFRC 2050 build plan.
 Includes new stations, new headways, and faster speeds.
 
-With the proposed double-tracking and potential electric updates to FrontRunner, there is a potential to
-cut headways in half and increase train speeds. Both the increased speed and shorter headways are
-modeled in this scenario. The BYU team adjusted the FrontRunner headways from 30 to 15 minutes in
-peak, and 60 to 30 minutes off-peak. Additionally, the proposed 2050 FrontRunner network is used,
-which includes higher speeds due in part to electrification of the corridor. This network also adds
-additional stations in Vineyard, Springville, Spanish Fork, and Payson. No other modifications were made
-to the Base 2019 scenario; for example, a revised bus service network serving the Springville station is
-not included.
+With the proposed double-tracking and potential electric updates to FrontRunner, there is a potential to cut headways in half and increase train speeds.
+Both the increased speed and shorter headways are modeled in this scenario.
+The BYU team adjusted the FrontRunner headways from 30 to 15 minutes in peak, and 60 to 30 minutes off-peak.
+Additionally, the proposed 2050 FrontRunner network is used, which includes higher speeds due in part to electrification of the corridor.
+This network also adds additional stations in Vineyard, Springville, Spanish Fork, and Payson.
+No other modifications were made to the Base 2019 scenario; for example, a revised bus service network serving the Springville station is not included.
 
 Show map of changes.
 
@@ -44,29 +42,24 @@ In the network file, each node on the rail line that is a train station is flagg
 The last thing we did was change the posted speed of each link to the speeds that \acr{WFRC} had predicted for a partially electrified train system.
 After changing the speeds, headways, and train stations, we ran the model.
 
-The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will
-change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak
-headways. To increase the speed, the team will modify the model to use the predicted speeds after
-electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model
-appear to have these changes made, and so the team will use these speed values for the FrontRunner.
-These networks will be paired with the 2019 socioeconomic scenario for comparison with the base
-scenario.
+The WFRC/MAG model contains data on transit headways (including FrontRunner).
+The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways.
+To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds.
+The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner.
+These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario.
 
-The output of the WFRC/MAG model for this scenario will contain new transit network skims. These
-updated skims will be used in ActivitySim instead of the baseline scenario skims. Because the mode
-share of transit is relatively low, it is not expected that the highway travel times will be affected very
-much by this change, and so the baseline highway skims will remain fixed. No other changes to
-ActivitySim are necessary to model this scenario.
+The output of the WFRC/MAG model for this scenario will contain new transit network skims.
+These updated skims will be used in ActivitySim instead of the baseline scenario skims.
+Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the baseline highway skims will remain fixed.
+No other changes to ActivitySim are necessary to model this scenario.
 
 Asim just needs new skims, gotten from the new WFRC scenario.
 
-In the WFRC model, this change was relatively easy to implement. The headways are stored in the input
-data and are easily modified, and the 2050 network is already built in to the model for future-year
-analysis.
-Including network assignment is outside the scope of this research, and the BYU implementation of
-ActivitySim uses the same skim files that the WFRC demand model uses. In this case, the team used the
-new congested network skims from the WFRC transit scenario to feed the ActivitySim demand model
-representing this scenario. This is the only change needed for this scenario.
+In the WFRC model, this change was relatively easy to implement.
+The headways are stored in the input data and are easily modified, and the 2050 network is already built in to the model for future-year analysis.
+Including network assignment is outside the scope of this research, and the BYU implementation of ActivitySim uses the same skim files that the WFRC demand model uses.
+In this case, the team used the new congested network skims from the WFRC transit scenario to feed the ActivitySim demand model representing this scenario.
+This is the only change needed for this scenario.
 
 ## Scenario Analysis
 
@@ -113,19 +106,17 @@ targets::tar_read(combined_tr_new_transit_income_plot)
 
 \
 
-Figure 8 shows the increased productions and attractions of the “drive to CRT” mode by district. These
-could as an example be further analyzed by TAZ/district median income or similar variables. However,
-there is no indication of which types of individuals are switching their mode. In an ABM, this can be
-analyzed. Figure 9 shows the trips that switched modes from the base scenario, as well as which mode
-they switched to. Though some of this switching is due to the internal randomness in ActivitySim, the
-majority of the mode-switching was from auto to transit, and this shows a clear increase in transit usage
-over the base scenario.
+Figure 8 shows the increased productions and attractions of the “drive to CRT” mode by district.
+These could as an example be further analyzed by TAZ/district median income or similar variables.
+However, there is no indication of which types of individuals are switching their mode.
+In an ABM, this can be analyzed.
+Figure 9 shows the trips that switched modes from the base scenario, as well as which mode they switched to.
+Though some of this switching is due to the internal randomness in ActivitySim, the majority of the mode-switching was from auto to transit, and this shows a clear increase in transit usage over the base scenario.
 
-ActivitySim also has an “at-work” tour purpose, indicating a subtour from the workplace. The team
-analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour.
-Figure 10 shows that most people did not switch subtour modes from the base scenario. The similar
-number of switches between auto and non-motorized modes indicates that the switching here may be
-mostly due to ActivitySim’s randomness and not any changes in the network.
+ActivitySim also has an “at-work” tour purpose, indicating a subtour from the workplace.
+The team analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour.
+Figure 10 shows that most people did not switch subtour modes from the base scenario.
+The similar number of switches between auto and non-motorized modes indicates that the switching here may be mostly due to ActivitySim’s randomness and not any changes in the network.
 
 ```{r}
 #| fig-cap: cube

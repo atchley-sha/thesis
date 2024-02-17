@@ -5,8 +5,7 @@
 With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home [@bick_work_2021].
 This scenario is an attempt to model an increase in people working from home, or telecommuting.
 There has been much research, especially in recent years, on the implications of remote work.
-While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is.
-@bramberga_teleworking_2023 even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach.
+While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach.
 Before describing how we set up the telecommuting scenario for our research, we will first describe some general considerations we had based on what is in the literature.
 
 ## Considerations for Modelling Remote Work
@@ -17,15 +16,16 @@ This fact is something that has been considered for telecommuting in most travel
 
 Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting.
 What isn't as obvious is the idea that there may be more discretionary trips produced when people are able to telecommute.
-There have been many studies on this subject, and, when comparing the results of each study, it is hard to tell if that really is the case. 
+There have been many studies on this subject, and, when comparing the results of each study, it is hard to tell if that really is the case.
 @kim_is_2017 talks about a "rebound effect" where travel behavior changes on the days people don't have to commute to work and they make more trips for different reasons.
 In another study, @zhu_impact_2014 find that there are more miles traveled on the days people telecommute.
 This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose [@moreno_microscopic_2017].
+
 Taking it a little further, @ellder_telework_2020 finds that distinguishing between people that work from home all day and part of the day might make a difference.
 Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
-Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute. 
+Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute.
 @mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days.
-Because there isn't a solid conclusion on whether more discretionary trips are created as more people telecommute, we will not put that into the model. 
+Because there isn't a solid conclusion on whether more discretionary trips are created as more people telecommute, we will not put that into the model.
 
 The last consideration we will discuss is the distance people are willing to travel when they telecommute.
 @moeckel_working_2017 explains the correlation between the number of days people telecommute and the distance they are willing to live from their job.
@@ -39,9 +39,9 @@ To organize the main ideas of the literature, we kept in mind these three princi
 
 -   Home-based work trips decrease
 
--   There is a greater possibility that home-based work trips are longer 
+-   There is a greater possibility that home-based work trips are longer
 
-The last principle mentioned has been used in other models [@moeckel_working_2017], but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.  
+The last principle mentioned has been used in other models [@moeckel_working_2017], but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.\
 The following sections will describe how we used the first two principles as we prepared the telecommuting scenario in each of the models.
 
 ## Scenario Creation
@@ -55,33 +55,29 @@ WFRC needs only to move 2050 data to 2019 for TC% and HBJ.
 targets::tar_read(cube_telecommute_percentages_2)
 ```
 
-This model is already designed to represent work from home using a lookup table of telecommute
-percentages segmented by job type. This data is used to create telecommuting trips that don’t get
-assigned during trip distribution. Additionally, there is a global scaling factor to adjust all telecommute
-percentages. The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages
-in place of the base year values. Figure 3 shows a plot of the average telecommute percentage by year
-as forecasted in the WFRC/MAG model.
+This model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type.
+This data is used to create telecommuting trips that don’t get assigned during trip distribution.
+Additionally, there is a global scaling factor to adjust all telecommute percentages.
+The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages in place of the base year values.
+Figure 3 shows a plot of the average telecommute percentage by year as forecasted in the WFRC/MAG model.
 
-In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs. 
-We simply changed the telecommute and home-based job percentages to align with projections for 2050. which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent.
+In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs.
+We simply changed the telecommute and home-based job percentages to align with projections for 2050.
+which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent.
 If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages.
-With the \acr{WFRC} model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips. *(I'm not sure about this. I'll have to look more into it)*
+With the \acr{WFRC} model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips.
+*(I'm not sure about this. I'll have to look more into it)*
 
 Asim is the same as calibration for the baseline scenario, but with different target %s (show table).
 
-The WFRC model is already designed to represent work from home using a lookup table of telecommute
-percentages segmented by job type, as well as SE data indicating the number of fully-remote jobs by
-TAZ. The BYU Team used the WFRC predicted 2050 data for these in place of the base year values. The
-WFRC model does not include a potential increase in discretionary trips for those who work remotely,
-though some literature suggests this may happen in reality.
+The WFRC model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type, as well as SE data indicating the number of fully-remote jobs by TAZ.
+The BYU Team used the WFRC predicted 2050 data for these in place of the base year values.
+The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.
 
-The team adjusted ActivitySim’s two remote work models to match the WFRC targets in both the base
-year and the increased WFH scenario. An additional note about the WFH implementation in ActivitySim
-is that because it is done before tour generation, an individual who does not need to make a work tour
-may be free to make other discretionary tours, and so this does at least somewhat model an increase in
-other trip types coinciding with increased telecommuting.
-Note that only the remote work parameters were adjusted in this scenario. The scenario still uses the
-“Base” 2019 population and SE data.
+The team adjusted ActivitySim’s two remote work models to match the WFRC targets in both the base year and the increased WFH scenario.
+An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting.
+Note that only the remote work parameters were adjusted in this scenario.
+The scenario still uses the “Base” 2019 population and SE data.
 
 ## Scenario Analysis
 
@@ -105,17 +101,18 @@ targets::tar_read(cube_wfh_trip_pmt_diff)
 targets::tar_read(asim_wfh_trip_pmt_diff)
 ```
 
-It is straightforward to determine decreased VMT by production zone (and similar analyses) in both
-models (see Figure 11Figures 11 andFigure 12 12). Additionally, the team made a desire line plot in the
-WFRC model of decreased trips. This, however, is essentially a scaled-down version of the total trips in
-the Base scenario (see Figure 13). Remote work percentages do vary by industry, but there is no
-accounting for trips lengths or personal variables. Figure 14 shows these same plots for ActivitySim. At
-first glance, this also seems like a scaled-down version of the total trips, even though ActivitySim’s
-remote work models do include distance to work and personal attributes. It is difficult to tell from the
-figure alone. The team plans to do more analysis on this point. 
+It is straightforward to determine decreased VMT by production zone (and similar analyses) in both models (see Figure 11Figures 11 andFigure 12 12).
+Additionally, the team made a desire line plot in the WFRC model of decreased trips.
+This, however, is essentially a scaled-down version of the total trips in the Base scenario (see Figure 13).
+Remote work percentages do vary by industry, but there is no accounting for trips lengths or personal variables.
+Figure 14 shows these same plots for ActivitySim.
+At first glance, this also seems like a scaled-down version of the total trips, even though ActivitySim’s remote work models do include distance to work and personal attributes.
+It is difficult to tell from the figure alone.
+The team plans to do more analysis on this point.
 
-Include a table of the asim tc and wfh coefficients. Maybe put it in the methodology.
+Include a table of the asim tc and wfh coefficients.
+Maybe put it in the methodology.
 
 ```{r}
-tar_read(combined_wfh_tlfd_diff_plot)
+targets::tar_read(combined_wfh_tlfd_diff_plot)
 ```
