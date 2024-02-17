@@ -37,3 +37,24 @@ read_cube_tc_percentages <- function(tc_pct_file, jobe_code_transl) {
 		left_join(jobe_code_transl, join_by(jobcode)) %>%
 		select(name, wfrc_2019, wfrc_2050)
 }
+
+get_cube_production_se <- function(trips, cube_se) {
+	trips %>%
+		group_by(purpose, mode, origin) %>%
+		summarise(trips = sum(trips), .groups = "drop") %>%
+		left_join(cube_se, join_by(origin == TAZ))
+}
+
+summarise_cube_transit_se <- function(se_trips) {
+	se_trips %>%
+		filter(mode == "transit") %>%
+		group_by(purpose) %>%
+		summarise(
+			transit_trips = sum(trips),
+			across(
+				c(TOTHH, ALLEMP, med_income),
+				\(x) matrixStats::weightedMedian(x, trips, na.rm = TRUE)),
+			.groups = "drop"
+		)
+
+}

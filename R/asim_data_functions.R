@@ -148,3 +148,11 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 			share_error = asim_share/cube_share - 1
 		)
 }
+
+get_asim_trips_se <- function(raw_trips, per, hh) {
+	raw_trips %>%
+		left_join(
+			select(per, -c(household_id, PUMA, TRACT, home_zone_id)),
+			join_by(person_id)) %>%
+		left_join(hh, join_by(household_id))
+}

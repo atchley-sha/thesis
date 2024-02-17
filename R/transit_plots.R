@@ -62,7 +62,7 @@ plot_asim_mode_switching <- function(table) {
 
 }
 
-plot_transit_diff_by_district <- function(
+plot_trips_diff_by_district <- function(
 		trip_diff, dist_transl, dist_geom, fr_line, fr_stops) {
 	format_line <- fr_line %>%
 		mutate(Year = factor(Year, levels = c("2019", "2050")))
@@ -99,6 +99,30 @@ plot_transit_diff_by_district <- function(
 			values = c("2019" = "black", "2050" = "coral"),
 			labels = c("2019" = "Existing FrontRunner", "2050" = "Improved FrontRunner (addt'l)")) +
 		labs(color = element_blank(), fill = "Change in trips by\nproduction district") +
-		theme_map(zoom = FALSE) +
-		theme(legend.position = "bottom")
+		theme_map(zoom = FALSE)
+}
+
+plot_tr_new_transit_income_dist <- function(cube, asim) {
+	cube_cleaned <- cube %>%
+		filter(mode == "transit") %>%
+		select(purpose, trips, income = med_income)
+	asim_cleaned <- asim %>%
+		mutate(
+			mode = convert_asim_mode(mode),
+			purpose = make_asim_purpose(
+				select(., tour_id, tour_purpose, trip_purpose))
+		) %>%
+		filter(mode == "transit") %>%
+		mutate(purpose, income, trips = 1, .keep = "none")
+
+	bind_rows(cube = cube_cleaned, asim = asim_cleaned, .id = "model") %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			mode = pretty_mode(mode),
+			model = pretty_model(model)
+		) %>%
+		ggplot(aes(x = income, weight = trips, color = model)) +
+		facet_wrap(~purpose, scales = "free", ncol = 1) +
+		geom_density()
+
 }
