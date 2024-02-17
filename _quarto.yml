@@ -5,7 +5,7 @@ project:
 execute:
   echo: false
   warning: false
-  cache: false
+  cache: refresh
   freeze: auto
 
 book:
@@ -37,7 +37,6 @@ book:
     - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
     - qmd/3_wfh.qmd
-    # qmd/- discussion.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
 
@@ -49,7 +48,9 @@ affiliations:
     state: UT
     postal-code: 84602
 
-bibliography: bib/references.bib
+bibliography:
+  - bib/references.bib
+  - bib/packages.bib
 lof: true
 lot: true
 fig-align: center
@@ -61,6 +62,9 @@ format:
     theme: cosmo
   # pdf:
   #   keep-tex: false
+     # header-includes:
+     #  - \usepackage{float}
+     #  - \floatplacement{table}{H}
     # include-in-header:
     #   - style/latex_preamble.tex
     # template: style/template.tex

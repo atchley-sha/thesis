@@ -1,4 +1,4 @@
-# Summary {#sec-conclusions}
+# Conclusions and Recommendations {#sec-conclusions}
 
 In summary, this book has no content whatsoever.
 

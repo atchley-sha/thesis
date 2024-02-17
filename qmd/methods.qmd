@@ -245,6 +245,10 @@ This includes a lookup table of telecommute percentages based on job type and ye
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
+wfh and telecommute_freq models, taken from SEMCOG prototype.
+had to adjust to work with MTC, not too bad.
+Also added job category coefficients to tf model, calibrated to wfrc percent (mention in methodology)
+
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
 <!-- @fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data. -->\
