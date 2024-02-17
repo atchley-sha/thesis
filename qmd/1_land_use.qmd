@@ -11,17 +11,18 @@ This adds X jobs and X households, etc. (show map/table)
 @tbl-the-point-overview shows the change in lu data, and @fig-the-point-zones shows these TAZs.
 
 ```{r}
-#| label: tbl-the-point-overview
-#| tbl-cap: the point overview
-
-tar_read(lu_new_se_table)
-```
-
-```{r}
 #| label: fig-the-point-zones
 #| fig-cap: the point zones
 
-tar_read(lu_plot_new_tazs)
+targets::tar_read(lu_plot_new_tazs)
+```
+
+```{r}
+#| label: tbl-the-point-overview
+#| tbl-cap: the point overview
+
+targets::tar_read(lu_new_se_table) %>% 
+	kbl()
 ```
 
 ## Creating the scenario
@@ -51,14 +52,14 @@ Shaded based on "in-zone".
 #| label: fig-lu-personmiles-abm
 #| fig-cap: personmiles abm
 
-tar_read(cube_lu_new_pmt_plot)
+targets::tar_read(cube_lu_new_pmt_plot)
 ```
 
 ```{r}
 #| label: fig-lu-personmiles-tbm
 #| fig-cap: personmiles tbm
 
-tar_read(asim_lu_new_pmt_plot)
+targets::tar_read(asim_lu_new_pmt_plot)
 ```
 
 Can't really shade since nhb relocation happens before mode choice.
@@ -72,9 +73,9 @@ Best you can do is difference the NHB matrices (@fig-lu-desire-tbm (2-panel)) (I
 #|   - hb
 #|   - nhb
 
-tar_read(cube_lu_new_productions_desire_map)
+targets::tar_read(cube_lu_new_productions_desire_map)
 
-tar_read(cube_lu_nhb_diff_desire_map)
+targets::tar_read(cube_lu_nhb_diff_desire_map)
 
 
 ```
@@ -85,5 +86,5 @@ With abm, you can follow people and trace their exact paths (@fig-lu-desire-abm)
 #| label: fig-lu-desire-abm
 #| fig-cap: desire abm
 
-tar_read(asim_lu_new_desire_map)
+targets::tar_read(asim_lu_new_desire_map)
 ```

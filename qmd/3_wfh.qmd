@@ -16,7 +16,7 @@ WFRC needs only to move 2050 data to 2019 for TC% and HBJ (in SE file ***ask Kam
 #| label: tbl-wfrc-telecommute-years
 #| tbl-cap: wfrc telecommute data
 
-tar_read(cube_telecommute_percentages_2)
+targets::tar_read(cube_telecommute_percentages_2)
 ```
 
 Asim is the same as calibration for the baseline scenario, but with different target %s.
@@ -26,7 +26,7 @@ List these.
 ## Analyses
 
 ```{r}
-tar_read(combined_wfh_mode_split_diff)
+targets::tar_read(combined_wfh_mode_split_diff)
 ```
 
 ```{r}

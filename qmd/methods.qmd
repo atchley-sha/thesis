@@ -247,18 +247,19 @@ It is worth noting that both the WFRC model and ActivitySim make a distinction b
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
-@fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data.
+<!-- @fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data. -->\
 ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration).
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
+This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
 There are no other adjustments to the ActivitySim work-from-home submodel.
 
-```{r}
-#| label: fig-wfrc-wfh
-#| tbl-cap: wfrc wfh data
-
-# targets::tar_read(wfrc_hbj_base_plot)
-```
+\
+<!-- ```{r} -->\
+<!-- #| label: fig-wfrc-wfh -->\
+<!-- #| fig-cap: wfrc wfh data -->\
+<!-- targets::tar_read(wfrc_hbj_base_plot) -->\
+<!-- ``` -->
 
 The two models differ in their approach to telecommuting, however.
 The WFRC model has a lookup table of telecommuting shares based on job type (see @tbl-baseline-telecommute), including predictions for future years.
@@ -273,19 +274,19 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| label: tbl-baseline-telecommute
 #| tbl-cap: wfrc telecommute data
 
-targets::tar_read(comparison_by_telecommute_coeffs) 
-# %>% 
-#   mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>% 
-#   rename(
-#     "Job Type" = name,
-#     "WFRC Telecommute Proportion" = wfrc_2019
-#     ) %>% 
-#   kbl(
-#     booktabs = TRUE,
-#     align = "c"
-#   ) %>% 
-#   add_header_above(c(" ", " ", "ActivitySim Telecommute Utility Coefficients" = 3)) %>% 
-#   kable_styling()
+targets::tar_read(comparison_by_telecommute_coeffs) %>%
+  mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>%
+  rename(
+    "Job Type" = name,
+    "WFRC Telecommute Proportion" = wfrc_2019
+    ) %>%
+	select(-wfrc_2050) %>% 
+  kbl(
+    booktabs = TRUE,
+    align = "c"
+  ) %>%
+  add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
+  kable_styling()
 ```
 
 ## Example Scenarios
@@ -296,7 +297,6 @@ This is not a comprehensive list covering all potential scenario possibilities, 
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
 Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
-<!-- @fig-landuse-site-imagery shows imagery of the site. -->\
 This research scenario will be based on this development, but will include only the land use changes.
 The actual development plans also include expansion of transit, but this will not be a part of this scenario.
 
@@ -304,11 +304,9 @@ The second scenario centers around an augmentation of transit service along the 
 The FrontRunner, a CRT line connecting Provo to Ogden, is slated for expansion.
 The expansion includes additional stations and increased travel speeds due to vehicle electrification.
 This scenario models these changes in accordance with the planned expansion of the service.
-<!-- @fig-frontrunner-beforeafter -->
 
 The third scenario addresses the growing trend of remote work.
 Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC.
-<!-- @fig-wfh-projections -->
 
 Each of these scenarios is based on the baseline 2019 scenario in the respective model, and ignores any additional expected growth or development beyond the specific changes of each scenario.
 For example, the increased WFH scenario uses WFH projections from 2050, but land use and socioeconomic data from 2019.

@@ -9,6 +9,10 @@ Includes new stations, new headways, and faster speeds.
 
 Show map of changes.
 
+```{r}
+targets::tar_read(frontrunner_plot)
+```
+
 ## Creating scenario
 
 WFRC model needs three adjustments: edit the headways, point the model to the new frontrunner network (which includes speeds), and add park-and-ride option at new station locations in highway?
@@ -19,10 +23,41 @@ Asim just needs new skims, gotten from the new WFRC scenario.
 ## Analyses
 
 ```{r}
-tar_read(combined_tr_mode_split_diff)
+targets::tar_read(combined_tr_mode_split_diff) %>% 
+	kbl()
 ```
 
 ```{r}
 #| fig-cap: needs to be redone?
-tar_read(asim_tr_mode_switching_plot)
+targets::tar_read(asim_tr_mode_switching_plot)
+```
+
+\
+
+```{r}
+#| tbl-cap: cube
+targets::tar_read(cube_tr_productions_se_summary) %>% 
+	kbl()
+```
+
+```{r}
+#| tbl-cap: asim
+targets::tar_read(asim_tr_trips_se_summary) %>% 
+	kbl()
+```
+
+```{r}
+targets::tar_read(combined_tr_new_transit_income_plot)
+```
+
+\
+
+```{r}
+#| fig-cap: cube
+targets::tar_read(cube_tr_diff_by_district_plot)
+```
+
+```{r}
+#| fig-cap: asim
+targets::tar_read(asim_tr_diff_by_district_plot)
 ```
