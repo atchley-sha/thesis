@@ -87,20 +87,6 @@ In the aggregate data model, it is impossible to know which trips are made by e.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
 All information is known at each point in the model regardless of which data is used in previous steps.
 
-```{r}
-#| label: fig-pipeline-examplea
-#| fig-cap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
-#| fig-scap: Example "information pipeline" for a trip-based model and an \acr{ABM}.
-#| fig-subcap:
-#|   - Trip-based
-#|   - Activity-based
-#| layout-ncol: 1
-
-knitr::include_graphics("../images/aggregate.png")
-
-knitr::include_graphics("../images/synthetic.png")
-```
-
 ::: {#fig-pipeline-example layout-ncol="1"}
 ![Trip-based](../images/aggregate.png){#fig-pipeline-example-1}
 
@@ -133,32 +119,21 @@ With these results, the mode and purpose of each trip is known, but, with aggreg
 It is also not possible to construct a coherent daily list of trips for individuals.
 
 @fig-network-synth, on the other hand, depicts visual representations of an *individual's* travel made possible by the use of a synthetic population.
-@fig-network-synth-1 depicts the trip list that could be given for an individual in a trip-based microsimulation model.
+@fig-network-tbmicro depicts the trip list that could be given for an individual in a trip-based microsimulation model.
 Though each individual's trips are known, there is no guarantee of consistency between trips.
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
-The activity-based approach, depicted in @fig-network-synth-2, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
+The activity-based approach, depicted in @fig-network-abm, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
 
-```{r}
-#| label: fig-network-aggregate
-#| fig-cap: Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.
-#| fig-scap: Example network assignment using aggregate data.
+![Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
-knitr::include_graphics("../images/tbm.png")
-```
+::: {#fig-network-synth layout-ncol="2" fig-scap="Example network assignment using a synthetic population."}
+![Trip-based microsimulation](../images/trip.png){#fig-network-tbmicro}
 
-```{r}
-#| label: fig-network-synth
-#| fig-cap: "Example network assignment using a synthetic population allows an individual's travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other."
-#| fig-scap: Example network assignment using a synthetic population.
-#| fig-subcap:
-#|   - Trip-based microsimulation
-#|   - Activity (tour)-based
-#| layout-ncol: 2
+![Activity (tour)-based](../images/tour.png){#fig-network-abm}
 
-knitr::include_graphics("../images/trip.png")
-
-knitr::include_graphics("../images/tour.png")
-```
+Example network assignment using a synthetic population allows an individual's travel to be tracked.
+In the tour-based approach, an attempt is made to make the trips consistent with each other.
+:::
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that \acr{ABM}s can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.

@@ -258,13 +258,6 @@ Individuals with work-from-home status are then prohibited from making a mandato
 This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
 There are no other adjustments to the ActivitySim work-from-home submodel.
 
-\
-<!-- ```{r} -->\
-<!-- #| label: fig-wfrc-wfh -->\
-<!-- #| fig-cap: wfrc wfh data -->\
-<!-- targets::tar_read(wfrc_hbj_base_plot) -->\
-<!-- ``` -->
-
 The two models differ in their approach to telecommuting, however.
 The WFRC model has a lookup table of telecommuting shares based on job type (see @tbl-baseline-telecommute), including predictions for future years.
 ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
@@ -296,7 +289,6 @@ targets::tar_read(comparison_by_telecommute_coeffs) %>%
 ## Example Scenarios
 
 There are three proposed scenarios to implement and run in each model for comparison.
-<!-- Each scenario intends to be representative of a real-world  -->\
 This is not a comprehensive list covering all potential scenario possibilities, but is taken to represent many of the types of scenarios an agency would analyze.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.

@@ -376,7 +376,11 @@ wfh_targets <- tar_plan(
 
 	# TLFD
 	combined_wfh_tlfd_diff_plot = plot_wfh_tlfd_diff(
-		combined_wfh_trips_diff, distances)
+		combined_wfh_trips_diff, distances),
+	cube_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
+		combined_wfh_trips_diff, which_model = "cube", distances),
+	asim_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
+		combined_wfh_trips_diff, which_model = "asim", distances),
 
 )
 
