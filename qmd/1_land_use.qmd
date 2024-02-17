@@ -2,26 +2,26 @@
 
 {{< include _setup.qmd >}}
 
-In our first scenario, we changes the land use at The Point.
-
-The change is based on WFRC 2050 SE data forecast, in turn based on development plan of The Point.
-
-This scenario uses the planned residential and commercial development at The Point Utah, the site of the recently demolished Utah State Prison, to model a major increase in land use.
-
 Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
 The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
-A \acr{BRT} line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah.
-This scenario is to model this development and its effect on transportation demand.
+This development is known as The Point, and is the basis for the first model scenario in this paper.
 
-To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes.
-Using the information made publicly available by Point of the Mountain State Land Authority [@state_land_authority_framework_2021], the increase in population and employment was estimated by \acr{WFRC} as shown in @tbl-point-se-data.
-The development spans five \acr{TAZ}s (see @fig-prison-new-transit), so the socioeconomic data are spread out across them consistent with the development plan [@cite].
-To add this information to the model, the input file containing socioeconomic data for each zone was adjusted so the five zones in the new development had SE data that matched the 2050 estimates for that area.
-As seen in @tbl-poin-se-data, approximately 7,430 new households and 22,200 new employments were added to these zones.
+```{r}
+#| label: fig-draper-prison-location
+#| fig-cap: draper prison location
 
-This adds X jobs and X households, etc. (show map/table)
+plot(mtcars[1:3])
+```
 
-@tbl-the-point-overview shows the change in lu data, and @fig-the-point-zones shows these TAZs.
+This scenario models the change in land use that a development such as The Point would create.
+Though the actual development plans for The Point include an expansion of transit services, only the additional households and jobs created from this development are modeled in this scenario.
+The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021].
+The development is expected to be fully completed by 2050, and so the 2050 WFRC land use and socioeconomic data projections are used for this site.
+
+The site consists of 5 TAZs, as shown in @fig-the-point-zones.
+@tbl-the-point-data shows the additional households, population, and employment by type added to each TAZ in this scenario.
+***Notably, there were no households or jobs in these TAZs in the baseline scenario, so @tbl-the-point-data also represents the total in each category.***\
+No changes other than to the land use/socioeconomic data in these 5 TAZs was made relative to the baseline scenario.
 
 ```{r}
 #| label: fig-the-point-zones
@@ -31,8 +31,8 @@ targets::tar_read(lu_plot_new_tazs)
 ```
 
 ```{r}
-#| label: tbl-the-point-overview
-#| tbl-cap: the point overview
+#| label: tbl-the-point-data
+#| tbl-cap: the point data
 
 targets::tar_read(lu_new_se_table) %>% 
 	kbl()
@@ -40,36 +40,22 @@ targets::tar_read(lu_new_se_table) %>%
 
 ## Scenario Creation
 
-In the WFRC model the change is trivial to implement.
-We just copy/pasted the se data from 2050 to 2019 for the affected zones.
+In the WFRC model, this change is trivial to implement.
+The model uses the land use/socioeconomic data directly, so the only adjustment needed is replacing the data for the specific TAZs with the 2050 data.
+As noted previously, all other TAZs have the same land use data as in the 2019 baseline scenario.
 
-This zonal data is used directly in the \acr{WFRC} model, but a new synthetic population is needed for ActivitySim.
-We used the zonal data as new targets....
+ActivitySim requires two changes for this scenario.
+The first is an update to the TAZ-level land use and socioeconomic data, which is identical to the process for the WFRC model.
+The second is an updated synthetic population.
+In order to keep consistency between model scenarios, a new population was created only for the 5 affected TAZs and joined to the existing synthetic population.
+There were no individuals or households in the affected zones in the existing synthetic population, so no individuals or households needed to be removed before joining the two populations.
 
-Only created a new synthetic population for the 5 zones
+Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
+However, many of the controls for PopulationSim use tract-level data from the Census, and existing Census data for these controls is unrepresentative of the new development.
+Because of this, the Census tract covering the Gateway area in Salt Lake City (see @fig-gateway-tract) is used to represent the new development patterns at The Point.
+The income distribution, etc. of this area will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data will match the WFRC projections for 2050.
 
-Used census targets from Gateway area in SLC
-
-ActivitySim requires two things for this scenario: updated SE data and a new pop.
-The updated SE data is the same as in the WFRC scenario, so is also trivial to implement.
-The pop, however, is not.
-New controls.
-
-New population for only the affected area, then joined to existing.
-There were no existing households so we didn't need to remove any (we're not double-counting).
-
-? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn't do that.
-
-This is trivial to implement in the WFRC/MAG model, where all that is needed is a change in the TAZ- level land use data file for the affected TAZs.
-The new land use data is the WFRC/MAG predicted 2050 data for these zones, as this is when development of the site is scheduled for completion.
-That is, the 2050 socioeconomic data for these five zones (only) was brought into the 2019 scenario.
-This added 7,430 new households and 22,200 new jobs to the area.
-
-In ActivitySim, a modified synthetic population with these new households is needed.
-Currently, the synthetic population model (PopulationSim) is set up to use Census tract data for many control variables including income.
-At the suggestion of Bert Granberg, the BYU team used the Census tract covering the Gateway area in SLC to represent the new development patterns at The Point.
-The income distribution, etc. of this area will therefore match that of the Gateway area, though the number of households and zonal SE data will match the WFRC projections for 2050.
-The new synthetic population was run for this new development only and added to the base scenario population
+? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigans but we didn't do that since we wanted the models to be independent.
 
 ## Scenario Analysis
 
