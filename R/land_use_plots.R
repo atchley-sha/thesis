@@ -1,30 +1,28 @@
-.lu_desire_bg <- function(dists_geom, range = c(0,3)) {
+.lu_desire_bg <- function(dists_geom, max, range = c(0,3)) {
 	list(
 		facet_wrap(~mode),
 		annotation_map_tile("cartolight", zoomin = 0),
 		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE),
 		geom_sf(),
-		scale_linewidth_continuous(range = range, limits = c(NA,max))
+		scale_linewidth_continuous(
+			range = range, limits = c(NA,max), guide = guide_legend(order = 99)),
+		theme_map()
 	)
 }
 
 plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
-	max <- 1000
+	max <- 400
 	desire_lines %>%
 		filter(round(trips) > 0) %>%
 		mutate(
 			in_zone = (origin %in% dists_list | destination %in% dists_list),
-			trips = pmin(trips, max)
+			trips = pmin(trips, max),
+			mode = pretty_mode(mode)
 		) %>%
 		ggplot(aes(linewidth = trips, color = in_zone)) +
-		# .lu_desire_bg(dists_geom) +
-		facet_wrap(~mode) +
-		annotation_map_tile("cartolight", zoomin = 0) +
-		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
-		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
-		geom_sf() +
-		labs(color = "Produced in new\ndevelopment", linewidth = "Trips") +
-		theme_map()
+		.lu_desire_bg(dists_geom, max) +
+		guides(color = guide_legend(reverse=TRUE)) +
+		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
 }
 
 plot_cube_lu_desire_lines <- function(desire_lines, dists_geom) {
@@ -36,14 +34,8 @@ plot_cube_lu_desire_lines <- function(desire_lines, dists_geom) {
 			diff = pmin(diff, max)
 		) %>%
 		ggplot(aes(linewidth = diff)) +
-		# .lu_desire_bg(dists_geom) +
-		facet_wrap(~mode) +
-		annotation_map_tile("cartolight", zoomin = 0) +
-		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
-		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
-		geom_sf() +
-		labs(color = "More trips in:", linewidth = "Trips") +
-		theme_map()
+		.lu_desire_bg(dists_geom, max) +
+		labs(color = "More trips in:", linewidth = "Trips")
 }
 
 plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
@@ -56,17 +48,11 @@ plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
 		) %>%
 		# filter(diff < 0) %>%
 		ggplot(aes(linewidth = abs(diff), color = as.character(sign(diff)))) +
-		# .lu_desire_bg(dists_geom) +
-		facet_wrap(~mode) +
-		annotation_map_tile("cartolight", zoomin = 0) +
-		scale_linewidth_continuous(range = range, limits = c(NA,max)) +
-		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
-		geom_sf() +
+		.lu_desire_bg(dists_geom, max) +
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),
 			labels = c("-1" = "Base year", "1" = "Land use")) +
-		labs(color = "More trips in:", linewidth = "Trips")	+
-		theme_map()
+		labs(color = "More trips in:", linewidth = "Trips")
 }
 
 plot_cube_lu_new_pmt <- function(trips_diff, distances, lu_tazs) {
@@ -97,7 +83,6 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 	raw_trips %>%
 		filter(person_id %in% persons) %>%
 		count_asim_trips_keep_purpose() %>%
-		# count_asim_trips() %>%
 		left_join(distances) %>%
 		mutate(in_zone = origin %in% lu_tazs | destination %in% lu_tazs) %>%
 		group_by(purpose, mode, in_zone) %>%

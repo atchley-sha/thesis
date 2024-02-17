@@ -64,12 +64,6 @@ plot_asim_mode_switching <- function(table) {
 
 plot_trips_diff_by_district <- function(
 		trip_diff, dist_transl, dist_geom, fr_line, fr_stops) {
-	format_line <- fr_line %>%
-		mutate(Year = factor(Year, levels = c("2019", "2050")))
-	format_stops <- fr_stops %>%
-		mutate(Year = factor(Year, levels = c("2019", "2050")))
-	text_stops <- format_stops %>%
-		bind_cols(st_coordinates(.) %>% as_tibble())
 
 	trips <- trip_diff %>%
 		left_join(dist_transl, join_by(origin == TAZ)) %>%
@@ -85,20 +79,8 @@ plot_trips_diff_by_district <- function(
 		annotation_map_tile("cartolight", zoom = 10) +
 		geom_sf(aes(fill = diff), data = trips) +
 		scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
-		# new_scale_fill() +
-		geom_sf(aes(color = Year), linewidth = 1, data = format_line) +
-		geom_sf(aes(color = Year), size = 3, data = format_stops) +
-		# geom_label_repel(
-		# 	aes(label = Name, geometry = geometry, fill = Year),
-		# 	box.padding = 0.4, point.padding = 0.5,
-		# 	nudge_x = 0.04, show.legend = FALSE,
-		# 	stat = "sf_coordinates", data = format_stops) +
-		# coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326), expand = FALSE) +
-		# scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
-		scale_color_manual(
-			values = c("2019" = "black", "2050" = "coral"),
-			labels = c("2019" = "Existing FrontRunner", "2050" = "Improved FrontRunner (addt'l)")) +
-		labs(color = element_blank(), fill = "Change in trips by\nproduction district") +
+		.add_frontrunner_to_plot(fr_line, fr_stops) +
+		labs(fill = "Change in trips by\nproduction district") +
 		theme_map(zoom = FALSE)
 }
 
