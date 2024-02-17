@@ -53,3 +53,14 @@ summarise_asim_mode_switching <- function(table) {
 		) %>%
 		ungroup()
 }
+
+combine_tr_trips_se_for_income_plot <- function(cube, asim) {
+	cube_cleaned <- cube %>%
+		filter(mode == "transit") %>%
+		select(purpose, trips, income = med_income)
+	asim_cleaned <- asim %>%
+		filter(mode == "transit") %>%
+		mutate(purpose, income, trips = 1, .keep = "none")
+
+	bind_rows(cube = cube_cleaned, asim = asim_cleaned, .id = "model")
+}

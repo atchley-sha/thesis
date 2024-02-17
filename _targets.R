@@ -1,5 +1,4 @@
 #### Setup #############################################################
-
 library(targets)
 library(tarchetypes)
 
@@ -31,7 +30,6 @@ tar_source("R")
 tar_seed_set(34985723)
 
 #### List targets ######################################################
-
 # FrontRunner ####
 frontrunner_targets <- tar_plan(
 	tar_file(frontrunner_line_file, "data/frontrunner_line.geojson"),
@@ -335,9 +333,12 @@ transit_targets <- tar_plan(
 		cube_tr_productions_se),
 	asim_tr_trips_se = get_asim_trips_se(
 		asim_tr_raw_trips, asim_tr_per, asim_tr_hh),
-
-	# combined_tr_new_transit_income_plot = plot_tr_new_transit_income_dist(
-	# 	cube = cube_tr_productions_se, asim = asim_tr_trips_se),
+	asim_tr_trips_se_summary = summarise_asim_transit_se(
+		asim_tr_trips_se),
+	combined_tr_trips_se_for_income_plot = combine_tr_trips_se_for_income_plot(
+		cube = cube_tr_productions_se, asim = asim_tr_trips_se),
+	combined_tr_new_transit_income_plot = plot_tr_new_transit_income_dist(
+		combined_tr_trips_se_for_income_plot),
 
 	# New transit trip productions
 	cube_tr_diff_by_district_plot = plot_trips_diff_by_district(

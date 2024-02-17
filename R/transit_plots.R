@@ -102,27 +102,15 @@ plot_trips_diff_by_district <- function(
 		theme_map(zoom = FALSE)
 }
 
-plot_tr_new_transit_income_dist <- function(cube, asim) {
-	cube_cleaned <- cube %>%
-		filter(mode == "transit") %>%
-		select(purpose, trips, income = med_income)
-	asim_cleaned <- asim %>%
-		mutate(
-			mode = convert_asim_mode(mode),
-			purpose = make_asim_purpose(
-				select(., tour_id, tour_purpose, trip_purpose))
-		) %>%
-		filter(mode == "transit") %>%
-		mutate(purpose, income, trips = 1, .keep = "none")
-
-	bind_rows(cube = cube_cleaned, asim = asim_cleaned, .id = "model") %>%
+plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
+	combined_transit_se_trips %>%
 		mutate(
 			purpose = pretty_purpose(purpose),
-			mode = pretty_mode(mode),
 			model = pretty_model(model)
 		) %>%
 		ggplot(aes(x = income, weight = trips, color = model)) +
 		facet_wrap(~purpose, scales = "free", ncol = 1) +
-		geom_density()
-
+		scale_x_continuous(limits = c(NA,2e5), labels = label_currency()) +
+		geom_density() +
+		labs(x = "Income", y = "Kernel density", color = "Model")
 }

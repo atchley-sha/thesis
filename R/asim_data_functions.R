@@ -151,8 +151,26 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 
 get_asim_trips_se <- function(raw_trips, per, hh) {
 	raw_trips %>%
+		mutate(
+			mode = convert_asim_mode(mode),
+			purpose = make_asim_purpose(
+				select(., tour_id, tour_purpose, trip_purpose))
+		) %>%
 		left_join(
 			select(per, -c(household_id, PUMA, TRACT, home_zone_id)),
 			join_by(person_id)) %>%
 		left_join(hh, join_by(household_id))
+}
+
+summarise_asim_transit_se <- function(se_trips) {
+	se_trips %>%
+		filter(mode == "transit") %>%
+		group_by(purpose) %>%
+		summarise(
+			transit_trips = n(),
+			across(
+				c(income, age, ),
+				\(x) median(x, na.rm = TRUE)),
+			.groups = "drop"
+		)
 }
