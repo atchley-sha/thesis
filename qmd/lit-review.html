@@ -245,44 +245,7 @@ div.csl-indent {
 <p>An alternative approach to population data is to use a full synthetic population. A synthetic population takes demographic and socioeconomic data at various levels of detail to create a “population” with generally the same distribution as the study area <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012, 93</a>)</span>. The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data. <span class="citation" data-cites="castiglione_application_2006">Castiglione et al. (<a href="references.html#ref-castiglione_application_2006" role="doc-biblioref">2006</a>)</span> argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process. This allows, for example, an equity analysis to determine the “winners” and “losers” of a proposed development without needing to encode demographic variables into each step of the model.</p>
 <p><span class="citation" data-cites="bills_looking_2017">Bills and Walker (<a href="references.html#ref-bills_looking_2017" role="doc-biblioref">2017</a>)</span> used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations. With a 20% reduction in travel cost, they found that high income workers benefited more than low income workers. They did similar comparisons for scenarios involving reduced travel times for different mode choices and saw the effects each scenario had on the high and low income workers. These types of analysis, which are not possible with aggregate population data (<strong>this is actually possible; a lot of trip-based models segment high/low income</strong>), can be very valuable in transportation planning and policy making.</p>
 <p>It is important to note that while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well. Trip-based models using a synthetic population—often called trip-based microsimulation models—do exist (see <span class="citation" data-cites="walker_making_2005">Walker (<a href="references.html#ref-walker_making_2005" role="doc-biblioref">2005</a>)</span> and <span class="citation" data-cites="moeckel_agent-based_2020">Moeckel et al. (<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">2020</a>)</span>), but these are relatively rare.</p>
-<p><a href="#fig-pipeline-example" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> gives a visualization of an example “information pipeline” for a trip-based model using aggregate data and an ABM using a synthetic population. In the aggregate data model, it is impossible to know which trips are made by e.g.&nbsp;2-worker, 1-vehicle, low-income households; it only describes which trips are made by households with fewer vehicles than workers. With a synthetic population, however, <em>individuals</em> are being modeled, and so each trip can be traced to a specific person. All information is known at each point in the model regardless of which data is used in previous steps.</p>
-<div id="fig-pipeline-examplea" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-pipeline-examplea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pipeline-examplea" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-pipeline-examplea-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example &quot;information pipeline&quot; for a trip-based model and an \acr{ABM}.">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-pipeline-examplea-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/aggregate.png" class="img-fluid figure-img" data-fig-scap="Example &quot;information pipeline&quot; for a trip-based model and an \acr{ABM}." data-ref-parent="fig-pipeline-examplea">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pipeline-examplea-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Trip-based
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-pipeline-examplea" style="flex-basis: 100.0%;justify-content: flex-start;">
-<div id="fig-pipeline-examplea-2" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example &quot;information pipeline&quot; for a trip-based model and an \acr{ABM}.">
-<figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-pipeline-examplea-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/synthetic.png" class="img-fluid figure-img" data-fig-scap="Example &quot;information pipeline&quot; for a trip-based model and an \acr{ABM}." data-ref-parent="fig-pipeline-examplea">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pipeline-examplea-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Activity-based
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-examplea-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Example “information pipeline” for a trip-based model and an ABM.
-</figcaption>
-</figure>
-</div>
+<p><a href="#fig-pipeline-example" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> gives a visualization of an example “information pipeline” for a trip-based model using aggregate data and an ABM using a synthetic population. In the aggregate data model, it is impossible to know which trips are made by e.g.&nbsp;2-worker, 1-vehicle, low-income households; it only describes which trips are made by households with fewer vehicles than workers. With a synthetic population, however, <em>individuals</em> are being modeled, and so each trip can be traced to a specific person. All information is known at each point in the model regardless of which data is used in previous steps.</p>
 <div id="fig-pipeline-example" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pipeline-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -316,7 +279,7 @@ Figure&nbsp;2.1: Example “information pipeline” for a trip-based model and a
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Example “information pipeline” for a trip-based model and an ABM.
+Figure&nbsp;2.1: Example “information pipeline” for a trip-based model and an ABM.
 </figcaption>
 </figure>
 </div>
@@ -326,45 +289,41 @@ Figure&nbsp;2.2: Example “information pipeline” for a trip-based model and a
 <p>The other primary difference between trip-based models and ABMs—and the main difference from trip-based microsimulation models—is that ABMs organize travel into “tours”, a sequence of trips that begin and end at the home, rather than just trips. It should be noted that <span class="citation" data-cites="miller_current_2023">Miller (<a href="references.html#ref-miller_current_2023" role="doc-biblioref">2023</a>)</span> argues that many current “activity-based” models ought to be labeled “tour-based” due to this focus on building tours. This is contrasted with “activity scheduling” models, in which activity participation is modeled explicitly and trips emerge as the means to get from one activity to the next. However, in practice there are few true “activity scheduling” models, and the term “activity-based” is used to refer to both activity scheduling and tour-based models.</p>
 <p>In a typical trip-based model, trips are forecasted based on empirical trip rates, usually by trip purpose and by household type (for example, low-income, 1-vehicle households make a certain number of “home-based work” trips) <span class="citation" data-cites="mcnally_four-step_2007">(<a href="references.html#ref-mcnally_four-step_2007" role="doc-biblioref">McNally 2007</a>)</span>. These trips are then assigned an origin and destination, mode, and often a time of day (peak/off-peak, etc.), resulting in a list of trips between each zone by mode and purpose. A trip-based microsimulation model may use regression models rather than aggregate data for some of the model steps <span class="citation" data-cites="moeckel_agent-based_2020">(<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">Moeckel et al. 2020</a>)</span>, but the end result is similar: a list of trips by person, noting mode and purpose. However, this trip list may be inconsistent, and the forecasted trips may not be physically possible to complete in any sequence, as there is no sense of “trip-chaining”. The hope, though, is that over an area the inconsistencies would cancel out, leaving an overall accurate forecast.</p>
 <p>ABMs, on the other hand, model <em>tours</em> rather than trips. This attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a “chain” (tour), the trips within a tour are dependent on each other <span class="citation" data-cites="rasouli_activity-based_2014">(<a href="references.html#ref-rasouli_activity-based_2014" role="doc-biblioref">Rasouli and Timmermans 2014</a>)</span>. The open-source ABM ActivitySim <span class="citation" data-cites="association_of_metropolitan_planning_organizations_activitysim_2023">(<a href="references.html#ref-association_of_metropolitan_planning_organizations_activitysim_2023" role="doc-biblioref">Association of Metropolitan Planning Organizations 2023</a>)</span>, for example, has a tour-scheduling model that determines the number of “mandatory” (work, school, etc.) and “discretionary” tours each individual will make, and performs tour-level mode and destination choice for each tour. After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see <span class="citation" data-cites="vovsha_activity-based_2005">Vovsha, Bradley, and Bowman (<a href="references.html#ref-vovsha_activity-based_2005" role="doc-biblioref">2005</a>)</span>, fig.&nbsp;18.1).</p>
-<p>Figures <a href="#fig-network-aggregate" class="quarto-xref"><span>2.3</span></a> and <a href="#fig-network-synth" class="quarto-xref"><span>2.4</span></a> show an example of the trips assigned to a network in the various model forms. <a href="#fig-network-aggregate" class="quarto-xref">Figure&nbsp;<span>2.3</span></a> depicts network assignment in a typical trip-based model where the total number of trips between each zone is given. With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see <a href="#fig-pipeline-example-1" class="quarto-xref">Figure&nbsp;<span>2.2 (a)</span></a>). It is also not possible to construct a coherent daily list of trips for individuals.</p>
-<p><a href="#fig-network-synth" class="quarto-xref">Figure&nbsp;<span>2.4</span></a>, on the other hand, depicts visual representations of an <em>individual’s</em> travel made possible by the use of a synthetic population. <a href="#fig-network-synth-1" class="quarto-xref">Figure&nbsp;<span>2.4 (a)</span></a> depicts the trip list that could be given for an individual in a trip-based microsimulation model. Though each individual’s trips are known, there is no guarantee of consistency between trips. For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip. The activity-based approach, depicted in <a href="#fig-network-synth-2" class="quarto-xref">Figure&nbsp;<span>2.4 (b)</span></a>, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.</p>
-<div class="cell">
-<div class="cell-output-display">
+<p>Figures <a href="#fig-network-aggregate" class="quarto-xref"><span>2.2</span></a> and <a href="#fig-network-synth" class="quarto-xref"><span>2.3</span></a> show an example of the trips assigned to a network in the various model forms. <a href="#fig-network-aggregate" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> depicts network assignment in a typical trip-based model where the total number of trips between each zone is given. With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see <a href="#fig-pipeline-example-1" class="quarto-xref">Figure&nbsp;<span>2.1 (a)</span></a>). It is also not possible to construct a coherent daily list of trips for individuals.</p>
+<p><a href="#fig-network-synth" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>, on the other hand, depicts visual representations of an <em>individual’s</em> travel made possible by the use of a synthetic population. <a href="#fig-network-tbmicro" class="quarto-xref">Figure&nbsp;<span>2.3 (a)</span></a> depicts the trip list that could be given for an individual in a trip-based microsimulation model. Though each individual’s trips are known, there is no guarantee of consistency between trips. For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip. The activity-based approach, depicted in <a href="#fig-network-abm" class="quarto-xref">Figure&nbsp;<span>2.3 (b)</span></a>, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.</p>
 <div id="fig-network-aggregate" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example network assignment using aggregate data.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-network-aggregate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/tbm.png" class="img-fluid figure-img" data-fig-scap="Example network assignment using aggregate data.">
+<img src="../images/tbm.png" class="img-fluid figure-img" data-fig-scap="Example network assignment using aggregate data.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-network-aggregate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.
+Figure&nbsp;2.2: Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.
 </figcaption>
 </figure>
-</div>
-</div>
 </div>
 <div id="fig-network-synth" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-network-synth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-network-synth-1" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example network assignment using a synthetic population.">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-network-tbmicro" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-network-synth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/trip.png" class="img-fluid figure-img" data-fig-scap="Example network assignment using a synthetic population." data-ref-parent="fig-network-synth">
+<div aria-describedby="fig-network-tbmicro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/trip.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-synth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-tbmicro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Trip-based microsimulation
 </figcaption>
 </figure>
 </div>
 </div>
-<div class="cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-network-synth-2" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example network assignment using a synthetic population.">
+<div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-network-abm" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-network-synth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/tour.png" class="img-fluid figure-img" data-fig-scap="Example network assignment using a synthetic population." data-ref-parent="fig-network-synth">
+<div aria-describedby="fig-network-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../images/tour.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-synth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) Activity (tour)-based
 </figcaption>
 </figure>
@@ -373,7 +332,7 @@ Figure&nbsp;2.3: Example network assignment using aggregate data. There is littl
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-network-synth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: Example network assignment using a synthetic population allows an individual’s travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other.
+Figure&nbsp;2.3: Example network assignment using a synthetic population allows an individual’s travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other.
 </figcaption>
 </figure>
 </div>

@@ -88,6 +88,8 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 </head>
@@ -224,7 +226,7 @@ div.csl-indent {
 
 
 <!-- Include at the start of every doc -->
-<p>With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home <span class="citation" data-cites="bick_work_2021">(<a href="references.html#ref-bick_work_2021" role="doc-biblioref">Bick, Blandin, and Mertens 2021</a>)</span>. This scenario is an attempt to model an increase in people working from home, or telecommuting. There has been much research, especially in recent years, on the implications of remote work. While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. <span class="citation" data-cites="bramberga_teleworking_2023">Bramberga (<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">2023</a>)</span> even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach. Before describing how we set up the telecommuting scenario for our research, we will first describe some general considerations we had based on what is in the literature.</p>
+<p>With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely <span class="citation" data-cites="bick_work_2021">(<a href="references.html#ref-bick_work_2021" role="doc-biblioref">Bick, Blandin, and Mertens 2021</a>)</span>. There has been much research, especially in recent years, on the implications of remote work. While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. <span class="citation" data-cites="bramberga_teleworking_2023">Bramberga (<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">2023</a>)</span> even suggested that considerations for teleworking should be made on a case by case basis because there is no single best approach.</p>
 <section id="considerations-for-modelling-remote-work" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="considerations-for-modelling-remote-work"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work</h2>
 <p>The first thing to consider is the fact that different job types allow different levels of telecommuting <span class="citation" data-cites="yasenov_who_2020">(<a href="references.html#ref-yasenov_who_2020" role="doc-biblioref">Yasenov 2020</a>)</span>. An office worker using a computer is much more capable to work from home than a construction worker. This fact is something that has been considered for telecommuting in most travel demand models <span class="citation" data-cites="bramberga_teleworking_2023 moeckel_working_2017 sener_copula-based_2011">(<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">Bramberga 2023</a>; <a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>; <a href="references.html#ref-sener_copula-based_2011" role="doc-biblioref">Sener and Bhat 2011</a>)</span>.</p>
@@ -243,29 +245,83 @@ The following sections will describe how we used the first two principles as we 
 <section id="scenario-creation" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">6.2</span> Scenario Creation</h2>
 <p>WFRC needs only to move 2050 data to 2019 for TC% and HBJ.</p>
+<div class="cell">
 <div id="tbl-wfrc-telecommute-years" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6.1: wfrc telecommute data
 </figcaption>
 <div aria-describedby="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 3
-   name            wfrc_2019 wfrc_2050
-   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;
- 1 Retail             0.027          0
- 2 Food               0.0187        NA
- 3 Manufacturing      0.0202        NA
- 4 Office             0.0666        NA
- 5 Gov't/Education    0.0167        NA
- 6 Health             0.0286        NA
- 7 Agriculture        0.0693        NA
- 8 Mining             0.0053        NA
- 9 Construction       0.0328        NA
-10 Other              0.0537        NA</code></pre>
+<div class="cell-output-display">
+<div>
+<table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfrc_2019</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfrc_2050</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Retail</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Food</td>
+<td style="text-align: right;">0.019</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manufacturing</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Office</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gov't/Education</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Health</td>
+<td style="text-align: right;">0.029</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Agriculture</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mining</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Construction</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
 </div>
 </div>
 </figure>
+</div>
 </div>
 <p>This model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type. This data is used to create telecommuting trips that don’t get assigned during trip distribution. Additionally, there is a global scaling factor to adjust all telecommute percentages. The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages in place of the base year values. Figure 3 shows a plot of the average telecommute percentage by year as forecasted in the WFRC/MAG model.</p>
 <p>In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs. We simply changed the telecommute and home-based job percentages to align with projections for 2050. which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent. If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages. With the Wasatch Front Regional Council (WFRC) model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips. <em>(I’m not sure about this. I’ll have to look more into it)</em></p>
@@ -276,19 +332,117 @@ Table&nbsp;6.1: wfrc telecommute data
 <section id="scenario-analysis" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">6.3</span> Scenario Analysis</h2>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 8
-  purpose mode     cube_wfh cube_by cube_diff_pct asim_wfh asim_by asim_diff_pct
-  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;    &lt;int&gt;   &lt;int&gt;         &lt;dbl&gt;
-1 hbo     auto     4097821.  4.10e6      0.000277  3078596 3042754        0.0118
-2 hbo     nonmotor  508869.  5.10e5     -0.00250    597323  591164        0.0104
-3 hbo     transit    37359.  3.73e4      0.000344   220937  218438        0.0114
-4 hbw     auto     1483120.  1.59e6     -0.0651    1209400 1288620       -0.0615
-5 hbw     nonmotor   71063.  7.65e4     -0.0712     180968  191880       -0.0569
-6 hbw     transit    44977.  4.88e4     -0.0774     178056  189610       -0.0609
-7 nhb     auto     2193201.  2.22e6     -0.0142    1606889 1645356       -0.0234
-8 nhb     nonmotor  144126.  1.46e5     -0.0156     216257  224248       -0.0356
-9 nhb     transit    13199.  1.35e4     -0.0189     100654  103398       -0.0265</code></pre>
+<div class="cell-output-display">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">mode</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_wfh</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_by</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cube_diff_pct</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_wfh</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_by</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">asim_diff_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">4097821</td>
+<td style="text-align: right;">4096688</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3078596</td>
+<td style="text-align: right;">3042754</td>
+<td style="text-align: right;">0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">508869</td>
+<td style="text-align: right;">510143</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">597323</td>
+<td style="text-align: right;">591164</td>
+<td style="text-align: right;">0.010</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">37359</td>
+<td style="text-align: right;">37346</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">220937</td>
+<td style="text-align: right;">218438</td>
+<td style="text-align: right;">0.011</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">1483120</td>
+<td style="text-align: right;">1586414</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">1209400</td>
+<td style="text-align: right;">1288620</td>
+<td style="text-align: right;">-0.061</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">71063</td>
+<td style="text-align: right;">76506</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">180968</td>
+<td style="text-align: right;">191880</td>
+<td style="text-align: right;">-0.057</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">44977</td>
+<td style="text-align: right;">48752</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">178056</td>
+<td style="text-align: right;">189610</td>
+<td style="text-align: right;">-0.061</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">2193201</td>
+<td style="text-align: right;">2224878</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">1606889</td>
+<td style="text-align: right;">1645356</td>
+<td style="text-align: right;">-0.023</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">144126</td>
+<td style="text-align: right;">146404</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">216257</td>
+<td style="text-align: right;">224248</td>
+<td style="text-align: right;">-0.036</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">13199</td>
+<td style="text-align: right;">13453</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">100654</td>
+<td style="text-align: right;">103398</td>
+<td style="text-align: right;">-0.027</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
 </div>
 </div>
 <p>Using the outputs from the trip-based model that show lengths and number of trips between zones, we calculated the vehicle miles traveled for each trip. This allowed us to see which zones had the biggest decrease in VMT. This also allowed us to find the number of trips of certain length to create a trip length frequency distribution that can be seen in (<em>another figure</em>).</p>
@@ -331,6 +485,24 @@ Table&nbsp;6.1: wfrc telecommute data
 <div>
 <figure class="figure">
 <p><img src="3_wfh_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_wfh_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_wfh_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

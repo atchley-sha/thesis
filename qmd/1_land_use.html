@@ -205,13 +205,24 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- Include at the start of every doc -->
-<p>In our first scenario, we changes the land use at The Point.</p>
-<p>The change is based on WFRC 2050 SE data forecast, in turn based on development plan of The Point.</p>
-<p>This scenario uses the planned residential and commercial development at The Point Utah, the site of the recently demolished Utah State Prison, to model a major increase in land use.</p>
-<p>Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see <span class="quarto-unresolved-ref">?fig-draper-prison-location</span>). The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit. A bus rapid transit (BRT) line is planned to run through the development to the Draper FrontRunner station, and across I-15 to Lehi, Utah. This scenario is to model this development and its effect on transportation demand.</p>
-<p>To model this scenario in the trip-based model, the only thing that needed to be done was update the socioeconomic data to reflect the land use changes. Using the information made publicly available by Point of the Mountain State Land Authority <span class="citation" data-cites="state_land_authority_framework_2021">(<a href="references.html#ref-state_land_authority_framework_2021" role="doc-biblioref"><strong>state_land_authority_framework_2021?</strong></a>)</span>, the increase in population and employment was estimated by Wasatch Front Regional Council (WFRC) as shown in <span class="quarto-unresolved-ref">?tbl-point-se-data</span>. The development spans five transportation analysis zone (TAZ)s (see <span class="quarto-unresolved-ref">?fig-prison-new-transit</span>), so the socioeconomic data are spread out across them consistent with the development plan <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span>. To add this information to the model, the input file containing socioeconomic data for each zone was adjusted so the five zones in the new development had SE data that matched the 2050 estimates for that area. As seen in <span class="quarto-unresolved-ref">?tbl-poin-se-data</span>, approximately 7,430 new households and 22,200 new employments were added to these zones.</p>
-<p>This adds X jobs and X households, etc. (show map/table)</p>
-<p><a href="#tbl-the-point-overview" class="quarto-xref">Table&nbsp;<span>4.1</span></a> shows the change in lu data, and <a href="#fig-the-point-zones" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> shows these TAZs.</p>
+<p>Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see <a href="#fig-draper-prison-location" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>). The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit. This development is known as The Point, and is the basis for the first model scenario in this paper.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-draper-prison-location" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-draper-prison-location-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="1_land_use_files/figure-html/fig-draper-prison-location-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-draper-prison-location-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: draper prison location
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This scenario models the change in land use that a development such as The Point would create. Though the actual development plans for The Point include an expansion of transit services, only the additional households and jobs created from this development are modeled in this scenario. The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority <span class="citation" data-cites="state_land_authority_framework_2021">(<a href="references.html#ref-state_land_authority_framework_2021" role="doc-biblioref"><strong>state_land_authority_framework_2021?</strong></a>)</span>. The development is expected to be fully completed by 2050, and so the 2050 WFRC land use and socioeconomic data projections are used for this site.</p>
+<p>The site consists of 5 TAZs, as shown in <a href="#fig-the-point-zones" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>. <a href="#tbl-the-point-data" class="quarto-xref">Table&nbsp;<span>4.1</span></a> shows the additional households, population, and employment by type added to each TAZ in this scenario. <strong><em>Notably, there were no households or jobs in these TAZs in the baseline scenario, so <a href="#tbl-the-point-data" class="quarto-xref">Table&nbsp;<span>4.1</span></a> also represents the total in each category.</em></strong><br>
+No changes other than to the land use/socioeconomic data in these 5 TAZs was made relative to the baseline scenario.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-the-point-zones" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -220,19 +231,19 @@ ul.task-list li input[type="checkbox"] {
 <img src="1_land_use_files/figure-html/fig-the-point-zones-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-the-point-zones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.1: the point zones
+Figure&nbsp;4.2: the point zones
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div id="tbl-the-point-overview" class="cell quarto-float anchored">
+<div id="tbl-the-point-data" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-the-point-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;4.1: the point overview
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-the-point-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: the point data
 </figcaption>
-<div aria-describedby="tbl-the-point-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-the-point-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
 <table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
@@ -287,19 +298,14 @@ Table&nbsp;4.1: the point overview
 </div>
 <section id="scenario-creation" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">4.1</span> Scenario Creation</h2>
-<p>In the WFRC model the change is trivial to implement. We just copy/pasted the se data from 2050 to 2019 for the affected zones.</p>
-<p>This zonal data is used directly in the WFRC model, but a new synthetic population is needed for ActivitySim. We used the zonal data as new targets….</p>
-<p>Only created a new synthetic population for the 5 zones</p>
-<p>Used census targets from Gateway area in SLC</p>
-<p>ActivitySim requires two things for this scenario: updated SE data and a new pop. The updated SE data is the same as in the WFRC scenario, so is also trivial to implement. The pop, however, is not. New controls.</p>
-<p>New population for only the affected area, then joined to existing. There were no existing households so we didn’t need to remove any (we’re not double-counting).</p>
-<p>? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigains but we didn’t do that.</p>
-<p>This is trivial to implement in the WFRC/MAG model, where all that is needed is a change in the TAZ- level land use data file for the affected TAZs. The new land use data is the WFRC/MAG predicted 2050 data for these zones, as this is when development of the site is scheduled for completion. That is, the 2050 socioeconomic data for these five zones (only) was brought into the 2019 scenario. This added 7,430 new households and 22,200 new jobs to the area.</p>
-<p>In ActivitySim, a modified synthetic population with these new households is needed. Currently, the synthetic population model (PopulationSim) is set up to use Census tract data for many control variables including income. At the suggestion of Bert Granberg, the BYU team used the Census tract covering the Gateway area in SLC to represent the new development patterns at The Point. The income distribution, etc. of this area will therefore match that of the Gateway area, though the number of households and zonal SE data will match the WFRC projections for 2050. The new synthetic population was run for this new development only and added to the base scenario population</p>
+<p>In the WFRC model, this change is trivial to implement. The model uses the land use/socioeconomic data directly, so the only adjustment needed is replacing the data for the specific TAZs with the 2050 data. As noted previously, all other TAZs have the same land use data as in the 2019 baseline scenario.</p>
+<p>ActivitySim requires two changes for this scenario. The first is an update to the TAZ-level land use and socioeconomic data, which is identical to the process for the WFRC model. The second is an updated synthetic population. In order to keep consistency between model scenarios, a new population was created only for the 5 affected TAZs and joined to the existing synthetic population. There were no individuals or households in the affected zones in the existing synthetic population, so no individuals or households needed to be removed before joining the two populations.</p>
+<p>Creating the new synthetic population followed a similar process as in the baseline scenario (<a href="methods.html#sec-populationsim" class="quarto-xref"><span>Section 3.2.1</span></a>), but used the new land use data as new TAZ-level controls. However, many of the controls for PopulationSim use tract-level data from the Census, and existing Census data for these controls is unrepresentative of the new development. Because of this, the Census tract covering the Gateway area in Salt Lake City (see <span class="quarto-unresolved-ref">?fig-gateway-tract</span>) is used to represent the new development patterns at The Point. The income distribution, etc. of this area will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data will match the WFRC projections for 2050.</p>
+<p>? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigans but we didn’t do that since we wanted the models to be independent.</p>
 </section>
 <section id="scenario-analysis" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">4.2</span> Scenario Analysis</h2>
-<p>We looked at person-miles for both scenarios. <a href="#fig-lu-personmiles-abm" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows the increase in person-miles for the ABM. Shaded based on “in-zone”. (Not many transit trips since we didn’t add transit). <a href="#fig-lu-personmiles-tbm" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> shows for TBM.</p>
+<p>We looked at person-miles for both scenarios. <a href="#fig-lu-personmiles-abm" class="quarto-xref">Figure&nbsp;<span>4.3</span></a> shows the increase in person-miles for the ABM. Shaded based on “in-zone”. (Not many transit trips since we didn’t add transit). <a href="#fig-lu-personmiles-tbm" class="quarto-xref">Figure&nbsp;<span>4.4</span></a> shows for TBM.</p>
 <p>In a trip-based model, it is possible to calculate VMT/person-miles traveled/etc. from trips produced in and/or attracted to the new development zones (see Figure 4). Additionally, Figure 5 shows desire lines for trips produced in these zones. However, those living in the new development make many more trips than only those produced in their home zone. Figure 6 shows a desire line plot of all trips taken by the newly-added households in ActivitySim, and Figure 7 shows the distribution of these trips based on their production zone. Though trip-based models do include non–home-based trips, it is difficult to model accurately where and by whom these trips are made. Analyzing these trips and capturing the full impact of new development in this way is only possible in an ABM. Note that in a trip-based model, a round-trip from home to work and back is regarded as two trips produced in the home zone. ActivitySim does not deal with productions and attractions in the same way, so we are counting a trip with an origin or destination in the home zone as produced by that zone e.g.&nbsp;in Figure 6Figures 6 Figure 7and 7.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -309,7 +315,7 @@ Table&nbsp;4.1: the point overview
 <img src="1_land_use_files/figure-html/fig-lu-personmiles-abm-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lu-personmiles-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.2: personmiles abm
+Figure&nbsp;4.3: personmiles abm
 </figcaption>
 </figure>
 </div>
@@ -323,13 +329,13 @@ Figure&nbsp;4.2: personmiles abm
 <img src="1_land_use_files/figure-html/fig-lu-personmiles-tbm-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lu-personmiles-tbm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.3: personmiles tbm
+Figure&nbsp;4.4: personmiles tbm
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Can’t really shade since nhb relocation happens before mode choice. Best you can do is difference the NHB matrices (<a href="#fig-lu-desire-tbm" class="quarto-xref">Figure&nbsp;<span>4.4</span></a> (2-panel)) (If there are nhb trips in/out of zones): clearly some of these are not nhb from residents since they occur in these zones.</p>
+<p>Can’t really shade since nhb relocation happens before mode choice. Best you can do is difference the NHB matrices (<a href="#fig-lu-desire-tbm" class="quarto-xref">Figure&nbsp;<span>4.5</span></a> (2-panel)) (If there are nhb trips in/out of zones): clearly some of these are not nhb from residents since they occur in these zones.</p>
 <p>An output of the trip-based model is a large trip matrix that contains the number of trips that were produced and attracted between each zone. Along with this matrix, there are matrices showing productions and attractions based on each mode and each trip purpose. By selecting just the zones we wanted to analyze, we could see how many trips the new development produced and attracted, and we could see what modes and purposes were connected to those trips. To visualize this, we used the matrix file and the TAZ shape file to create desire lines as seen in <em>(some figure we can add)</em>.</p>
 <p>Implications: To compare this to the base scenario, we simply subtracted the base scenario trip matrix by the trip matrix from the land use scenario to get desire lines showing the increase in trips. As could be reasonably expected, we saw that more trips were produced and attracted by the zones containing the new land use area. We were also able to get an idea of where each of the trips to and from the area were coming from or going to, and what types of modes where being used.</p>
 <p>Talk about the numbers we found and describe the results.</p>
@@ -364,12 +370,12 @@ Figure&nbsp;4.3: personmiles tbm
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lu-desire-tbm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.4: lu desire tbm
+Figure&nbsp;4.5: lu desire tbm
 </figcaption>
 </figure>
 </div>
 </div>
-<p>With abm, you can follow people and trace their exact paths (<a href="#fig-lu-desire-abm" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>). Implications: Along with seeing where each trip produced in the new development was going, the activity-based model allowed us to see how trips from the development were related to other trips in a travel tour. With the synthetic population, we were also able to see which types of people were taking trips from the new development.</p>
+<p>With abm, you can follow people and trace their exact paths (<a href="#fig-lu-desire-abm" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>). Implications: Along with seeing where each trip produced in the new development was going, the activity-based model allowed us to see how trips from the development were related to other trips in a travel tour. With the synthetic population, we were also able to see which types of people were taking trips from the new development.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-lu-desire-abm" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -378,7 +384,7 @@ Figure&nbsp;4.4: lu desire tbm
 <img src="1_land_use_files/figure-html/fig-lu-desire-abm-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lu-desire-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.5: desire abm
+Figure&nbsp;4.6: desire abm
 </figcaption>
 </figure>
 </div>
