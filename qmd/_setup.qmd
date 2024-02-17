@@ -4,7 +4,7 @@
 #| include: false
 #| cache: false
 
-library(targets)
+# library(targets)
 library(tidyverse)
 library(tinytable)
 library(kableExtra)

@@ -1,5 +1,4 @@
 #### Setup #############################################################
-
 library(targets)
 library(tarchetypes)
 
@@ -12,9 +11,11 @@ package_list <- c(
 	"ggspatial",
 	"ggalluvial",
 	"ggh4x",
+	"ggnewscale",
 	"ggrepel",
 	"DiagrammeR",
-	"od"
+	"od",
+	"matrixStats"
 )
 
 tar_option_set(
@@ -29,7 +30,6 @@ tar_source("R")
 tar_seed_set(34985723)
 
 #### List targets ######################################################
-
 # FrontRunner ####
 frontrunner_targets <- tar_plan(
 	tar_file(frontrunner_line_file, "data/frontrunner_line.geojson"),
@@ -188,6 +188,8 @@ asim_data_targets <- tar_plan(
 
 	asim_tr_raw_trips = read_asim_trips_file(asim_tr_trips_file),
 	asim_tr_trips = count_asim_trips(asim_tr_raw_trips),
+	asim_tr_per = readr::read_csv(asim_tr_per_file),
+	asim_tr_hh = readr::read_csv(asim_tr_hh_file),
 
 	# WFH
 	tar_file(asim_wfh_trips_file, "data/asim/output/wfh/final_trips.csv.gz"),
@@ -324,6 +326,27 @@ transit_targets <- tar_plan(
 
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
 		asim_tr_mode_switching_table_no_new_or_missing),
+
+	# SE comparison
+	cube_tr_productions_se = get_cube_production_se(cube_tr_trips, cube_by_taz_se),
+	cube_tr_productions_se_summary = summarise_cube_transit_se(
+		cube_tr_productions_se),
+	asim_tr_trips_se = get_asim_trips_se(
+		asim_tr_raw_trips, asim_tr_per, asim_tr_hh),
+	asim_tr_trips_se_summary = summarise_asim_transit_se(
+		asim_tr_trips_se),
+	combined_tr_trips_se_for_income_plot = combine_tr_trips_se_for_income_plot(
+		cube = cube_tr_productions_se, asim = asim_tr_trips_se),
+	combined_tr_new_transit_income_plot = plot_tr_new_transit_income_dist(
+		combined_tr_trips_se_for_income_plot),
+
+	# New transit trip productions
+	cube_tr_diff_by_district_plot = plot_trips_diff_by_district(
+		cube_tr_all_trips_diff, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
 
 )
 
