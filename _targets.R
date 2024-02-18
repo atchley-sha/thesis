@@ -165,11 +165,10 @@ asim_data_targets <- tar_plan(
 	asim_wfh_telecommute_coefficients = read_asim_telecommute_coefficients(
 		asim_wfh_telecommute_coefficients_file, job_code_translation),
 
-
+	# Remote work model coefficients
 	tar_file(asim_wfh_model_coef_file, "data/asim/work_from_home_coef.csv"),
-	tar_file(asim_telecommute_model_coef_file, "data/asim/telecommute_frequency_coef.csv"),
-
 	asim_wfh_model_coef = readr::read_csv(asim_wfh_model_coef_file),
+	tar_file(asim_telecommute_model_coef_file, "data/asim/telecommute_frequency_coef.csv"),
 	asim_telecommute_model_coef = readr::read_csv(asim_telecommute_model_coef_file),
 
 	# Base year
