@@ -2,13 +2,27 @@
 
 {{< include _setup.qmd >}}
 
-With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working from home [@bick_work_2021].
-This scenario is an attempt to model an increase in people working from home, or telecommuting.
-There has been much research, especially in recent years, on the implications of remote work.
-While many MPOs have adjusted their models to account for telecommuting, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for teleworking should be on a case by case basis because there is no single best approach.
-Before describing how we set up the telecommuting scenario for our research, we will first describe some general considerations we had based on what is in the literature.
+With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
+Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].
+The WFRC model predicts a year-over-year increase in remote work rates of about XXX%, as illustrated in @fig-wfrc-remote-work-rate-plot.
 
-## Considerations for Modelling Remote Work
+```{r}
+#| label: fig-wfrc-remote-work-rate-plot
+#| fig-cap: wfrc remote work plot
+
+plot(mtcars[1:3])
+```
+
+This scenario is a "what-if" analysis that models a significant increase in remote work rates.
+We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
+In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
+
+## ***This section needs to go somewhere else***
+
+There has been much research, especially in recent years, on the implications of remote work.
+While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for teleworking should be made on a case by case basis because there is no single best approach.
+
+### Considerations for Modelling Remote Work
 
 The first thing to consider is the fact that different job types allow different levels of telecommuting [@yasenov_who_2020].
 An office worker using a computer is much more capable to work from home than a construction worker.
@@ -46,43 +60,64 @@ The following sections will describe how we used the first two principles as we 
 
 ## Scenario Creation
 
-WFRC needs only to move 2050 data to 2019 for TC% and HBJ.
+As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).
+The WFRC model contains a lookup table of both work-from-home (called "home-based jobs" in the WFRC model) and telecommute percentages by job type and year.
+Two changes are needed in the WFRC model for this scenario.
+The first is to replace the 2019 estimates for work-from-home and telecommuting with the 2050 estimates.
+@tbl-wfrc-remote-work-years shows both the original and updated estimates.
+The second change is to the TAZ-level socioeconomic data.
+The WFRC model estimates a number of home-based jobs in each TAZ, and the original home-based job estimates are similarly replaced with the 2050 estimates.
+
+The WFRC model additionally includes a global scaling factor for all remote work percentages.
+However, this was left unchanged (set at 1) as we considered that the 2050 predicted remote work percentages would better model a more realistic increase in remote work than simply adjusting the 2019 rates globally.
 
 ```{r}
-#| label: tbl-wfrc-telecommute-years
-#| tbl-cap: wfrc telecommute data
+#| label: tbl-wfrc-remote-work-years
+#| tbl-cap: wfrc remote work data
 
-targets::tar_read(cube_telecommute_percentages_2) %>% 
+targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
 	kbl()
 ```
 
-This model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type.
-This data is used to create telecommuting trips that don’t get assigned during trip distribution.
-Additionally, there is a global scaling factor to adjust all telecommute percentages.
-The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages in place of the base year values.
-Figure 3 shows a plot of the average telecommute percentage by year as forecasted in the WFRC/MAG model.
+We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
+The "target work-from-home percent" value in ActivitySim's work-from-home submodel was changed to XXX% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type.
+@tbl-wfh-telecommute shows the WFRC 2050 telecommute percentages with the ActivitySim telecommute utility coefficients.
+As in the baseline scenario, this calibration allowed ActivitySim to match the WFRC telecommute percentages exactly.
 
-In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs.
-We simply changed the telecommute and home-based job percentages to align with projections for 2050.
-which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent.
+```{r}
+#| label: tbl-wfh-telecommute
+#| tbl-cap: wfh telecommute
+
+targets::tar_read(comparison_wfh_telecommute_coeffs) %>%
+  mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
+  rename(
+    "Job Type" = name,
+    "WFRC Telecommute %" = pct
+    ) %>%
+  kbl(
+    booktabs = TRUE,
+    align = "c"
+  ) %>%
+  add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
+  kable_styling()
+```
+
+## Scenario Analysis
+
+We can see (@tbl-wfh-mode-split-comp) that asim has more HBO trips and cube does not.
+This is because asim lets you take a non-mandatory tour if you work from home, and cube just cuts off hbw trips.
+
+An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting.
+
+The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.
 If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages.
 With the \acr{WFRC} model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips.
 *(I'm not sure about this. I'll have to look more into it)*
 
-Asim is the same as calibration for the baseline scenario, but with different target %s (show table).
-
-The WFRC model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type, as well as SE data indicating the number of fully-remote jobs by TAZ.
-The BYU Team used the WFRC predicted 2050 data for these in place of the base year values.
-The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.
-
-The team adjusted ActivitySim’s two remote work models to match the WFRC targets in both the base year and the increased WFH scenario.
-An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting.
-Note that only the remote work parameters were adjusted in this scenario.
-The scenario still uses the “Base” 2019 population and SE data.
-
-## Scenario Analysis
-
 ```{r}
+#| label: tbl-wfh-mode-split-comp
+#| tbl-cap: wfh mode split comp
+
 targets::tar_read(combined_wfh_mode_split_diff) %>% 
 	kbl()
 ```
@@ -116,10 +151,12 @@ Include a table of the asim tc and wfh coefficients.
 Maybe put it in the methodology.
 
 ```{r}
+#| fig-cap: asim
 targets::tar_read(asim_wfh_tlfd_diff_comp_plot)
 ```
 
 ```{r}
+#| fig-cap: cube
 targets::tar_read(cube_wfh_tlfd_diff_comp_plot)
 ```
 

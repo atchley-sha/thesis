@@ -192,7 +192,7 @@ targets::tar_read(comparison_inc_density_plot)
 
 <!-- ***Comparison of number of workers?*** -->
 
-### Verification and Calibration of ActivitySim
+### Verification and Calibration of ActivitySim {#sec-baseline-calibration}
 
 This section compares the outputs of both models to verify that trip patterns roughly agree between them.
 There are three comparisons of interest between the outputs of the two models: mode split, trip length frequency distribution, and remote work.
@@ -250,8 +250,6 @@ ActivitySim also has this functionality, and can additionally use individual- an
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
 wfh and telecommute_freq models, taken from SEMCOG prototype.
-had to adjust to work with MTC, not too bad.
-Also added job category coefficients to tf model, calibrated to wfrc percent (mention in methodology)
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
@@ -260,7 +258,7 @@ ActivitySim has a "work from home" submodel which assigns workers work-from-home
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
 This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
-There are no other adjustments to the ActivitySim work-from-home submodel.
+We made no other adjustments to the ActivitySim work-from-home submodel.
 
 The two models differ in their approach to telecommuting, however.
 The WFRC model has a lookup table of telecommuting shares based on job type (see @tbl-baseline-telecommute), including predictions for future years.
@@ -276,12 +274,11 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| tbl-cap: wfrc telecommute data
 
 targets::tar_read(comparison_by_telecommute_coeffs) %>%
-  mutate(wfrc_2019 = scales::label_percent(accuracy = 0.01)(wfrc_2019)) %>%
+  mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
   rename(
     "Job Type" = name,
-    "WFRC Telecommute Proportion" = wfrc_2019
+    "WFRC Telecommute %" = pct
     ) %>%
-	select(-wfrc_2050) %>% 
   kbl(
     booktabs = TRUE,
     align = "c"
