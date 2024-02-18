@@ -1,0 +1,28 @@
+Description,1_day_week,2_3_days_week,4_days_week
+Retail,0.312,0.125,0.078
+Food,-0.368,-0.148,-0.092
+Manufacturing,0.038,0.015,0.01
+"not sure, unused",0,0,0
+Office,1.782,0.712,0.445
+Government and education,-0.56,-0.224,-0.14
+Health,0.158,0.063,0.039
+other,1.535,0.614,0.384
+Agriculture,2.262,0.904,0.566
+Mining,-2.03,-0.81,-0.511
+Construction,0.816,0.326,0.204
+Has children 0 to 5 years old,0,0,-0.864
+Has children 6 to 12 years old,0,0.517,-0.81
+One adult in hh,0.177,0,-0.043
+2 or more adults in hh,0,0,0
+female,0,0,0
+Part-time worker,0,0.425,1.112
+College student,0,0.6,0
+Pays to park,0.457,0,0
+Income 60-100k,0.56,0.389,0
+Income 100-150k,0.644,0.193,0
+Income 150k+,0.92,0.765,0
+0 Autos,0,0.407,0
+1 Auto,0,0,0
+3+ Autos,0,-0.73,0
+Distance to work,0.016,0,0
+temp_calibration,-4,-4.25,-6
