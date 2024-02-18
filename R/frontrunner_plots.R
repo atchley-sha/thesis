@@ -16,7 +16,9 @@ plot_frontrunner <- function(line, stops) {
 			box.padding = 0.4, point.padding = 0.5,
 			nudge_x = 0.04, show.legend = FALSE,
 			stat = "sf_coordinates", data = format_stops) +
-		coord_sf(xlim = c(-112.3, -111.4), crs = st_crs(4326), expand = FALSE) +
+		coord_sf(
+			xlim = c(-112.3, -111.4), ylim = c(39.9,41.3),
+			crs = st_crs(4326), expand = FALSE) +
 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
 		scale_color_manual(
 			values = c("2019" = "purple4", "2050" = "coral"),

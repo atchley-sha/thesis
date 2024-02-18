@@ -74,11 +74,14 @@ cube_data_targets <- tar_plan(
 
 	# Calibration
 	tar_file(
-		cube_telecommute_percentages_file,
-		"data/cube/telecommute_jobtype.csv"),
-	cube_telecommute_percentages = readr::read_csv(cube_telecommute_percentages_file),
-	cube_telecommute_percentages_2 = read_cube_tc_percentages(
-		cube_telecommute_percentages_file, job_code_translation),
+		cube_remote_work_percentages_file,
+		"data/cube/remote_work_jobtype.csv"),
+	cube_remote_work_percentages = read_cube_rw_percentages(
+		cube_remote_work_percentages_file, job_code_translation),
+	cube_by_telecommute_percentages = dplyr::filter(
+		cube_remote_work_percentages, year == 2019, type == "tc"),
+	cube_wfh_telecommute_percentages = dplyr::filter(
+		cube_remote_work_percentages, year == 2050, type == "tc"),
 
 	# Base year
 	tar_file(cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
@@ -150,13 +153,17 @@ asim_data_targets <- tar_plan(
 		combine_asim_mode_choice_calibration_iters(
 			asim_mode_choice_calibration_iters_files),
 		pattern = map(asim_mode_choice_calibration_iters_files)),
+
 	tar_file(
 		asim_by_telecommute_coefficients_file,
-		"data/asim/asim_tc_coeffs_2019.csv"
-	),
+		"data/asim/asim_tc_coeffs_2019.csv"),
 	asim_by_telecommute_coefficients = read_asim_telecommute_coefficients(
-		asim_by_telecommute_coefficients_file
-	),
+		asim_by_telecommute_coefficients_file, job_code_translation),
+	tar_file(
+		asim_wfh_telecommute_coefficients_file,
+		"data/asim/asim_tc_coeffs_2050.csv"),
+	asim_wfh_telecommute_coefficients = read_asim_telecommute_coefficients(
+		asim_wfh_telecommute_coefficients_file, job_code_translation),
 
 	# Base year
 	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
@@ -213,8 +220,7 @@ base_year_targets <- tar_plan(
 	combined_by_se_data = combine_se_data(
 		list(cube = cube_by_combined_se, asim = asim_by_hh_taz)),
 	combined_by_se_data_distsml = summarise_combined_se_data(
-		combined_by_se_data, taz_distsml_transl, distsml
-	),
+		combined_by_se_data, taz_distsml_transl, distsml),
 
 	# Population
 	comparison_pop_map = make_pop_comparison_map(
@@ -237,10 +243,8 @@ base_year_targets <- tar_plan(
 
 	# WFH
 	comparison_by_telecommute_coeffs = compare_telecommute(
-		cube_telecommute_percentages,
-		asim_by_telecommute_coefficients,
-		job_code_translation
-	),
+		cube_by_telecommute_percentages,
+		asim_by_telecommute_coefficients),
 )
 
 # Land use ####
@@ -311,8 +315,7 @@ transit_targets <- tar_plan(
 	combined_tr_mode_split_diff = dplyr::full_join(
 		calculate_mode_split_diff_pct(cube_tr_all_trips_diff, "cube"),
 		calculate_mode_split_diff_pct(asim_tr_all_trips_diff, "asim"),
-		join_by(purpose, mode)
-	),
+		join_by(purpose, mode)),
 
 	# Mode switching
 	asim_tr_mode_switching_summary_new = summarise_asim_mode_switching(
@@ -361,12 +364,19 @@ wfh_targets <- tar_plan(
 		cube = cube_wfh_all_trips_diff, asim = asim_wfh_all_trips_diff),
 		.id = "model"),
 
+	cube_wfh_by_remote_work_pct_comparison = tidyr::pivot_wider(
+		cube_remote_work_percentages,
+		names_from = c(year, type), values_from = pct),
+
+	comparison_wfh_telecommute_coeffs = compare_telecommute(
+		cube_wfh_telecommute_percentages,
+		asim_wfh_telecommute_coefficients),
+
 	# Mode split
 	combined_wfh_mode_split_diff = dplyr::full_join(
 		calculate_mode_split_diff_pct(cube_wfh_all_trips_diff, "cube"),
 		calculate_mode_split_diff_pct(asim_wfh_all_trips_diff, "asim"),
-		join_by(purpose, mode)
-	),
+		join_by(purpose, mode)),
 
 	# Trip and PMT diff
 	cube_wfh_trip_pmt_diff = calculate_trip_and_pmt_diff(

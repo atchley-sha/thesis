@@ -1,9 +1,9 @@
 # Functions related to telecommuting that are not for a specific scenario
 
-compare_telecommute <- function(cube_tc, asim_tc, jc_transl) {
+compare_telecommute <- function(cube_tc, asim_tc) {
+	asim_wide <- asim_tc %>%
+		pivot_wider(names_from = "days", values_from = "value")
 	cube_tc %>%
-		left_join(asim_tc) %>%
-		left_join(jc_transl) %>%
-		relocate(name) %>%
-		select(-jobcode)
+		select(-any_of(c("year", "type"))) %>%
+		left_join(asim_wide)
 }

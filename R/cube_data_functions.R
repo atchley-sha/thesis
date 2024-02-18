@@ -31,11 +31,15 @@ combine_cube_se <- function(taz_se, taz_inc_groups) {
 		)
 }
 
-read_cube_tc_percentages <- function(tc_pct_file, jobe_code_transl) {
-	tc_pct_file %>%
+read_cube_rw_percentages <- function(rw_pct_file, jobe_code_transl) {
+	rw_pct_file %>%
 		read_csv() %>%
 		left_join(jobe_code_transl, join_by(jobcode)) %>%
-		select(name, wfrc_2019, wfrc_2050)
+		select(-jobcode) %>%
+		pivot_longer(
+			-name,
+			names_to = c("year", "type"), names_sep = "_",
+			values_to = "pct")
 }
 
 get_cube_production_se <- function(trips, cube_se) {

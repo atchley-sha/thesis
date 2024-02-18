@@ -114,7 +114,7 @@ convert_asim_mode <- function(mode){
 		factor(c("auto", "transit", "nonmotor"))
 }
 
-read_asim_telecommute_coefficients <- function(coeffs_file) {
+read_asim_telecommute_coefficients <- function(coeffs_file, job_code_transl) {
 	coeffs_file %>%
 		read_csv() %>%
 		filter(str_detect(coefficient_name, "coefj")) %>%
@@ -129,7 +129,10 @@ read_asim_telecommute_coefficients <- function(coeffs_file) {
 				"4day" ~ "4 days"
 			)
 		) %>%
-		pivot_wider(names_from = days, values_from = value)
+		left_join(job_code_transl, join_by(jobcode)) %>%
+		select(-jobcode) %>%
+		relocate(name) %>%
+		filter(!is.na(name))
 }
 
 combine_asim_mode_choice_calibration_iters <- function(iters_files) {
