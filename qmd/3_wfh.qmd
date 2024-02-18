@@ -129,13 +129,15 @@ This also allowed us to find the number of trips of certain length to create a t
 ```{r}
 #| fig-cap: cube
 
-targets::tar_read(cube_wfh_trip_pmt_diff)
+targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
+	kbl()
 ```
 
 ```{r}
 #| fig-cap: asim
 
-targets::tar_read(asim_wfh_trip_pmt_diff)
+targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
+	kbl()
 ```
 
 It is straightforward to determine decreased VMT by production zone (and similar analyses) in both models (see Figure 11Figures 11 andFigure 12 12).

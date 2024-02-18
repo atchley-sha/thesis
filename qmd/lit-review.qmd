@@ -119,17 +119,37 @@ With these results, the mode and purpose of each trip is known, but, with aggreg
 It is also not possible to construct a coherent daily list of trips for individuals.
 
 @fig-network-synth, on the other hand, depicts visual representations of an *individual's* travel made possible by the use of a synthetic population.
-@fig-network-tbmicro depicts the trip list that could be given for an individual in a trip-based microsimulation model.
+@fig-network-synth-1 depicts the trip list that could be given for an individual in a trip-based microsimulation model.
 Though each individual's trips are known, there is no guarantee of consistency between trips.
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
-The activity-based approach, depicted in @fig-network-abm, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
+The activity-based approach, depicted in @fig-network-synth-2, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
 
 ![Example network assignment using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
-::: {#fig-network-synth layout-ncol="2" fig-scap="Example network assignment using a synthetic population."}
-![Trip-based microsimulation](../images/trip.png){#fig-network-tbmicro}
+````{=html}
+<!--
 
-![Activity (tour)-based](../images/tour.png){#fig-network-abm}
+```{r}
+#| label: fig-network-syntha
+#| fig-cap: "Example network assignment using a synthetic population allows an individual's travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other."
+#| fig-scap: "Example network assignment using a synthetic population"
+#| layout-ncol: 2
+#| fig-subcap:
+#|   - Trip-based microsimulation
+#|   - Activity (tour)-based
+#| error: true
+
+# knitr::include_graphics("./images/trip.png")
+# knitr::include_graphics("./images/tour.png")
+```
+
+-->
+````
+
+::: {#fig-network-synth fig-scap="Example network assignment using a synthetic population" layout-ncol="2"}
+![Trip-based microsimulation](./../images/trip.png){#fig-network-synth-1}
+
+![Activity (tour)-based](./../images/tour.png){#fig-network-synth-2}
 
 Example network assignment using a synthetic population allows an individual's travel to be tracked.
 In the tour-based approach, an attempt is made to make the trips consistent with each other.
@@ -188,3 +208,4 @@ This research aims to answer these questions by providing a side-by-side compari
 Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each approach are compared.
 It is important to note that this paper is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts.
 Rather, the focus is on the methodological differences between the approaches, and the types of analyses that can be done with each model type.
+
