@@ -249,23 +249,44 @@ This includes a lookup table of telecommute percentages based on job type and ye
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (or "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
-wfh and telecommute_freq models, taken from SEMCOG prototype.
+The ActivitySim implementation discussed in @gregory_s_macfarlane_estimation_2021 does not include any submodels related to remote work.
+However, the example ActivitySim implementation for SEMGOG *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG example.
+***Some modifications to the remote work submodels were needed for compatibility, but only included....***
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
 <!-- @fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data. -->\
-ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration).
+ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration, see @tbl-asim-wfh-model-coeffs).
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
 This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
 We made no other adjustments to the ActivitySim work-from-home submodel.
+
+```{r}
+#| label: tbl-asim-wfh-model-coeffs
+#| tbl-cap: asim wfh model coeffs
+
+targets::tar_read(asim_wfh_model_coeffs) %>% 
+	kbl()
+```
 
 The two models differ in their approach to telecommuting, however.
 The WFRC model has a lookup table of telecommuting shares based on job type (see @tbl-baseline-telecommute), including predictions for future years.
 ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
 Based on this status, ActivitySim adjusts the likelihood of making a mandatory tour.
 Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
-In order to calibrate to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
+Notably, the telecommute frequency submodel also includes adjustments based on an individual's distance to work.
+No other changes were made to the existing variables in this submodel, and @tbl-asim-tc-model-coeffs shows the submodel coefficients.
+
+```{r}
+#| label: tbl-asim-tc-model-coeffs
+#| tbl-cap: asim tc model coeffs
+
+targets::tar_read(asim_telecommute_model_coeffs) %>% 
+	kbl()
+```
+
+In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
 Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets.
 The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in @tbl-baseline-telecommute.
 

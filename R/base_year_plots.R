@@ -6,7 +6,8 @@
 		scale_percent_diff(...),
 		scale_color_manual(
 			values = c("TRUE" = "#00000000", "FALSE" = "black"),
-			guide = "none")
+			guide = "none"),
+		theme_map(lims = list(x = c(-112.3, -111.4), y = c(39.9,41.3)))
 	)
 }
 
@@ -16,8 +17,8 @@ make_pop_comparison_map <- function(combined_se_data){
 		ggplot() +
 		.by_population_bg(high_val = 4, base = 3, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WFRC") +
-		theme_map()
+			fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WFRC"
+		)
 }
 
 make_med_income_comparison_map <- function(combined_se_data){
@@ -27,8 +28,9 @@ make_med_income_comparison_map <- function(combined_se_data){
 		ggplot() +
 		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WFRC") +
-		theme_map()
+			fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WFRC"
+		)
+
 }
 
 make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
@@ -41,8 +43,9 @@ make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
 		facet_wrap(~inc_range, ncol = 2) +
 		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in number\nof households,\nPopulationSim compared\nto WFRC") +
-		theme_map()
+			fill = "Percent difference in number\nof households,\nPopulationSim compared\nto WFRC"
+		)
+
 }
 
 make_inc_density_comparison_plot <- function(combined_se_data, income_groups) {

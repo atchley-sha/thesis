@@ -1,4 +1,6 @@
-theme_map <- function(zoom = TRUE) {
+theme_map <- function(
+		zoom = TRUE, lims = list(x = c(-112.15,-111.6), y = c(40.2,40.8))) {
+
 	list(
 		theme(
 			axis.text = element_blank(),
@@ -8,8 +10,8 @@ theme_map <- function(zoom = TRUE) {
 		),
 		if(zoom) {
 			coord_sf(
-				xlim =  c(-112.15,-111.6),
-				ylim = c(40.2,40.8),
+				xlim =  lims[["x"]],
+				ylim = lims[["y"]],
 				expand = FALSE,
 				crs = 4326)}
 	)

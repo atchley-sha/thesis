@@ -17,46 +17,30 @@ This scenario is a "what-if" analysis that models a significant increase in remo
 We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
 In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
 
-## ***This section needs to go somewhere else*** probably in methods when we talk about wfh. make it simpler though
+## Considerations for Modelling Remote Work ***This section maybe needs to go somewhere else*** (probably lit review)
 
 There has been much research, especially in recent years, on the implications of remote work.
-While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for teleworking should be made on a case by case basis because there is no single best approach.
+While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.
 
-### Considerations for Modelling Remote Work
+Increasing remote work rates may affect several aspects of travel behavior.
+The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
+Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
-The first thing to consider is the fact that different job types allow different levels of telecommuting [@yasenov_who_2020].
-An office worker using a computer is much more capable to work from home than a construction worker.
-This fact is something that has been considered for telecommuting in most travel demand models [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
+While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect", where individuals make more discretionary trips on days they do not commute to work.
+[@moreno_microscopic_2017] similarly proposes the existence of a "travel time budget", where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose.
 
-Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting.
-What isn't as obvious is the idea that there may be more discretionary trips produced when people are able to telecommute.
-There have been many studies on this subject, and, when comparing the results of each study, it is hard to tell if that really is the case.
-@kim_is_2017 talks about a "rebound effect" where travel behavior changes on the days people don't have to commute to work and they make more trips for different reasons.
-In another study, @zhu_impact_2014 find that there are more miles traveled on the days people telecommute.
-This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose [@moreno_microscopic_2017].
-
-Taking it a little further, @ellder_telework_2020 finds that distinguishing between people that work from home all day and part of the day might make a difference.
+This rebound effect is not straightforward, however.
+@ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and part of the day might make a difference.
 Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
-Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute.
-@mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days.
-Because there isn't a solid conclusion on whether more discretionary trips are created as more people telecommute, we will not put that into the model.
 
-The last consideration we will discuss is the distance people are willing to travel when they telecommute.
-@moeckel_working_2017 explains the correlation between the number of days people telecommute and the distance they are willing to live from their job.
-If someone works completely remote, then they will have nothing forcing them to live close to their job.
-If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week.
-This information could change the trip length frequency distribution of home-based work trips.
+Additionally, the types of trips people make can differ depending on remote work status.
+While the rebound effect proposes that the *number* of trips may increase on remote work days, @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
+This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
+@moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
 
-To organize the main ideas of the literature, we kept in mind these three principles as we prepared the models:
+<!-- It is also not clear if the rebound effect is real. @zhu_impact_2014 find that there are more miles traveled on the days people telecommute, but @mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. -->
 
--   Different employment types have differing levels of telecommuting
-
--   Home-based work trips decrease
-
--   There is a greater possibility that home-based work trips are longer
-
-The last principle mentioned has been used in other models [@moeckel_working_2017], but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.\
-The following sections will describe how we used the first two principles as we prepared the telecommuting scenario in each of the models.
+<!-- Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute. -->
 
 ## Scenario Creation
 
@@ -80,7 +64,7 @@ targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>%
 ```
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
-The "target work-from-home percent" value in ActivitySim's work-from-home submodel was changed to XXX% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type.
+The "target work-from-home percent" value in ActivitySim's work-from-home submodel was changed to 3.5% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type.
 @tbl-wfh-telecommute shows the WFRC 2050 telecommute percentages with the ActivitySim telecommute utility coefficients.
 As in the baseline scenario, this calibration allowed ActivitySim to match the WFRC telecommute percentages exactly.
 

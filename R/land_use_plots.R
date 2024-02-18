@@ -65,7 +65,7 @@ plot_cube_lu_new_pmt <- function(trips_diff, distances, lu_tazs) {
 		ggplot(aes(x = pmt, y = purpose, fill = mode)) +
 		geom_col(position = position_dodge2(preserve = "single"))+
 		labs(
-			x = "Total Person-Miles Traveled",
+			x = "Total Person-Miles Traveled, Trips Produced in Updated Zones",
 			y = "Trip Purpose",
 			fill = "Mode") +
 		scale_fill_discrete(
