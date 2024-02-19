@@ -10,7 +10,7 @@ The WFRC model predicts a year-over-year increase in remote work rates of about 
 #| label: fig-wfrc-remote-work-rate-plot
 #| fig-cap: wfrc remote work plot
 
-plot(mtcars[1:3])
+targets::tar_read(cube_remote_work_totals_plot)
 ```
 
 This scenario is a "what-if" analysis that models a significant increase in remote work rates.
@@ -27,7 +27,7 @@ The most obvious effect is that people will on average make fewer work trips, an
 Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
 While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect", where individuals make more discretionary trips on days they do not commute to work.
-[@moreno_microscopic_2017] similarly proposes the existence of a "travel time budget", where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose.
+@moreno_microscopic_2017 similarly proposes the existence of a "travel time budget", where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose.
 
 This rebound effect is not straightforward, however.
 @ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and part of the day might make a difference.
@@ -88,64 +88,73 @@ targets::tar_read(comparison_wfh_telecommute_coeffs) %>%
 
 ## Scenario Analysis
 
-We can see (@tbl-wfh-mode-split-comp) that asim has more HBO trips and cube does not.
-This is because asim lets you take a non-mandatory tour if you work from home, and cube just cuts off hbw trips.
-
-An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting.
-
-The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.
-If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages.
-With the \acr{WFRC} model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips.
-*(I'm not sure about this. I'll have to look more into it)*
+Both models decrease the number of work trips made as remote work rates increase.
+However, the WFRC model does not account for a potential "rebound effect" where more discretionary trips are made by those who do not travel to their workplace on a given day.
+This is seen in @tbl-wfh-mode-split-comp, where the WFRC model shows a decrease in home-based work and non--home-based trips (many of which begin or end at work), but virtually no change in home-based other trips.
+ActivitySim on the other hand does account for this, in that individuals working remotely on any given day may be more likely to make discretionary tours.
+@tbl-wfh-mode-split-comp shows this as well, where ActivitySim predicts a noticeable increase in home-based other trips as well as a decrease in work trips.
 
 ```{r}
 #| label: tbl-wfh-mode-split-comp
 #| tbl-cap: wfh mode split comp
 
 targets::tar_read(combined_wfh_mode_split_diff) %>% 
-	kbl()
+	kbl() %>% 
+	kable_styling()
 ```
 
-Using the outputs from the trip-based model that show lengths and number of trips between zones, we calculated the vehicle miles traveled for each trip.
-This allowed us to see which zones had the biggest decrease in VMT.
-This also allowed us to find the number of trips of certain length to create a trip length frequency distribution that can be seen in (*another figure*).
+In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
+The "travel time budget" proposed by @moreno_microscopic_2017 suggests that longer trips would be made less frequently, and @moeckel_working_2017 additionally found that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
+
+The WFRC model does not consider trip length when adjusting trip rates due to remote work.
+There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
+@tbl-cube-wfh-trip-pmt-diff illustrates this, where for example home-based work driving trips decreased by 6.5% relative to the baseline scenario, but person-miles traveled decreased only by 5.8%.
+This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
 
 ```{r}
-#| fig-cap: cube
+#| label: tbl-cube-wfh-trip-pmt-diff
+#| tbl-cap: cube
 
 targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
-	kbl()
+	kbl() %>% 
+	kable_styling()
 ```
 
+ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live further away from their job site are more likely to work remotely.
+ActivitySim therefore predicts a greater decrease in miles traveled than in trips for home-based work, as seen in @tbl-asim-wfh-trip-pmt-diff.
+
 ```{r}
-#| fig-cap: asim
+#| label: tbl-asim-wfh-trip-pmt-diff
+#| tbl-cap: asim
 
 targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
-	kbl()
+	kbl() %>% 
+	kable_styling()
 ```
 
-It is straightforward to determine decreased VMT by production zone (and similar analyses) in both models (see Figure 11Figures 11 andFigure 12 12).
-Additionally, the team made a desire line plot in the WFRC model of decreased trips.
-This, however, is essentially a scaled-down version of the total trips in the Base scenario (see Figure 13).
-Remote work percentages do vary by industry, but there is no accounting for trips lengths or personal variables.
-Figure 14 shows these same plots for ActivitySim.
-At first glance, this also seems like a scaled-down version of the total trips, even though ActivitySim’s remote work models do include distance to work and personal attributes.
-It is difficult to tell from the figure alone.
-The team plans to do more analysis on this point.
-
-Include a table of the asim tc and wfh coefficients.
-Maybe put it in the methodology.
+Figures [-@fig-cube-wfh-tlfd-diff] and [-@fig-asim-wfh-tlfd-diff] show the trip length frequency distribution of "unmade" trips in the increased remote work scenario (i.e. the trip length frequency distribution of the *difference* in trips) compared to that of the baseline scenario.
+Similar to Tables [-@tbl-cube-wfh-trip-pmt-diff] and [-@tbl-asim-wfh-trip-pmt-diff], this shows that ActivitySim "removes" longer trips more frequently than shorter trips, and the WFRC model makes no distinction.
 
 ```{r}
-#| fig-cap: asim
-targets::tar_read(asim_wfh_tlfd_diff_comp_plot)
-```
-
-```{r}
+#| label: fig-cube-wfh-tlfd-diff
 #| fig-cap: cube
+
 targets::tar_read(cube_wfh_tlfd_diff_comp_plot)
 ```
 
 ```{r}
+#| label: fig-asim-wfh-tlfd-diff
+#| fig-cap: asim
+
+targets::tar_read(asim_wfh_tlfd_diff_comp_plot)
+```
+
+````{=html}
+<!--
+```{r}
+#| label: fig-combined-tlfd
+
 targets::tar_read(combined_wfh_tlfd_diff_plot)
 ```
+-->
+````

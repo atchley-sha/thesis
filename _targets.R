@@ -72,6 +72,12 @@ cube_data_targets <- tar_plan(
 	cube_by_taz_inc_groups = read_cube_taz_inc_groups_file(cube_by_taz_inc_groups_file),
 	cube_by_combined_se = combine_cube_se(cube_by_taz_se, cube_by_taz_inc_groups),
 
+	tar_file(cube_remote_work_totals_file, "data/cube/ControlTotal_WorkAtHome.csv"),
+	cube_remote_work_totals = read_cube_remote_work_totals(
+		cube_remote_work_totals_file),
+	cube_remote_work_totals_plot = plot_cube_remote_work_totals(
+		cube_remote_work_totals),
+
 	# Calibration
 	tar_file(
 		cube_remote_work_percentages_file,

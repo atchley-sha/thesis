@@ -43,6 +43,7 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
 This paper uses an ActivitySim implementation based on @gregory_s_macfarlane_estimation_2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
+The exact implementation is available [on GitHub](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration).
 
 ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
 However, ActivitySim does require network skims for information on travel time, cost, etc.
@@ -306,6 +307,17 @@ targets::tar_read(comparison_by_telecommute_coeffs) %>%
   ) %>%
   add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
   kable_styling()
+```
+
+Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim implicitly models a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
+However, because the WFRC model does not include this effect, the ActivitySim DAP model is left unchanged.
+@tbl-asim-dap-model-rw-coeffs shows the coefficients of the DAP model for individuals who work remotely.
+
+```{r}
+#| label: tbl-asim-dap-model-rw-coeffs
+#| tbl-cap: asim dap model remote work coeffs
+
+head(mtcars) %>% kbl()
 ```
 
 ## Example Scenarios
