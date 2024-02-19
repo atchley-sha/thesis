@@ -27,6 +27,8 @@ book:
       orcid: 0000-0003-3999-7584
       affiliations:
         - ref: byucce
+  abstract: |
+    "this is an abstract"
 
   date: "1 January 1900"
   date-format: D MMMM YYYY
@@ -77,7 +79,7 @@ format:
 
 filters:
   - acronyms
-  - abstract-section
+  # - abstract-section
 
 acronyms:
   loa_title: ""
@@ -91,6 +93,6 @@ acronyms:
   fromfile:
     - _acronyms.yml
 
-abstract-section:
-  section-identifiers:
-    - abstract
+# abstract-section:
+#   section-identifiers:
+#     - abstract
