@@ -11,3 +11,19 @@ The WFRC model....
 ActivitySim....
 
 ?
+
+## Conclusions and Recommendations
+
+ABM takes more computing power to run.
+(maybe talk about that here) - "This" type of computing power would be ideal for a planning agency with an ABM
+
+Each model works differently.
+- There will be a learning curve when changing from TBM to ABM - Planning agencies should take this into account when switching
+
+ABM is more malleable.
+It was easy to throw on the WFH model without having to completely change the rest of the model, and it seemed more realistic than the TBM.
+- For planning agencies wanting a model that more easily adapts to unforeseen travel behavior change, an ABM would be preferable
+
+More analyses can be done with ABMs - We were able to replicate each TBM analysis with the ABM and more - We could make more demographic-type analyses with ABM - We were able to compare changes in individual behavior with ABM - Simpler to go about the analysis when thinking on the individual level
+
+ActivitySim doesn't have the built in analysis tools like CUBE does (I think this is true, but not sure) - We had to use different programs to analyze ActivitySime output (like R)
