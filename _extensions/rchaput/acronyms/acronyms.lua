@@ -106,6 +106,12 @@ Acronyms = {
     -- count of the order in which acronyms are defined.
     current_definition_order = 0,
 
+    -- The current "usage order" value.
+    -- We increment this value each time an acronym is used for the first time,
+    -- to keep count of their order of appearance. This can be necessary for
+    -- generating the List of Acronyms, depending on the desired order.
+    current_usage_order = 0,
+
     -- Access to the `Acronym` class, if necessary.
     Acronym = Acronym,
 }
@@ -126,6 +132,8 @@ end
 -- Add a new acronym to the table. Also handles duplicates.
 function Acronyms:add(acronym, on_duplicate)
     quarto.log.debug("[acronyms] Trying to add a new acronym...", acronym)
+    assert(acronym ~= nil,
+        "[acronyms] The acronym should not be nil in Acronyms:add!")
     assert(acronym.key ~= nil,
         "[acronyms] The acronym key should not be nil in Acronyms:add!")
     assert(on_duplicate ~= nil,
@@ -156,6 +164,14 @@ function Acronyms:add(acronym, on_duplicate)
     self.current_definition_order = self.current_definition_order + 1
     acronym.definition_order = self.current_definition_order
     self.acronyms[acronym.key] = acronym
+end
+
+
+function Acronyms:setAcronymUsageOrder(acronym)
+    assert(acronym ~=nil,
+        "[acronyms] The acronym should not be nil in Acronyms:setAcronymUsageOrder!")
+    self.current_usage_order = self.current_usage_order + 1
+    acronym.usage_order = self.current_usage_order
 end
 
 
