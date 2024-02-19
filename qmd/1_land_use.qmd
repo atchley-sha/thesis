@@ -19,8 +19,8 @@ The data for the land use changes comes from the WFRC land use forecast, which i
 The development is expected to be fully completed by 2050, and so the 2050 WFRC land use and socioeconomic data projections are used for this site.
 
 The site consists of 5 TAZs, as shown in @fig-the-point-zones.
-@tbl-the-point-data shows the additional households, population, and employment by type added to each TAZ in this scenario.
-***Notably, there were no households or jobs in these TAZs in the baseline scenario, so @tbl-the-point-data also represents the total in each category.***\
+@tbl-the-point-data shows the households, population, and employment by type of these TAZs in both the baseline scenario and with the new land use.
+Notably, there were no households and relatively few jobs in these TAZs in the baseline scenario.
 No changes other than to the land use/socioeconomic data in these 5 TAZs was made relative to the baseline scenario.
 
 ```{r}
@@ -33,8 +33,14 @@ targets::tar_read(lu_plot_new_tazs)
 ```{r}
 #| label: tbl-the-point-data
 #| tbl-cap: the point data
+#| layout-ncol: 2
+#| tbl-subcap: 
+#|   - Baseline Scenario
+#|   - New Land Use
 
-targets::tar_read(lu_new_se_table) %>% 
+targets::tar_read(lu_se_by_table) %>% 
+	kbl()
+targets::tar_read(lu_se_lu_table) %>% 
 	kbl()
 ```
 

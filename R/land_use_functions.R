@@ -15,11 +15,21 @@ get_asim_lu_new_trips <- function(trips_raw, persons) {
 		count_asim_trips()
 }
 
-make_lu_new_se_table <- function(taz_list, se_diff) {
-	se_diff %>%
+make_lu_se_table <- function(se, taz_list) {
+	se %>%
+		select(-c(CO_TAZID, CO_FIPS, CO_NAME)) %>%
+		pivot_longer(-TAZ) %>%
 		filter(
 			TAZ %in% taz_list,
-			name %in% c("TOTHH", "HHPOP", "TOTEMP")) %>%
-		select(TAZ, name, diff) %>%
-		pivot_wider(values_from = diff)
+			str_detect(name, "EMP|HH"),
+			!name %in% c("ALLEMP", "HHSIZE")) %>%
+		select(TAZ, name, value) %>%
+		pivot_wider() %>%
+		relocate(TAZ, TOTHH, HHPOP) %>%
+		relocate(TOTEMP, .after = last_col()) %>%
+		arrange(TAZ)
+}
+
+combine_se_tables <- function(se = list()) {
+	full_join(se[[1]], se[[2]], join_by(TAZ), suffix = paste0("_", names(se)))
 }

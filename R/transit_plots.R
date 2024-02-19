@@ -1,4 +1,4 @@
-plot_asim_mode_switching <- function(table) {
+OLD_plot_asim_mode_switching<- function(table) {
 	added_missing <- table %>%
 		select(person_id, purpose, mode, from = old_trips, to = new_trips) %>%
 		group_by(person_id, purpose) %>%
@@ -59,7 +59,6 @@ plot_asim_mode_switching <- function(table) {
 		# scale_fill_manual(values = c("-" = "black")) +
 		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
 		labs(y = "Number of Trips")
-
 }
 
 plot_trips_diff_by_district <- function(
@@ -95,4 +94,21 @@ plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
 		scale_x_continuous(limits = c(NA,2e5), labels = label_currency()) +
 		geom_density() +
 		labs(x = "Income", y = "Kernel density", color = "Model")
+}
+
+plot_asim_mode_switching <- function(mode_switching) {
+	mode_switching %>%
+		group_by(purpose, from, to) %>%
+		summarise(trips = sum(trips), .groups = "drop") %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			across(c(from, to), \(x) pretty_mode(x))) %>%
+		ggplot(aes(axis1 = from, axis2 = to, y = trips)) +
+		facet_wrap(~purpose, scales = "free") +
+		scale_x_discrete(limits = c("From", "To"), expand = c(.2, .1)) +
+		geom_alluvium(aes(fill = from), width = 1/2) +
+		geom_stratum(width = 1/2) +
+		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+		scale_fill_brewer(palette = "Set1") +
+		labs(x = element_blank(), y = "Trips", fill = "Original mode")
 }

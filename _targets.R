@@ -26,8 +26,8 @@ tar_option_set(
 )
 
 tar_source("R")
-
 tar_seed_set(34985723)
+ggplot2::theme_set(ggplot2::theme_bw())
 
 #### List targets ######################################################
 # FrontRunner ####
@@ -266,9 +266,12 @@ land_use_targets <- tar_plan(
 	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
 	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
 	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs, cube_lu_se_diff),
-	lu_new_se_table = make_lu_new_se_table(lu_tazs, cube_lu_by_se_diff),
+	lu_se_by_table = make_lu_se_table(cube_by_taz_se, lu_tazs),
+	lu_se_lu_table = make_lu_se_table(cube_lu_taz_se, lu_tazs),
+	lu_combined_se_table = combine_se_tables(list(by = lu_se_by_table, lu = lu_se_lu_table)),
 
-	cube_lu_by_se_diff = get_cube_se_diff(list(lu = cube_lu_taz_se, by = cube_by_taz_se)),
+	# cube_lu_by_se_diff = get_cube_se_diff(list(lu = cube_lu_taz_se, by = cube_by_taz_se)),
+	# lu_se_diff_table = make_lu_se_table(cube_lu_by_se_diff, lu_tazs),
 
 	cube_lu_all_diff = get_trip_diff(list(lu = cube_lu_trips,	by = cube_by_trips)),
 	cube_lu_all_diff_distsml = get_trip_diff(list(
@@ -309,19 +312,17 @@ land_use_targets <- tar_plan(
 # Transit ####
 transit_targets <- tar_plan(
 	# Data
-	asim_tr_mode_switching_table = get_asim_trip_diff_by_person(
-		asim_tr_raw_trips, asim_by_raw_trips),
-	asim_tr_mode_switching_table_no_new_or_missing = dplyr::filter(
-		asim_tr_mode_switching_table, !new_person & !missing_person),
-	asim_tr_mode_switching_table_new = dplyr::filter(
-		asim_tr_mode_switching_table, new_person),
-	asim_tr_mode_switching_table_missing = dplyr::filter(
-		asim_tr_mode_switching_table, missing_person),
-
 	cube_tr_all_trips_diff = get_trip_diff(list(
 		tr = cube_tr_trips, by = cube_by_trips)),
 	asim_tr_all_trips_diff = get_trip_diff(list(
 		tr = asim_tr_trips, by = asim_by_trips)),
+
+	asim_tr_raw_trip_diff = get_asim_raw_trip_diff(list(
+		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
+
+	asim_tr_mode_switching = get_asim_mode_switching(asim_tr_raw_trip_diff),
+	asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
+		asim_tr_raw_trip_diff, asim_tr_mode_switching),
 
 	# Mode split
 	combined_tr_mode_split_diff = dplyr::full_join(
@@ -330,17 +331,9 @@ transit_targets <- tar_plan(
 		join_by(purpose, mode)),
 
 	# Mode switching
-	asim_tr_mode_switching_summary_new = summarise_asim_mode_switching(
-		asim_tr_mode_switching_table_new),
-	asim_tr_mode_switching_summary_missing = summarise_asim_mode_switching(
-		asim_tr_mode_switching_table_missing),
-	asim_tr_mode_switching_summary_new_and_missing = dplyr::full_join(
-		asim_tr_mode_switching_summary_new,
-		asim_tr_mode_switching_summary_missing,
-		join_by(purpose, mode), suffix = c("_new", "_missing")),
-
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
-		asim_tr_mode_switching_table_no_new_or_missing),
+		dplyr::filter(asim_tr_mode_switching, purpose != "at-work")),
+	asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
 
 	# SE comparison
 	cube_tr_productions_se = get_cube_production_se(cube_tr_trips, cube_by_taz_se),

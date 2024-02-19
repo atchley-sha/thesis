@@ -25,13 +25,15 @@ pretty_purpose <- function(purpose) {
 		"hbw" ~ "Home-based Work",
 		"hbo" ~ "Home-based Other",
 		"nhb" ~ "Non\u2013home-based",
-		"all" ~ "All"
+		"all" ~ "All",
+		.default = str_to_title(purpose)
 	) %>%
 		factor(levels = c(
 			"All",
 			"Home-based Work",
 			"Home-based Other",
-			"Non\u2013home-based")
+			"Non\u2013home-based",
+			"Work", "School", "Other", "At-Work")
 		)
 }
 
