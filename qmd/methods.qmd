@@ -213,8 +213,8 @@ This ActivitySim configuration is ultimately based on the San Francisco area, an
 targets::tar_read(by_mode_split_comparison) %>% 
   kbl(
     booktabs = TRUE,
-    col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "% Error", "% Error (scaled to WFRC predicted trips)"),
-    digits = c(0,0,0,0,1,1),
+    col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "Error", "% Error"),
+    digits = c(0,0,0,0,0,1),
     align = "c"
   ) %>%
   kable_styling(latex_options = "scale_down") %>% 

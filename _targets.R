@@ -179,6 +179,7 @@ asim_data_targets <- tar_plan(
 
 	# Base year
 	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
+	# tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv"),
 	tar_file(asim_by_tours_file, "data/asim/output/base_2019/final_tours.csv.gz"),
 	tar_file(asim_by_per_file, "data/asim/output/base_2019/final_persons.csv.gz"),
 	tar_file(asim_by_hh_file, "data/asim/output/base_2019/final_households.csv.gz"),
@@ -321,7 +322,9 @@ transit_targets <- tar_plan(
 		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
 
 	asim_tr_mode_switching = get_asim_mode_switching(asim_tr_raw_trip_diff),
-	asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
+	# asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
+	# 	asim_tr_raw_trip_diff, asim_tr_mode_switching),
+	asim_tr_work_transit_switching = get_asim_work_transit_switching(
 		asim_tr_raw_trip_diff, asim_tr_mode_switching),
 
 	# Mode split
@@ -333,7 +336,8 @@ transit_targets <- tar_plan(
 	# Mode switching
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
 		dplyr::filter(asim_tr_mode_switching, purpose != "at-work")),
-	asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
+	# asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
+	asim_tr_work_transit_switching_plot = plot_asim_mode_switching(asim_tr_work_transit_switching),
 
 	# SE comparison
 	cube_tr_productions_se = get_cube_production_se(cube_tr_trips, cube_by_taz_se),

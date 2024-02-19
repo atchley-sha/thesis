@@ -142,3 +142,29 @@ get_asim_atwork_mode_switching <- function(raw_trip_diff, mode_switching) {
 		rename(from = mode_by, to = mode_tr) %>%
 		bind_rows(filter(mode_switching, purpose == "at-work"))
 }
+
+get_asim_work_transit_switching <- function(raw_trip_diff, mode_switching) {
+	mode_names <- names(raw_trip_diff)[
+		which(str_detect(names(raw_trip_diff), "mode"))]
+
+	work_transit_switchers <- mode_switching %>%
+		filter(purpose == "work", from == "drivealone") %>%
+		pull(person_id) %>%
+		unique()
+
+	mode_switching %>%
+		filter(purpose == "at-work", person_id %in% work_transit_switchers)
+
+	# raw_trip_diff %>%
+	# 	filter(
+	# 		person_id %in% work_transit_switchers,
+	# 		purpose == "at-work",
+	# 		mode_by == "drivealone",
+	# 		mode_tr != "drivealone",
+	# 		!is.na(mode_by),
+	# 		!is.na(mode_tr)
+	# 	) %>%
+	# 	mutate(trips = 1) %>%
+	# 	rename(from = mode_by, to = mode_tr) %>%
+	#   bind_rows(filter(mode_switching, purpose == "at-work", person_id %in% work_transit_switchers))
+}

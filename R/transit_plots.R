@@ -104,6 +104,7 @@ plot_asim_mode_switching <- function(mode_switching) {
 			purpose = pretty_purpose(purpose),
 			across(c(from, to), \(x) pretty_mode(x))) %>%
 		ggplot(aes(axis1 = from, axis2 = to, y = trips)) +
+		# list(if(length(unique(mode_switching$purpose)) > 1) facet_wrap(~purpose, scales = "free")) +
 		facet_wrap(~purpose, scales = "free") +
 		scale_x_discrete(limits = c("From", "To"), expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2) +

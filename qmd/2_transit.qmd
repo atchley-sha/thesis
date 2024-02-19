@@ -42,12 +42,19 @@ No other changes to ActivitySim are necessary to model this scenario.
 
 ```{r}
 targets::tar_read(combined_tr_mode_split_diff) %>% 
-	kbl()
+	kbl() %>% 
+	kable_styling()
 ```
 
 ```{r}
-#| fig-cap: needs to be redone?
+#| fig-cap: a
 targets::tar_read(asim_tr_mode_switching_plot)
+```
+
+```{r}
+#| fig-cap: At-work trip modes of individuals who switched their work mode away from Drive Alone
+ 
+targets::tar_read(asim_tr_work_transit_switching_plot)
 ```
 
 With greater access the commuter rail by decreasing the headways, we wanted to see how the ridership changed in this scenario.
