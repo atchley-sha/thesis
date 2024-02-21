@@ -14,8 +14,7 @@ package_list <- c(
 	"ggnewscale",
 	"ggrepel",
 	"DiagrammeR",
-	"od",
-	"matrixStats"
+	"od"
 )
 
 tar_option_set(
@@ -179,7 +178,6 @@ asim_data_targets <- tar_plan(
 
 	# Base year
 	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
-	# tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv"),
 	tar_file(asim_by_tours_file, "data/asim/output/base_2019/final_tours.csv.gz"),
 	tar_file(asim_by_per_file, "data/asim/output/base_2019/final_persons.csv.gz"),
 	tar_file(asim_by_hh_file, "data/asim/output/base_2019/final_households.csv.gz"),
