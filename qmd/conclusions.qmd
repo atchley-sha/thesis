@@ -29,7 +29,7 @@ With multi-threading set to use **36 of the 40 available (should probably match 
 
 ## Time Spent
 
-In order to change from a trip-based to an activity-based model, agencies will need to ....
+In order to change from a trip-based to an activity-based model, agencies will need to spend time learning....
 
 @tbl-time-spent shows the amount of time spent on creating and analyzing each scenario in both models.
 These are rough approximations, as detailed time logs are not available, but should serve to give a general idea of the time required to **learn activitysim**.
@@ -44,7 +44,8 @@ More experienced modelers would likely require significantly less time to create
 #|   - WFRC Model
 #|   - ActivitySim
 
-targets::tar_read(cube_time_spent_table) %>% 
+# targets::tar_read(cube_time_spent_table) %>% 
+head(mtcars) %>% 
 	kbl()
 targets::tar_read(asim_time_spent_table) %>% 
 	kbl()

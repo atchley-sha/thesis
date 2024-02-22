@@ -1,0 +1,8 @@
+﻿task,hours
+Synthetic population creation,50
+Baseline mode choice calibration,20
+Add remote work models to ActivitySim,20
+Baseline remote work calibration,10
+Scenario creation: Land Use,15
+Scenario creation: Transit,2
+Scenario creation: Remote Work,5

@@ -58,6 +58,11 @@ shared_data_targets <- tar_plan(
 
 	tar_file(job_code_translation_file, "data/job_code_translation.csv"),
 	job_code_translation = readr::read_csv(job_code_translation_file),
+
+	# tar_file(cube_time_spent_table_file, "data/cube_time_spent.csv"),
+	# cube_time_spent_table = readr::read_csv(cube_time_spent_table_file),
+	tar_file(asim_time_spent_table_file, "data/asim_time_spent.csv"),
+	asim_time_spent_table = readr::read_csv(asim_time_spent_table_file),
 )
 
 # CUBE data targets ####
@@ -320,8 +325,8 @@ transit_targets <- tar_plan(
 		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
 
 	asim_tr_mode_switching = get_asim_mode_switching(asim_tr_raw_trip_diff),
-	# asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
-	# 	asim_tr_raw_trip_diff, asim_tr_mode_switching),
+	asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
+		asim_tr_raw_trip_diff, asim_tr_mode_switching),
 	asim_tr_work_transit_switching = get_asim_work_transit_switching(
 		asim_tr_raw_trip_diff, asim_tr_mode_switching),
 
@@ -334,7 +339,7 @@ transit_targets <- tar_plan(
 	# Mode switching
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(
 		dplyr::filter(asim_tr_mode_switching, purpose != "at-work")),
-	# asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
+	asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
 	asim_tr_work_transit_switching_plot = plot_asim_mode_switching(asim_tr_work_transit_switching),
 
 	# SE comparison
