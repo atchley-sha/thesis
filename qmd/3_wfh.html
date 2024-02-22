@@ -192,7 +192,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#considerations-for-modelling-remote-work" id="toc-considerations-for-modelling-remote-work" class="nav-link active" data-scroll-target="#considerations-for-modelling-remote-work"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work</a></li>
+  <li><a href="#considerations-for-modelling-remote-work-this-section-maybe-needs-to-go-somewhere-else-probably-lit-review" id="toc-considerations-for-modelling-remote-work-this-section-maybe-needs-to-go-somewhere-else-probably-lit-review" class="nav-link active" data-scroll-target="#considerations-for-modelling-remote-work-this-section-maybe-needs-to-go-somewhere-else-probably-lit-review"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work <strong><em>This section maybe needs to go somewhere else</em></strong> (probably lit review)</a></li>
   <li><a href="#scenario-creation" id="toc-scenario-creation" class="nav-link" data-scroll-target="#scenario-creation"><span class="header-section-number">6.2</span> Scenario Creation</a></li>
   <li><a href="#scenario-analysis" id="toc-scenario-analysis" class="nav-link" data-scroll-target="#scenario-analysis"><span class="header-section-number">6.3</span> Scenario Analysis</a></li>
   </ul>
@@ -226,92 +226,125 @@ div.csl-indent {
 
 
 <!-- Include at the start of every doc -->
-<p>With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely <span class="citation" data-cites="bick_work_2021">(<a href="references.html#ref-bick_work_2021" role="doc-biblioref">Bick, Blandin, and Mertens 2021</a>)</span>. There has been much research, especially in recent years, on the implications of remote work. While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. <span class="citation" data-cites="bramberga_teleworking_2023">Bramberga (<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">2023</a>)</span> even suggested that considerations for teleworking should be made on a case by case basis because there is no single best approach.</p>
-<section id="considerations-for-modelling-remote-work" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="considerations-for-modelling-remote-work"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work</h2>
-<p>The first thing to consider is the fact that different job types allow different levels of telecommuting <span class="citation" data-cites="yasenov_who_2020">(<a href="references.html#ref-yasenov_who_2020" role="doc-biblioref">Yasenov 2020</a>)</span>. An office worker using a computer is much more capable to work from home than a construction worker. This fact is something that has been considered for telecommuting in most travel demand models <span class="citation" data-cites="bramberga_teleworking_2023 moeckel_working_2017 sener_copula-based_2011">(<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">Bramberga 2023</a>; <a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>; <a href="references.html#ref-sener_copula-based_2011" role="doc-biblioref">Sener and Bhat 2011</a>)</span>.</p>
-<p>Another consideration that may seem obvious is there will be less home-based work trips when more people are telecommuting. What isn’t as obvious is the idea that there may be more discretionary trips produced when people are able to telecommute. There have been many studies on this subject, and, when comparing the results of each study, it is hard to tell if that really is the case. <span class="citation" data-cites="kim_is_2017">Kim (<a href="references.html#ref-kim_is_2017" role="doc-biblioref">2017</a>)</span> talks about a “rebound effect” where travel behavior changes on the days people don’t have to commute to work and they make more trips for different reasons. In another study, <span class="citation" data-cites="zhu_impact_2014">Zhu and Mason (<a href="references.html#ref-zhu_impact_2014" role="doc-biblioref">2014</a>)</span> find that there are more miles traveled on the days people telecommute. This could be due to the existence of a travel time budget, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose <span class="citation" data-cites="moreno_microscopic_2017">(<a href="references.html#ref-moreno_microscopic_2017" role="doc-biblioref">Moreno and Moeckel 2017</a>)</span>.</p>
-<p>Taking it a little further, <span class="citation" data-cites="ellder_telework_2020">Elldér (<a href="references.html#ref-ellder_telework_2020" role="doc-biblioref">2020</a>)</span> finds that distinguishing between people that work from home all day and part of the day might make a difference. Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled. Using data from the 2007 Chicago Regional Household Travel Inventory, <span class="citation" data-cites="he_telecommuting_2015">(<a href="references.html#ref-he_telecommuting_2015" role="doc-biblioref"><strong>he_telecommuting_2015?</strong></a>)</span> found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don’t telecommute. <span class="citation" data-cites="mokhtarian_the_1998">(<a href="references.html#ref-mokhtarian_the_1998" role="doc-biblioref"><strong>mokhtarian_the_1998?</strong></a>)</span> saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. Because there isn’t a solid conclusion on whether more discretionary trips are created as more people telecommute, we will not put that into the model.</p>
-<p>The last consideration we will discuss is the distance people are willing to travel when they telecommute. <span class="citation" data-cites="moeckel_working_2017">Moeckel (<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">2017</a>)</span> explains the correlation between the number of days people telecommute and the distance they are willing to live from their job. If someone works completely remote, then they will have nothing forcing them to live close to their job. If they only work one day a week in the office, then they are still willing to live farther away than someone who has to work in the office two or three days a week. This information could change the trip length frequency distribution of home-based work trips.</p>
-<p>To organize the main ideas of the literature, we kept in mind these three principles as we prepared the models:</p>
-<ul>
-<li><p>Different employment types have differing levels of telecommuting</p></li>
-<li><p>Home-based work trips decrease</p></li>
-<li><p>There is a greater possibility that home-based work trips are longer</p></li>
-</ul>
-<p>The last principle mentioned has been used in other models <span class="citation" data-cites="moeckel_working_2017">(<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>)</span>, but, due to the way the WFRC model is set up, we were unable to make a suitable change to reflect an increase in trip length frequency caused by telecommuting without changing the fundamental design of the model.<br>
-The following sections will describe how we used the first two principles as we prepared the telecommuting scenario in each of the models.</p>
+<p>With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely <span class="citation" data-cites="bick_work_2021">(<a href="references.html#ref-bick_work_2021" role="doc-biblioref">Bick, Blandin, and Mertens 2021</a>)</span>. Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise <span class="citation" data-cites="cite">(<a href="references.html#ref-cite" role="doc-biblioref"><strong>cite?</strong></a>)</span>. The WFRC model predicts a year-over-year increase in remote work rates of about XXX%, as illustrated in <a href="#fig-wfrc-remote-work-rate-plot" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-wfrc-remote-work-rate-plot" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wfrc-remote-work-rate-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3_wfh_files/figure-html/fig-wfrc-remote-work-rate-plot-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wfrc-remote-work-rate-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: wfrc remote work plot
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This scenario is a “what-if” analysis that models a significant increase in remote work rates. We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario. In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.</p>
+<section id="considerations-for-modelling-remote-work-this-section-maybe-needs-to-go-somewhere-else-probably-lit-review" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="considerations-for-modelling-remote-work-this-section-maybe-needs-to-go-somewhere-else-probably-lit-review"><span class="header-section-number">6.1</span> Considerations for Modelling Remote Work <strong><em>This section maybe needs to go somewhere else</em></strong> (probably lit review)</h2>
+<p>There has been much research, especially in recent years, on the implications of remote work. While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. <span class="citation" data-cites="bramberga_teleworking_2023">Bramberga (<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">2023</a>)</span> even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.</p>
+<p>Increasing remote work rates may affect several aspects of travel behavior. The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type <span class="citation" data-cites="yasenov_who_2020">(<a href="references.html#ref-yasenov_who_2020" role="doc-biblioref">Yasenov 2020</a>)</span>. Most travel demand models include a decrease in work trips based on remote work rates and job type <span class="citation" data-cites="bramberga_teleworking_2023 moeckel_working_2017 sener_copula-based_2011">(<a href="references.html#ref-bramberga_teleworking_2023" role="doc-biblioref">Bramberga 2023</a>; <a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">Moeckel 2017</a>; <a href="references.html#ref-sener_copula-based_2011" role="doc-biblioref">Sener and Bhat 2011</a>)</span>.</p>
+<p>While work trips decrease with an increase in remote work, <span class="citation" data-cites="kim_is_2017">Kim (<a href="references.html#ref-kim_is_2017" role="doc-biblioref">2017</a>)</span> discusses a “rebound effect”, where individuals make more discretionary trips on days they do not commute to work. <span class="citation" data-cites="moreno_microscopic_2017">Moreno and Moeckel (<a href="references.html#ref-moreno_microscopic_2017" role="doc-biblioref">2017</a>)</span> similarly proposes the existence of a “travel time budget”, where an increase in trips of one purpose will decrease the time people allocate for trips of another purpose.</p>
+<p>This rebound effect is not straightforward, however. <span class="citation" data-cites="ellder_telework_2020">Elldér (<a href="references.html#ref-ellder_telework_2020" role="doc-biblioref">2020</a>)</span>, for example, finds that distinguishing between people that work from home all day and part of the day might make a difference. Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.</p>
+<p>Additionally, the types of trips people make can differ depending on remote work status. While the rebound effect proposes that the <em>number</em> of trips may increase on remote work days, <span class="citation" data-cites="mokhtarian_the_1998">(<a href="references.html#ref-mokhtarian_the_1998" role="doc-biblioref"><strong>mokhtarian_the_1998?</strong></a>)</span> finds a decrease in vehicle <em>miles</em> traveled for both work and discretionary trips on remote work days. This implies that longer trips are being replaced by shorter trips on days people do not travel to work. <span class="citation" data-cites="moeckel_working_2017">Moeckel (<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">2017</a>)</span> additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.</p>
+<!-- It is also not clear if the rebound effect is real. @zhu_impact_2014 find that there are more miles traveled on the days people telecommute, but @mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. -->
+<!-- Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute. -->
 </section>
 <section id="scenario-creation" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">6.2</span> Scenario Creation</h2>
-<p>WFRC needs only to move 2050 data to 2019 for TC% and HBJ.</p>
+<p>As noted in <a href="methods.html#sec-baseline-calibration" class="quarto-xref"><span>Section 3.3.2</span></a>, both models make a distinction between “working from home” (no work location other than home) and “telecommuting” (working remotely some but not all days). The WFRC model contains a lookup table of both work-from-home (called “home-based jobs” in the WFRC model) and telecommute percentages by job type and year. Two changes are needed in the WFRC model for this scenario. The first is to replace the 2019 estimates for work-from-home and telecommuting with the 2050 estimates. <a href="#tbl-wfrc-remote-work-years" class="quarto-xref">Table&nbsp;<span>6.1</span></a> shows both the original and updated estimates. The second change is to the TAZ-level socioeconomic data. The WFRC model estimates a number of home-based jobs in each TAZ, and the original home-based job estimates are similarly replaced with the 2050 estimates.</p>
+<p>The WFRC model additionally includes a global scaling factor for all remote work percentages. However, this was left unchanged (set at 1) as we considered that the 2050 predicted remote work percentages would better model a more realistic increase in remote work than simply adjusting the 2019 rates globally.</p>
 <div class="cell">
-<div id="tbl-wfrc-telecommute-years" class="cell quarto-float anchored">
+<div id="tbl-wfrc-remote-work-years" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;6.1: wfrc telecommute data
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfrc-remote-work-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.1: wfrc remote work data
 </figcaption>
-<div aria-describedby="tbl-wfrc-telecommute-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-wfrc-remote-work-years-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
 <table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">wfrc_2019</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">wfrc_2050</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2019_tc</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2050_tc</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2019_wfh</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2050_wfh</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Retail</td>
 <td style="text-align: right;">0.027</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.025</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Food</td>
 <td style="text-align: right;">0.019</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.017</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Manufacturing</td>
 <td style="text-align: right;">0.020</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.019</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Office</td>
 <td style="text-align: right;">0.067</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.180</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">0.062</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gov't/Education</td>
 <td style="text-align: right;">0.017</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.016</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Health</td>
 <td style="text-align: right;">0.029</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.072</td>
+<td style="text-align: right;">0.021</td>
+<td style="text-align: right;">0.025</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Agriculture</td>
 <td style="text-align: right;">0.069</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.168</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Mining</td>
 <td style="text-align: right;">0.005</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.005</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Construction</td>
 <td style="text-align: right;">0.033</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">0.030</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other</td>
 <td style="text-align: right;">0.054</td>
-<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.146</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.050</td>
 </tr>
 </tbody>
 </table>
@@ -323,18 +356,134 @@ Table&nbsp;6.1: wfrc telecommute data
 </figure>
 </div>
 </div>
-<p>This model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type. This data is used to create telecommuting trips that don’t get assigned during trip distribution. Additionally, there is a global scaling factor to adjust all telecommute percentages. The BYU Team proposes using the WFRC/MAG predicted 2040 telecommute percentages in place of the base year values. Figure 3 shows a plot of the average telecommute percentage by year as forecasted in the WFRC/MAG model.</p>
-<p>In the WFRC trip-based model, it was already programmed to reduce home-based work trips using a telecommute percentage for each type of employment and a percentage of home-base jobs. We simply changed the telecommute and home-based job percentages to align with projections for 2050. which increased telecommute trips from 3.7 to 10.2 percent and increased home-based jobs from 2.9 to 3.5 percent. If there was more guidance in the literature on how telecommuting affects other types of trips, then we could have tried to represent that in the model by adding a certain amount of discretionary trips according to the telecommute percentages. With the Wasatch Front Regional Council (WFRC) model, it might be difficult to have the additional discretionary trips be coming from the same zones as the telecommute trips. <em>(I’m not sure about this. I’ll have to look more into it)</em></p>
-<p>Asim is the same as calibration for the baseline scenario, but with different target %s (show table).</p>
-<p>The WFRC model is already designed to represent work from home using a lookup table of telecommute percentages segmented by job type, as well as SE data indicating the number of fully-remote jobs by TAZ. The BYU Team used the WFRC predicted 2050 data for these in place of the base year values. The WFRC model does not include a potential increase in discretionary trips for those who work remotely, though some literature suggests this may happen in reality.</p>
-<p>The team adjusted ActivitySim’s two remote work models to match the WFRC targets in both the base year and the increased WFH scenario. An additional note about the WFH implementation in ActivitySim is that because it is done before tour generation, an individual who does not need to make a work tour may be free to make other discretionary tours, and so this does at least somewhat model an increase in other trip types coinciding with increased telecommuting. Note that only the remote work parameters were adjusted in this scenario. The scenario still uses the “Base” 2019 population and SE data.</p>
+<p>We adjusted the remote work models in ActivitySim using the same process as in <a href="methods.html#sec-baseline-calibration" class="quarto-xref"><span>Section 3.3.2</span></a>, but with the 2050 targets from the WFRC model. The “target work-from-home percent” value in ActivitySim’s work-from-home submodel was changed to 3.5% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type. <a href="#tbl-wfh-telecommute" class="quarto-xref">Table&nbsp;<span>6.2</span></a> shows the WFRC 2050 telecommute percentages with the ActivitySim telecommute utility coefficients. As in the baseline scenario, this calibration allowed ActivitySim to match the WFRC telecommute percentages exactly.</p>
+<div class="cell">
+<div id="tbl-wfh-telecommute" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfh-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.2: wfh telecommute
+</figcaption>
+<div aria-describedby="tbl-wfh-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; empty-cells: hide; border-bottom: hidden;"></th>
+<th colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: hidden; padding-bottom: 0; padding-left: 3px; padding-right: 3px;"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+ActivitySim Telecommute Utility Coefficients
+</div></th>
+</tr>
+<tr class="odd">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Job Type</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">WFRC Telecommute %</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">1 day</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">2–3 days</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">4 days</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Retail</td>
+<td style="text-align: center;">7.25%</td>
+<td style="text-align: center;">2.021</td>
+<td style="text-align: center;">0.809</td>
+<td style="text-align: center;">0.505</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Food</td>
+<td style="text-align: center;">5.03%</td>
+<td style="text-align: center;">1.376</td>
+<td style="text-align: center;">0.551</td>
+<td style="text-align: center;">0.344</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Manufacturing</td>
+<td style="text-align: center;">5.45%</td>
+<td style="text-align: center;">1.636</td>
+<td style="text-align: center;">0.655</td>
+<td style="text-align: center;">0.408</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Office</td>
+<td style="text-align: center;">18.01%</td>
+<td style="text-align: center;">4.792</td>
+<td style="text-align: center;">1.916</td>
+<td style="text-align: center;">1.197</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Gov't/Education</td>
+<td style="text-align: center;">4.56%</td>
+<td style="text-align: center;">1.199</td>
+<td style="text-align: center;">0.480</td>
+<td style="text-align: center;">0.301</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Health</td>
+<td style="text-align: center;">7.21%</td>
+<td style="text-align: center;">1.929</td>
+<td style="text-align: center;">0.771</td>
+<td style="text-align: center;">0.482</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Agriculture</td>
+<td style="text-align: center;">16.83%</td>
+<td style="text-align: center;">4.764</td>
+<td style="text-align: center;">1.906</td>
+<td style="text-align: center;">1.191</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Mining</td>
+<td style="text-align: center;">1.43%</td>
+<td style="text-align: center;">-0.694</td>
+<td style="text-align: center;">-0.277</td>
+<td style="text-align: center;">-0.174</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Construction</td>
+<td style="text-align: center;">8.82%</td>
+<td style="text-align: center;">2.544</td>
+<td style="text-align: center;">1.018</td>
+<td style="text-align: center;">0.637</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Other</td>
+<td style="text-align: center;">14.58%</td>
+<td style="text-align: center;">3.804</td>
+<td style="text-align: center;">1.521</td>
+<td style="text-align: center;">0.951</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
 </section>
 <section id="scenario-analysis" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">6.3</span> Scenario Analysis</h2>
+<p>Both models decrease the number of work trips made as remote work rates increase. However, the WFRC model does not account for a potential “rebound effect” where more discretionary trips are made by those who do not travel to their workplace on a given day. This is seen in <a href="#tbl-wfh-mode-split-comp" class="quarto-xref">Table&nbsp;<span>6.3</span></a>, where the WFRC model shows a decrease in home-based work and non–home-based trips (many of which begin or end at work), but virtually no change in home-based other trips. ActivitySim on the other hand does account for this, in that individuals working remotely on any given day may be more likely to make discretionary tours. <a href="#tbl-wfh-mode-split-comp" class="quarto-xref">Table&nbsp;<span>6.3</span></a> shows this as well, where ActivitySim predicts a noticeable increase in home-based other trips as well as a decrease in work trips.</p>
 <div class="cell">
+<div id="tbl-wfh-mode-split-comp" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wfh-mode-split-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.3: wfh mode split comp
+</figcaption>
+<div aria-describedby="tbl-wfh-mode-split-comp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
@@ -354,9 +503,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">4097821</td>
 <td style="text-align: right;">4096688</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">3078596</td>
-<td style="text-align: right;">3042754</td>
-<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">3278836</td>
+<td style="text-align: right;">3253220</td>
+<td style="text-align: right;">0.008</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbo</td>
@@ -364,9 +513,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">508869</td>
 <td style="text-align: right;">510143</td>
 <td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">597323</td>
-<td style="text-align: right;">591164</td>
-<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">534807</td>
+<td style="text-align: right;">532274</td>
+<td style="text-align: right;">0.005</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hbo</td>
@@ -374,9 +523,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">37359</td>
 <td style="text-align: right;">37346</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">220937</td>
-<td style="text-align: right;">218438</td>
-<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">67593</td>
+<td style="text-align: right;">67396</td>
+<td style="text-align: right;">0.003</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbw</td>
@@ -384,8 +533,8 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">1483120</td>
 <td style="text-align: right;">1586414</td>
 <td style="text-align: right;">-0.065</td>
-<td style="text-align: right;">1209400</td>
-<td style="text-align: right;">1288620</td>
+<td style="text-align: right;">1430577</td>
+<td style="text-align: right;">1524169</td>
 <td style="text-align: right;">-0.061</td>
 </tr>
 <tr class="odd">
@@ -394,9 +543,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">71063</td>
 <td style="text-align: right;">76506</td>
 <td style="text-align: right;">-0.071</td>
-<td style="text-align: right;">180968</td>
-<td style="text-align: right;">191880</td>
-<td style="text-align: right;">-0.057</td>
+<td style="text-align: right;">78703</td>
+<td style="text-align: right;">83119</td>
+<td style="text-align: right;">-0.053</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbw</td>
@@ -404,9 +553,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">44977</td>
 <td style="text-align: right;">48752</td>
 <td style="text-align: right;">-0.077</td>
-<td style="text-align: right;">178056</td>
-<td style="text-align: right;">189610</td>
-<td style="text-align: right;">-0.061</td>
+<td style="text-align: right;">59124</td>
+<td style="text-align: right;">62814</td>
+<td style="text-align: right;">-0.059</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">nhb</td>
@@ -414,9 +563,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">2193201</td>
 <td style="text-align: right;">2224878</td>
 <td style="text-align: right;">-0.014</td>
-<td style="text-align: right;">1606889</td>
-<td style="text-align: right;">1645356</td>
-<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">1790340</td>
+<td style="text-align: right;">1839065</td>
+<td style="text-align: right;">-0.026</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">nhb</td>
@@ -424,9 +573,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">144126</td>
 <td style="text-align: right;">146404</td>
 <td style="text-align: right;">-0.016</td>
-<td style="text-align: right;">216257</td>
-<td style="text-align: right;">224248</td>
-<td style="text-align: right;">-0.036</td>
+<td style="text-align: right;">157632</td>
+<td style="text-align: right;">162979</td>
+<td style="text-align: right;">-0.033</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">nhb</td>
@@ -434,9 +583,9 @@ Table&nbsp;6.1: wfrc telecommute data
 <td style="text-align: right;">13199</td>
 <td style="text-align: right;">13453</td>
 <td style="text-align: right;">-0.019</td>
-<td style="text-align: right;">100654</td>
-<td style="text-align: right;">103398</td>
-<td style="text-align: right;">-0.027</td>
+<td style="text-align: right;">29650</td>
+<td style="text-align: right;">30513</td>
+<td style="text-align: right;">-0.028</td>
 </tr>
 </tbody>
 </table>
@@ -445,68 +594,294 @@ Table&nbsp;6.1: wfrc telecommute data
 </div>
 </div>
 </div>
-<p>Using the outputs from the trip-based model that show lengths and number of trips between zones, we calculated the vehicle miles traveled for each trip. This allowed us to see which zones had the biggest decrease in VMT. This also allowed us to find the number of trips of certain length to create a trip length frequency distribution that can be seen in (<em>another figure</em>).</p>
+</figure>
+</div>
+</div>
+<p>In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made. The “travel time budget” proposed by <span class="citation" data-cites="moreno_microscopic_2017">Moreno and Moeckel (<a href="references.html#ref-moreno_microscopic_2017" role="doc-biblioref">2017</a>)</span> suggests that longer trips would be made less frequently, and <span class="citation" data-cites="moeckel_working_2017">Moeckel (<a href="references.html#ref-moeckel_working_2017" role="doc-biblioref">2017</a>)</span> additionally found that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.</p>
+<p>The WFRC model does not consider trip length when adjusting trip rates due to remote work. There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly. <a href="#tbl-cube-wfh-trip-pmt-diff" class="quarto-xref">Table&nbsp;<span>6.4</span></a> illustrates this, where for example home-based work driving trips decreased by 6.5% relative to the baseline scenario, but person-miles traveled decreased only by 5.8%. This shows that in fact the <em>shorter</em> work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 8
-  purpose mode     wfh_trips by_trips trips_pct   wfh_pmt    by_pmt   pmt_pct
-  &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 hbo     auto      4097821. 4096688.  0.000277 19571300. 19509401.  0.00317 
-2 hbo     nonmotor   508869.  510143. -0.00250    590349.   591297. -0.00160 
-3 hbo     transit     37359.   37346.  0.000344   264432.   264203.  0.000867
-4 hbw     auto      1483120. 1586414. -0.0651   15015364. 15941522. -0.0581  
-5 hbw     nonmotor    71063.   76506. -0.0712     122930.   132216. -0.0702  
-6 hbw     transit     44977.   48752. -0.0774     500953.   547804. -0.0855  
-7 nhb     auto      2193201. 2224878. -0.0142   12275574. 12427922. -0.0123  
-8 nhb     nonmotor   144126.  146404. -0.0156     134784.   136914. -0.0156  
-9 nhb     transit     13199.   13453. -0.0189      72018.    73563. -0.0210  </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9 × 8
-  purpose mode     wfh_trips by_trips trips_pct   wfh_pmt    by_pmt  pmt_pct
-  &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 hbw     auto       1209400  1288620   -0.0615 12012008. 12831073. -0.0638 
-2 hbw     transit     178056   189610   -0.0609  1726785.  1840776. -0.0619 
-3 hbw     nonmotor    180968   191880   -0.0569   429773.   456097. -0.0577 
-4 hbo     auto       3078596  3042754    0.0118 17079259. 16886907.  0.0114 
-5 hbo     transit     220937   218438    0.0114  1597334.  1589804.  0.00474
-6 hbo     nonmotor    597323   591164    0.0104   972346.   961824.  0.0109 
-7 nhb     auto       1606889  1645356   -0.0234  7982697.  8218401. -0.0287 
-8 nhb     transit     100654   103398   -0.0265   582557.   600727. -0.0302 
-9 nhb     nonmotor    216257   224248   -0.0356   254643.   263963. -0.0353 </code></pre>
-</div>
-</div>
-<p>It is straightforward to determine decreased VMT by production zone (and similar analyses) in both models (see Figure 11Figures 11 andFigure 12 12). Additionally, the team made a desire line plot in the WFRC model of decreased trips. This, however, is essentially a scaled-down version of the total trips in the Base scenario (see Figure 13). Remote work percentages do vary by industry, but there is no accounting for trips lengths or personal variables. Figure 14 shows these same plots for ActivitySim. At first glance, this also seems like a scaled-down version of the total trips, even though ActivitySim’s remote work models do include distance to work and personal attributes. It is difficult to tell from the figure alone. The team plans to do more analysis on this point.</p>
-<p>Include a table of the asim tc and wfh coefficients. Maybe put it in the methodology.</p>
-<div class="cell">
+<div id="tbl-cube-wfh-trip-pmt-diff" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cube-wfh-trip-pmt-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.4: cube
+</figcaption>
+<div aria-describedby="tbl-cube-wfh-trip-pmt-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="3_wfh_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">mode</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfh_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">by_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trips_pct</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfh_pmt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">by_pmt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">pmt_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">4097821</td>
+<td style="text-align: right;">4096688</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">19571300</td>
+<td style="text-align: right;">19509401</td>
+<td style="text-align: right;">0.003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">508869</td>
+<td style="text-align: right;">510143</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">590349</td>
+<td style="text-align: right;">591297</td>
+<td style="text-align: right;">-0.002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">37359</td>
+<td style="text-align: right;">37346</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">264432</td>
+<td style="text-align: right;">264203</td>
+<td style="text-align: right;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">1483120</td>
+<td style="text-align: right;">1586414</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">15015364</td>
+<td style="text-align: right;">15941522</td>
+<td style="text-align: right;">-0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">71063</td>
+<td style="text-align: right;">76506</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">122930</td>
+<td style="text-align: right;">132216</td>
+<td style="text-align: right;">-0.070</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">44977</td>
+<td style="text-align: right;">48752</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">500953</td>
+<td style="text-align: right;">547804</td>
+<td style="text-align: right;">-0.086</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">2193201</td>
+<td style="text-align: right;">2224878</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">12275574</td>
+<td style="text-align: right;">12427922</td>
+<td style="text-align: right;">-0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">144126</td>
+<td style="text-align: right;">146404</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">134784</td>
+<td style="text-align: right;">136914</td>
+<td style="text-align: right;">-0.016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">13199</td>
+<td style="text-align: right;">13453</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">72018</td>
+<td style="text-align: right;">73563</td>
+<td style="text-align: right;">-0.021</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>ActivitySim does model distance to work directly when predicting remote work status (see <a href="methods.html#sec-baseline-calibration" class="quarto-xref"><span>Section 3.3.2</span></a> and <a href="methods.html#tbl-asim-tc-model-coeffs" class="quarto-xref">Table&nbsp;<span>3.5</span></a>), so those who live further away from their job site are more likely to work remotely. ActivitySim therefore predicts a greater decrease in miles traveled than in trips for home-based work, as seen in <a href="#tbl-asim-wfh-trip-pmt-diff" class="quarto-xref">Table&nbsp;<span>6.5</span></a>.</p>
+<div class="cell">
+<div id="tbl-asim-wfh-trip-pmt-diff" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-asim-wfh-trip-pmt-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6.5: asim
+</figcaption>
+<div aria-describedby="tbl-asim-wfh-trip-pmt-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">mode</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfh_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">by_trips</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">trips_pct</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wfh_pmt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">by_pmt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">pmt_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">1430577</td>
+<td style="text-align: right;">1524169</td>
+<td style="text-align: right;">-0.061</td>
+<td style="text-align: right;">13438309</td>
+<td style="text-align: right;">14351364</td>
+<td style="text-align: right;">-0.064</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">59124</td>
+<td style="text-align: right;">62814</td>
+<td style="text-align: right;">-0.059</td>
+<td style="text-align: right;">549977</td>
+<td style="text-align: right;">586362</td>
+<td style="text-align: right;">-0.062</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbw</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">78703</td>
+<td style="text-align: right;">83119</td>
+<td style="text-align: right;">-0.053</td>
+<td style="text-align: right;">147537</td>
+<td style="text-align: right;">155798</td>
+<td style="text-align: right;">-0.053</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">3278836</td>
+<td style="text-align: right;">3253220</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">18195390</td>
+<td style="text-align: right;">18066305</td>
+<td style="text-align: right;">0.007</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">67593</td>
+<td style="text-align: right;">67396</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">418217</td>
+<td style="text-align: right;">418921</td>
+<td style="text-align: right;">-0.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hbo</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">534807</td>
+<td style="text-align: right;">532274</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">906676</td>
+<td style="text-align: right;">901975</td>
+<td style="text-align: right;">0.005</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">auto</td>
+<td style="text-align: right;">1790340</td>
+<td style="text-align: right;">1839065</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">8834052</td>
+<td style="text-align: right;">9117282</td>
+<td style="text-align: right;">-0.031</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">transit</td>
+<td style="text-align: right;">29650</td>
+<td style="text-align: right;">30513</td>
+<td style="text-align: right;">-0.028</td>
+<td style="text-align: right;">160403</td>
+<td style="text-align: right;">166288</td>
+<td style="text-align: right;">-0.035</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nhb</td>
+<td style="text-align: left;">nonmotor</td>
+<td style="text-align: right;">157632</td>
+<td style="text-align: right;">162979</td>
+<td style="text-align: right;">-0.033</td>
+<td style="text-align: right;">177834</td>
+<td style="text-align: right;">183398</td>
+<td style="text-align: right;">-0.030</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Figures <a href="#fig-cube-wfh-tlfd-diff" class="quarto-xref"><span>6.2</span></a> and <a href="#fig-asim-wfh-tlfd-diff" class="quarto-xref"><span>6.3</span></a> show the trip length frequency distribution of “unmade” trips in the increased remote work scenario (i.e.&nbsp;the trip length frequency distribution of the <em>difference</em> in trips) compared to that of the baseline scenario. Similar to Tables <a href="#tbl-cube-wfh-trip-pmt-diff" class="quarto-xref"><span>6.4</span></a> and <a href="#tbl-asim-wfh-trip-pmt-diff" class="quarto-xref"><span>6.5</span></a>, this shows that ActivitySim “removes” longer trips more frequently than shorter trips, and the WFRC model makes no distinction.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-cube-wfh-tlfd-diff" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cube-wfh-tlfd-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3_wfh_files/figure-html/fig-cube-wfh-tlfd-diff-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cube-wfh-tlfd-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: cube
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="3_wfh_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<div id="fig-asim-wfh-tlfd-diff" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-asim-wfh-tlfd-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3_wfh_files/figure-html/fig-asim-wfh-tlfd-diff-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-asim-wfh-tlfd-diff-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: asim
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="3_wfh_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<!--
+::: {.cell}
+::: {.cell-output-display}
+![](3_wfh_files/figure-html/fig-combined-tlfd-1.png){#fig-combined-tlfd width=672}
+:::
+:::
+-->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -533,9 +908,6 @@ Sener, Ipek N, and Chandra R Bhat. 2011. <span>“A <span>Copula</span>-<span>Ba
 </div>
 <div id="ref-yasenov_who_2020" class="csl-entry" role="listitem">
 Yasenov, Vasil I. 2020. <span>“Who <span>Can</span> <span>Work</span> from <span>Home</span>?”</span> {SSRN} {Scholarly} {Paper}. Rochester, NY. <a href="https://doi.org/10.2139/ssrn.3590895">https://doi.org/10.2139/ssrn.3590895</a>.
-</div>
-<div id="ref-zhu_impact_2014" class="csl-entry" role="listitem">
-Zhu, P., and S. G. Mason. 2014. <span>“The Impact of Telecommuting on Personal Vehicle Usage and Environmental Sustainability.”</span> <em>International Journal of Environmental Science and Technology</em> 11 (8): 2185–2200. <a href="https://doi.org/10.1007/s13762-014-0556-5">https://doi.org/10.1007/s13762-014-0556-5</a>.
 </div>
 </div>
 </section>

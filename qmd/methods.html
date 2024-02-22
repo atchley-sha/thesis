@@ -278,7 +278,7 @@ where <span class="math inline">\(T_{ij}\)</span> is the number of trips from zo
 </section>
 <section id="activitysim" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="activitysim"><span class="header-section-number">3.2</span> ActivitySim</h2>
-<p>ActivitySim is an open-source ABM led by a consortium of transportation planning agencies. ActivitySim is highly configurable, and many agencies have their own bespoke implementation. This paper uses an ActivitySim implementation based on <span class="citation" data-cites="gregory_s_macfarlane_estimation_2021">Gregory S. Macfarlane and Nathan J. Lant (<a href="references.html#ref-gregory_s_macfarlane_estimation_2021" role="doc-biblioref">2021</a>)</span>, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area <span class="citation" data-cites="erhardt_mtcs_2011">(<a href="references.html#ref-erhardt_mtcs_2011" role="doc-biblioref">Erhardt et al. 2011</a>)</span>.</p>
+<p>ActivitySim is an open-source ABM led by a consortium of transportation planning agencies. ActivitySim is highly configurable, and many agencies have their own bespoke implementation. This paper uses an ActivitySim implementation based on <span class="citation" data-cites="gregory_s_macfarlane_estimation_2021">Gregory S. Macfarlane and Nathan J. Lant (<a href="references.html#ref-gregory_s_macfarlane_estimation_2021" role="doc-biblioref">2021</a>)</span>, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area <span class="citation" data-cites="erhardt_mtcs_2011">(<a href="references.html#ref-erhardt_mtcs_2011" role="doc-biblioref">Erhardt et al. 2011</a>)</span>. The exact implementation is available <a href="https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration">on GitHub</a>.</p>
 <p>ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks. However, ActivitySim does require network skims for information on travel time, cost, etc. These skims are obtained from any network assignment process, though ActivitySim itself does not include network assignment. A discussion and comparison of network assignment processes is outside the scope of this project, so this ActivitySim implementation uses the travel skims output from the WFRC model directly.</p>
 <p>ActivitySim additionally requires population data at an individual level, including information such as age, household income, and home location. Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead. <a href="#sec-populationsim" class="quarto-xref"><span>Section 3.2.1</span></a> discusses the population used in more detail.</p>
 <p>ActivitySim, like all ABMs, simulates transportation decisions on an individual level. ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see <a href="#fig-asim-flowchart" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>). Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.</p>
@@ -482,8 +482,8 @@ Figure&nbsp;3.5: inc density
 </div>
 <!-- ***Comparison of number of workers?*** -->
 </section>
-<section id="verification-and-calibration-of-activitysim" class="level3">
-<h3 class="anchored" data-anchor-id="verification-and-calibration-of-activitysim">Verification and Calibration of ActivitySim</h3>
+<section id="sec-baseline-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="sec-baseline-calibration">Verification and Calibration of ActivitySim</h3>
 <p>This section compares the outputs of both models to verify that trip patterns roughly agree between them. There are three comparisons of interest between the outputs of the two models: mode split, trip length frequency distribution, and remote work.</p>
 <p>The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed. We adjusted the alternative-specific constants in ActivitySim’s mode choice model to better match the mode split in the WFRC model. <a href="#tbl-mode-split" class="quarto-xref">Table&nbsp;<span>3.3</span></a> compares the mode split of both models after several iterations of this calibration. Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g.&nbsp;ActivitySim is predicting about twice as many transit trips as the WFRC model). However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim’s mode split begins converging at this point regardless of the calibration constant values (see <a href="#fig-calibration-plot" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>). This is likely due to the mode choice coefficients being unrepresentative of the study area. This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area (hence in part why there are so many more transit trips).</p>
 <div class="cell">
@@ -502,82 +502,82 @@ Table&nbsp;3.3: mode split
 <th style="text-align: center;" data-quarto-table-cell-role="th">Mode</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">ActivitySim predicted trips</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">WFRC predicted trips</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Error</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">% Error</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">% Error (scaled to WFRC predicted trips)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">Auto</td>
 <td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center; width: 3cm;">3042754</td>
+<td style="text-align: center; width: 3cm;">3253220</td>
 <td style="text-align: center; width: 3.5cm;">4096688</td>
-<td style="text-align: center;">-1053934</td>
-<td style="text-align: center; width: 3.7cm;">-25.7%</td>
+<td style="text-align: center;">-843468</td>
+<td style="text-align: center; width: 3.7cm;">-20.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Non-motorized</td>
 <td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center; width: 3cm;">591164</td>
+<td style="text-align: center; width: 3cm;">532274</td>
 <td style="text-align: center; width: 3.5cm;">510143</td>
-<td style="text-align: center;">81021</td>
-<td style="text-align: center; width: 3.7cm;">15.9%</td>
+<td style="text-align: center;">22131</td>
+<td style="text-align: center; width: 3.7cm;">4.3%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Transit</td>
 <td style="text-align: center;">Home-based Other</td>
-<td style="text-align: center; width: 3cm;">218438</td>
+<td style="text-align: center; width: 3cm;">67396</td>
 <td style="text-align: center; width: 3.5cm;">37346</td>
-<td style="text-align: center;">181092</td>
-<td style="text-align: center; width: 3.7cm;">484.9%</td>
+<td style="text-align: center;">30050</td>
+<td style="text-align: center; width: 3.7cm;">80.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Auto</td>
 <td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center; width: 3cm;">1288620</td>
+<td style="text-align: center; width: 3cm;">1524169</td>
 <td style="text-align: center; width: 3.5cm;">1586414</td>
-<td style="text-align: center;">-297794</td>
-<td style="text-align: center; width: 3.7cm;">-18.8%</td>
+<td style="text-align: center;">-62245</td>
+<td style="text-align: center; width: 3.7cm;">-3.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Non-motorized</td>
 <td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center; width: 3cm;">191880</td>
+<td style="text-align: center; width: 3cm;">83119</td>
 <td style="text-align: center; width: 3.5cm;">76506</td>
-<td style="text-align: center;">115374</td>
-<td style="text-align: center; width: 3.7cm;">150.8%</td>
+<td style="text-align: center;">6613</td>
+<td style="text-align: center; width: 3.7cm;">8.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Transit</td>
 <td style="text-align: center;">Home-based Work</td>
-<td style="text-align: center; width: 3cm;">189610</td>
+<td style="text-align: center; width: 3cm;">62814</td>
 <td style="text-align: center; width: 3.5cm;">48752</td>
-<td style="text-align: center;">140858</td>
-<td style="text-align: center; width: 3.7cm;">288.9%</td>
+<td style="text-align: center;">14062</td>
+<td style="text-align: center; width: 3.7cm;">28.8%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Auto</td>
 <td style="text-align: center;">Non–home-based</td>
-<td style="text-align: center; width: 3cm;">1645356</td>
+<td style="text-align: center; width: 3cm;">1839065</td>
 <td style="text-align: center; width: 3.5cm;">2224878</td>
-<td style="text-align: center;">-579522</td>
-<td style="text-align: center; width: 3.7cm;">-26.0%</td>
+<td style="text-align: center;">-385813</td>
+<td style="text-align: center; width: 3.7cm;">-17.3%</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Non-motorized</td>
 <td style="text-align: center;">Non–home-based</td>
-<td style="text-align: center; width: 3cm;">224248</td>
+<td style="text-align: center; width: 3cm;">162979</td>
 <td style="text-align: center; width: 3.5cm;">146404</td>
-<td style="text-align: center;">77844</td>
-<td style="text-align: center; width: 3.7cm;">53.2%</td>
+<td style="text-align: center;">16575</td>
+<td style="text-align: center; width: 3.7cm;">11.3%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Transit</td>
 <td style="text-align: center;">Non–home-based</td>
-<td style="text-align: center; width: 3cm;">103398</td>
+<td style="text-align: center; width: 3cm;">30513</td>
 <td style="text-align: center; width: 3.5cm;">13453</td>
-<td style="text-align: center;">89945</td>
-<td style="text-align: center; width: 3.7cm;">668.6%</td>
+<td style="text-align: center;">17060</td>
+<td style="text-align: center; width: 3.7cm;">126.8%</td>
 </tr>
 </tbody>
 </table>
@@ -619,15 +619,294 @@ Figure&nbsp;3.7: tlfd comparison
 </div>
 </div>
 <p>The WFRC model has basic support for predicting telecommuting and work-from-home trips. This includes a lookup table of telecommute percentages based on job type and year. ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions. It is worth noting that both the WFRC model and ActivitySim make a distinction between “telecommuting”, where an individual commutes to work some days and does not others, and “work-from-home” (or “home-based jobs” in the WFRC model), where an individual’s workplace is always at their home.</p>
-<p>wfh and telecommute_freq models, taken from SEMCOG prototype.</p>
+<p>The ActivitySim implementation discussed in <span class="citation" data-cites="gregory_s_macfarlane_estimation_2021">Gregory S. Macfarlane and Nathan J. Lant (<a href="references.html#ref-gregory_s_macfarlane_estimation_2021" role="doc-biblioref">2021</a>)</span> does not include any submodels related to remote work. However, the example ActivitySim implementation for SEMGOG <em>does</em> include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG example. <strong><em>Some modifications to the remote work submodels were needed for compatibility, but only included….</em></strong></p>
 <p>Both models treat “work-from-home”/“home-based jobs” similarly. The WFRC model’s land use data contains employment by type in each TAZ, and it considers a “home-based job” as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps. <!-- @fig-wfrc-wfh shows the distribution of home-based job percentage by TAZ in the WFRC land use data. --><br>
-ActivitySim has a “work from home” submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration). There is also a “target work-from-home percent” value that adjusts the model to reach the specified work-from-home proportion of all workers. Individuals with work-from-home status are then prohibited from making a mandatory tour. This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data. There are no other adjustments to the ActivitySim work-from-home submodel.</p>
-<p>The two models differ in their approach to telecommuting, however. The WFRC model has a lookup table of telecommuting shares based on job type (see <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>), including predictions for future years. ActivitySim has a “telecommute frequency” submodel which assigns workers a telecommute status indicating the number of days they work remotely per week. Based on this status, ActivitySim adjusts the likelihood of making a mandatory tour. Telecommute status depends on personal variables similar to those in the work-from-home submodel by default. In order to calibrate to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>. Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets. The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.4</span></a>.</p>
+ActivitySim has a “work from home” submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration, see <a href="#tbl-asim-wfh-model-coeffs" class="quarto-xref">Table&nbsp;<span>3.4</span></a>). There is also a “target work-from-home percent” value that adjusts the model to reach the specified work-from-home proportion of all workers. Individuals with work-from-home status are then prohibited from making a mandatory tour. This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data. We made no other adjustments to the ActivitySim work-from-home submodel.</p>
+<div class="cell">
+<div id="tbl-asim-wfh-model-coeffs" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-asim-wfh-model-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.4: asim wfh model coeffs
+</figcaption>
+<div aria-describedby="tbl-asim-wfh-model-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Constant for Working from home</td>
+<td style="text-align: right;">0.438</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Full time worker (1 if true)</td>
+<td style="text-align: right;">-0.812</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Female Worker</td>
+<td style="text-align: right;">-0.347</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female worker with a Preschool Child in Household</td>
+<td style="text-align: right;">0.573</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Accessibility to workplaces of the home mgra</td>
+<td style="text-align: right;">-0.140</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Presence of Non Working Adult in the Household</td>
+<td style="text-align: right;">-0.372</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Education Level Bachelors or higher degree</td>
+<td style="text-align: right;">0.285</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Household income Less than 30K</td>
+<td style="text-align: right;">-0.393</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age Group - Less than 35 years</td>
+<td style="text-align: right;">-0.574</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age Group - 35 yrs to 45 yrs</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age Group - 45 yrs to 55 yrs</td>
+<td style="text-align: right;">0.214</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Age Group - 55 yrs to 65 yrs</td>
+<td style="text-align: right;">0.452</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Age Group - Older than 65yrs</td>
+<td style="text-align: right;">0.584</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ABM2 calibration - work from home</td>
+<td style="text-align: right;">-0.016</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Phase2 calibration temp</td>
+<td style="text-align: right;">-0.628</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The two models differ in their approach to telecommuting, however. The WFRC model has a lookup table of telecommuting shares based on job type (see <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.6</span></a>), including predictions for future years. ActivitySim has a “telecommute frequency” submodel which assigns workers a telecommute status indicating the number of days they work remotely per week. Based on this status, ActivitySim adjusts the likelihood of making a mandatory tour. Telecommute status depends on personal variables similar to those in the work-from-home submodel by default. Notably, the telecommute frequency submodel also includes adjustments based on an individual’s distance to work. No other changes were made to the existing variables in this submodel, and <a href="#tbl-asim-tc-model-coeffs" class="quarto-xref">Table&nbsp;<span>3.5</span></a> shows the submodel coefficients.</p>
+<div class="cell">
+<div id="tbl-asim-tc-model-coeffs" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-asim-tc-model-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.5: asim tc model coeffs
+</figcaption>
+<div aria-describedby="tbl-asim-tc-model-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">1_day_week</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">2_3_days_week</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">4_days_week</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Retail</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">0.125</td>
+<td style="text-align: right;">0.078</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Food</td>
+<td style="text-align: right;">-0.368</td>
+<td style="text-align: right;">-0.148</td>
+<td style="text-align: right;">-0.092</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manufacturing</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.010</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">not sure, unused</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Office</td>
+<td style="text-align: right;">1.782</td>
+<td style="text-align: right;">0.712</td>
+<td style="text-align: right;">0.445</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Government and education</td>
+<td style="text-align: right;">-0.560</td>
+<td style="text-align: right;">-0.224</td>
+<td style="text-align: right;">-0.140</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health</td>
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">0.039</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">other</td>
+<td style="text-align: right;">1.535</td>
+<td style="text-align: right;">0.614</td>
+<td style="text-align: right;">0.384</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Agriculture</td>
+<td style="text-align: right;">2.262</td>
+<td style="text-align: right;">0.904</td>
+<td style="text-align: right;">0.566</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mining</td>
+<td style="text-align: right;">-2.030</td>
+<td style="text-align: right;">-0.810</td>
+<td style="text-align: right;">-0.511</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Construction</td>
+<td style="text-align: right;">0.816</td>
+<td style="text-align: right;">0.326</td>
+<td style="text-align: right;">0.204</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Has children 0 to 5 years old</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">-0.864</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Has children 6 to 12 years old</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.517</td>
+<td style="text-align: right;">-0.810</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">One adult in hh</td>
+<td style="text-align: right;">0.177</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">-0.043</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2 or more adults in hh</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Part-time worker</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.425</td>
+<td style="text-align: right;">1.112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">College student</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.600</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pays to park</td>
+<td style="text-align: right;">0.457</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Income 60-100k</td>
+<td style="text-align: right;">0.560</td>
+<td style="text-align: right;">0.389</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Income 100-150k</td>
+<td style="text-align: right;">0.644</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Income 150k+</td>
+<td style="text-align: right;">0.920</td>
+<td style="text-align: right;">0.765</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0 Autos</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.407</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1 Auto</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3+ Autos</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">-0.730</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Distance to work</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">temp_calibration</td>
+<td style="text-align: right;">-4.000</td>
+<td style="text-align: right;">-4.250</td>
+<td style="text-align: right;">-6.000</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>In order to calibrate ActivitySim’s telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.6</span></a>. Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets. The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in <a href="#tbl-baseline-telecommute" class="quarto-xref">Table&nbsp;<span>3.6</span></a>.</p>
 <div class="cell">
 <div id="tbl-baseline-telecommute" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-baseline-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.4: wfrc telecommute data
+Table&nbsp;3.6: wfrc telecommute data
 </figcaption>
 <div aria-describedby="tbl-baseline-telecommute-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -649,7 +928,7 @@ ActivitySim Telecommute Utility Coefficients
 </tr>
 <tr class="odd">
 <th style="text-align: center;" data-quarto-table-cell-role="th">Job Type</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">WFRC Telecommute Proportion</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">WFRC Telecommute %</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">1 day</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">2–3 days</th>
 <th style="text-align: center;" data-quarto-table-cell-role="th">4 days</th>
@@ -725,6 +1004,128 @@ ActivitySim Telecommute Utility Coefficients
 <td style="text-align: center;">1.535</td>
 <td style="text-align: center;">0.614</td>
 <td style="text-align: center;">0.384</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Because both remote work submodels in ActivitySim are run before an individual’s DAP is chosen, ActivitySim implicitly models a “rebound effect”, where individuals working remotely on any given day may be more likely to make discretionary tours. However, because the WFRC model does not include this effect, the ActivitySim DAP model is left unchanged. <a href="#tbl-asim-dap-model-rw-coeffs" class="quarto-xref">Table&nbsp;<span>3.7</span></a> shows the coefficients of the DAP model for individuals who work remotely.</p>
+<div class="cell">
+<div id="tbl-asim-dap-model-rw-coeffs" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-asim-dap-model-rw-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.7: asim dap model remote work coeffs
+</figcaption>
+<div aria-describedby="tbl-asim-dap-model-rw-coeffs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div>
+<table class="do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mpg</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cyl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">disp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">hp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">drat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">qsec</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">vs</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">am</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">gear</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mazda RX4</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.62</td>
+<td style="text-align: right;">16.5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mazda RX4 Wag</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">17.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Datsun 710</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">2.32</td>
+<td style="text-align: right;">18.6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hornet 4 Drive</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">258</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">3.21</td>
+<td style="text-align: right;">19.4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hornet Sportabout</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">175</td>
+<td style="text-align: right;">3.15</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">17.0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valiant</td>
+<td style="text-align: right;">18.1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">225</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">2.76</td>
+<td style="text-align: right;">3.46</td>
+<td style="text-align: right;">20.2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
 </tr>
 </tbody>
 </table>

@@ -226,14 +226,14 @@ Figure&nbsp;5.1: frontrunner map
 <h2 data-number="5.1" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">5.1</span> Scenario Creation</h2>
 <p>In the WFRC model, this change is relatively easy to implement. The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis. The only additional change needed was to turn on the “park and ride” flag in the highway network at each new station. Wasatch Front Regional Council (WFRC)</p>
 <!-- The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario. -->
-<p>To implement this scenario in ActivitySim, only updated travel skims are needed. As in the baseline scenario, the updated transit skims output from the WFRC model’s network assignment in this model scenario are taken directly as inputs to ActivitySim. Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims from the baseline scenario are used directly and not updated for this scenario. No other changes to ActivitySim are necessary to model this scenario. <!-- No other changes are needed to ActivitySim for this model scenario. --></p>
+<p>To implement this scenario in ActivitySim, only updated travel skims are needed. As in the baseline scenario, the transit skims output from the WFRC model’s network assignment in this model scenario are taken directly as inputs to ActivitySim. Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims from the baseline scenario are used directly and not updated for this scenario. No other changes to ActivitySim are necessary to model this scenario. <!-- No other changes are needed to ActivitySim for this model scenario. --></p>
 </section>
 <section id="scenario-analysis" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">5.2</span> Scenario Analysis</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
@@ -253,9 +253,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">4095127</td>
 <td style="text-align: right;">4096688</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">3050647</td>
-<td style="text-align: right;">3042754</td>
-<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">3253047</td>
+<td style="text-align: right;">3253220</td>
+<td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbo</td>
@@ -263,9 +263,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">510103</td>
 <td style="text-align: right;">510143</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">593154</td>
-<td style="text-align: right;">591164</td>
-<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">532301</td>
+<td style="text-align: right;">532274</td>
+<td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hbo</td>
@@ -273,9 +273,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">38912</td>
 <td style="text-align: right;">37346</td>
 <td style="text-align: right;">0.042</td>
-<td style="text-align: right;">220137</td>
-<td style="text-align: right;">218438</td>
-<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">67540</td>
+<td style="text-align: right;">67396</td>
+<td style="text-align: right;">0.002</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbw</td>
@@ -283,9 +283,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">1582865</td>
 <td style="text-align: right;">1586414</td>
 <td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">1286434</td>
-<td style="text-align: right;">1288620</td>
-<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">1523723</td>
+<td style="text-align: right;">1524169</td>
+<td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">hbw</td>
@@ -293,8 +293,8 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">76396</td>
 <td style="text-align: right;">76506</td>
 <td style="text-align: right;">-0.001</td>
-<td style="text-align: right;">191827</td>
-<td style="text-align: right;">191880</td>
+<td style="text-align: right;">83107</td>
+<td style="text-align: right;">83119</td>
 <td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
@@ -303,9 +303,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">52380</td>
 <td style="text-align: right;">48752</td>
 <td style="text-align: right;">0.074</td>
-<td style="text-align: right;">191873</td>
-<td style="text-align: right;">189610</td>
-<td style="text-align: right;">0.012</td>
+<td style="text-align: right;">63262</td>
+<td style="text-align: right;">62814</td>
+<td style="text-align: right;">0.007</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">nhb</td>
@@ -313,9 +313,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">2224420</td>
 <td style="text-align: right;">2224878</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">1646759</td>
-<td style="text-align: right;">1645356</td>
-<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">1838808</td>
+<td style="text-align: right;">1839065</td>
+<td style="text-align: right;">0.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">nhb</td>
@@ -323,9 +323,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">146409</td>
 <td style="text-align: right;">146404</td>
 <td style="text-align: right;">0.000</td>
-<td style="text-align: right;">224443</td>
-<td style="text-align: right;">224248</td>
-<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">162991</td>
+<td style="text-align: right;">162979</td>
+<td style="text-align: right;">0.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">nhb</td>
@@ -333,9 +333,9 @@ Figure&nbsp;5.1: frontrunner map
 <td style="text-align: right;">13870</td>
 <td style="text-align: right;">13453</td>
 <td style="text-align: right;">0.031</td>
-<td style="text-align: right;">104323</td>
-<td style="text-align: right;">103398</td>
-<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">30688</td>
+<td style="text-align: right;">30513</td>
+<td style="text-align: right;">0.006</td>
 </tr>
 </tbody>
 </table>
@@ -349,7 +349,17 @@ Figure&nbsp;5.1: frontrunner map
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="2_transit_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>needs to be redone?</figcaption>
+<figcaption>a</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2_transit_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>At-work trip modes of individuals who switched their work mode away from Drive Alone</figcaption>
 </figure>
 </div>
 </div>
@@ -417,20 +427,20 @@ Figure&nbsp;5.1: frontrunner map
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">hbw</td>
-<td style="text-align: right;">191873</td>
-<td style="text-align: right;">69064</td>
-<td style="text-align: right;">36</td>
+<td style="text-align: right;">63262</td>
+<td style="text-align: right;">62712</td>
+<td style="text-align: right;">37</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">hbo</td>
-<td style="text-align: right;">220137</td>
-<td style="text-align: right;">58326</td>
-<td style="text-align: right;">24</td>
+<td style="text-align: right;">67540</td>
+<td style="text-align: right;">64384</td>
+<td style="text-align: right;">15</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">nhb</td>
-<td style="text-align: right;">104323</td>
-<td style="text-align: right;">63814</td>
+<td style="text-align: right;">30688</td>
+<td style="text-align: right;">62159</td>
 <td style="text-align: right;">32</td>
 </tr>
 </tbody>
@@ -444,7 +454,7 @@ Figure&nbsp;5.1: frontrunner map
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2_transit_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2_transit_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -457,7 +467,7 @@ Figure&nbsp;5.1: frontrunner map
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_transit_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2_transit_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>cube</figcaption>
 </figure>
 </div>
@@ -467,7 +477,7 @@ Figure&nbsp;5.1: frontrunner map
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2_transit_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="2_transit_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption>asim</figcaption>
 </figure>
 </div>

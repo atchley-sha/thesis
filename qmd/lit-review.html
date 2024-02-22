@@ -290,7 +290,7 @@ Figure&nbsp;2.1: Example “information pipeline” for a trip-based model and a
 <p>In a typical trip-based model, trips are forecasted based on empirical trip rates, usually by trip purpose and by household type (for example, low-income, 1-vehicle households make a certain number of “home-based work” trips) <span class="citation" data-cites="mcnally_four-step_2007">(<a href="references.html#ref-mcnally_four-step_2007" role="doc-biblioref">McNally 2007</a>)</span>. These trips are then assigned an origin and destination, mode, and often a time of day (peak/off-peak, etc.), resulting in a list of trips between each zone by mode and purpose. A trip-based microsimulation model may use regression models rather than aggregate data for some of the model steps <span class="citation" data-cites="moeckel_agent-based_2020">(<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">Moeckel et al. 2020</a>)</span>, but the end result is similar: a list of trips by person, noting mode and purpose. However, this trip list may be inconsistent, and the forecasted trips may not be physically possible to complete in any sequence, as there is no sense of “trip-chaining”. The hope, though, is that over an area the inconsistencies would cancel out, leaving an overall accurate forecast.</p>
 <p>ABMs, on the other hand, model <em>tours</em> rather than trips. This attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a “chain” (tour), the trips within a tour are dependent on each other <span class="citation" data-cites="rasouli_activity-based_2014">(<a href="references.html#ref-rasouli_activity-based_2014" role="doc-biblioref">Rasouli and Timmermans 2014</a>)</span>. The open-source ABM ActivitySim <span class="citation" data-cites="association_of_metropolitan_planning_organizations_activitysim_2023">(<a href="references.html#ref-association_of_metropolitan_planning_organizations_activitysim_2023" role="doc-biblioref">Association of Metropolitan Planning Organizations 2023</a>)</span>, for example, has a tour-scheduling model that determines the number of “mandatory” (work, school, etc.) and “discretionary” tours each individual will make, and performs tour-level mode and destination choice for each tour. After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see <span class="citation" data-cites="vovsha_activity-based_2005">Vovsha, Bradley, and Bowman (<a href="references.html#ref-vovsha_activity-based_2005" role="doc-biblioref">2005</a>)</span>, fig.&nbsp;18.1).</p>
 <p>Figures <a href="#fig-network-aggregate" class="quarto-xref"><span>2.2</span></a> and <a href="#fig-network-synth" class="quarto-xref"><span>2.3</span></a> show an example of the trips assigned to a network in the various model forms. <a href="#fig-network-aggregate" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> depicts network assignment in a typical trip-based model where the total number of trips between each zone is given. With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see <a href="#fig-pipeline-example-1" class="quarto-xref">Figure&nbsp;<span>2.1 (a)</span></a>). It is also not possible to construct a coherent daily list of trips for individuals.</p>
-<p><a href="#fig-network-synth" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>, on the other hand, depicts visual representations of an <em>individual’s</em> travel made possible by the use of a synthetic population. <a href="#fig-network-tbmicro" class="quarto-xref">Figure&nbsp;<span>2.3 (a)</span></a> depicts the trip list that could be given for an individual in a trip-based microsimulation model. Though each individual’s trips are known, there is no guarantee of consistency between trips. For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip. The activity-based approach, depicted in <a href="#fig-network-abm" class="quarto-xref">Figure&nbsp;<span>2.3 (b)</span></a>, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.</p>
+<p><a href="#fig-network-synth" class="quarto-xref">Figure&nbsp;<span>2.3</span></a>, on the other hand, depicts visual representations of an <em>individual’s</em> travel made possible by the use of a synthetic population. <a href="#fig-network-synth-1" class="quarto-xref">Figure&nbsp;<span>2.3 (a)</span></a> depicts the trip list that could be given for an individual in a trip-based microsimulation model. Though each individual’s trips are known, there is no guarantee of consistency between trips. For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip. The activity-based approach, depicted in <a href="#fig-network-synth-2" class="quarto-xref">Figure&nbsp;<span>2.3 (b)</span></a>, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.</p>
 <div id="fig-network-aggregate" class="quarto-figure quarto-figure-center quarto-float anchored" data-fig-scap="Example network assignment using aggregate data.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-network-aggregate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -301,29 +301,38 @@ Figure&nbsp;2.2: Example network assignment using aggregate data. There is littl
 </figcaption>
 </figure>
 </div>
+<!--
+
+::: {#fig-network-syntha .cell layout-ncol="2"}
+
+
+Example network assignment using a synthetic population allows an individual's travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other.
+:::
+
+-->
 <div id="fig-network-synth" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-network-synth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-network-tbmicro" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-network-synth-1" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-network-tbmicro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../images/trip.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
+<div aria-describedby="fig-network-synth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./../images/trip.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-tbmicro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-synth-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (a) Trip-based microsimulation
 </figcaption>
 </figure>
 </div>
 </div>
 <div class="quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-network-synth" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div id="fig-network-abm" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-network-synth-2" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-subfloat-fig figure">
-<div aria-describedby="fig-network-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../images/tour.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
+<div aria-describedby="fig-network-synth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./../images/tour.png" class="img-fluid figure-img" data-ref-parent="fig-network-synth">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-abm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-network-synth-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 (b) Activity (tour)-based
 </figcaption>
 </figure>
