@@ -108,8 +108,9 @@ tribble(
   "Workers per Household", "Census Tract", "Census", 1000
 ) %>% 
   mutate(Weight = scales::label_comma()(Weight)) %>% 
-  kbl(booktabs = TRUE, linesep = "", align = "lccr") %>%
-  kable_styling()
+	tt()
+  # kbl(booktabs = TRUE, linesep = "", align = "lccr") %>%
+  # kable_styling()
 ```
 
 Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data.
@@ -162,8 +163,10 @@ These groups are taken from the WFRC model (see @tbl-income-groups), and the gro
 targets::tar_read(income_groups) %>% 
   select(group, inc_range) %>% 
   rename("Income Group" = group, "Income Range" = inc_range) %>% 
-  kbl(align = 'cr', booktabs = TRUE, linesep = "") %>% 
-  kable_styling()
+	tt() %>% 
+	format_tt(escape = TRUE)
+  # kbl(align = 'cr', booktabs = TRUE, linesep = "") %>% 
+  # kable_styling()
 ```
 
 ```{r}
@@ -211,16 +214,18 @@ This ActivitySim configuration is ultimately based on the San Francisco area, an
 #| tbl-cap: mode split
 
 targets::tar_read(by_mode_split_comparison) %>% 
-  kbl(
-    booktabs = TRUE,
-    col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "Error", "% Error"),
-    digits = c(0,0,0,0,0,1),
-    align = "c"
-  ) %>%
-  kable_styling(latex_options = "scale_down") %>% 
-  column_spec(3, "3cm") %>%
-  column_spec(4, "3.5cm") %>%
-  column_spec(6, "3.7cm")
+	tt() %>% 
+	format_tt(escape = TRUE)
+  # kbl(
+  #   booktabs = TRUE,
+  #   col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "Error", "% Error"),
+  #   digits = c(0,0,0,0,0,1),
+  #   align = "c"
+  # ) %>%
+  # kable_styling(latex_options = "scale_down") %>% 
+  # column_spec(3, "3cm") %>%
+  # column_spec(4, "3.5cm") %>%
+  # column_spec(6, "3.7cm")
   # collapse_rows(1)
   # collapse_rows(1, valign = "middle", latex_hline = "major")
 ```
@@ -268,7 +273,7 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 #| tbl-cap: asim wfh model coeffs
 
 targets::tar_read(asim_wfh_model_coeffs) %>% 
-	kbl()
+	tt() 
 ```
 
 The two models differ in their approach to telecommuting, however.
@@ -284,7 +289,8 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 #| tbl-cap: asim tc model coeffs
 
 targets::tar_read(asim_telecommute_model_coeffs) %>% 
-	kbl()
+	tt() %>% 
+	format_tt(escape = TRUE)
 ```
 
 In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
@@ -301,12 +307,14 @@ targets::tar_read(comparison_by_telecommute_coeffs) %>%
     "Job Type" = name,
     "WFRC Telecommute %" = pct
     ) %>%
-  kbl(
-    booktabs = TRUE,
-    align = "c"
-  ) %>%
-  add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
-  kable_styling()
+	tt() %>% 
+	format_tt(escape = TRUE)
+  # kbl(
+  #   booktabs = TRUE,
+  #   align = "c"
+  # ) %>%
+  # add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
+  # kable_styling()
 ```
 
 Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim implicitly models a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
@@ -317,7 +325,7 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 #| label: tbl-asim-dap-model-rw-coeffs
 #| tbl-cap: asim dap model remote work coeffs
 
-head(mtcars) %>% kbl()
+head(mtcars) %>% tt()
 ```
 
 ## Example Scenarios

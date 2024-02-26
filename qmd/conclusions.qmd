@@ -1,5 +1,7 @@
 # Conclusions and Recommendations {#sec-conclusions}
 
+{{< include _setup.qmd >}}
+
 Intro.
 
 Many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation.

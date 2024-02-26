@@ -10,10 +10,10 @@ library(tinytable)
 library(kableExtra)
 library(sf)
 
-options(
-	digits = 3, # how many significant digits to print by default
-	tinytable_tabularray_placement = "htbp" # for LaTeX
-)
+# options(
+# 	digits = 3, # how many significant digits to print by default
+# 	tinytable_tabularray_placement = "htbp" # for LaTeX
+# )
 
 ggplot2::theme_set(theme_bw())
 

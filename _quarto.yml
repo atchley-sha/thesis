@@ -64,13 +64,11 @@ format:
   html:
     theme: cosmo
   pdf:
-    keep-tex: true
+    keep-tex: false
     # template: style/template.tex
     include-in-header:
       - style/latex_preamble.tex
-      # text:
-      #   - \usepackage{float}
-      #   - \floatplacement{table}{H}
+      - style/tt_preamble.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF

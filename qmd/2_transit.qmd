@@ -42,8 +42,7 @@ No other changes to ActivitySim are necessary to model this scenario.
 
 ```{r}
 targets::tar_read(combined_tr_mode_split_diff) %>% 
-	kbl() %>% 
-	kable_styling()
+	kbl()
 ```
 
 ```{r}
