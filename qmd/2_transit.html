@@ -224,124 +224,204 @@ Figure&nbsp;5.1: frontrunner map
 </div>
 <section id="scenario-creation" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="scenario-creation"><span class="header-section-number">5.1</span> Scenario Creation</h2>
-<p>In the WFRC model, this change is relatively easy to implement. The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis. The only additional change needed was to turn on the “park and ride” flag in the highway network at each new station. Wasatch Front Regional Council (WFRC)</p>
+<p>In the WFRC model, this change is relatively easy to implement. The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis. The only additional change needed was to turn on the “park and ride” flag in the highway network at the node of each new station. Wasatch Front Regional Council (WFRC)</p>
 <!-- The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario. -->
-<p>To implement this scenario in ActivitySim, only updated travel skims are needed. As in the baseline scenario, the transit skims output from the WFRC model’s network assignment in this model scenario are taken directly as inputs to ActivitySim. Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims from the baseline scenario are used directly and not updated for this scenario. No other changes to ActivitySim are necessary to model this scenario. <!-- No other changes are needed to ActivitySim for this model scenario. --></p>
+<p>To implement this scenario in ActivitySim, only updated travel skims are needed. As in the baseline scenario, the transit skims output from the WFRC model’s network assignment in this model scenario are taken directly as inputs to ActivitySim. Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims are taken from the baseline scenario in the WFRC model and not updated for this scenario. No other changes to ActivitySim are necessary to model this scenario. <!-- No other changes are needed to ActivitySim for this model scenario. --></p>
 </section>
 <section id="scenario-analysis" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="scenario-analysis"><span class="header-section-number">5.2</span> Scenario Analysis</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div>
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">purpose</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">mode</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">cube_tr</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">cube_by</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">cube_diff_pct</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">asim_tr</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">asim_by</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">asim_diff_pct</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">hbo</td>
-<td style="text-align: left;">auto</td>
-<td style="text-align: right;">4095127</td>
-<td style="text-align: right;">4096688</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">3253047</td>
-<td style="text-align: right;">3253220</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hbo</td>
-<td style="text-align: left;">nonmotor</td>
-<td style="text-align: right;">510103</td>
-<td style="text-align: right;">510143</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">532301</td>
-<td style="text-align: right;">532274</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hbo</td>
-<td style="text-align: left;">transit</td>
-<td style="text-align: right;">38912</td>
-<td style="text-align: right;">37346</td>
-<td style="text-align: right;">0.042</td>
-<td style="text-align: right;">67540</td>
-<td style="text-align: right;">67396</td>
-<td style="text-align: right;">0.002</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hbw</td>
-<td style="text-align: left;">auto</td>
-<td style="text-align: right;">1582865</td>
-<td style="text-align: right;">1586414</td>
-<td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">1523723</td>
-<td style="text-align: right;">1524169</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">hbw</td>
-<td style="text-align: left;">nonmotor</td>
-<td style="text-align: right;">76396</td>
-<td style="text-align: right;">76506</td>
-<td style="text-align: right;">-0.001</td>
-<td style="text-align: right;">83107</td>
-<td style="text-align: right;">83119</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">hbw</td>
-<td style="text-align: left;">transit</td>
-<td style="text-align: right;">52380</td>
-<td style="text-align: right;">48752</td>
-<td style="text-align: right;">0.074</td>
-<td style="text-align: right;">63262</td>
-<td style="text-align: right;">62814</td>
-<td style="text-align: right;">0.007</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nhb</td>
-<td style="text-align: left;">auto</td>
-<td style="text-align: right;">2224420</td>
-<td style="text-align: right;">2224878</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">1838808</td>
-<td style="text-align: right;">1839065</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">nhb</td>
-<td style="text-align: left;">nonmotor</td>
-<td style="text-align: right;">146409</td>
-<td style="text-align: right;">146404</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">162991</td>
-<td style="text-align: right;">162979</td>
-<td style="text-align: right;">0.000</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">nhb</td>
-<td style="text-align: left;">transit</td>
-<td style="text-align: right;">13870</td>
-<td style="text-align: right;">13453</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">30688</td>
-<td style="text-align: right;">30513</td>
-<td style="text-align: right;">0.006</td>
-</tr>
-</tbody>
-</table>
+ 
+
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinytable_h7dvtxq5osaj3v7lameh</title>
+    <style>
+.table td.tinytable_css_4ywvu96g59zosxd7p4zz, .table th.tinytable_css_4ywvu96g59zosxd7p4zz {    border-bottom: solid 0.1em #d3d8dc; }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+  
+
+  
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_h7dvtxq5osaj3v7lameh" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        
+              <tr>
+                <th scope="col">purpose</th>
+                <th scope="col">mode</th>
+                <th scope="col">cube_tr</th>
+                <th scope="col">cube_by</th>
+                <th scope="col">cube_diff_pct</th>
+                <th scope="col">asim_tr</th>
+                <th scope="col">asim_by</th>
+                <th scope="col">asim_diff_pct</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td>hbo</td>
+                  <td>auto</td>
+                  <td>4095127</td>
+                  <td>4096688</td>
+                  <td>-0.000381</td>
+                  <td>3253047</td>
+                  <td>3253220</td>
+                  <td>-0.000053</td>
+                </tr>
+                <tr>
+                  <td>hbo</td>
+                  <td>nonmotor</td>
+                  <td> 510103</td>
+                  <td> 510143</td>
+                  <td>-0.000078</td>
+                  <td>532301</td>
+                  <td>532274</td>
+                  <td> 0.000051</td>
+                </tr>
+                <tr>
+                  <td>hbo</td>
+                  <td>transit</td>
+                  <td>  38912</td>
+                  <td>  37346</td>
+                  <td> 0.041921</td>
+                  <td>67540</td>
+                  <td>67396</td>
+                  <td> 0.002137</td>
+                </tr>
+                <tr>
+                  <td>hbw</td>
+                  <td>auto</td>
+                  <td>1582865</td>
+                  <td>1586414</td>
+                  <td>-0.002238</td>
+                  <td>1523723</td>
+                  <td>1524169</td>
+                  <td>-0.000293</td>
+                </tr>
+                <tr>
+                  <td>hbw</td>
+                  <td>nonmotor</td>
+                  <td>  76396</td>
+                  <td>  76506</td>
+                  <td>-0.001440</td>
+                  <td>83107</td>
+                  <td>83119</td>
+                  <td>-0.000144</td>
+                </tr>
+                <tr>
+                  <td>hbw</td>
+                  <td>transit</td>
+                  <td>  52380</td>
+                  <td>  48752</td>
+                  <td> 0.074416</td>
+                  <td>63262</td>
+                  <td>62814</td>
+                  <td> 0.007132</td>
+                </tr>
+                <tr>
+                  <td>nhb</td>
+                  <td>auto</td>
+                  <td>2224420</td>
+                  <td>2224878</td>
+                  <td>-0.000206</td>
+                  <td>1838808</td>
+                  <td>1839065</td>
+                  <td>-0.000140</td>
+                </tr>
+                <tr>
+                  <td>nhb</td>
+                  <td>nonmotor</td>
+                  <td> 146409</td>
+                  <td> 146404</td>
+                  <td> 0.000037</td>
+                  <td>162991</td>
+                  <td>162979</td>
+                  <td> 0.000074</td>
+                </tr>
+                <tr>
+                  <td>nhb</td>
+                  <td>transit</td>
+                  <td>  13870</td>
+                  <td>  13453</td>
+                  <td> 0.030967</td>
+                  <td>30688</td>
+                  <td>30513</td>
+                  <td> 0.005735</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      function styleCell_tinytable_sr0578etqof320do8bld(i, j, css_id) {
+        var table = document.getElementById("tinytable_h7dvtxq5osaj3v7lameh");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow(i, colspan, content) {
+        var table = document.getElementById('tinytable_h7dvtxq5osaj3v7lameh');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_tinytable_sr0578etqof320do8bld(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_h7dvtxq5osaj3v7lameh");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 0, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 1, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 2, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 3, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 4, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 5, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 6, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+window.addEventListener('load', function () { styleCell_tinytable_sr0578etqof320do8bld(0, 7, 'tinytable_css_4ywvu96g59zosxd7p4zz') })
+    </script>
+
+  
 
 
-</div>
 </div>
 </div>
 <div class="cell">
