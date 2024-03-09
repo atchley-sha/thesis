@@ -106,12 +106,13 @@ keep_asim_purpose <- function(purpose) {
 
 convert_asim_mode <- function(mode){
 	case_when(
-		mode %in% c("DRIVEALONEFREE", "SHARED2FREE", "SHARED3FREE") ~ "auto",
+		mode == "DRIVEALONEFREE" ~ "drive_alone",
+		mode %in% c("SHARED2FREE", "SHARED3FREE") ~ "carpool",
 		str_detect(mode, "COM|EXP|HVY|LOC|LRF|TAXI|TNC") ~ "transit",
 		mode %in% c("BIKE", "WALK") ~ "nonmotor",
 		TRUE ~ "ERROR IN MODE CONVERSION"
 	) %>%
-		factor(c("auto", "transit", "nonmotor"))
+		factor(c("drive_alone", "carpool", "transit", "nonmotor"))
 }
 
 read_asim_telecommute_coefficients <- function(coeffs_file, job_code_transl) {

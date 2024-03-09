@@ -1,7 +1,7 @@
 pretty_mode <- function(mode) {
 	case_match(
 		as.character(mode),
-		"drivealone" ~ "Drive Alone",
+		c("drivealone", "drive_alone") ~ "Drive Alone",
 		"carpool" ~ "Carpool",
 		"auto" ~ "Auto",
 		"transit" ~ "Transit",

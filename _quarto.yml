@@ -5,9 +5,9 @@ project:
 execute:
   echo: false
   warning: false
-  # cache: refresh
-  cache: true
-  freeze: auto
+  cache: refresh
+  # cache: true
+  # freeze: auto
 
 book:
   title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
@@ -34,14 +34,14 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - qmd/intro.qmd
-    - qmd/lit-review.qmd
-    - qmd/methods.qmd
-    - qmd/1_land_use.qmd
-    - qmd/2_transit.qmd
-    - qmd/3_wfh.qmd
-    - qmd/conclusions.qmd
-    - qmd/references.qmd
+    # - qmd/intro.qmd
+    # - qmd/lit-review.qmd
+    # - qmd/methods.qmd
+    # - qmd/1_land_use.qmd
+    # - qmd/2_transit.qmd
+    # - qmd/3_wfh.qmd
+    # - qmd/conclusions.qmd
+    # - qmd/references.qmd
 
 affiliations:
   - id: byucce
@@ -63,12 +63,12 @@ toc-depth: 2
 format:
   html:
     theme: cosmo
-  pdf:
-    keep-tex: false
-    # template: style/template.tex
-    include-in-header:
-      - style/latex_preamble.tex
-      - style/tt_preamble.tex
+  # pdf:
+  #   keep-tex: false
+  #   # template: style/template.tex
+  #   include-in-header:
+  #     - style/latex_preamble.tex
+  #     - style/tt_preamble.tex
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF

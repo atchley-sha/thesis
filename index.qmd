@@ -3,3 +3,90 @@
 
 {{< print-acronyms header_classes=.unnumbered >}}
 :::
+
+```{r}
+#| include: false
+
+library(tidyverse)
+library(targets)
+library(tinytable)
+```
+
+## Mode Choice Calibration Testing
+
+### Summary
+
+```{r}
+tar_read(mode_choice_calibration_shares_plot)
+```
+
+```{r}
+tar_read(mode_choice_calibration_asim_coeffs_summary) %>% 
+	tt()
+```
+
+### Iteration 0 (Default MTC ASCs)
+
+```{r}
+tar_read(by_mode_split_comparison_0) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_0)
+```
+
+### Iteration 1
+
+```{r}
+tar_read(by_mode_split_comparison_1) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_1)
+```
+
+### Iteration 2
+
+```{r}
+tar_read(by_mode_split_comparison_2) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_2)
+```
+
+### Iteration 3
+
+```{r}
+tar_read(by_mode_split_comparison_3) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_3)
+```
+
+### Iteration 4
+
+```{r}
+tar_read(by_mode_split_comparison_4) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_4)
+```
+
+### Iteration 5
+
+```{r}
+tar_read(by_mode_split_comparison_5) %>% 
+	tt()
+```
+
+```{r}
+tar_read(asim_tr_diff_by_district_plot_5)
+```

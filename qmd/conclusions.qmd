@@ -13,12 +13,12 @@ As part of our recommendations, we include a discussion of the computational res
 
 All runs of the WFRC model were done on a Windows 10 computer with 2 Intel Xeon Silver 4114 CPUs.
 The CPUs have a base frequency of 2.2 GHz with a maximum turbo frequency of 3.0 GHz, and 10 cores/20 threads each.
-The WFRC model is configured for multiprocessing in its destination and mode choice steps, **waiting to head back from Chad on how many processes it actually uses though**.
+The WFRC model is configured for multiprocessing in its destination and mode choice steps, and was configured to use 16 threads for our scenario runs.
 This machine also has 128 GB of RAM installed, **and we need to check how much it actually uses**.
 There were not significant differences in runtimes between each model scenario, and each scenario had a runtime of 16--17 hours.
 
 Most runs of ActivitySim were done on nodes of the BYU supercomputer.
-Each node runs Red Hat Enterprise Linux 7.9, and uses a 14-core Intel Broadwell CPU at 2.4 GHz.
+Each node runs Red Hat Enterprise Linux 7.9, and uses an AMD EPYC 7763 CPU at 2.45 GHz.
 Each ActivitySim run requested 12 CPU cores and 360 GB of RAM.
 Running in single-threaded mode (i.e. only one CPU core was utilized), each run took roughly 5 hours to complete, and used nearly all of the 360 GB of RAM available.
 With multi-threading enabled, however, the runtimes decreased to around an hour per scenario, using 72% of the available CPU time across all 12 cores and 88% of the available RAM.

@@ -77,9 +77,10 @@ plot_trips_diff_by_district <- function(
 		facet_wrap(~mode) +
 		annotation_map_tile("cartolight", zoom = 10) +
 		geom_sf(aes(fill = diff), data = trips) +
-		scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
-		.add_frontrunner_to_plot(fr_line, fr_stops) +
+		scale_fill_gradient2() +
+		# scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
 		labs(fill = "Change in trips by\nproduction district") +
+		.add_frontrunner_to_plot(fr_line, fr_stops) +
 		theme_map(zoom = FALSE)
 }
 

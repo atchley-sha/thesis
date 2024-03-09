@@ -182,10 +182,10 @@ asim_data_targets <- tar_plan(
 	asim_telecommute_model_coeffs = readr::read_csv(asim_telecommute_model_coeffs_file),
 
 	# Base year
-	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
-	tar_file(asim_by_tours_file, "data/asim/output/base_2019/final_tours.csv.gz"),
-	tar_file(asim_by_per_file, "data/asim/output/base_2019/final_persons.csv.gz"),
-	tar_file(asim_by_hh_file, "data/asim/output/base_2019/final_households.csv.gz"),
+	tar_file(asim_by_trips_file, "data/asim/output/base_2019_temp_mc/final_trips.csv.gz"),
+	tar_file(asim_by_tours_file, "data/asim/output/base_2019_temp_mc/final_tours.csv.gz"),
+	tar_file(asim_by_per_file, "data/asim/output/base_2019_temp_mc/final_persons.csv.gz"),
+	tar_file(asim_by_hh_file, "data/asim/output/base_2019_temp_mc/final_households.csv.gz"),
 
 	asim_by_raw_trips = read_asim_trips_file(asim_by_trips_file),
 	asim_by_trips = count_asim_trips(asim_by_raw_trips),
@@ -204,10 +204,10 @@ asim_data_targets <- tar_plan(
 	asim_lu_per = readr::read_csv(asim_lu_per_file),
 
 	# Transit
-	tar_file(asim_tr_trips_file, "data/asim/output/transit/final_trips.csv.gz"),
-	tar_file(asim_tr_tours_file, "data/asim/output/transit/final_tours.csv.gz"),
-	tar_file(asim_tr_per_file, "data/asim/output/transit/final_persons.csv.gz"),
-	tar_file(asim_tr_hh_file, "data/asim/output/transit/final_households.csv.gz"),
+	tar_file(asim_tr_trips_file, "data/asim/output/transit_temp_mc/final_trips.csv.gz"),
+	tar_file(asim_tr_tours_file, "data/asim/output/transit_temp_mc/final_tours.csv.gz"),
+	tar_file(asim_tr_per_file, "data/asim/output/transit_temp_mc/final_persons.csv.gz"),
+	tar_file(asim_tr_hh_file, "data/asim/output/transit_temp_mc/final_households.csv.gz"),
 
 	asim_tr_raw_trips = read_asim_trips_file(asim_tr_trips_file),
 	asim_tr_trips = count_asim_trips(asim_tr_raw_trips),
@@ -222,6 +222,121 @@ asim_data_targets <- tar_plan(
 
 	asim_wfh_raw_trips = read_asim_trips_file(asim_wfh_trips_file),
 	asim_wfh_trips = count_asim_trips(asim_wfh_raw_trips),
+)
+
+mc_calibration_targets <- tar_plan(
+	tar_file(asim_mc_0_file, "data/asim/output/calibrate_mc_0/final_trips.csv"),
+	asim_mc_0_raw_trips = read_asim_trips_file(asim_mc_0_file),
+	asim_mc_0_trips = count_asim_trips(asim_mc_0_raw_trips),
+	tar_file(asim_mc_1_file, "data/asim/output/calibrate_mc_1/final_trips.csv"),
+	asim_mc_1_raw_trips = read_asim_trips_file(asim_mc_1_file),
+	asim_mc_1_trips = count_asim_trips(asim_mc_1_raw_trips),
+	tar_file(asim_mc_2_file, "data/asim/output/calibrate_mc_2/final_trips.csv"),
+	asim_mc_2_raw_trips = read_asim_trips_file(asim_mc_2_file),
+	asim_mc_2_trips = count_asim_trips(asim_mc_2_raw_trips),
+	tar_file(asim_mc_3_file, "data/asim/output/calibrate_mc_3/final_trips.csv"),
+	asim_mc_3_raw_trips = read_asim_trips_file(asim_mc_3_file),
+	asim_mc_3_trips = count_asim_trips(asim_mc_3_raw_trips),
+	tar_file(asim_mc_4_file, "data/asim/output/calibrate_mc_4/final_trips.csv"),
+	asim_mc_4_raw_trips = read_asim_trips_file(asim_mc_4_file),
+	asim_mc_4_trips = count_asim_trips(asim_mc_4_raw_trips),
+	tar_file(asim_mc_5_file, "data/asim/output/calibrate_mc_5/final_trips.csv"),
+	asim_mc_5_raw_trips = read_asim_trips_file(asim_mc_5_file),
+	asim_mc_5_trips = count_asim_trips(asim_mc_5_raw_trips),
+
+	tar_file(asim_tr_0_file, "data/asim/output/transit_0/final_trips.csv"),
+	asim_tr_0_raw_trips = read_asim_trips_file(asim_tr_0_file),
+	asim_tr_0_trips = count_asim_trips(asim_tr_0_raw_trips),
+	tar_file(asim_tr_1_file, "data/asim/output/transit_1/final_trips.csv"),
+	asim_tr_1_raw_trips = read_asim_trips_file(asim_tr_1_file),
+	asim_tr_1_trips = count_asim_trips(asim_tr_1_raw_trips),
+	tar_file(asim_tr_2_file, "data/asim/output/transit_2/final_trips.csv"),
+	asim_tr_2_raw_trips = read_asim_trips_file(asim_tr_2_file),
+	asim_tr_2_trips = count_asim_trips(asim_tr_2_raw_trips),
+	tar_file(asim_tr_3_file, "data/asim/output/transit_3/final_trips.csv"),
+	asim_tr_3_raw_trips = read_asim_trips_file(asim_tr_3_file),
+	asim_tr_3_trips = count_asim_trips(asim_tr_3_raw_trips),
+	tar_file(asim_tr_4_file, "data/asim/output/transit_4/final_trips.csv"),
+	asim_tr_4_raw_trips = read_asim_trips_file(asim_tr_4_file),
+	asim_tr_4_trips = count_asim_trips(asim_tr_4_raw_trips),
+	tar_file(asim_tr_5_file, "data/asim/output/transit_5/final_trips.csv"),
+	asim_tr_5_raw_trips = read_asim_trips_file(asim_tr_5_file),
+	asim_tr_5_trips = count_asim_trips(asim_tr_5_raw_trips),
+
+	combined_by_trips_0 = dplyr::bind_rows(list(asim = asim_mc_0_trips, cube = cube_by_trips), .id = "model"),
+	combined_by_trips_1 = dplyr::bind_rows(list(asim = asim_mc_1_trips, cube = cube_by_trips), .id = "model"),
+	combined_by_trips_2 = dplyr::bind_rows(list(asim = asim_mc_2_trips, cube = cube_by_trips), .id = "model"),
+	combined_by_trips_3 = dplyr::bind_rows(list(asim = asim_mc_3_trips, cube = cube_by_trips), .id = "model"),
+	combined_by_trips_4 = dplyr::bind_rows(list(asim = asim_mc_4_trips, cube = cube_by_trips), .id = "model"),
+	combined_by_trips_5 = dplyr::bind_rows(list(asim = asim_mc_5_trips, cube = cube_by_trips), .id = "model"),
+
+	by_mode_split_comparison_0 = compare_by_mode_split(combined_by_trips_0),
+	by_mode_split_comparison_1 = compare_by_mode_split(combined_by_trips_1),
+	by_mode_split_comparison_2 = compare_by_mode_split(combined_by_trips_2),
+	by_mode_split_comparison_3 = compare_by_mode_split(combined_by_trips_3),
+	by_mode_split_comparison_4 = compare_by_mode_split(combined_by_trips_4),
+	by_mode_split_comparison_5 = compare_by_mode_split(combined_by_trips_5),
+
+	asim_tr_all_trips_diff_0 = get_trip_diff(list(tr = asim_tr_0_trips, by = asim_mc_0_trips)),
+	asim_tr_all_trips_diff_1 = get_trip_diff(list(tr = asim_tr_1_trips, by = asim_mc_1_trips)),
+	asim_tr_all_trips_diff_2 = get_trip_diff(list(tr = asim_tr_2_trips, by = asim_mc_2_trips)),
+	asim_tr_all_trips_diff_3 = get_trip_diff(list(tr = asim_tr_3_trips, by = asim_mc_3_trips)),
+	asim_tr_all_trips_diff_4 = get_trip_diff(list(tr = asim_tr_4_trips, by = asim_mc_4_trips)),
+	asim_tr_all_trips_diff_5 = get_trip_diff(list(tr = asim_tr_5_trips, by = asim_mc_5_trips)),
+
+	asim_tr_diff_by_district_plot_0 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_0, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot_1 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_1, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot_2 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_2, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot_3 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_3, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot_4 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_4, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+	asim_tr_diff_by_district_plot_5 = plot_trips_diff_by_district(
+		asim_tr_all_trips_diff_5, taz_distsml_transl, distsml,
+		frontrunner_line, frontrunner_stops),
+
+	tar_file(asim_tour_mc_coeffs_file, "data/calibration/mode_choice/tour_mode_choice_coefficients.csv"),
+	mode_choice_calibration_asim_coeffs_summary = dplyr::summarise(
+		read_csv(asim_tour_mc_coeffs_file),
+		dplyr::across(-c(coefficient_name), mean),
+		.by = tour_mode
+	),
+
+	mode_choice_calibration_shares = make_mc_shares_df(list(
+		by_mode_split_comparison_0,
+		by_mode_split_comparison_1,
+		by_mode_split_comparison_2,
+		by_mode_split_comparison_3,
+		by_mode_split_comparison_4,
+		by_mode_split_comparison_5
+	)),
+	mode_choice_calibration_shares_plot = plot_mc_shares(
+		mode_choice_calibration_shares
+	),
+
+	quick_make_mc_comparison = list(
+		by_mode_split_comparison_0,
+		by_mode_split_comparison_1,
+		by_mode_split_comparison_2,
+		by_mode_split_comparison_3,
+		by_mode_split_comparison_4,
+		by_mode_split_comparison_5,
+		asim_tr_diff_by_district_plot_0,
+		asim_tr_diff_by_district_plot_1,
+		asim_tr_diff_by_district_plot_2,
+		asim_tr_diff_by_district_plot_3,
+		asim_tr_diff_by_district_plot_4,
+		asim_tr_diff_by_district_plot_5,
+		mode_choice_calibration_asim_coeffs_summary
+	),
 )
 
 # Base year ####
@@ -413,6 +528,7 @@ tar_plan(
 	shared_data_targets,
 	cube_data_targets,
 	asim_data_targets,
+	mc_calibration_targets,
 
 	base_year_targets,
 	land_use_targets,

@@ -2,27 +2,27 @@ run_calibration_tours <- function(in_asc, out_asc, max_error, iteration){
 
   shares <- get_mode_split(max_error)
   shares
-  shares %>% 
+  shares %>%
     write_csv(paste0("data/base_model_comparison/calibration/it", iteration, ".csv"))
-  
+
   adjs <- get_adjs(shares)
   coef0 <- read_tours_asc(in_asc, adjs)
   coef1 <- adjust_asc(coef0, adjs)
-  
-  coef1 %>% 
+
+  coef1 %>%
     write_csv(out_asc, na = "")
 }
 
 run_calibration_trips <- function(in_asc, out_asc, max_error){
-  
+
   shares <- get_mode_split(max_error)
   shares
-  
+
   adjs <- get_adjs(shares)
   coef0 <- read_trips_asc(in_asc, adjs)
   coef1 <- adjust_asc(coef0, adjs)
-  
-  coef1 %>% 
+
+  coef1 %>%
     write_csv(out_asc, na = "")
 }
 
@@ -31,42 +31,42 @@ get_mode_split <- function(max_error){
     group_by(model, mode, purpose) %>%
     summarise(trips = sum(trips)) %>%
     pivot_wider(names_from = model, values_from = trips)
-  
+
   shares <- temp %>%
     arrange(purpose, mode) %>%
     mutate(error = asim/wfrc - 1) %>%
-    relocate(purpose) %>% 
+    relocate(purpose) %>%
     mutate(to_calibrate = case_when(
       mode %in% c("all", "auto") ~ FALSE, #DA trips are the reference, it's odd to calibrate other auto modes
       purpose == "all" ~ FALSE,
       error > max_error ~ TRUE,
       TRUE ~ FALSE
     ))
-  
+
   shares
 }
 
 get_adjs <- function(shares){
-  adjs <- shares %>% 
+  adjs <- shares %>%
     filter(purpose != "all") %>%
-    group_by(purpose) %>% 
+    group_by(purpose) %>%
     mutate(asim_share = asim/sum(asim), wfrc_share = wfrc/sum(wfrc)) %>%
-    ungroup() %>% 
-    mutate(adj = log(wfrc_share/asim_share)) %>% 
-    mutate(purpose = if_else(purpose == "hbw", "work", "other")) %>% 
-    group_by(purpose, mode) %>% 
-    summarise(adj = mean(adj), to_calibrate = any(to_calibrate)) %>% 
-    ungroup() %>% 
-    filter(to_calibrate) %>% 
-    select(mode, purpose, adj) %>% 
-    transmute(name = paste(purpose, mode, sep = "_"), adj) %>% 
+    ungroup() %>%
+    mutate(adj = log(wfrc_share/asim_share)) %>%
+    mutate(purpose = if_else(purpose == "hbw", "work", "other")) %>%
+    group_by(purpose, mode) %>%
+    summarise(adj = mean(adj), to_calibrate = any(to_calibrate)) %>%
+    ungroup() %>%
+    filter(to_calibrate) %>%
+    select(mode, purpose, adj) %>%
+    transmute(name = paste(purpose, mode, sep = "_"), adj) %>%
     deframe()
-  
+
   adjs
 }
 
 read_tours_asc <- function(in_asc, adjs){
-  coef0 <- read_csv(in_asc) %>% 
+  coef0 <- read_csv(in_asc) %>%
     mutate(
       mode = case_when(
         str_detect(coefficient_name, "^walk_transit|^drive_transit|^taxi|^bus|^rail|^tnc|^ride_hail") ~ "transit",
@@ -86,12 +86,12 @@ read_tours_asc <- function(in_asc, adjs){
         TRUE ~ FALSE
       )
     )
-  
+
   coef0
 }
 
 read_trips_asc <- function(in_asc, adjs){
-  coef0 <- read_csv(in_asc) %>% 
+  coef0 <- read_csv(in_asc) %>%
     mutate(
       mode = case_when(
         str_detect(coefficient_name, "ASC_walk_transit|ASC_drive_transit|ASC_taxi|ASC_bus|ASC_rail|ASC_tnc|ASC_ride_hail") ~ "transit",
@@ -111,22 +111,38 @@ read_trips_asc <- function(in_asc, adjs){
         TRUE ~ FALSE
       )
     )
-  
+
   coef0
 }
 
 adjust_asc <- function(coef0, adjs){
-  coef1 <- coef0 %>% 
-    mutate(value = if_else(to_calibrate, value + adjs[adj], value)) %>% 
+  coef1 <- coef0 %>%
+    mutate(value = if_else(to_calibrate, value + adjs[adj], value)) %>%
     select(coefficient_name, value, constrain)
-  
+
   coef1
 }
 
 read_calibration_iters <- function(dir = "data/base_model_comparison/calibration"){
   files <- list.files(dir, full.names = TRUE)
   iters <- str_replace(files, "(.*\\/)*(.*)\\.csv", "\\2")
-  csvs <- map(files, \(x) read_csv(x) %>% select(purpose, mode, error)) %>% 
+  csvs <- map(files, \(x) read_csv(x) %>% select(purpose, mode, error)) %>%
     `names<-`(iters)
   errors <- bind_rows(csvs, .id = "iteration")
+}
+
+make_mc_shares_df <- function(shares_iters = list()){
+	bind_rows(shares_iters, .id = "iter") %>%
+		select(iter, mode, purpose, contains("trips")) %>%
+		pivot_longer(contains("trips"), names_to = "model", values_to = "trips", names_prefix = "trips_") %>%
+		group_by(iter, purpose, model) %>%
+		mutate(share = trips/sum(trips), iter = as.integer(iter)-1)
+}
+
+plot_mc_shares <- function(shares) {
+	shares %>%
+		ggplot(aes(x = iter, y = share, lty = model, color = mode)) +
+		facet_wrap(~purpose) +
+		geom_line() +
+		theme_bw()
 }

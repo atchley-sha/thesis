@@ -16,7 +16,13 @@ read_cube_taz_inc_groups_file <- function(cube_taz_inc_groups_file) {
 #' @export
 read_trip_matrix <- function(omx_file) {
 	omx_file %>%
-		read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
+		read_all_omx(names = c("DA", "auto", "transit", "nonmotor")) %>%
+		mutate(
+			origin, destination,
+			drive_alone = DA, carpool = auto - DA, transit, nonmotor,
+			.keep = "none"
+		) %>%
+		# read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
 		pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>%
 		filter(trips > 0) %>%
 		mutate(trips = trips/100) #The trip matrices are multiplied by 100

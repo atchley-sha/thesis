@@ -37,19 +37,26 @@ compare_by_mode_split <- function(combined_trips) {
 	combined_trips %>%
 		group_by(model, mode, purpose) %>%
 		summarise(trips = sum(trips), .groups = "drop") %>%
-		pivot_wider(names_from = model, values_from = trips) %>%
-		arrange(purpose, mode) %>%
+		group_by(model, purpose) %>%
+		mutate(share = trips/sum(trips)) %>%
+		arrange(rev(model), purpose) %>%
+		pivot_wider(names_from = model, values_from = c(trips, share)) %>%
 		mutate(
 			mode = pretty_mode(mode),
 			purpose = pretty_purpose(purpose),
 			# model = pretty_model(model)
 		) %>%
+		arrange(purpose, mode) %>%
 		mutate(
-			diff = asim - cube,
-			pct_diff = diff/cube,
-			label_pct_diff = label_percent(accuracy = 0.1)(pct_diff)
-		) %>%
-		select(-pct_diff)
+			across(contains("trips"), round),
+			across(contains("share"), label_percent(accuracy = 0.1))
+		)
+		# mutate(
+		# 	diff = asim - cube,
+		# 	pct_diff = diff/cube,
+		# 	label_pct_diff = label_percent(accuracy = 0.1)(pct_diff)
+		# ) %>%
+		# select(-pct_diff)
 }
 
 combine_se_data <- function(se = list()) {

@@ -39,8 +39,8 @@ plot_frontrunner <- function(line, stops) {
 	list(
 		ggnewscale::new_scale_color(),
 		ggnewscale::new_scale_fill(),
-		geom_sf(aes(color = Year), linewidth = 1, data = format_line),
-		geom_sf(aes(color = Year), size = 3, data = format_stops),
+		geom_sf(aes(color = Year), linewidth = 0.3, data = format_line),
+		geom_sf(aes(color = Year), size = 0.5, data = format_stops),
 		# geom_label_repel(
 		# 	aes(label = Name, geometry = geometry, fill = Year),
 		# 	box.padding = 0.4, point.padding = 0.5,

@@ -27,14 +27,14 @@ targets::tar_read(frontrunner_plot)
 
 In the WFRC model, this change is relatively easy to implement.
 The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis.
-The only additional change needed was to turn on the "park and ride" flag in the highway network at each new station.
+The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station.
 <!-- In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file. The last thing we did was change the posted speed of each link to the speeds that \acr{WFRC} had predicted for a partially electrified train system. -->
 
 <!-- The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario. -->
 
 To implement this scenario in ActivitySim, only updated travel skims are needed.
 As in the baseline scenario, the transit skims output from the WFRC model's network assignment in this model scenario are taken directly as inputs to ActivitySim.
-Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims from the baseline scenario are used directly and not updated for this scenario.
+Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims are taken from the baseline scenario in the WFRC model and not updated for this scenario.
 No other changes to ActivitySim are necessary to model this scenario.
 <!-- No other changes are needed to ActivitySim for this model scenario. -->
 
@@ -42,7 +42,8 @@ No other changes to ActivitySim are necessary to model this scenario.
 
 ```{r}
 targets::tar_read(combined_tr_mode_split_diff) %>% 
-	kbl()
+	tt(digits = 2) %>% 
+	format_tt(escape = TRUE)
 ```
 
 ```{r}
@@ -53,7 +54,8 @@ targets::tar_read(asim_tr_mode_switching_plot)
 ```{r}
 #| fig-cap: At-work trip modes of individuals who switched their work mode away from Drive Alone
  
-targets::tar_read(asim_tr_work_transit_switching_plot)
+targets::tar_read(asim_tr_atwork_mode_switching_plot)
+# targets::tar_read(asim_tr_work_transit_switching_plot)
 ```
 
 With greater access the commuter rail by decreasing the headways, we wanted to see how the ridership changed in this scenario.
