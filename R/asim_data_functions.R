@@ -8,6 +8,16 @@ read_asim_trips_file <- function(trips_file) {
 		)
 }
 
+read_asim_tours_file <- function(tours_file) {
+	tours_file %>%
+		read_csv() %>%
+		rename(tour_purpose = primary_purpose)
+}
+
+count_asim_tours <- function(raw_tours) {
+
+}
+
 summarise_asim_hh <- function(asim_hh, income_groups) {
 	annotated_hh <- asim_hh %>%
 		left_join(
