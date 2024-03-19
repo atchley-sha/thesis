@@ -242,12 +242,12 @@ mc_calibration_targets <- tar_plan(
 		.id = "purpose"),
 	mcc_cube_targets = dplyr::summarise(
 		mcc_cube_by_trips,
-		trips = sum(trips),
+		wfrc_trips = sum(trips),
 		.by = c(purpose, mode)
 	),
 	mcc_cube_shares = dplyr::mutate(
 		mcc_cube_targets,
-		wfrc_share = trips/sum(trips),
+		wfrc_share = wfrc_trips/sum(wfrc_trips),
 		.by = c(purpose)
 	),
 	write_mcc_cube_shares = readr::write_csv(
