@@ -107,6 +107,31 @@ cube_data_targets <- tar_plan(
 			nhb = cube_by_nhb),
 		.id = "purpose"),
 
+	# Temp for mc calibration
+	tar_file(mcc_cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
+	mcc_cube_by_hbw = mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	# test_mcc_cube_by_hbw = test_mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	tar_file(mcc_cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
+	mcc_cube_by_hbo = mcc_read_trip_matrix(mcc_cube_by_hbo_omx),
+	tar_file(mcc_cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
+	mcc_cube_by_nhb = mcc_read_trip_matrix(mcc_cube_by_nhb_omx),
+	mcc_cube_by_trips = dplyr::bind_rows(
+		list(
+			hbw = mcc_cube_by_hbw,
+			hbo = mcc_cube_by_hbo,
+			nhb = mcc_cube_by_nhb),
+		.id = "purpose"),
+	mcc_cube_targets = dplyr::summarise(
+		mcc_cube_by_trips,
+		trips = sum(trips),
+		.by = c(purpose, mode)
+	),
+	mcc_cube_shares = dplyr::mutate(
+		mcc_cube_targets,
+		wfrc_share = trips/sum(trips),
+		.by = c(purpose)
+	),
+
 	# Land Use
 	tar_file(cube_lu_hbw_omx, "data/cube/output/land_use/HBW_trips_allsegs_pkok.omx"),
 	cube_lu_hbw = read_trip_matrix(cube_lu_hbw_omx),

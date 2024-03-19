@@ -28,6 +28,39 @@ read_trip_matrix <- function(omx_file) {
 		mutate(trips = trips/100) #The trip matrices are multiplied by 100
 }
 
+mcc_read_trip_matrix <- function(omx_file) {
+	omx_file %>%
+		read_all_omx() %>%
+		select(
+			origin, destination,
+			DA, SR2, SR3p, walk, bike,
+			contains("LCL"), contains("BRT"), contains("COR"),
+			contains("CRT"), contains("EXP"), contains("LRT")
+		) %>%
+		mutate(
+			origin, destination,
+			drive_alone = DA,
+			sr2 = SR2,
+			sr3 = SR3p,
+			walk,
+			bike,
+			local_bus = rowSums(across(
+				c(contains("LCL"), contains("BRT"), contains("COR")))),
+			express_bus = rowSums(across(contains("EXP"))),
+			crt = rowSums(across(contains("CRT"))),
+			lrt = rowSums(across(contains("LRT"))),
+			.keep = "none"
+		) %>%
+		pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>%
+		filter(trips > 0) %>%
+		mutate(trips = trips/100) #The trip matrices are multiplied by 100
+}
+
+test_mcc_read_trip_matrix <- function(omx_file) {
+	omx_file %>%
+		read_all_omx()
+}
+
 combine_cube_se <- function(taz_se, taz_inc_groups) {
 	taz_se %>%
 		select(TAZ, med_income, pop = HHPOP, hh_size = HHSIZE, num_hh = TOTHH) %>%
