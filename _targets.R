@@ -107,31 +107,6 @@ cube_data_targets <- tar_plan(
 			nhb = cube_by_nhb),
 		.id = "purpose"),
 
-	# Temp for mc calibration
-	tar_file(mcc_cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
-	mcc_cube_by_hbw = mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
-	# test_mcc_cube_by_hbw = test_mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
-	tar_file(mcc_cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
-	mcc_cube_by_hbo = mcc_read_trip_matrix(mcc_cube_by_hbo_omx),
-	tar_file(mcc_cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
-	mcc_cube_by_nhb = mcc_read_trip_matrix(mcc_cube_by_nhb_omx),
-	mcc_cube_by_trips = dplyr::bind_rows(
-		list(
-			hbw = mcc_cube_by_hbw,
-			hbo = mcc_cube_by_hbo,
-			nhb = mcc_cube_by_nhb),
-		.id = "purpose"),
-	mcc_cube_targets = dplyr::summarise(
-		mcc_cube_by_trips,
-		trips = sum(trips),
-		.by = c(purpose, mode)
-	),
-	mcc_cube_shares = dplyr::mutate(
-		mcc_cube_targets,
-		wfrc_share = trips/sum(trips),
-		.by = c(purpose)
-	),
-
 	# Land Use
 	tar_file(cube_lu_hbw_omx, "data/cube/output/land_use/HBW_trips_allsegs_pkok.omx"),
 	cube_lu_hbw = read_trip_matrix(cube_lu_hbw_omx),
@@ -249,7 +224,36 @@ asim_data_targets <- tar_plan(
 	asim_wfh_trips = count_asim_trips(asim_wfh_raw_trips),
 )
 
+# MCC targets ####
 mc_calibration_targets <- tar_plan(
+	# Temp for mc calibration
+	tar_file(mcc_cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
+	mcc_cube_by_hbw = mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	# test_mcc_cube_by_hbw = test_mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	tar_file(mcc_cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
+	mcc_cube_by_hbo = mcc_read_trip_matrix(mcc_cube_by_hbo_omx),
+	tar_file(mcc_cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
+	mcc_cube_by_nhb = mcc_read_trip_matrix(mcc_cube_by_nhb_omx),
+	mcc_cube_by_trips = dplyr::bind_rows(
+		list(
+			hbw = mcc_cube_by_hbw,
+			hbo = mcc_cube_by_hbo,
+			nhb = mcc_cube_by_nhb),
+		.id = "purpose"),
+	mcc_cube_targets = dplyr::summarise(
+		mcc_cube_by_trips,
+		trips = sum(trips),
+		.by = c(purpose, mode)
+	),
+	mcc_cube_shares = dplyr::mutate(
+		mcc_cube_targets,
+		wfrc_share = trips/sum(trips),
+		.by = c(purpose)
+	),
+	write_mcc_cube_shares = readr::write_csv(
+		mcc_cube_shares,
+		"data/calibration/mode_choice/mc_targets.csv"),
+
 	tar_file(asim_mc_0_file, "data/asim/output/calibrate_mc_0/final_trips.csv"),
 	asim_mc_0_raw_trips = read_asim_trips_file(asim_mc_0_file),
 	asim_mc_0_trips = count_asim_trips(asim_mc_0_raw_trips),
@@ -608,7 +612,7 @@ tar_plan(
 	shared_data_targets,
 	cube_data_targets,
 	asim_data_targets,
-	mc_calibration_targets,
+	# mc_calibration_targets,
 
 	base_year_targets,
 	land_use_targets,
