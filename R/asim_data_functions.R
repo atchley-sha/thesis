@@ -163,6 +163,38 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 		)
 }
 
+combine_mcc_adjustments_files <- function(adj_files) {
+	adj_files %>%
+		read_csv(id = "path") %>%
+		mutate(
+			iter = str_extract(path, "\\d+") %>%
+				as.numeric()
+		) %>%
+		relocate(iter) %>%
+		select(-path)
+}
+
+plot_mcc_adjustments <- function(adjustments) {
+	adjustments %>%
+		select(iter, purpose, mode, asim_share, wfrc_share) %>%
+		pivot_longer(c(asim_share, wfrc_share), names_to = "model", values_to = "share") %>%
+		mutate(mode_cat = case_match(
+			mode,
+			c("bike", "walk") ~ "nonmotor",
+			# c("local_bus", "express_bus") ~ "bus",
+			# c("lrt", "crt") ~ "rail",
+			c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
+			c("sr2", "sr3") ~ "carpool",
+			.default = mode
+		)) %>%
+		filter(mode_cat != "TNC") %>%
+		# group_by(model, purpose, iter, mode_cat) %>%
+		# summarise(share = sum(share)) %>%
+		ggplot(aes(x = iter, y = share, lty = model, color = mode)) +
+		facet_wrap(~purpose) +
+		geom_line()
+}
+
 get_asim_trips_se <- function(raw_trips, per, hh) {
 	raw_trips %>%
 		mutate(

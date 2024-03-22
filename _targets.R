@@ -226,55 +226,55 @@ asim_data_targets <- tar_plan(
 
 # MCC targets ####
 mc_calibration_targets <- tar_plan(
-	# Temp for mc calibration
-	tar_file(mcc_cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
-	mcc_cube_by_hbw = mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
-	# test_mcc_cube_by_hbw = test_mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
-	tar_file(mcc_cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
-	mcc_cube_by_hbo = mcc_read_trip_matrix(mcc_cube_by_hbo_omx),
-	tar_file(mcc_cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
-	mcc_cube_by_nhb = mcc_read_trip_matrix(mcc_cube_by_nhb_omx),
-	mcc_cube_by_trips = dplyr::bind_rows(
-		list(
-			hbw = mcc_cube_by_hbw,
-			hbo = mcc_cube_by_hbo,
-			nhb = mcc_cube_by_nhb),
-		.id = "purpose"),
-	mcc_cube_targets = dplyr::summarise(
-		mcc_cube_by_trips,
-		wfrc_trips = sum(trips),
-		.by = c(purpose, mode)
-	),
-	mcc_cube_shares = dplyr::mutate(
-		mcc_cube_targets,
-		wfrc_share = wfrc_trips/sum(wfrc_trips),
-		.by = c(purpose)
-	),
-	write_mcc_cube_shares = readr::write_csv(
-		mcc_cube_shares,
-		"data/calibration/mode_choice/mc_targets.csv"),
+	# # Temp for mc calibration
+	# tar_file(mcc_cube_by_hbw_omx, "data/cube/output/base_2019/HBW_trips_allsegs_pkok.omx"),
+	# mcc_cube_by_hbw = mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	# # test_mcc_cube_by_hbw = test_mcc_read_trip_matrix(mcc_cube_by_hbw_omx),
+	# tar_file(mcc_cube_by_hbo_omx, "data/cube/output/base_2019/HBO_trips_allsegs_pkok.omx"),
+	# mcc_cube_by_hbo = mcc_read_trip_matrix(mcc_cube_by_hbo_omx),
+	# tar_file(mcc_cube_by_nhb_omx, "data/cube/output/base_2019/NHB_trips_allsegs_pkok.omx"),
+	# mcc_cube_by_nhb = mcc_read_trip_matrix(mcc_cube_by_nhb_omx),
+	# mcc_cube_by_trips = dplyr::bind_rows(
+	# 	list(
+	# 		hbw = mcc_cube_by_hbw,
+	# 		hbo = mcc_cube_by_hbo,
+	# 		nhb = mcc_cube_by_nhb),
+	# 	.id = "purpose"),
+	# mcc_cube_targets = dplyr::summarise(
+	# 	mcc_cube_by_trips,
+	# 	wfrc_trips = sum(trips),
+	# 	.by = c(purpose, mode)
+	# ),
+	# mcc_cube_shares = dplyr::mutate(
+	# 	mcc_cube_targets,
+	# 	wfrc_share = wfrc_trips/sum(wfrc_trips),
+	# 	.by = c(purpose)
+	# ),
+	# write_mcc_cube_shares = readr::write_csv(
+	# 	mcc_cube_shares,
+	# 	"data/calibration/mode_choice/mc_targets.csv"),
 
-	tar_file(asim_mc_0_file, "data/asim/output/calibrate_mc_0/final_trips.csv"),
-	asim_mc_0_raw_trips = read_asim_trips_file(asim_mc_0_file),
-	asim_mc_0_trips = count_asim_trips(asim_mc_0_raw_trips),
-	tar_file(asim_mc_1_file, "data/asim/output/calibrate_mc_1/final_trips.csv"),
-	asim_mc_1_raw_trips = read_asim_trips_file(asim_mc_1_file),
-	asim_mc_1_trips = count_asim_trips(asim_mc_1_raw_trips),
-	tar_file(asim_mc_2_file, "data/asim/output/calibrate_mc_2/final_trips.csv"),
-	asim_mc_2_raw_trips = read_asim_trips_file(asim_mc_2_file),
-	asim_mc_2_trips = count_asim_trips(asim_mc_2_raw_trips),
-	tar_file(asim_mc_3_file, "data/asim/output/calibrate_mc_3/final_trips.csv"),
-	asim_mc_3_raw_trips = read_asim_trips_file(asim_mc_3_file),
-	asim_mc_3_trips = count_asim_trips(asim_mc_3_raw_trips),
-	tar_file(asim_mc_4_file, "data/asim/output/calibrate_mc_4/final_trips.csv"),
-	asim_mc_4_raw_trips = read_asim_trips_file(asim_mc_4_file),
-	asim_mc_4_trips = count_asim_trips(asim_mc_4_raw_trips),
-	tar_file(asim_mc_5_file, "data/asim/output/calibrate_mc_5/final_trips.csv"),
-	asim_mc_5_raw_trips = read_asim_trips_file(asim_mc_5_file),
-	asim_mc_5_trips = count_asim_trips(asim_mc_5_raw_trips),
-	tar_file(asim_mc_6_file, "data/asim/output/calibrate_mc_6/final_trips.csv"),
-	asim_mc_6_raw_trips = read_asim_trips_file(asim_mc_6_file),
-	asim_mc_6_trips = count_asim_trips(asim_mc_6_raw_trips),
+	# tar_file(asim_mc_0_file, "data/asim/output/calibrate_mc_0/final_trips.csv"),
+	# asim_mc_0_raw_trips = read_asim_trips_file(asim_mc_0_file),
+	# asim_mc_0_trips = count_asim_trips(asim_mc_0_raw_trips),
+	# tar_file(asim_mc_1_file, "data/asim/output/calibrate_mc_1/final_trips.csv"),
+	# asim_mc_1_raw_trips = read_asim_trips_file(asim_mc_1_file),
+	# asim_mc_1_trips = count_asim_trips(asim_mc_1_raw_trips),
+	# tar_file(asim_mc_2_file, "data/asim/output/calibrate_mc_2/final_trips.csv"),
+	# asim_mc_2_raw_trips = read_asim_trips_file(asim_mc_2_file),
+	# asim_mc_2_trips = count_asim_trips(asim_mc_2_raw_trips),
+	# tar_file(asim_mc_3_file, "data/asim/output/calibrate_mc_3/final_trips.csv"),
+	# asim_mc_3_raw_trips = read_asim_trips_file(asim_mc_3_file),
+	# asim_mc_3_trips = count_asim_trips(asim_mc_3_raw_trips),
+	# tar_file(asim_mc_4_file, "data/asim/output/calibrate_mc_4/final_trips.csv"),
+	# asim_mc_4_raw_trips = read_asim_trips_file(asim_mc_4_file),
+	# asim_mc_4_trips = count_asim_trips(asim_mc_4_raw_trips),
+	# tar_file(asim_mc_5_file, "data/asim/output/calibrate_mc_5/final_trips.csv"),
+	# asim_mc_5_raw_trips = read_asim_trips_file(asim_mc_5_file),
+	# asim_mc_5_trips = count_asim_trips(asim_mc_5_raw_trips),
+	# tar_file(asim_mc_6_file, "data/asim/output/calibrate_mc_6/final_trips.csv"),
+	# asim_mc_6_raw_trips = read_asim_trips_file(asim_mc_6_file),
+	# asim_mc_6_trips = count_asim_trips(asim_mc_6_raw_trips),
 	# tar_file(asim_mc_7_file, "data/asim/output/calibrate_mc_7/final_trips.csv"),
 	# asim_mc_7_raw_trips = read_asim_trips_file(asim_mc_7_file),
 	# asim_mc_7_trips = count_asim_trips(asim_mc_7_raw_trips),
@@ -285,27 +285,27 @@ mc_calibration_targets <- tar_plan(
 	# asim_mc_9_raw_trips = read_asim_trips_file(asim_mc_9_file),
 	# asim_mc_9_trips = count_asim_trips(asim_mc_9_raw_trips),
 
-	tar_file(asim_mc_0_tours_file, "data/asim/output/calibrate_mc_0/final_tours.csv"),
-	asim_mc_0_raw_tours = read_asim_tours_file(asim_mc_0_tours_file),
-	asim_mc_0_tours = count_asim_tours(asim_mc_0_raw_tours),
-	tar_file(asim_mc_1_tours_file, "data/asim/output/calibrate_mc_1/final_tours.csv"),
-	asim_mc_1_raw_tours = read_asim_tours_file(asim_mc_1_tours_file),
-	asim_mc_1_tours = count_asim_tours(asim_mc_1_raw_tours),
-	tar_file(asim_mc_2_tours_file, "data/asim/output/calibrate_mc_2/final_tours.csv"),
-	asim_mc_2_raw_tours = read_asim_tours_file(asim_mc_2_tours_file),
-	asim_mc_2_tours = count_asim_tours(asim_mc_2_raw_tours),
-	tar_file(asim_mc_3_tours_file, "data/asim/output/calibrate_mc_3/final_tours.csv"),
-	asim_mc_3_raw_tours = read_asim_tours_file(asim_mc_3_tours_file),
-	asim_mc_3_tours = count_asim_tours(asim_mc_3_raw_tours),
-	tar_file(asim_mc_4_tours_file, "data/asim/output/calibrate_mc_4/final_tours.csv"),
-	asim_mc_4_raw_tours = read_asim_tours_file(asim_mc_4_tours_file),
-	asim_mc_4_tours = count_asim_tours(asim_mc_4_raw_tours),
-	tar_file(asim_mc_5_tours_file, "data/asim/output/calibrate_mc_5/final_tours.csv"),
-	asim_mc_5_raw_tours = read_asim_tours_file(asim_mc_5_tours_file),
-	asim_mc_5_tours = count_asim_tours(asim_mc_5_raw_tours),
-	tar_file(asim_mc_6_tours_file, "data/asim/output/calibrate_mc_6/final_tours.csv"),
-	asim_mc_6_raw_tours = read_asim_tours_file(asim_mc_6_tours_file),
-	asim_mc_6_tours = count_asim_tours(asim_mc_6_raw_tours),
+	# tar_file(asim_mc_0_tours_file, "data/asim/output/calibrate_mc_0/final_tours.csv"),
+	# asim_mc_0_raw_tours = read_asim_tours_file(asim_mc_0_tours_file),
+	# asim_mc_0_tours = count_asim_tours(asim_mc_0_raw_tours),
+	# tar_file(asim_mc_1_tours_file, "data/asim/output/calibrate_mc_1/final_tours.csv"),
+	# asim_mc_1_raw_tours = read_asim_tours_file(asim_mc_1_tours_file),
+	# asim_mc_1_tours = count_asim_tours(asim_mc_1_raw_tours),
+	# tar_file(asim_mc_2_tours_file, "data/asim/output/calibrate_mc_2/final_tours.csv"),
+	# asim_mc_2_raw_tours = read_asim_tours_file(asim_mc_2_tours_file),
+	# asim_mc_2_tours = count_asim_tours(asim_mc_2_raw_tours),
+	# tar_file(asim_mc_3_tours_file, "data/asim/output/calibrate_mc_3/final_tours.csv"),
+	# asim_mc_3_raw_tours = read_asim_tours_file(asim_mc_3_tours_file),
+	# asim_mc_3_tours = count_asim_tours(asim_mc_3_raw_tours),
+	# tar_file(asim_mc_4_tours_file, "data/asim/output/calibrate_mc_4/final_tours.csv"),
+	# asim_mc_4_raw_tours = read_asim_tours_file(asim_mc_4_tours_file),
+	# asim_mc_4_tours = count_asim_tours(asim_mc_4_raw_tours),
+	# tar_file(asim_mc_5_tours_file, "data/asim/output/calibrate_mc_5/final_tours.csv"),
+	# asim_mc_5_raw_tours = read_asim_tours_file(asim_mc_5_tours_file),
+	# asim_mc_5_tours = count_asim_tours(asim_mc_5_raw_tours),
+	# tar_file(asim_mc_6_tours_file, "data/asim/output/calibrate_mc_6/final_tours.csv"),
+	# asim_mc_6_raw_tours = read_asim_tours_file(asim_mc_6_tours_file),
+	# asim_mc_6_tours = count_asim_tours(asim_mc_6_raw_tours),
 	# tar_file(asim_mc_7_tours_file, "data/asim/output/calibrate_mc_7/final_tours.csv"),
 	# asim_mc_7_raw_tours = read_asim_tours_file(asim_mc_7_tours_file),
 	# asim_mc_7_tours = count_asim_tours(asim_mc_7_raw_tours),
@@ -317,110 +317,123 @@ mc_calibration_targets <- tar_plan(
 	# asim_mc_9_tours = count_asim_tours(asim_mc_9_raw_tours),
 
 
-	tar_file(asim_tr_0_file, "data/asim/output/transit_0/final_trips.csv"),
-	asim_tr_0_raw_trips = read_asim_trips_file(asim_tr_0_file),
-	asim_tr_0_trips = count_asim_trips(asim_tr_0_raw_trips),
-	tar_file(asim_tr_1_file, "data/asim/output/transit_1/final_trips.csv"),
-	asim_tr_1_raw_trips = read_asim_trips_file(asim_tr_1_file),
-	asim_tr_1_trips = count_asim_trips(asim_tr_1_raw_trips),
-	tar_file(asim_tr_2_file, "data/asim/output/transit_2/final_trips.csv"),
-	asim_tr_2_raw_trips = read_asim_trips_file(asim_tr_2_file),
-	asim_tr_2_trips = count_asim_trips(asim_tr_2_raw_trips),
-	tar_file(asim_tr_3_file, "data/asim/output/transit_3/final_trips.csv"),
-	asim_tr_3_raw_trips = read_asim_trips_file(asim_tr_3_file),
-	asim_tr_3_trips = count_asim_trips(asim_tr_3_raw_trips),
-	tar_file(asim_tr_4_file, "data/asim/output/transit_4/final_trips.csv"),
-	asim_tr_4_raw_trips = read_asim_trips_file(asim_tr_4_file),
-	asim_tr_4_trips = count_asim_trips(asim_tr_4_raw_trips),
-	tar_file(asim_tr_5_file, "data/asim/output/transit_5/final_trips.csv"),
-	asim_tr_5_raw_trips = read_asim_trips_file(asim_tr_5_file),
-	asim_tr_5_trips = count_asim_trips(asim_tr_5_raw_trips),
+	# tar_file(asim_tr_0_file, "data/asim/output/transit_0/final_trips.csv"),
+	# asim_tr_0_raw_trips = read_asim_trips_file(asim_tr_0_file),
+	# asim_tr_0_trips = count_asim_trips(asim_tr_0_raw_trips),
+	# tar_file(asim_tr_1_file, "data/asim/output/transit_1/final_trips.csv"),
+	# asim_tr_1_raw_trips = read_asim_trips_file(asim_tr_1_file),
+	# asim_tr_1_trips = count_asim_trips(asim_tr_1_raw_trips),
+	# tar_file(asim_tr_2_file, "data/asim/output/transit_2/final_trips.csv"),
+	# asim_tr_2_raw_trips = read_asim_trips_file(asim_tr_2_file),
+	# asim_tr_2_trips = count_asim_trips(asim_tr_2_raw_trips),
+	# tar_file(asim_tr_3_file, "data/asim/output/transit_3/final_trips.csv"),
+	# asim_tr_3_raw_trips = read_asim_trips_file(asim_tr_3_file),
+	# asim_tr_3_trips = count_asim_trips(asim_tr_3_raw_trips),
+	# tar_file(asim_tr_4_file, "data/asim/output/transit_4/final_trips.csv"),
+	# asim_tr_4_raw_trips = read_asim_trips_file(asim_tr_4_file),
+	# asim_tr_4_trips = count_asim_trips(asim_tr_4_raw_trips),
+	# tar_file(asim_tr_5_file, "data/asim/output/transit_5/final_trips.csv"),
+	# asim_tr_5_raw_trips = read_asim_trips_file(asim_tr_5_file),
+	# asim_tr_5_trips = count_asim_trips(asim_tr_5_raw_trips),
 
-	combined_by_trips_0 = dplyr::bind_rows(list(asim = asim_mc_0_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_1 = dplyr::bind_rows(list(asim = asim_mc_1_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_2 = dplyr::bind_rows(list(asim = asim_mc_2_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_3 = dplyr::bind_rows(list(asim = asim_mc_3_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_4 = dplyr::bind_rows(list(asim = asim_mc_4_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_5 = dplyr::bind_rows(list(asim = asim_mc_5_trips, cube = cube_by_trips), .id = "model"),
-	combined_by_trips_6 = dplyr::bind_rows(list(asim = asim_mc_6_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_0 = dplyr::bind_rows(list(asim = asim_mc_0_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_1 = dplyr::bind_rows(list(asim = asim_mc_1_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_2 = dplyr::bind_rows(list(asim = asim_mc_2_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_3 = dplyr::bind_rows(list(asim = asim_mc_3_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_4 = dplyr::bind_rows(list(asim = asim_mc_4_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_5 = dplyr::bind_rows(list(asim = asim_mc_5_trips, cube = cube_by_trips), .id = "model"),
+	# combined_by_trips_6 = dplyr::bind_rows(list(asim = asim_mc_6_trips, cube = cube_by_trips), .id = "model"),
 	# combined_by_trips_7 = dplyr::bind_rows(list(asim = asim_mc_7_trips, cube = cube_by_trips), .id = "model"),
 	# combined_by_trips_8 = dplyr::bind_rows(list(asim = asim_mc_8_trips, cube = cube_by_trips), .id = "model"),
 	# combined_by_trips_9 = dplyr::bind_rows(list(asim = asim_mc_9_trips, cube = cube_by_trips), .id = "model"),
 
-	by_mode_split_comparison_0 = compare_by_mode_split(combined_by_trips_0),
-	by_mode_split_comparison_1 = compare_by_mode_split(combined_by_trips_1),
-	by_mode_split_comparison_2 = compare_by_mode_split(combined_by_trips_2),
-	by_mode_split_comparison_3 = compare_by_mode_split(combined_by_trips_3),
-	by_mode_split_comparison_4 = compare_by_mode_split(combined_by_trips_4),
-	by_mode_split_comparison_5 = compare_by_mode_split(combined_by_trips_5),
-	by_mode_split_comparison_6 = compare_by_mode_split(combined_by_trips_6),
+	# by_mode_split_comparison_0 = compare_by_mode_split(combined_by_trips_0),
+	# by_mode_split_comparison_1 = compare_by_mode_split(combined_by_trips_1),
+	# by_mode_split_comparison_2 = compare_by_mode_split(combined_by_trips_2),
+	# by_mode_split_comparison_3 = compare_by_mode_split(combined_by_trips_3),
+	# by_mode_split_comparison_4 = compare_by_mode_split(combined_by_trips_4),
+	# by_mode_split_comparison_5 = compare_by_mode_split(combined_by_trips_5),
+	# by_mode_split_comparison_6 = compare_by_mode_split(combined_by_trips_6),
 	# by_mode_split_comparison_7 = compare_by_mode_split(combined_by_trips_7),
 	# by_mode_split_comparison_8 = compare_by_mode_split(combined_by_trips_8),
 	# by_mode_split_comparison_9 = compare_by_mode_split(combined_by_trips_9),
 
-	asim_tr_all_trips_diff_0 = get_trip_diff(list(tr = asim_tr_0_trips, by = asim_mc_0_trips)),
-	asim_tr_all_trips_diff_1 = get_trip_diff(list(tr = asim_tr_1_trips, by = asim_mc_1_trips)),
-	asim_tr_all_trips_diff_2 = get_trip_diff(list(tr = asim_tr_2_trips, by = asim_mc_2_trips)),
-	asim_tr_all_trips_diff_3 = get_trip_diff(list(tr = asim_tr_3_trips, by = asim_mc_3_trips)),
-	asim_tr_all_trips_diff_4 = get_trip_diff(list(tr = asim_tr_4_trips, by = asim_mc_4_trips)),
-	asim_tr_all_trips_diff_5 = get_trip_diff(list(tr = asim_tr_5_trips, by = asim_mc_5_trips)),
+	# asim_tr_all_trips_diff_0 = get_trip_diff(list(tr = asim_tr_0_trips, by = asim_mc_0_trips)),
+	# asim_tr_all_trips_diff_1 = get_trip_diff(list(tr = asim_tr_1_trips, by = asim_mc_1_trips)),
+	# asim_tr_all_trips_diff_2 = get_trip_diff(list(tr = asim_tr_2_trips, by = asim_mc_2_trips)),
+	# asim_tr_all_trips_diff_3 = get_trip_diff(list(tr = asim_tr_3_trips, by = asim_mc_3_trips)),
+	# asim_tr_all_trips_diff_4 = get_trip_diff(list(tr = asim_tr_4_trips, by = asim_mc_4_trips)),
+	# asim_tr_all_trips_diff_5 = get_trip_diff(list(tr = asim_tr_5_trips, by = asim_mc_5_trips)),
 
-	asim_tr_diff_by_district_plot_0 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_0, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
-	asim_tr_diff_by_district_plot_1 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_1, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
-	asim_tr_diff_by_district_plot_2 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_2, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
-	asim_tr_diff_by_district_plot_3 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_3, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
-	asim_tr_diff_by_district_plot_4 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_4, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
-	asim_tr_diff_by_district_plot_5 = plot_trips_diff_by_district(
-		asim_tr_all_trips_diff_5, taz_distsml_transl, distsml,
-		frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_0 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_0, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_1 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_1, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_2 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_2, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_3 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_3, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_4 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_4, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
+	# asim_tr_diff_by_district_plot_5 = plot_trips_diff_by_district(
+	# 	asim_tr_all_trips_diff_5, taz_distsml_transl, distsml,
+	# 	frontrunner_line, frontrunner_stops),
 
-	tar_file(asim_tour_mc_coeffs_file, "data/calibration/mode_choice/tour_mode_choice_coefficients.csv"),
-	mode_choice_calibration_asim_coeffs_summary = dplyr::summarise(
-		read_csv(asim_tour_mc_coeffs_file),
-		dplyr::across(-c(coefficient_name), mean),
-		.by = tour_mode
-	),
+	# tar_file(asim_tour_mc_coeffs_file, "data/calibration/mode_choice/tour_mode_choice_coefficients.csv"),
+	# mode_choice_calibration_asim_coeffs_summary = dplyr::summarise(
+	# 	read_csv(asim_tour_mc_coeffs_file),
+	# 	dplyr::across(-c(coefficient_name), mean),
+	# 	.by = tour_mode
+	# ),
 
-	mode_choice_calibration_shares = make_mc_shares_df(list(
-		by_mode_split_comparison_0,
-		by_mode_split_comparison_1,
-		by_mode_split_comparison_2,
-		by_mode_split_comparison_3,
-		by_mode_split_comparison_4,
-		by_mode_split_comparison_5,
-		by_mode_split_comparison_6
+	# mode_choice_calibration_shares = make_mc_shares_df(list(
+	# 	by_mode_split_comparison_0,
+	# 	by_mode_split_comparison_1,
+	# 	by_mode_split_comparison_2,
+	# 	by_mode_split_comparison_3,
+	# 	by_mode_split_comparison_4,
+	# 	by_mode_split_comparison_5
+		# by_mode_split_comparison_6
 		# by_mode_split_comparison_7,
 		# by_mode_split_comparison_8,
 		# by_mode_split_comparison_9
-	)),
-	mode_choice_calibration_shares_plot = plot_mc_shares(
-		mode_choice_calibration_shares
+	# )),
+	# mode_choice_calibration_shares_plot = plot_mc_shares(
+	# 	mode_choice_calibration_shares
+	# ),
+
+	# quick_make_mc_comparison = list(
+	# 	mode_choice_calibration_shares_plot,
+	# 	asim_tr_diff_by_district_plot_0,
+	# 	asim_tr_diff_by_district_plot_1,
+	# 	asim_tr_diff_by_district_plot_2,
+	# 	asim_tr_diff_by_district_plot_3,
+	# 	asim_tr_diff_by_district_plot_4,
+	# 	asim_tr_diff_by_district_plot_5,
+	# 	# asim_tr_diff_by_district_plot_6,
+	# 	# asim_tr_diff_by_district_plot_7,
+	# 	# asim_tr_diff_by_district_plot_8,
+	# 	# asim_tr_diff_by_district_plot_9,
+	# 	mode_choice_calibration_asim_coeffs_summary
+	# ),
+
+	tar_files(
+		mcc_adjustments_files,
+		list.files(
+			"data/calibration/mode_choice/adjustments",
+			full.names = TRUE, pattern = "\\d+.*adjustments\\.csv")),
+	tar_target(
+		mcc_adjustments,
+		combine_mcc_adjustments_files(mcc_adjustments_files),
+		pattern = map(mcc_adjustments_files)
 	),
 
-	quick_make_mc_comparison = list(
-		mode_choice_calibration_shares_plot,
-		asim_tr_diff_by_district_plot_0,
-		asim_tr_diff_by_district_plot_1,
-		asim_tr_diff_by_district_plot_2,
-		asim_tr_diff_by_district_plot_3,
-		asim_tr_diff_by_district_plot_4,
-		asim_tr_diff_by_district_plot_5,
-		# asim_tr_diff_by_district_plot_6,
-		# asim_tr_diff_by_district_plot_7,
-		# asim_tr_diff_by_district_plot_8,
-		# asim_tr_diff_by_district_plot_9,
-		mode_choice_calibration_asim_coeffs_summary
-	),
+	mcc_adjustments_plot = plot_mcc_adjustments(mcc_adjustments),
 )
 
 # Base year ####
@@ -612,7 +625,7 @@ tar_plan(
 	shared_data_targets,
 	cube_data_targets,
 	asim_data_targets,
-	# mc_calibration_targets,
+	mc_calibration_targets,
 
 	base_year_targets,
 	land_use_targets,
