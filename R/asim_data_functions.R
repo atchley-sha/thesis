@@ -174,6 +174,49 @@ combine_mcc_adjustments_files <- function(adj_files) {
 		select(-path)
 }
 
+list_mcc_trips_iters <- function(folder) {
+	list.files(
+		"data/asim/output",
+		recursive = TRUE,
+		pattern = "final_trips.csv",
+		full.names = TRUE) %>%
+		str_subset(paste0("data/asim/output/", folder, "_\\d+/"))
+}
+
+combine_mcc_trips <- function(trips_file) {
+	trips_file %>%
+		read_csv(id = "path") %>%
+		rename(
+			tour_purpose = primary_purpose,
+			trip_purpose = purpose,
+			mode = trip_mode
+		) %>%
+		mutate(
+			iter = str_extract(path, "\\d+") %>%
+				as.numeric()
+		) %>%
+		relocate(iter) %>%
+		select(-path)
+}
+
+read_mcc_coeffs <- function(coeffs_file) {
+	coeffs_file %>%
+		read_csv(id = "path") %>%
+		filter(!str_detect(coefficient_name, "#")) %>%
+		mutate(
+			iter = str_extract(path, "\\d+") %>%
+				as.numeric(),
+			constrain = as.logical(constrain),
+			value = as.numeric(value)
+		) %>%
+		mutate(constrain = replace_na(constrain, FALSE)) %>%
+		filter(
+			str_detect(coefficient_name, "ASC"),
+			!str_detect(coefficient_name, "joint"),
+			!constrain) %>%
+		select(iter, coefficient_name, value)
+}
+
 plot_mcc_adjustments <- function(adjustments) {
 	adjustments %>%
 		select(iter, purpose, mode, asim_share, wfrc_share) %>%
