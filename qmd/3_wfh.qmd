@@ -17,7 +17,7 @@ This scenario is a "what-if" analysis that models a significant increase in remo
 We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
 In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
 
-## Considerations for Modelling Remote Work ***This section maybe needs to go somewhere else*** (probably lit review)
+## Considerations for Modelling Remote Work
 
 There has been much research, especially in recent years, on the implications of remote work.
 While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.

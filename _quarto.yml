@@ -34,14 +34,14 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    # - qmd/intro.qmd
-    # - qmd/lit-review.qmd
-    # - qmd/methods.qmd
-    # - qmd/1_land_use.qmd
-    # - qmd/2_transit.qmd
-    # - qmd/3_wfh.qmd
-    # - qmd/conclusions.qmd
-    # - qmd/references.qmd
+    - qmd/intro.qmd
+    - qmd/lit-review.qmd
+    - qmd/methods.qmd
+    - qmd/1_land_use.qmd
+    - qmd/2_transit.qmd
+    - qmd/3_wfh.qmd
+    - qmd/conclusions.qmd
+    - qmd/references.qmd
 
 affiliations:
   - id: byucce

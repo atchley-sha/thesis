@@ -3,35 +3,3 @@
 
 {{< print-acronyms header_classes=.unnumbered >}}
 :::
-
-```{r}
-#| include: false
-
-library(tidyverse)
-library(targets)
-library(tinytable)
-```
-
-## Mode Choice Calibration Testing
-
-```{r}
-#| column: page
-#| out-width: "2000"
-
-tar_read(mcc_adjustments_plot)
-```
-
-```{r}
-#| column: page
-#| out-width: "2000"
-#| fig-width: 6
-
-tar_read(mcc_tr_diff_plot)
-```
-
-```{r}
-tar_read(mcc_tour_coeffs_combined) %>%
-	tt()
-tar_read(mcc_trip_coeffs_combined) %>%
-	tt()
-```

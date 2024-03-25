@@ -83,11 +83,22 @@ count_asim_trips_keep_purpose <- function(trips) {
 }
 
 make_asim_purpose <- function(df) {
+	# We have to do some hacky stuff since the two models treat
+	# trip purposes differently. It's not perfect, but it is
+	# good enough for this project. It will miscategorize some
+	# trips, but the on the whole it's an okay translation layer.
+
 	df %>%
 		group_by(tour_id) %>%
 		mutate(
-			#If a tour doesn't start at work, assume it starts at home
+			# `trip_purpose` is essentially the trip destination.
+			# Since all (non--at-work) tours start at home, changing
+			# the first `trip_purpose` to `home` means that now trips
+			# with an origin *or* destination at home have a
+			# `trip_purpose` of `home`.
 			trip_purpose = replace(trip_purpose, 1, "home"),
+			# The above also makes subtours (at-work tours) have a
+			# home-based trip, so we filter those out explicitly
 			home_based = case_when(
 				tour_purpose == "atwork" ~ FALSE,
 				trip_purpose == "home" ~ TRUE,
@@ -95,6 +106,12 @@ make_asim_purpose <- function(df) {
 			),
 			purpose = case_when(
 				!home_based ~ "nhb",
+				# Home-based *trips* on a work *tour* are counted as HBW.
+				# This is technically not accurate, as only trips that
+				# originate at home and end at work (or vice versa) are
+				# HBW. However, trip-based models don't really account
+				# for trips on the way to work, and ActivitySim does,
+				# so this is close enough.
 				tour_purpose == "work" ~ "hbw",
 				TRUE ~ "hbo"
 			) %>%
@@ -163,8 +180,8 @@ combine_asim_mode_choice_calibration_iters <- function(iters_files) {
 		)
 }
 
-combine_mcc_adjustments_files <- function(adj_files) {
-	adj_files %>%
+read_mcc_adjustments_files <- function(adj_file) {
+	adj_file %>%
 		read_csv(id = "path") %>%
 		mutate(
 			iter = str_extract(path, "\\d+") %>%
@@ -183,21 +200,21 @@ list_mcc_trips_iters <- function(folder) {
 		str_subset(paste0("data/asim/output/", folder, "_\\d+/"))
 }
 
-combine_mcc_trips <- function(trips_file) {
-	trips_file %>%
-		read_csv(id = "path") %>%
-		rename(
-			tour_purpose = primary_purpose,
-			trip_purpose = purpose,
-			mode = trip_mode
-		) %>%
-		mutate(
-			iter = str_extract(path, "\\d+") %>%
-				as.numeric()
-		) %>%
-		relocate(iter) %>%
-		select(-path)
-}
+# read_mcc_trips <- function(trips_file) {
+# 	trips_file %>%
+# 		read_csv(id = "path") %>%
+# 		rename(
+# 			tour_purpose = primary_purpose,
+# 			trip_purpose = purpose,
+# 			mode = trip_mode
+# 		) %>%
+# 		mutate(
+# 			iter = str_extract(path, "\\d+") %>%
+# 				as.numeric()
+# 		) %>%
+# 		relocate(iter) %>%
+# 		select(-path)
+# }
 
 read_mcc_coeffs <- function(coeffs_file) {
 	coeffs_file %>%
@@ -236,7 +253,7 @@ plot_mcc_adjustments <- function(adjustments) {
 		ggplot(aes(x = iter, y = share, lty = model, color = mode_cat)) +
 		facet_wrap(~purpose) +
 		scale_y_continuous(transform = "sqrt") +
-		scale_color_brewer(palette = "Paired") +
+		scale_color_brewer(palette = "Set1") +
 		geom_line(linewidth = 1)
 }
 

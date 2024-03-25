@@ -153,16 +153,16 @@ cube_data_targets <- tar_plan(
 # ASIM data targets ####
 asim_data_targets <- tar_plan(
 	# Calibration
-	tar_files(
-		asim_mode_choice_calibration_iters_files,
-		list.files(
-			"data/calibration/mode_choice",
-			full.names = TRUE, pattern = ".*\\.csv")),
-	tar_target(
-		asim_mode_choice_calibration_iters,
-		combine_asim_mode_choice_calibration_iters(
-			asim_mode_choice_calibration_iters_files),
-		pattern = map(asim_mode_choice_calibration_iters_files)),
+	# tar_files(
+	# 	asim_mode_choice_calibration_iters_files,
+	# 	list.files(
+	# 		"data/calibration/mode_choice",
+	# 		full.names = TRUE, pattern = ".*\\.csv")),
+	# tar_target(
+	# 	asim_mode_choice_calibration_iters,
+	# 	combine_asim_mode_choice_calibration_iters(
+	# 		asim_mode_choice_calibration_iters_files),
+	# 	pattern = map(asim_mode_choice_calibration_iters_files)),
 
 	tar_file(
 		asim_by_telecommute_coefficients_file,
@@ -182,10 +182,10 @@ asim_data_targets <- tar_plan(
 	asim_telecommute_model_coeffs = readr::read_csv(asim_telecommute_model_coeffs_file),
 
 	# Base year
-	tar_file(asim_by_trips_file, "data/asim/output/base_2019_temp_mc/final_trips.csv.gz"),
-	tar_file(asim_by_tours_file, "data/asim/output/base_2019_temp_mc/final_tours.csv.gz"),
-	tar_file(asim_by_per_file, "data/asim/output/base_2019_temp_mc/final_persons.csv.gz"),
-	tar_file(asim_by_hh_file, "data/asim/output/base_2019_temp_mc/final_households.csv.gz"),
+	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
+	tar_file(asim_by_tours_file, "data/asim/output/base_2019/final_tours.csv.gz"),
+	tar_file(asim_by_per_file, "data/asim/output/base_2019/final_persons.csv.gz"),
+	tar_file(asim_by_hh_file, "data/asim/output/base_2019/final_households.csv.gz"),
 
 	asim_by_raw_trips = read_asim_trips_file(asim_by_trips_file),
 	asim_by_trips = count_asim_trips(asim_by_raw_trips),
@@ -194,20 +194,20 @@ asim_data_targets <- tar_plan(
 	asim_by_hh_taz = summarise_asim_hh(asim_by_raw_hh, income_groups),
 
 	# Land use
-	tar_file(asim_lu_trips_file, "data/asim/output/land_use/final_trips.csv.gz"),
-	tar_file(asim_lu_tours_file, "data/asim/output/land_use/final_tours.csv.gz"),
-	tar_file(asim_lu_per_file, "data/asim/output/land_use/final_persons.csv.gz"),
-	tar_file(asim_lu_hh_file, "data/asim/output/land_use/final_households.csv.gz"),
+	tar_file(asim_lu_trips_file, "data/asim/output/landuse/final_trips.csv.gz"),
+	tar_file(asim_lu_tours_file, "data/asim/output/landuse/final_tours.csv.gz"),
+	tar_file(asim_lu_per_file, "data/asim/output/landuse/final_persons.csv.gz"),
+	tar_file(asim_lu_hh_file, "data/asim/output/landuse/final_households.csv.gz"),
 
 	asim_lu_raw_trips = read_asim_trips_file(asim_lu_trips_file),
 	asim_lu_trips = count_asim_trips(asim_lu_raw_trips),
 	asim_lu_per = readr::read_csv(asim_lu_per_file),
 
 	# Transit
-	tar_file(asim_tr_trips_file, "data/asim/output/transit_temp_mc/final_trips.csv.gz"),
-	tar_file(asim_tr_tours_file, "data/asim/output/transit_temp_mc/final_tours.csv.gz"),
-	tar_file(asim_tr_per_file, "data/asim/output/transit_temp_mc/final_persons.csv.gz"),
-	tar_file(asim_tr_hh_file, "data/asim/output/transit_temp_mc/final_households.csv.gz"),
+	tar_file(asim_tr_trips_file, "data/asim/output/transit/final_trips.csv.gz"),
+	tar_file(asim_tr_tours_file, "data/asim/output/transit/final_tours.csv.gz"),
+	tar_file(asim_tr_per_file, "data/asim/output/transit/final_persons.csv.gz"),
+	tar_file(asim_tr_hh_file, "data/asim/output/transit/final_households.csv.gz"),
 
 	asim_tr_raw_trips = read_asim_trips_file(asim_tr_trips_file),
 	asim_tr_trips = count_asim_trips(asim_tr_raw_trips),
@@ -230,7 +230,7 @@ mc_calibration_targets <- tar_plan(
 	tar_files(mcc_by_trips_files, list_mcc_trips_iters("calibrate_mc")),
 	tar_target(
 		mcc_by_trips_raw,
-		combine_mcc_trips(mcc_by_trips_files),
+		read_asim_trips_file(mcc_by_trips_files),
 		pattern = map(mcc_by_trips_files),
 		iteration = "list"
 	),
@@ -245,7 +245,7 @@ mc_calibration_targets <- tar_plan(
 	tar_files(mcc_tr_trips_files, list_mcc_trips_iters("transit")),
 	tar_target(
 		mcc_tr_trips_raw,
-		combine_mcc_trips(mcc_tr_trips_files),
+		read_asim_trips_file(mcc_tr_trips_files),
 		pattern = map(mcc_tr_trips_files),
 		iteration = "list"
 	),
@@ -307,7 +307,7 @@ base_year_targets <- tar_plan(
 			full.names = TRUE, pattern = "\\d+.*adjustments\\.csv")),
 	tar_target(
 		mcc_adjustments,
-		combine_mcc_adjustments_files(mcc_adjustments_files),
+		read_mcc_adjustments_files(mcc_adjustments_files),
 		pattern = map(mcc_adjustments_files)
 	),
 	mcc_adjustments_plot = plot_mcc_adjustments(mcc_adjustments),
