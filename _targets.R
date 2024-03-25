@@ -227,50 +227,6 @@ asim_data_targets <- tar_plan(
 # MCC targets ####
 mc_calibration_targets <- tar_plan(
 
-	tar_files(
-		mcc_tour_coeffs_files,
-		list.files(
-			"data/calibration/mode_choice/coeffs",
-			full.names = TRUE, pattern = "\\d+_tour_mode_choice_coefficients.csv")
-	),
-	tar_target(
-		mcc_tour_coeffs,
-		read_mcc_coeffs(mcc_tour_coeffs_files),
-		pattern = map(mcc_tour_coeffs_files)
-	),
-	tar_target(
-		mcc_tour_coeffs_combined,
-		tidyr::pivot_wider(mcc_tour_coeffs, names_from = iter, values_from = value)
-	),
-
-	tar_files(
-		mcc_trip_coeffs_files,
-		list.files(
-			"data/calibration/mode_choice/coeffs",
-			full.names = TRUE, pattern = "\\d+_trip_mode_choice_coefficients.csv")
-	),
-	tar_target(
-		mcc_trip_coeffs,
-		read_mcc_coeffs(mcc_trip_coeffs_files),
-		pattern = map(mcc_trip_coeffs_files)
-	),
-	tar_target(
-		mcc_trip_coeffs_combined,
-		tidyr::pivot_wider(mcc_trip_coeffs, names_from = iter, values_from = value)
-	),
-
-	tar_files(
-		mcc_adjustments_files,
-		list.files(
-			"data/calibration/mode_choice/coeffs",
-			full.names = TRUE, pattern = "\\d+.*adjustments\\.csv")),
-	tar_target(
-		mcc_adjustments,
-		combine_mcc_adjustments_files(mcc_adjustments_files),
-		pattern = map(mcc_adjustments_files)
-	),
-	mcc_adjustments_plot = plot_mcc_adjustments(mcc_adjustments),
-
 	tar_files(mcc_by_trips_files, list_mcc_trips_iters("calibrate_mc")),
 	tar_target(
 		mcc_by_trips_raw,
@@ -344,9 +300,49 @@ base_year_targets <- tar_plan(
 		combined_by_se_data_distsml, income_groups),
 
 	# Mode choice
-	by_mode_split_comparison = compare_by_mode_split(combined_by_trips),
-	asim_mode_choice_calibration_plot = plot_asim_mode_choice_calibration(
-		asim_mode_choice_calibration_iters),
+	tar_files(
+		mcc_adjustments_files,
+		list.files(
+			"data/calibration/mode_choice/coeffs",
+			full.names = TRUE, pattern = "\\d+.*adjustments\\.csv")),
+	tar_target(
+		mcc_adjustments,
+		combine_mcc_adjustments_files(mcc_adjustments_files),
+		pattern = map(mcc_adjustments_files)
+	),
+	mcc_adjustments_plot = plot_mcc_adjustments(mcc_adjustments),
+	## Mode choice coefficients
+	tar_files(
+		mcc_tour_coeffs_files,
+		list.files(
+			"data/calibration/mode_choice/coeffs",
+			full.names = TRUE, pattern = "\\d+_tour_mode_choice_coefficients.csv")
+	),
+	tar_target(
+		mcc_tour_coeffs,
+		read_mcc_coeffs(mcc_tour_coeffs_files),
+		pattern = map(mcc_tour_coeffs_files)
+	),
+	tar_target(
+		mcc_tour_coeffs_combined,
+		tidyr::pivot_wider(mcc_tour_coeffs, names_from = iter, values_from = value)
+	),
+
+	tar_files(
+		mcc_trip_coeffs_files,
+		list.files(
+			"data/calibration/mode_choice/coeffs",
+			full.names = TRUE, pattern = "\\d+_trip_mode_choice_coefficients.csv")
+	),
+	tar_target(
+		mcc_trip_coeffs,
+		read_mcc_coeffs(mcc_trip_coeffs_files),
+		pattern = map(mcc_trip_coeffs_files)
+	),
+	tar_target(
+		mcc_trip_coeffs_combined,
+		tidyr::pivot_wider(mcc_trip_coeffs, names_from = iter, values_from = value)
+	),
 
 	# TLFD
 	combined_by_tlfd_plot = plot_combined_tlfd(
@@ -508,7 +504,7 @@ tar_plan(
 	shared_data_targets,
 	cube_data_targets,
 	asim_data_targets,
-	mc_calibration_targets,
+	# mc_calibration_targets,
 
 	base_year_targets,
 	land_use_targets,

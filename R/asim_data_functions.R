@@ -224,18 +224,20 @@ plot_mcc_adjustments <- function(adjustments) {
 		mutate(mode_cat = case_match(
 			mode,
 			c("bike", "walk") ~ "nonmotor",
-			# c("local_bus", "express_bus") ~ "bus",
-			# c("lrt", "crt") ~ "rail",
-			c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
+			c("local_bus", "express_bus") ~ "bus",
+			c("lrt", "crt") ~ "rail",
+			# c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
 			c("sr2", "sr3") ~ "carpool",
 			.default = mode
 		)) %>%
 		filter(mode_cat != "TNC") %>%
-		# group_by(model, purpose, iter, mode_cat) %>%
-		# summarise(share = sum(share)) %>%
-		ggplot(aes(x = iter, y = share, lty = model, color = mode)) +
+		group_by(model, purpose, iter, mode_cat) %>%
+		summarise(share = sum(share)) %>%
+		ggplot(aes(x = iter, y = share, lty = model, color = mode_cat)) +
 		facet_wrap(~purpose) +
-		geom_line()
+		scale_y_continuous(transform = "sqrt") +
+		scale_color_brewer(palette = "Paired") +
+		geom_line(linewidth = 1)
 }
 
 get_asim_trips_se <- function(raw_trips, per, hh) {

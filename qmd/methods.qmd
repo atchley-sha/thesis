@@ -209,6 +209,8 @@ However, further adjustment of the constants would cause their values to become 
 This is likely due to the mode choice coefficients being unrepresentative of the study area.
 This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area (hence in part why there are so many more transit trips).
 
+***We're going to use iteration 4 of the last calibration attempt.***
+
 ```{r}
 #| label: tbl-mode-split
 #| tbl-cap: mode split
