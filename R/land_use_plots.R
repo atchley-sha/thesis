@@ -61,21 +61,21 @@ plot_cube_lu_new_pmt <- function(trips_diff, distances, lu_tazs) {
 		left_join(distances) %>%
 		group_by(purpose, mode) %>%
 		summarise(pmt = sum(diff*distance), .groups = "drop") %>%
-		mutate(purpose = pretty_purpose(purpose)) %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			mode = pretty_mode(mode)) %>%
 		ggplot(aes(x = pmt, y = purpose, fill = mode)) +
-		geom_col(position = position_dodge2(preserve = "single"))+
+		geom_col(position = position_dodge2(preserve = "single", reverse = TRUE))+
 		labs(
 			x = "Total Person-Miles Traveled, Trips Produced in Updated Zones",
 			y = "Trip Purpose",
 			fill = "Mode") +
-		scale_fill_discrete(
-			labels = c(auto = "Auto", transit = "Transit", nonmotor = "Non-motorized")) +
 		scale_x_continuous(
 			trans = sqrt_trans(),
 			breaks = c(0, 10^3, 10^4, 5*10^4, 10^5, 2*10^5, 5*10^5),
 			labels = label_comma(),
 			expand = expansion(c(0,0.05))) +
-		scale_y_discrete(expand = expansion(c(0.25,0.18))) +
+		scale_y_discrete(expand = expansion(0, 0.5), limits = rev) +
 		theme(axis.ticks.y = element_blank())
 }
 
@@ -87,7 +87,9 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 		mutate(in_zone = origin %in% lu_tazs | destination %in% lu_tazs) %>%
 		group_by(purpose, mode, in_zone) %>%
 		summarise(pmt = sum(trips*distance), .groups = "drop") %>%
-		mutate(purpose = str_to_title(purpose)) %>%
+		mutate(
+			purpose = str_to_title(purpose),
+			mode = pretty_mode(mode)) %>%
 		ggplot(aes(x = pmt, y = mode, fill = mode, alpha = as.character(in_zone))) +
 		facet_grid(
 			rows = vars(purpose),
@@ -97,16 +99,15 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 			x = "Total Person-Miles Traveled",
 			y = "Tour Purpose",
 			fill = "Mode") +
-		scale_fill_discrete(
-			labels = c(auto = "Auto", transit = "Transit", nonmotor = "Non-motorized")) +
 		scale_x_continuous(
 			trans = sqrt_trans(),
 			breaks = c(0, 10^3, 10^4, 5*10^4, 10^5, 2*10^5, 5*10^5),
 			labels = label_comma(),
 			expand = expansion(c(0,0.05))) +
+		scale_y_discrete(limits = rev) +
 		scale_alpha_manual(
-			name = "Produced in new\ndevelopment",
-			values = c("TRUE" = 1, "FALSE" = 0.6)) +
+			name = "O/D in new\ndevelopment",
+			values = c("TRUE" = 1, "FALSE" = 0.4)) +
 		guides(alpha = guide_legend(reverse = TRUE)) +
 		theme(
 			panel.grid.major.y = element_blank(),
@@ -131,4 +132,47 @@ plot_lu_new_tazs <- function(taz_geom, taz_list, se_diff) {
 		# 	xlim = c(-111.93, -111.88), ylim = c(40.47, 40.53),
 		# 	crs = 4326) +
 		theme_map(zoom = FALSE)
+}
+
+make_draper_prison_site_map <- function(taz, lu_tazs) {
+	bbox <- get_draper_prison_site_inset(taz, lu_tazs)
+	mainplot <- taz %>%
+		filter(TAZ %in% lu_tazs) %>%
+		st_union() %>%
+		st_transform(4326) %>%
+		ggplot() +
+		annotation_map_tile("cartolight", zoom = 11) +
+		geom_sf(color = "blue", fill = NA, linewidth = 2) +
+		# geom_rect(
+		# 	xmin = bbox["xmin"], xmax = bbox["xmax"],
+		# 	ymin = bbox["ymin"], ymax = bbox["ymax"],
+		# 	fill = NA, color = "black", linewidth = 1
+		# ) +
+		coord_sf(
+			xlim = c(-112.1,-111.7), ylim = c(40.4, 40.8),
+			expand = FALSE) +
+		theme_map(zoom = FALSE)
+
+	mainplot
+
+# 	cowplot::ggdraw(mainplot) +
+# 		cowplot::draw_plot(
+# 			{mainplot +
+# 					coord_sf(
+# 						xlim = bbox[c(1,3)],
+# 						ylim = bbox[c(2,4)]
+# 					)},
+# 1.4, .4, .2, .2
+# 			# scale = 0.2
+# 		)
+
+}
+
+get_draper_prison_site_inset <- function(taz, lu_tazs) {
+	taz %>%
+		filter(TAZ %in% lu_tazs) %>%
+		st_union() %>%
+		st_buffer(unit(1e3, "mm")) %>%
+		st_transform(4326) %>%
+		st_bbox()
 }
