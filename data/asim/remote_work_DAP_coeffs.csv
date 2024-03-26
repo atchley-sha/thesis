@@ -1,0 +1,6 @@
+﻿Status,Mandatory DAP,Non-mandatory DAP,Home DAP
+Telecommutes 1 day per week,0,0.526,0.496
+Telecommutes 2-3 days per week,0,1.387,1.584
+Telecommutes 4 days per week,0,1.848,1.711
+"Full time worker, works from home",-999,0,0
+"Part time worker, works from home",-999,0,0

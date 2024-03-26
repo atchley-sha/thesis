@@ -180,6 +180,8 @@ asim_data_targets <- tar_plan(
 	asim_wfh_model_coeffs = readr::read_csv(asim_wfh_model_coeffs_file),
 	tar_file(asim_telecommute_model_coeffs_file, "data/asim/telecommute_frequency_coeffs.csv"),
 	asim_telecommute_model_coeffs = readr::read_csv(asim_telecommute_model_coeffs_file),
+	tar_file(asim_tc_dap_coeffs_file, "data/asim/remote_work_DAP_coeffs.csv"),
+	asim_tc_dap_coeffs = readr::read_csv(asim_tc_dap_coeffs_file),
 
 	# Base year
 	tar_file(asim_by_trips_file, "data/asim/output/base_2019/final_trips.csv.gz"),
