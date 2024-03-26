@@ -3,31 +3,76 @@
 {{< include _setup.qmd >}}
 
 This paper seeks to compare methodological differences between trip- and activity-based modeling frameworks.
-The Wasatch Front Regional Council (WFRC) travel demand model is used as a representative trip-based model, and an ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
+Both model types ...
+Instead, a representative model is used for each type, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
+
+The representative trip-based model is the 2019 Wasatch Front Regional Council (WFRC) travel demand model, which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
+An ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
+Both models are discussed in detail in the following sections.
+
 Note that the focus is not on comparing model accuracy or performance, but rather on comparing the process of using each model, including the types of analyses that can be performed.
 There are therefore few direct comparisons of model outputs between each type.
 Instead, this research highlights the strengths and weaknesses of each model type in planning and policy analysis, and illustrates these differences.
 
-The following sections discuss the specific models in more detail.
+<!-- The following sections discuss the specific models in more detail. -->
 
 ## WFRC Model
 
 The WFRC model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area.
 WFRC provided the model directly, including land use forecasts and the current long-range transportation plan.
-The model is taken essentially as-is, with no changes other than those noted in Chapters [-@sec-landuse]--[-@sec-wfh].
+The model is taken essentially as-is, with no changes other than those noted in [@sec-landuse; @sec-transit; @sec-wfh].
 
 The WFRC model, like many trip-based models, requires the following inputs:
 
 -   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).
--   Travel skims, detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the mode and destination choice model steps.
--   Transportation networks, including highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not compare the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
+-   Travel skims, detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the destination and mode choice model steps.
+-   Transportation networks, including highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   Lookup tables, used in many model steps for information such as trip rates by household type. These are taken directly from the WFRC model without modification.
 -   Model constants and coefficients, which some model steps such as mode choice require for calibration. These are also taken directly from the WFRC model.
 
+@fig-wfrc-flowchart gives an overview of the WFRC model, showing broad model steps in a flowchart.
 Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
 The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
-The trip generation step uses lookup tables for each household type to determine the number of trips produced by purpose.
-Trip attractions are determined based on the number of jobs in each TAZ, with differing coefficients by job type.
+
+![WFRC model flowchart. There is a feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
+
+**check this paragraph for accuracy**.
+The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each size category and income group.
+Household size is categorized by the number of individuals living in a household, though notably households with ***4?*** or more individuals are grouped into a "size ***4?+***" category.
+The specific income groups used in the WFRC model are given in @tbl-income-groups.
+
+```{r}
+#| label: tbl-income-groups
+#| tbl-cap: income groups
+
+targets::tar_read(income_groups) |>
+  select(group, inc_range) |>
+  rename("Income Group" = group, "Income Range" = inc_range) |>
+	flextable()
+```
+
+***this one too***.
+The WFRC model also estimates the number of workers per household and the number of vehicles owned by each household.
+These models....
+
+***also this***.
+The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
+There are ***two?*** separate joint distributions that are estimated: one across household size, income group, and vehicle ownership, and one across number of workers, income group, and vehicle ownership.
+This process assigns each TAZ a certain number of e.g. 3-person, medium-income, 2-vehicle households, and a certain number of e.g. 1-worker, low-income, 1-vehicle households.
+Note that the two different joint distributions are not mutually exclusive, and in fact each distribution contains the total number of households in each TAZ.
+
+***actually, check pretty much this whole section***.
+The joint distributions estimated in the disaggregation step are then used in the trip generation step to estimate the number of trips produced from each TAZ.
+The trips are estimated using lookup tables which assert an average number of trips for each household type.
+There are separate lookup tables for each trip purpose, and each lookup table uses one of the two joint distributions estimated in the disaggregation step.
+The trip rates in the lookup tables are multiplied by the number of households in each category, and this gives a total number of trips by purpose produced in each TAZ.
+
+The WFRC model contains the following trip purposes: Home-based work (HBW), home-based ....
+The HBW and ...
+purposes use the joint distribution across number of workers, income group, and vehicle ownership, and all other trip purposes use the distribution across household size, income group, and vehicle ownership.
+
+***figure out when trip attractions are estimated and if it's part of the distribution step***.
+
 Trip distribution uses a gravity model of the form\
 $$
 T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
@@ -60,6 +105,13 @@ Each of these steps determines information that will be used in subsequent steps
 
 ![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
+Most of ActivitySim's individual models are based on a multinomial logit model of the form:\
+$$
+P(k) = \frac{e^{V_k}}{\displaystyle \sum_{k \in K} e^{V_k}},
+$$\
+where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives.
+The utility values are determined by....
+
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
 In this case, these impedances are supplied directly as network skims, output from the WFRC model.
@@ -67,7 +119,7 @@ In this case, these impedances are supplied directly as network skims, output fr
 The household/personal steps relate to long-term decisions that are unlikely to change quickly based on daily transportation conditions.
 These steps include determining remote work status, work/school location, auto ownership, transit pass ownership, and free parking availability at work.
 Much of this information can be supplied directly or explicitly modeled.
-This ActivitySim implementation does not supply any of this information directly, and explicitly models remote work status, work/school location, auto ownership, and free parking availability.
+Our ActivitySim implementation does not supply any of this information directly, and explicitly models remote work status, work/school location, auto ownership, and free parking availability.
 Transit pass ownership is not modeled.
 
 The daily decisions primarily concern an individual's DAP.
@@ -153,16 +205,6 @@ The synthetic population does have a lower median income than the WFRC data in m
 However, both the WFRC model and ActivitySim use household income *groups* rather than individual household income to inform travel decisions.
 These groups are taken from the WFRC model (see @tbl-income-groups), and the groups in PopulationSim and ActivitySim were adjusted to match.
 @fig-income-group-map shows the difference in number of households by income group, and this figure shows a similar trend of PopulationSim over-predicting low-income households.
-
-```{r}
-#| label: tbl-income-groups
-#| tbl-cap: income groups
-
-targets::tar_read(income_groups) |>
-  select(group, inc_range) |>
-  rename("Income Group" = group, "Income Range" = inc_range) |>
-	flextable()
-```
 
 ```{r}
 #| label: fig-median-income-comparison
