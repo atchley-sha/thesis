@@ -1,7 +1,7 @@
 # Population ####
 .by_population_bg <- function(...) {
 	list(
-		annotation_map_tile("cartolight", zoomin=0),
+		annotation_map_tile("cartolight", zoomin = 0),
 		geom_sf(aes(fill = diff_pct, color = as.character(is.na(diff_pct)))),
 		scale_percent_diff(...),
 		scale_color_manual(
