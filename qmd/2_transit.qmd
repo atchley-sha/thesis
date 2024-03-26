@@ -41,9 +41,8 @@ No other changes to ActivitySim are necessary to model this scenario.
 ## Scenario Analysis
 
 ```{r}
-targets::tar_read(combined_tr_mode_split_diff) %>% 
-	tt(digits = 2) %>% 
-	format_tt(escape = TRUE)
+targets::tar_read(combined_tr_mode_split_diff) |>
+	flextable()
 ```
 
 ```{r}
@@ -75,14 +74,14 @@ By connecting the catchment areas with what we know of the zonal SE data, we cou
 
 ```{r}
 #| tbl-cap: cube
-targets::tar_read(cube_tr_productions_se_summary) %>% 
-	kbl()
+targets::tar_read(cube_tr_productions_se_summary) |>
+	flextable()
 ```
 
 ```{r}
 #| tbl-cap: asim
-targets::tar_read(asim_tr_trips_se_summary) %>% 
-	kbl()
+targets::tar_read(asim_tr_trips_se_summary) |>
+	flextable()
 ```
 
 ```{r}

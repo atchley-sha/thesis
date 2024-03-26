@@ -47,10 +47,10 @@ More experienced modelers would likely require significantly less time to create
 #|   - ActivitySim
 
 # targets::tar_read(cube_time_spent_table) %>% 
-head(mtcars) %>% 
-	kbl()
-targets::tar_read(asim_time_spent_table) %>% 
-	kbl()
+head(mtcars) |>
+	flextable()
+targets::tar_read(asim_time_spent_table) |>
+	flextable()
 ```
 
 ## Notes

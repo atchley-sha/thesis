@@ -10,7 +10,7 @@ This development is known as The Point, and is the basis for the first model sce
 #| label: fig-draper-prison-location
 #| fig-cap: draper prison location
 
-plot(mtcars[1:3])
+targets::tar_read(draper_prison_site_map)
 ```
 
 This scenario models the change in land use that a development such as The Point would create.
@@ -38,10 +38,10 @@ targets::tar_read(lu_plot_new_tazs)
 #|   - Baseline Scenario
 #|   - New Land Use
 
-targets::tar_read(lu_se_by_table) %>% 
-	kbl()
-targets::tar_read(lu_se_lu_table) %>% 
-	kbl()
+targets::tar_read(lu_se_by_table) |>
+	flextable()
+targets::tar_read(lu_se_lu_table) |> 
+	flextable()
 ```
 
 ## Scenario Creation

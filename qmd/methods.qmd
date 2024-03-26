@@ -98,7 +98,7 @@ PopulationSim also allows setting different weights to each control, and @tbl-co
 #| label: tbl-control-totals
 #| tbl-cap: PopulationSim Control Totals by Geography and Source
 
-tribble(
+tibble::tribble(
   ~Control, ~Geography, ~Source, ~Weight,
   "Population", "Entire Region", "Census", 5000,
   "Number of Households", "TAZ", "WFRC Model", 1000000000,
@@ -106,11 +106,9 @@ tribble(
   "Persons by Age Group", "Census Tract", "Census", 10000,
   "Households by Income Group", "Census Tract", "Census", 500,
   "Workers per Household", "Census Tract", "Census", 1000
-) %>% 
-  mutate(Weight = scales::label_comma()(Weight)) %>% 
-	tt()
-  # kbl(booktabs = TRUE, linesep = "", align = "lccr") %>%
-  # kable_styling()
+) |>
+  dplyr::mutate(Weight = scales::label_comma()(Weight)) |>
+	flextable()
 ```
 
 Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data.
@@ -160,13 +158,10 @@ These groups are taken from the WFRC model (see @tbl-income-groups), and the gro
 #| label: tbl-income-groups
 #| tbl-cap: income groups
 
-targets::tar_read(income_groups) %>% 
-  select(group, inc_range) %>% 
-  rename("Income Group" = group, "Income Range" = inc_range) %>% 
-	tt() %>% 
-	format_tt(escape = TRUE)
-  # kbl(align = 'cr', booktabs = TRUE, linesep = "") %>% 
-  # kable_styling()
+targets::tar_read(income_groups) |>
+  select(group, inc_range) |>
+  rename("Income Group" = group, "Income Range" = inc_range) |>
+	flextable()
 ```
 
 ```{r}
@@ -215,9 +210,10 @@ This ActivitySim configuration is ultimately based on the San Francisco area, an
 #| label: tbl-mode-split
 #| tbl-cap: mode split
 
-targets::tar_read(by_mode_split_comparison) %>% 
-	tt() %>% 
-	format_tt(escape = TRUE)
+targets::tar_read(by_mode_split_comparison) |>
+	flextable()
+	# tt() %>% 
+	# format_tt(escape = TRUE)
   # kbl(
   #   booktabs = TRUE,
   #   col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "Error", "% Error"),
@@ -274,8 +270,8 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 #| label: tbl-asim-wfh-model-coeffs
 #| tbl-cap: asim wfh model coeffs
 
-targets::tar_read(asim_wfh_model_coeffs) %>% 
-	tt() 
+targets::tar_read(asim_wfh_model_coeffs) |>
+	flextable()
 ```
 
 The two models differ in their approach to telecommuting, however.
@@ -290,9 +286,8 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 #| label: tbl-asim-tc-model-coeffs
 #| tbl-cap: asim tc model coeffs
 
-targets::tar_read(asim_telecommute_model_coeffs) %>% 
-	tt() %>% 
-	format_tt(escape = TRUE)
+targets::tar_read(asim_telecommute_model_coeffs) |>
+	flextable()
 ```
 
 In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
@@ -303,14 +298,15 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| label: tbl-baseline-telecommute
 #| tbl-cap: wfrc telecommute data
 
-targets::tar_read(comparison_by_telecommute_coeffs) %>%
-  mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
-  rename(
-    "Job Type" = name,
-    "WFRC Telecommute %" = pct
-    ) %>%
-	tt() %>% 
-	format_tt(escape = TRUE)
+targets::tar_read(comparison_by_telecommute_coeffs) |>
+	flextable()
+#   mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
+#   rename(
+#     "Job Type" = name,
+#     "WFRC Telecommute %" = pct
+#     ) %>%
+# 	tt() %>% 
+# 	format_tt(escape = TRUE)
   # kbl(
   #   booktabs = TRUE,
   #   align = "c"
@@ -327,7 +323,9 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 #| label: tbl-asim-dap-model-rw-coeffs
 #| tbl-cap: asim dap model remote work coeffs
 
-head(mtcars) %>% tt()
+targets::tar_read(asim_tc_dap_coeffs) |>
+	flextable() #|>
+	# group_tt(j = list("Utility Coefficient" = 2:4))
 ```
 
 ## Example Scenarios

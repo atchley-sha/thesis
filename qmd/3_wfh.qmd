@@ -59,8 +59,8 @@ However, this was left unchanged (set at 1) as we considered that the 2050 predi
 #| label: tbl-wfrc-remote-work-years
 #| tbl-cap: wfrc remote work data
 
-targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
-	kbl()
+targets::tar_read(cube_wfh_by_remote_work_pct_comparison) |>
+	flextable()
 ```
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
@@ -72,18 +72,19 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 #| label: tbl-wfh-telecommute
 #| tbl-cap: wfh telecommute
 
-targets::tar_read(comparison_wfh_telecommute_coeffs) %>%
-  mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
-  rename(
-    "Job Type" = name,
-    "WFRC Telecommute %" = pct
-    ) %>%
-  kbl(
-    booktabs = TRUE,
-    align = "c"
-  ) %>%
-  add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
-  kable_styling()
+targets::tar_read(comparison_wfh_telecommute_coeffs) |>
+	flextable()
+  # mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
+  # rename(
+  #   "Job Type" = name,
+  #   "WFRC Telecommute %" = pct
+  #   ) %>%
+  # kbl(
+  #   booktabs = TRUE,
+  #   align = "c"
+  # ) %>%
+  # add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
+  # kable_styling()
 ```
 
 ## Scenario Analysis
@@ -98,9 +99,8 @@ ActivitySim on the other hand does account for this, in that individuals working
 #| label: tbl-wfh-mode-split-comp
 #| tbl-cap: wfh mode split comp
 
-targets::tar_read(combined_wfh_mode_split_diff) %>% 
-	kbl() %>% 
-	kable_styling()
+targets::tar_read(combined_wfh_mode_split_diff) |>
+	flextable()
 ```
 
 In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
@@ -115,9 +115,8 @@ This shows that in fact the *shorter* work trips are being made less frequently 
 #| label: tbl-cube-wfh-trip-pmt-diff
 #| tbl-cap: cube
 
-targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
-	kbl() %>% 
-	kable_styling()
+targets::tar_read(cube_wfh_trip_pmt_diff) |>
+	flextable()
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live further away from their job site are more likely to work remotely.
@@ -127,9 +126,8 @@ ActivitySim therefore predicts a greater decrease in miles traveled than in trip
 #| label: tbl-asim-wfh-trip-pmt-diff
 #| tbl-cap: asim
 
-targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
-	kbl() %>% 
-	kable_styling()
+targets::tar_read(asim_wfh_trip_pmt_diff) |>
+	flextable()
 ```
 
 Figures [-@fig-cube-wfh-tlfd-diff] and [-@fig-asim-wfh-tlfd-diff] show the trip length frequency distribution of "unmade" trips in the increased remote work scenario (i.e. the trip length frequency distribution of the *difference* in trips) compared to that of the baseline scenario.
