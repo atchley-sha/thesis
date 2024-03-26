@@ -78,6 +78,7 @@ $$
 T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
 $$\
 where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the productions at $i$, $A_j$ is the attractions at $j$, $F_{ij}$ is the cost term/function from $i$ to $j$, and $J$ is the set of all zones trips from $i$ can be attracted to.
+
 Mode choice uses a choice model to assign a percentage of trips of each purpose to each mode.
 Network assignment is done via an iterative process to equalize travel time between potential routes.
 
@@ -105,13 +106,6 @@ Each of these steps determines information that will be used in subsequent steps
 
 ![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
-Most of ActivitySim's individual models are based on a multinomial logit model of the form:\
-$$
-P(k) = \frac{e^{V_k}}{\displaystyle \sum_{k \in K} e^{V_k}},
-$$\
-where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives.
-The utility values are determined by....
-
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
 In this case, these impedances are supplied directly as network skims, output from the WFRC model.
@@ -123,8 +117,8 @@ Our ActivitySim implementation does not supply any of this information directly,
 Transit pass ownership is not modeled.
 
 The daily decisions primarily concern an individual's DAP.
-ActivitySim contains a step to assign mandatory, non-mandatory, and joint tours based on personal and household information (joint tours combine both mandatory and non-mandatory activities).
-For example, full-time workers are more likely to make a mandatory tour than part-time workers, all else being equal.
+ActivitySim contains a step to assign mandatory, non-mandatory, and home DAPs based on personal and household information (a home DAP involves no travel).
+For example, full-time workers are more likely to have a mandatory DAP than part-time workers, all else being equal.
 
 Once a DAP is chosen, ActivitySim creates tours for each major activity in the day.
 Additionally, ActivitySim determines if an individual makes an "at-work" tour (e.g. leaving for lunch and returning to the workplace).
@@ -133,6 +127,13 @@ The tours are then populated with trips, and ActivitySim assigns each trip a pur
 
 The final steps of ActivitySim are writing output trip matrices and other tables, including information on land use, persons, households, tours, and trips.
 <!-- This can also include writing summary tables of the above information. -->
+
+Most of ActivitySim's individual models are based on a multinomial logit model of the form:\
+$$
+P(k) = \frac{e^{V_k}}{\displaystyle \sum_{k \in K} e^{V_k}},
+$$\
+where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives.
+The utility values are determined by coefficients on variables such as income, age, and work status, in addition to calibration constants for each alternative.
 
 ### PopulationSim {#sec-populationsim}
 
@@ -172,7 +173,7 @@ The outputs of PopulationSim include a persons and households table comprising t
 
 ## Initial Model Comparison/Calibration
 
-While this research does not directly compare the outputs of ActivitySim to those of the WFRC model, it is important to ensure similar performance between the two models for meaningful analyses.
+While this research generally does not directly compare the outputs of ActivitySim to those of the WFRC model, it is important to ensure similar performance between the two models for meaningful analyses.
 As such, a baseline scenario in both models is used in order to calibrate the ActivitySim implementation to the WFRC model.
 This baseline scenario uses the 2019 WFRC model as-is.
 For ActivitySim, the baseline scenario uses 2019 Census and WFRC data to create the synthetic population, and the choice models use land use data and network skims from the baseline WFRC scenario.
@@ -202,9 +203,6 @@ Since total population is a region-level control, but number of households is a 
 
 Income is also an important factor in travel behavior [@zegras_household_2007], and @fig-median-income-comparison shows a TAZ-level comparison of median income between the synthetic population and the WFRC data.
 The synthetic population does have a lower median income than the WFRC data in many TAZs, but the error is in most cases fairly small, especially in more populated areas.
-However, both the WFRC model and ActivitySim use household income *groups* rather than individual household income to inform travel decisions.
-These groups are taken from the WFRC model (see @tbl-income-groups), and the groups in PopulationSim and ActivitySim were adjusted to match.
-@fig-income-group-map shows the difference in number of households by income group, and this figure shows a similar trend of PopulationSim over-predicting low-income households.
 
 ```{r}
 #| label: fig-median-income-comparison
@@ -213,6 +211,10 @@ These groups are taken from the WFRC model (see @tbl-income-groups), and the gro
 targets::tar_read(comparison_med_income_map)
 ```
 
+However, both the WFRC model and ActivitySim use household income *groups* rather than individual household income to inform travel decisions.
+These groups are taken from the WFRC model (see @tbl-income-groups), and the groups in PopulationSim and ActivitySim were adjusted to match.
+@fig-income-group-map shows the difference in number of households by income group, and this figure shows a similar trend of PopulationSim over-predicting low-income households.
+
 ```{r}
 #| label: fig-income-group-map
 #| fig-cap: inc groups
@@ -220,9 +222,12 @@ targets::tar_read(comparison_med_income_map)
 targets::tar_read(comparison_inc_groups_map)
 ```
 
-Income was not weighted very heavily as a control in PopulationSim (see @tbl-control-totals), and this is in part why there are discrepancies between the models.
-However, the overall distribution of income is similar between the models, as @fig-median-income-density shows.
-<!-- A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but for the purposes of this research the income distribution is similar enough. -->
+Note that in the synthetic population, each household has a specific income and so can be grouped directly, while the WFRC model requires a disaggregation step to estimate the number of households in each income group.
+@fig-income-group-map therefore is comparing two income disaggregation models, one a part of PopulationSim and the other in the WFRC model, rather than comparing the synthetic population to actual socioeconomic data.
+With this in mind, the difference shown in @fig-income-group-map is within an acceptable margin of error.
+
+Additionally, the overall distribution of income is similar between the models, as @fig-median-income-density shows.
+A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but for the purposes of this research the income distribution of the synthetic population is acceptable.
 
 ```{r}
 #| label: fig-median-income-density
@@ -239,7 +244,17 @@ This section compares the outputs of both models to verify that trip patterns ro
 There are three comparisons of interest between the outputs of the two models: mode split, trip length frequency distribution, and remote work.
 
 The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed.
+The ideal approach would be to calibrate the mode choice model to recent travel survey data, such as from the Utah Household Travel Survey.
+However, recent travel survey data was not available for this project, and only a rough calibration is needed for the purposes of this research.
+We therefore used the outputs of the baseline WFRC model scenario as mode split targets.
+A production model would certainly use travel survey data and perform a thorough calibration, but that is outside the scope of this project.
+
+cross between models
+
+ActivitySim has both tour- and trip-level mode choice models
+
 We adjusted the alternative-specific constants in ActivitySim's mode choice model to better match the mode split in the WFRC model.
+
 @tbl-mode-split compares the mode split of both models after several iterations of this calibration.
 Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
 However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split begins converging at this point regardless of the calibration constant values (see @fig-calibration-plot).

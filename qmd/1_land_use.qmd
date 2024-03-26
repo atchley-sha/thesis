@@ -2,13 +2,14 @@
 
 {{< include _setup.qmd >}}
 
-Near Draper, Utah there is a defunct prison site that is slated for redevelopment (see @fig-draper-prison-location).
+Near Draper, Utah there is a defunct prison site that is slated for redevelopment.
 The 600-acre site will be developed into a multi-use residential and commercial area, with an emphasis on walkability and transit.
 This development is known as The Point, and is the basis for the first model scenario in this paper.
+@fig-draper-prison-location shows the location of this development relative to the surrounding area.
 
 ```{r}
 #| label: fig-draper-prison-location
-#| fig-cap: draper prison location
+#| fig-cap: '"The Point" development site (shown in blue).'
 
 targets::tar_read(draper_prison_site_map)
 ```
@@ -25,13 +26,13 @@ No changes other than to the land use/socioeconomic data in these 5 TAZs was mad
 
 ```{r}
 #| label: fig-the-point-zones
-#| fig-cap: the point zones
+#| fig-cap: Map of each TAZ in The Point development.
 
 targets::tar_read(lu_plot_new_tazs)
 ```
 
 ```{r}
-#| label: tbl-the-point-data
+#| label: TAZ-level Socioeconomic Data for The Point
 #| tbl-cap: the point data
 #| layout-ncol: 2
 #| tbl-subcap: 
@@ -53,13 +54,25 @@ As noted previously, all other TAZs have the same land use data as in the 2019 b
 ActivitySim requires two changes for this scenario.
 The first is an update to the TAZ-level land use and socioeconomic data, which is identical to the process for the WFRC model.
 The second is an updated synthetic population.
+
 In order to keep consistency between model scenarios, a new population was created only for the 5 affected TAZs and joined to the existing synthetic population.
 There were no individuals or households in the affected zones in the existing synthetic population, so no individuals or households needed to be removed before joining the two populations.
 
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
-However, many of the controls for PopulationSim use tract-level data from the Census, and existing Census data for these controls is unrepresentative of the new development.
+However, many of the controls for PopulationSim use tract-level data from the Census, and existing Census data for these controls is unrepresentative of the new development, due to the lack of households and economic activity at the site of the development.
 Because of this, the Census tract covering the Gateway area in Salt Lake City (see @fig-gateway-tract) is used to represent the new development patterns at The Point.
-The income distribution, etc. of this area will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data will match the WFRC projections for 2050.
+The income distribution, etc. of this area will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+
+```{r}
+#| label: fig-gateway-tract
+#| fig-cap: Census tract for the Gateway area in Salt Lake City (shown in blue). Tract-level controls for the synthetic population in the new development come from this tract rather than the tract at the development site.
+#| fig-scap: Census tract for the Gateway area in Salt Lake City.
+
+plot(mtcars[1:3])
+```
+
+In a more realistic case, a transportation agency would have forecasted land use and socioeconomic data that could be used as controls to PopulationSim, rather than the complicated process of using a representative Census tract for new development.
+However, our ActivitySim implementation is designed to be independent from the WFRC model where feasible
 
 ? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigans but we didn't do that since we wanted the models to be independent.
 
