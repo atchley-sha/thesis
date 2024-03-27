@@ -53,11 +53,10 @@ targets::tar_read(income_groups) |>
 
 ***Kamryn update this***.
 The WFRC model also estimates the number of vehicles owned by each household.
-This model takes similar socioeconomic data along with data mapping the levels of urbanization in each TAZ to predict vehicle availability.
-I then assigns the number of vehicles for each combination of household size, number of workers, and income group.
+It takes similar socioeconomic data along with data that maps the levels of urbanization in each TAZ to predict vehicle availability.
 
 ***also this***.
-The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
+*I think this does a distribution across household size, income group, and number of workers. Then it does the same thing but categorizes it into high and low incomes. Then it adds the vehicle ownership and outputs 6 dataframes for each household size showing the income (high or low), the number of workers, and the number of vehicles.* The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
 There are ***two?*** separate joint distributions that are estimated: one across household size, income group, and vehicle ownership, and one across number of workers, income group, and vehicle ownership.
 This process assigns each TAZ a certain number of e.g. 3-person, medium-income, 2-vehicle households, and a certain number of e.g. 1-worker, low-income, 1-vehicle households.
 Note that the two different joint distributions are not mutually exclusive, and in fact each distribution contains the total number of households in each TAZ.
