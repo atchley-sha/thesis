@@ -20,7 +20,7 @@ In other words, this scenario models the 2050 predicted remote work rates with t
 ## Considerations for Modelling Remote Work
 
 There has been much research, especially in recent years, on the implications of remote work.
-While many MPOs have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.
+While many agencies have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.
 
 Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
@@ -34,7 +34,7 @@ This rebound effect is not straightforward, however.
 Compared to those who commute to work, the Sweden study shows that those who worked from home the whole day had less trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
 
 Additionally, the types of trips people make can differ depending on remote work status.
-While the rebound effect proposes that the *number* of trips may increase on remote work days, @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
+While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
 This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
 @moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
 
@@ -46,6 +46,7 @@ This implies that longer trips are being replaced by shorter trips on days peopl
 
 As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).
 The WFRC model contains a lookup table of both work-from-home (called "home-based jobs" in the WFRC model) and telecommute percentages by job type and year.
+
 Two changes are needed in the WFRC model for this scenario.
 The first is to replace the 2019 estimates for work-from-home and telecommuting with the 2050 estimates.
 @tbl-wfrc-remote-work-years shows both the original and updated estimates.
@@ -65,6 +66,7 @@ targets::tar_read(cube_wfh_by_remote_work_pct_comparison) |>
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
 The "target work-from-home percent" value in ActivitySim's work-from-home submodel was changed to 3.5% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type.
+
 @tbl-wfh-telecommute shows the WFRC 2050 telecommute percentages with the ActivitySim telecommute utility coefficients.
 As in the baseline scenario, this calibration allowed ActivitySim to match the WFRC telecommute percentages exactly.
 

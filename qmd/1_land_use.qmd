@@ -71,18 +71,19 @@ The income distribution, etc. of this area will therefore match that of the Gate
 plot(mtcars[1:3])
 ```
 
-In a more realistic case, a transportation agency would have forecasted land use and socioeconomic data that could be used as controls to PopulationSim, rather than the complicated process of using a representative Census tract for new development.
-However, our ActivitySim implementation is designed to be independent from the WFRC model where feasible
-
-? Note in realistic scenario you could use just the land use forecast as controls directly, rahter than the whole census shenanigans but we didn't do that since we wanted the models to be independent.
+In a more realistic case, a transportation agency would have forecasted land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a (different) representative Census tract for new development.
+However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
+<!-- @tbl-new-land-use-comparison shows that the new synthetic population has ***only minor discrepancies  --> Additionally, our ActivitySim implementation is designed to be independent from the WFRC model where feasible.
 
 ## Scenario Analysis
 
-In a trip-based model, it is relatively easy to calculate person-miles traveled from trips produced in the new development zones (see @fig-lu-personmiles-cube), and where they are being attracted (see @fig-lu-desire-cube-1).
-However, those living in the new development make many more trips than only those produced in their home zone.
-In a trip-based model, this is modeled with "non--home-based" trips.
-However, it is difficult to know how best to distribute non--home-based trips, since by definition these trips do not have an origin or destination in the zone that generated them.
-***cite something about how it's a problem***
+There are several kinds of analyses an agency likely would want to do in assessing the effects of a change in land use.
+Probably chief among them would be an analysis of the new trips resulting from the development.
+This could include analysis in the number of trips, the distance traveled, and where the trips are being made.
+
+Both model types allow for very easy analysis of trip numbers and lengths, as the WFRC model outputs origin-destination trip tables directly by mode and purpose, and ActivitySim outputs a list of trips containing information on origin, destination, and mode.
+[@fig-lu-personmiles-cube; @fig-lu-personmiles-abm], for example, show the new trip-miles produced in the updated zones for the WFRC mode and ActivitySim, respectively.
+However, there is a crucial difference between the model types, and that is the treatment or trips that do not begin or end at the home.
 
 ```{r}
 #| label: fig-lu-personmiles-cube
@@ -91,12 +92,6 @@ However, it is difficult to know how best to distribute non--home-based trips, s
 targets::tar_read(cube_lu_new_pmt_plot)
 ```
 
-By contrast, since an ABM models individuals explicitly, it is easy to follow the daily trips of any individual.
-@fig-lu-personmiles-abm shows a similar plot of person-miles traveled, but of all trips made by individuals living in the new development zones.
-We can additionally make a distinction between trips produced in the individuals' home zones and those produced elsewhere.
-Note that in a trip-based model, a round-trip from home to work and back is regarded as two trips produced in the home zone.
-ActivitySim does not deal with productions and attractions in the same way, so for comparison between models we are counting a trip with an origin or destination in the home zone as produced by that zone (e.g. in Figures [-@fig-lu-personmiles-asim] and [-@asim_lu_new_desire_map]).
-
 ```{r}
 #| label: fig-lu-personmiles-asim
 #| fig-cap: personmiles asim
@@ -104,10 +99,38 @@ ActivitySim does not deal with productions and attractions in the same way, so f
 targets::tar_read(asim_lu_new_pmt_plot)
 ```
 
+In the WFRC model (and in many trip-based models), homes produce trips with different trip purposes, including home-based work, home-based other, and non--home-based trips.
+"Home-based" trips have an origin or destination at the home, and are fairly straightforward to model, as the destination choice step can take for granted that these trips have one trip end in the zone that produced them.
+In addition to home-based trips, though, individuals make many "non--home-based" trips, which do not have an origin or destination at the home (e.g. traveling from work to a grocery store).
+Non--home-based trips can be a significant portion of total travel, as @fig-lu-personmiles-cube shows, but are not as straightforward to model as home-based trips.
+
+Because non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
+It is difficult therefore to know how best to redistribute non--home-based trips, as they could in reality have any number of origins and destinations.
+Though modeling the destination choice for non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
+
+There are several methods to redistribute non--home-based trips in trip-based models.
+One naïve approach is to assign non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, and then assign destinations to those trips normally *(I don't know if this is actually a thing, I just made it up)*.
+***paragraph about this, cite some sources***.
+
+By contrast, an ABM models individuals and their travel explicitly, and this makes the treatment of non--home-based trips much more straightforward.
+Each trip is tied to a specific individual with a defined home location, and so no extra "redistribution" step is needed to analyze non--home-based trips: these are "built-in" to each individual's tour pattern.
+In fact, as @fig-lu-personmiles-asim shows, non--home-based trips can occur as part of any tour type/purpose; there is no separate "non--home-based" purpose in ActivitySim.
+Note that @fig-lu-personmiles-asim counts person-miles by *tour* purpose, using the purposes as defined in ActivitySim, rather than converting the ActivitySim trips to the "common" trip purposes as discussed in @sec-baseline-calibration.
+
+In addition to looking at total person-miles traveled, it is also useful to analyze where the new trips are going.
+One common way to visualize this is with desire lines, which show lines for each trip origin/destination pair.
+The thickness of the line represents the number of trips between the pair of zones.
+
+@fig-lu-desire-cube-hb shows a desire line plot by mode for ***all?*** home-based trips.
+
 @fig-lu-desire-cube shows desire line plots of trips generated by the new development zones.
 For home-based trips, it is easy to see where trips are produced and attracted to, and this is shown in @fig-lu-desire-cube-1.
 However, the non--home-based trips are more difficult to analyze.
 Because non--home-based trips are relocated to zones other than where they were generated, it is impossible to filter to only those non--home-based trips generated by the new zones.
+
+Notably, the WFRC model does not redistribute non--home-based trips at all, so these are treated the same as home-based trips for destination choice, mode choice, and network assignment.
+In other words, non--home-based trips in the WFRC model have an origin or destination at home, and are functionally "home-based other" trips.
+This explains why @fig-lu-desires-cube-2 shows that the increase in non--home-based trips from the baseline scenario consists entirely of trips with an origin or destination in the new development.
 
 The best approach is to take the difference in non--home-based trips between the scenarios (@fig-lu-desire-cube-2), though this presents two problems.
 The first is that for real-world analyses, where land use changes are not isolated, it becomes impossible to tell which non--home-based trips are generated by which developments, as the trips are seen only in aggregate.
