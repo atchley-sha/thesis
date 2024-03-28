@@ -56,13 +56,13 @@ The WFRC model also estimates the number of vehicles owned by each household.
 It takes similar socioeconomic data along with data that maps the levels of urbanization in each TAZ to predict vehicle availability.
 
 ***also this***.
-*I think this does a distribution across household size, income group, and number of workers. Then it does the same thing but categorizes it into high and low incomes. Then it adds the vehicle ownership and outputs 6 dataframes for each household size showing the income (high or low), the number of workers, and the number of vehicles.* The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
+*Kamryn's notes: I think this does a distribution across household size, income group, and number of workers. Then it does the same thing but categorizes it into high and low incomes. Then it adds the vehicle ownership and outputs 6 dataframes for each household size showing the income (high or low), the number of workers, and the number of vehicles. It also spits out a dataframe with marginal HHsize by life cylce which is then used in trip generation* The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
 There are ***two?*** separate joint distributions that are estimated: one across household size, income group, and vehicle ownership, and one across number of workers, income group, and vehicle ownership.
 This process assigns each TAZ a certain number of e.g. 3-person, medium-income, 2-vehicle households, and a certain number of e.g. 1-worker, low-income, 1-vehicle households.
 Note that the two different joint distributions are not mutually exclusive, and in fact each distribution contains the total number of households in each TAZ.
 
 ***actually, check pretty much this whole section***.
-The joint distributions estimated in the disaggregation step are then used in the trip generation step to estimate the number of trips produced from each TAZ.
+*Kamryn's notes: It looks like the joint distributions aren't actually used in trip generation. It uses the file with marginal HH size by life cycle and the marginal workers file* The joint distributions estimated in the disaggregation step are then used in the trip generation step to estimate the number of trips produced from each TAZ.
 The trips are estimated using lookup tables which assert an average number of trips for each household type.
 There are separate lookup tables for each trip purpose, and each lookup table uses one of the two joint distributions estimated in the disaggregation step.
 The trip rates in the lookup tables are multiplied by the number of households in each category, and this gives a total number of trips by purpose produced in each TAZ.
