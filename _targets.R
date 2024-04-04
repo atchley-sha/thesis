@@ -273,8 +273,10 @@ mc_calibration_targets <- tar_plan(
 			frontrunner_line, frontrunner_stops),
 		pattern = map(mcc_tr_trip_diff),
 		iteration = "list"
-	)
+	),
 
+	tar_file(mode_crosswalk_file, "data/calibration/mode_crosswalk.csv"),
+	mode_crosswalk = readr::read_csv(mode_crosswalk_file),
 )
 
 # Base year ####

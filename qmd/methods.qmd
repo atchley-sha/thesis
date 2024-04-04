@@ -1,9 +1,11 @@
-# Methodology {#sec-methods}
+# Methodology {#methods-methods-methods-methods-methods-sec-methods}
 
 {{< include _setup.qmd >}}
 
 This paper seeks to compare methodological differences between trip- and activity-based modeling frameworks.
-Both model types ... Instead, a representative model is used for each type, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
+Both model types have a wide variety of implementations, as individual agencies will adjust the basic model framework to match their specific needs.
+It would be unreasonable to compare each of the various implementations of both model types.
+Instead, a representative model is used for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
 The representative trip-based model is the 2019 Wasatch Front Regional Council (WFRC) travel demand model, which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
 An ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
@@ -13,13 +15,13 @@ Note that the focus is not on comparing model accuracy or performance, but rathe
 There are therefore few direct comparisons of model outputs between each type.
 Instead, this research highlights the strengths and weaknesses of each model type in planning and policy analysis, and illustrates these differences.
 
-<!-- The following sections discuss the specific models in more detail. -->
+The following sections discuss the specific models in more detail.
 
 ## WFRC Model
 
 The WFRC model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area.
 WFRC provided the model directly, including land use forecasts and the current long-range transportation plan.
-The model is taken essentially as-is, with no changes other than those noted in [@sec-landuse; @sec-transit; @sec-wfh].
+The model is taken essentially as-is, with no changes other than those noted in Chapters [-@sec-landuse]--[-@sec-wfh].
 
 The WFRC model, like many trip-based models, requires the following inputs:
 
@@ -33,12 +35,10 @@ The WFRC model, like many trip-based models, requires the following inputs:
 Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
 The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
 
-![WFRC model flowchart. There is a feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
+![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#methods-methods-methods-methods-methods-fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
-**Kamryn updated this paragraph**.
-The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each size category, workers category, and income group.
-Household size is categorized by the number of individuals living in a household, though notably households with 6 or more individuals are grouped into a "size 6+" category.
-The number of workers in a household is categorized into for groups from zero workers to 3+ workers per household.
+The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
+The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and XXX, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
 The specific income groups used in the WFRC model are given in @tbl-income-groups.
 
 ```{r}
@@ -51,26 +51,35 @@ targets::tar_read(income_groups) |>
 	flextable()
 ```
 
-***Kamryn update this***.
-The WFRC model also estimates the number of vehicles owned by each household.
-It takes similar socioeconomic data along with data that maps the levels of urbanization in each TAZ to predict vehicle availability.
+There is an additional distribution estimated, which is termed "life cycle" in the WFRC model.
+This distribution categories households into one of three categories, roughly based on the presence of children and/or working adults in the household.
+This is done by estimating the age distribution in each TAZ and categorizing each household based on @tbl-lif-cyc-categories.
 
-***also this***.
-*Kamryn's notes: I think this does a distribution across household size, income group, and number of workers. Then it does the same thing but categorizes it into high and low incomes. Then it adds the vehicle ownership and outputs 6 dataframes for each household size showing the income (high or low), the number of workers, and the number of vehicles. It also spits out a dataframe with marginal HHsize by life cylce which is then used in trip generation* The model then estimates a joint distribution across these one-dimensional distributions (household size, income group, number of workers, and vehicle ownership).
-There are ***two?*** separate joint distributions that are estimated: one across household size, income group, and vehicle ownership, and one across number of workers, income group, and vehicle ownership.
-This process assigns each TAZ a certain number of e.g. 3-person, medium-income, 2-vehicle households, and a certain number of e.g. 1-worker, low-income, 1-vehicle households.
-Note that the two different joint distributions are not mutually exclusive, and in fact each distribution contains the total number of households in each TAZ.
+```{r}
+#| label: tbl-lif-cyc-categories
+#| tbl-cap lif cyc
 
-***actually, check pretty much this whole section***.
-*Kamryn's notes: It looks like the joint distributions aren't actually used in trip generation. It uses the file with marginal HH size by life cycle and the marginal workers file* The joint distributions estimated in the disaggregation step are then used in the trip generation step to estimate the number of trips produced from each TAZ.
+tribble(
+  ~"Life Cycle", ~"0\u201318", ~"18\u201365", ~"65+",
+  1, "x", "x", "x",
+  2, "x", "x", "x",
+  3, "x", "x", "x"
+) |>
+  flextable() |>
+  add_header_row(values = c("Life Cycle", "Presense of persons in household aged:"), colwidths = c(1,3)) |>
+  merge_at(1, 1:2, part = "header")
+```
+
+The disaggregated household data is then used in the trip generation step to estimate the number of trips produced from each TAZ.
 The trips are estimated using lookup tables which assert an average number of trips for each household type.
-There are separate lookup tables for each trip purpose, and each lookup table uses one of the two joint distributions estimated in the disaggregation step.
+There are separate lookup tables for each trip purpose, and depending on the trip purpose the lookup table will use different categories of household.
 The trip rates in the lookup tables are multiplied by the number of households in each category, and this gives a total number of trips by purpose produced in each TAZ.
 
 The WFRC model contains the following trip purposes: Home-based work (HBW), home-based ....
-The HBW and ... purposes use the joint distribution across number of workers, income group, and vehicle ownership, and all other trip purposes use the distribution across household size, income group, and vehicle ownership.
+The HBW and NHBW purposes use only the number of workers per household, and all other trip purposes use the cross-classification of household size with life cycle.
 
 ***figure out when trip attractions are estimated and if it's part of the distribution step***.
+\*\*\* Finish this section\*\*\*.
 
 Trip distribution uses a gravity model of the form\
 $$
@@ -78,7 +87,7 @@ T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
 $$\
 where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the productions at $i$, $A_j$ is the attractions at $j$, $F_{ij}$ is the cost term/function from $i$ to $j$, and $J$ is the set of all zones trips from $i$ can be attracted to.
 
-Mode choice uses a choice model to assign a percentage of trips of each purpose to each mode.
+The mode choice step uses a choice model to assign a percentage of trips of each purpose to each mode.
 Network assignment is done via an iterative process to equalize travel time between potential routes.
 
 The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
@@ -103,7 +112,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#methods-methods-methods-methods-methods-fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -134,7 +143,7 @@ $$\
 where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives.
 The utility values are determined by coefficients on variables such as income, age, and work status, in addition to calibration constants for each alternative.
 
-### PopulationSim {#sec-populationsim}
+### PopulationSim {#methods-methods-methods-methods-methods-sec-populationsim}
 
 This paper uses PopulationSim [@populationsim_2023] to create a synthetic population for ActivitySim.
 The synthetic population aims to be representative of the study area while maintaining privacy.
@@ -237,7 +246,7 @@ targets::tar_read(comparison_inc_density_plot)
 
 <!-- ***Comparison of number of workers?*** -->
 
-### Verification and Calibration of ActivitySim {#sec-baseline-calibration}
+### Verification and Calibration of ActivitySim {#methods-methods-methods-methods-methods-sec-baseline-calibration}
 
 This section compares the outputs of both models to verify that trip patterns roughly agree between them.
 There are three comparisons of interest that we make between the outputs of the two models: mode split, trip length frequency distribution, and remote work.
@@ -248,19 +257,58 @@ However, recent travel survey data was not available for this project, and only 
 We therefore used the outputs of the baseline WFRC model scenario as mode split targets.
 A production model would certainly use travel survey data and perform a thorough calibration, but that is outside the scope of this project.
 
-cross between models
+Before beginning calibration, we created a crosswalk between the available modes in ActivitySim and in the WFRC model.
+The available modes between ActivitySim and the WFRC model are not incredibly different, and in fact many modes have a 1-to-1 match between the models.
+However, some adjustment was needed, and @tbl-mode-crosswalk shows the adjustments that were made.
 
-ActivitySim has both tour- and trip-level mode choice models
+ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
+Based largely on the model results of @christhesis, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for HBW trips, 0.38% for HBO trips, and 0.4% for NHB trips.
 
-We adjusted the alternative-specific constants in ActivitySim's mode choice model to better match the mode split in the WFRC model.
+```{r}
+#| label: @tbl-mode-crosswalk
+#| fig-cap: mode crosswalk
 
-@tbl-mode-split compares the mode split of both models after several iterations of this calibration.
+targets::tar_read(mode_crosswalk) |>
+  flextable()
+```
+
+Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
+However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
+Because activity-based models create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
+Specifically, an ABM doesn't have much of a concept of e.g. "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+For simplicitly, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
+Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
+All other trips are considered HBO trips.
+
+To perform the calibration, the output mode split of ActivitySim for each purpose was compared to the target mode split (output from the WFRC model).
+An adjustment value was determined by the formula $A_k = \ln(T_k/M_k)$, where $A_k$ is the adjustment value for mode $k$, $T_k$ is the target mode share of mode $k$, and $M_k$ is the ActivitySim-predicted mode share of mode $k$.
+This adjustment value was added to the current alternative-specific constants (ASCs) in the ActivitySim configuration, and this process was repeated iteratively until calibration was satisfactory.
+
+There are two aspects of this calibration process worth noting.
+The first is that ActivitySim contains ASCs for both tour mode choice and trip mode choice, where the tour mode is the principal mode used on the tour, and the trip mode is the mode of the individual trip (for example, there could be a "walk" trip on a "transit" tour).
+Both the tour-level and trip-level ASCs were adjusted by the calculated adjustment value for each mode.
+The second is that while it is possible to categorize ActivitySim trips into purposes similar to a trip-based model, ActivitySim does not do this conversion internally.
+ActivitySim *does* have separate ASCs by purpose, but these purposes are ActivitySim's tour purposes, rather than purposes resembling those in a trip-based model.
+Though it is not a perfect correspondence to how the adjustment values were calculated, we adjusted the ASCs as follows: All ActivitySim "atwork" ASCs are calibrated with the NHB adjustment, all "work" ASCs are calibrated with the HBW adjustment, and all other ASCs are calibrated with the HBO adjustment.
+
+@fig-mcc-adjustments shows the mode split from ActivitySim compared against the target mode split for each iteration of calibration.
+After a few iterations, the mode split more closely matches between the models; however, there are still some discrepancies.
+ActivitySim has mode choice ASCs separated not only by mode and purpose, but also by many personal variables, such as income, age, and vehicle ownership.
+The difference across these categories was left unchanged, and all ASCs for a given mode and purpose were adjusted equally.
+This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area, and this may be the cause of the discrepancies.
+
+```{r}
+#| label: fig-mcc-adjustments
+#| fig-cap: mcc adjustments
+
+targets::tar_read(mcc_adjustments_plot)
+```
+
+In any case, we chose the calibration at iteration 4 for the final ASC values, as subsequent iterations adjusted the ASCs without changing the mode split very much.
+At subsequent iterations ActivitySim was also less sensitive to changes in infrastructure, which would not allow for effective policy analysis.
+@tbl-mode-split compares the mode split of both models after iteration 4 of calibration.
 Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
-However, further adjustment of the constants would cause their values to become unreasonably large, as ActivitySim's mode split begins converging at this point regardless of the calibration constant values (see @fig-calibration-plot).
-This is likely due to the mode choice coefficients being unrepresentative of the study area.
-This ActivitySim configuration is ultimately based on the San Francisco area, and so coefficients on variables such as travel time and income are calibrated for that area (hence in part why there are so many more transit trips).
-
-***We're going to use iteration 4 of the last calibration attempt.***
+While the calibration is not perfect, for the purposes of this paper this calibration is reasonable enough.
 
 ```{r}
 #| label: tbl-mode-split
@@ -284,13 +332,6 @@ targets::tar_read(by_mode_split_comparison) |>
   # collapse_rows(1, valign = "middle", latex_hline = "major")
 ```
 
-```{r}
-#| label: fig-calibration-plot
-#| fig-cap: calibration plot
-
-targets::tar_read(asim_mode_choice_calibration_plot)
-```
-
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
 Both ActivitySim and the WFRC model contain destination choice models which can be adjusted to affect the distribution of trip length.
 However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
@@ -311,7 +352,7 @@ It is worth noting that both the WFRC model and ActivitySim make a distinction b
 
 The ActivitySim implementation discussed in @gregory_s_macfarlane_estimation_2021 does not include any submodels related to remote work.
 However, the example ActivitySim implementation for SEMGOG *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG example.
-***Some modifications to the remote work submodels were needed for compatibility, but only included....***
+Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the SEMCOG submodels were consistent with the existing implementation.
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.

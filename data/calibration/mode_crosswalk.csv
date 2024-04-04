@@ -1,0 +1,10 @@
+Calibration mode,CUBE mode(s),ActivitySim mode(s)
+drive alone,DA,DRIVEALONEFREE
+carpool (2),SR2,SHARED2FREE
+carpool (3+),SR3p,SHARED3FREE
+walk,walk,WALK
+bike,bike,BIKE
+local bus,"dBRT, dCOR, dLCL, wBRT, wCOR, wLCL","WALK_LOC, DRIVE_LOC"
+commuter rail,"dCRT, wCRT","WALK_HVY, WALK_COM, DRIVE_HVY, DRIVE_COM"
+express bus,"dEXP, wEXP","WALK_EXP, DRIVE_EXP"
+light rail,"dLRT, wLRT","WALK_LRF, DRIVE_LRF"
