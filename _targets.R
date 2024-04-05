@@ -361,6 +361,7 @@ base_year_targets <- tar_plan(
 # Land use ####
 land_use_targets <- tar_plan(
 	draper_prison_site_map = make_draper_prison_site_map(taz, lu_tazs),
+	gateway_and_prison_map = plot_gateway_and_prison(),
 	# draper_prison_site_inset = get_draper_prison_site_inset(taz, lu_tazs),
 
 	# Data

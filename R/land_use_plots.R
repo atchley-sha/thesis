@@ -176,3 +176,31 @@ get_draper_prison_site_inset <- function(taz, lu_tazs) {
 		st_transform(4326) %>%
 		st_bbox()
 }
+
+plot_gateway_and_prison <- function() {
+	from <- "49035114000"
+	to <- "49035112818"
+
+	st_read("data/census_tracts.geojson") %>%
+		mutate(type = case_match(
+			TRACTID,
+			from ~ "Gateway",
+			to ~ "Prison Site"
+		)) %>%
+		filter(TRACTID %in% c(from, to)) %>%
+		st_transform(4326) %>%
+		ggplot() +
+		annotation_map_tile("cartolight", zoom = 11) +
+		geom_sf(aes(color = type), fill = NA, linewidth = 2) +
+		geom_label_repel(
+			aes(label = type, geometry = geometry),
+			box.padding = 0.4, point.padding = 0.5,
+			nudge_x = -0.10, nudge_y = -0.01, show.legend = FALSE,
+			stat = "sf_coordinates") +
+		coord_sf(
+			xlim = c(-112.1,-111.7), ylim = c(40.4, 40.8),
+			expand = FALSE) +
+		scale_color_manual(values = c("Gateway" = "red", "Prison Site" = "blue")) +
+		guides(color = "none") +
+		theme_map(zoom = FALSE)
+}
