@@ -83,88 +83,177 @@ get_asim_raw_trip_diff <- function(raw_trips = list()) {
 	)
 }
 
-get_asim_mode_switching <- function(raw_trip_diff) {
-	mode_names <- names(raw_trip_diff)[
-		which(str_detect(names(raw_trip_diff), "mode"))]
+# get_asim_mode_switching <- function(raw_trip_diff) {
+# 	mode_names <- names(raw_trip_diff)[
+# 		which(str_detect(names(raw_trip_diff), "mode"))]
+#
+# 	raw_trip_diff %>%
+# 		filter(
+# 			.data[[mode_names[1]]] != .data[[mode_names[2]]]) %>%
+# 		group_by(person_id, origin, destination, purpose, depart, mode_by, mode_tr) %>%
+# 		summarise(n = n(), .groups = "drop") %>%
+# 		pivot_wider(
+# 			names_from = c(mode_by, mode_tr), names_sep = "_",
+# 			values_from = n, values_fill = 0) %>%
+# 		mutate(
+# 			carpool_drivealone = carpool_drivealone - drivealone_carpool,
+# 			drivealone_nonmotor = drivealone_nonmotor - nonmotor_drivealone,
+# 			carpool_transit = carpool_transit - transit_carpool,
+# 			carpool_nonmotor = carpool_nonmotor - nonmotor_carpool,
+# 			nonmotor_transit = nonmotor_transit - transit_nonmotor,
+# 			drivealone_transit = drivealone_transit - transit_drivealone,
+# 			.keep = "unused"
+# 		) %>%
+# 		# filter(
+# 		# 	carpool_drivealone != drivealone_carpool |
+# 		# 	drivealone_nonmotor != nonmotor_drivealone |
+# 		# 	carpool_transit != transit_carpool |
+# 		# 	carpool_nonmotor != nonmotor_carpool |
+# 		# 	nonmotor_transit != transit_nonmotor |
+# 		# 	drivealone_transit != transit_drivealone
+# 		# ) %>%
+# 		pivot_longer(-c(person_id:depart), names_to = "switch", values_to = "trips") %>%
+# 		filter(trips != 0) %>%
+# 		separate_wider_delim(switch, "_", names = c("raw_from", "raw_to")) %>%
+# 		mutate(
+# 			from = if_else(trips < 0, raw_to, raw_from),
+# 			to = if_else(trips < 0, raw_from, raw_to),
+# 			trips = abs(trips),
+# 			.keep = "unused")
+# }
 
-	raw_trip_diff %>%
+# get_asim_atwork_mode_switching <- function(raw_trip_diff, mode_switching) {
+# 	mode_names <- names(raw_trip_diff)[
+# 		which(str_detect(names(raw_trip_diff), "mode"))]
+#
+# 	atwork_switchers <- mode_switching %>%
+# 		filter(purpose == "at-work") %>%
+# 		pull(person_id) %>%
+# 		unique()
+#
+# 	raw_trip_diff %>%
+# 		filter(
+# 			person_id %in% atwork_switchers,
+# 			purpose == "work",
+# 			!is.na(mode_by),
+# 			!is.na(mode_tr)
+# 			) %>%
+# 		mutate(trips = 1) %>%
+# 		rename(from = mode_by, to = mode_tr) %>%
+# 		bind_rows(filter(mode_switching, purpose == "at-work"))
+# }
+#
+# get_asim_work_transit_switching <- function(raw_trip_diff, mode_switching) {
+# 	mode_names <- names(raw_trip_diff)[
+# 		which(str_detect(names(raw_trip_diff), "mode"))]
+#
+# 	work_transit_switchers <- mode_switching %>%
+# 		filter(purpose == "work", from == "drivealone") %>%
+# 		pull(person_id) %>%
+# 		unique()
+#
+# 	mode_switching %>%
+# 		filter(purpose == "at-work", person_id %in% work_transit_switchers)
+#
+# 	# raw_trip_diff %>%
+# 	# 	filter(
+# 	# 		person_id %in% work_transit_switchers,
+# 	# 		purpose == "at-work",
+# 	# 		mode_by == "drivealone",
+# 	# 		mode_tr != "drivealone",
+# 	# 		!is.na(mode_by),
+# 	# 		!is.na(mode_tr)
+# 	# 	) %>%
+# 	# 	mutate(trips = 1) %>%
+# 	# 	rename(from = mode_by, to = mode_tr) %>%
+# 	#   bind_rows(filter(mode_switching, purpose == "at-work", person_id %in% work_transit_switchers))
+# }
+
+get_asim_mode_switching <- function(trips_list = list()) {
+	trips <- trips_list %>%
+		map(\(x) {
+			x %>%
+				mutate(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose,
+					mode = case_when(
+						mode == "DRIVEALONEFREE" ~ "da",
+						str_detect(mode, "SHARED2") ~ "sr2",
+						str_detect(mode, "SHARED3") ~ "sr3p",
+						str_detect(mode, "COM|HVY") ~ "crt",
+						str_detect(mode, "LOC|EXP|LRF") ~ "local",
+						str_detect(mode, "TNC|TAXI") ~ "rh",
+						str_detect(mode, "BIKE|WALK") ~ "nonmotor"
+					),
+					.keep = "none") %>%
+				distinct(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose, .keep_all = TRUE)
+		}
+		)
+
+	base <- trips[[2]]
+	scen <- trips[[1]]
+
+	joined <- full_join(
+		scen, base,
+		# Have to join by everything or else different purposes match up twice
+		join_by(person_id, origin, destination, depart, trip_purpose, tour_purpose),
+		suffix = paste0("_", names(trips))
+	)
+
+	joined %>%
 		filter(
-			.data[[mode_names[1]]] != .data[[mode_names[2]]]) %>%
-		group_by(person_id, origin, destination, purpose, depart, mode_by, mode_tr) %>%
-		summarise(n = n(), .groups = "drop") %>%
-		pivot_wider(
-			names_from = c(mode_by, mode_tr), names_sep = "_",
-			values_from = n, values_fill = 0) %>%
-		mutate(
-			carpool_drivealone = carpool_drivealone - drivealone_carpool,
-			drivealone_nonmotor = drivealone_nonmotor - nonmotor_drivealone,
-			carpool_transit = carpool_transit - transit_carpool,
-			carpool_nonmotor = carpool_nonmotor - nonmotor_carpool,
-			nonmotor_transit = nonmotor_transit - transit_nonmotor,
-			drivealone_transit = drivealone_transit - transit_drivealone,
-			.keep = "unused"
-		) %>%
-		# filter(
-		# 	carpool_drivealone != drivealone_carpool |
-		# 	drivealone_nonmotor != nonmotor_drivealone |
-		# 	carpool_transit != transit_carpool |
-		# 	carpool_nonmotor != nonmotor_carpool |
-		# 	nonmotor_transit != transit_nonmotor |
-		# 	drivealone_transit != transit_drivealone
-		# ) %>%
-		pivot_longer(-c(person_id:depart), names_to = "switch", values_to = "trips") %>%
-		filter(trips != 0) %>%
-		separate_wider_delim(switch, "_", names = c("raw_from", "raw_to")) %>%
-		mutate(
-			from = if_else(trips < 0, raw_to, raw_from),
-			to = if_else(trips < 0, raw_from, raw_to),
-			trips = abs(trips),
-			.keep = "unused")
+			mode_tr != mode_by
+		)
 }
 
-get_asim_atwork_mode_switching <- function(raw_trip_diff, mode_switching) {
-	mode_names <- names(raw_trip_diff)[
-		which(str_detect(names(raw_trip_diff), "mode"))]
-
-	atwork_switchers <- mode_switching %>%
-		filter(purpose == "at-work") %>%
-		pull(person_id) %>%
-		unique()
-
-	raw_trip_diff %>%
-		filter(
-			person_id %in% atwork_switchers,
-			purpose == "work",
-			!is.na(mode_by),
-			!is.na(mode_tr)
-			) %>%
-		mutate(trips = 1) %>%
-		rename(from = mode_by, to = mode_tr) %>%
-		bind_rows(filter(mode_switching, purpose == "at-work"))
-}
-
-get_asim_work_transit_switching <- function(raw_trip_diff, mode_switching) {
-	mode_names <- names(raw_trip_diff)[
-		which(str_detect(names(raw_trip_diff), "mode"))]
-
-	work_transit_switchers <- mode_switching %>%
-		filter(purpose == "work", from == "drivealone") %>%
-		pull(person_id) %>%
-		unique()
-
+get_asim_work_switchers <- function(mode_switching) {
 	mode_switching %>%
-		filter(purpose == "at-work", person_id %in% work_transit_switchers)
+		filter(tour_purpose == "work", mode_by == "da") %>%
+		pull(person_id) %>%
+		unique()
+}
 
-	# raw_trip_diff %>%
-	# 	filter(
-	# 		person_id %in% work_transit_switchers,
-	# 		purpose == "at-work",
-	# 		mode_by == "drivealone",
-	# 		mode_tr != "drivealone",
-	# 		!is.na(mode_by),
-	# 		!is.na(mode_tr)
-	# 	) %>%
-	# 	mutate(trips = 1) %>%
-	# 	rename(from = mode_by, to = mode_tr) %>%
-	#   bind_rows(filter(mode_switching, purpose == "at-work", person_id %in% work_transit_switchers))
+get_asim_atwork_switching <- function(trips_list = list(), per) {
+	trips <- trips_list %>%
+		map(\(x) {
+			x %>%
+				mutate(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose,
+					mode = case_when(
+						mode == "DRIVEALONEFREE" ~ "da",
+						str_detect(mode, "SHARED2") ~ "sr2",
+						str_detect(mode, "SHARED3") ~ "sr3p",
+						str_detect(mode, "COM|HVY") ~ "crt",
+						str_detect(mode, "LOC|EXP|LRF") ~ "local",
+						str_detect(mode, "TNC|TAXI") ~ "rh",
+						str_detect(mode, "BIKE|WALK") ~ "nonmotor"
+					),
+					.keep = "none") %>%
+				distinct(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose, .keep_all = TRUE)
+		}
+		)
+
+	base <- trips[[2]]
+	scen <- trips[[1]]
+
+	joined <- full_join(
+		scen, base,
+		# Have to join by everything or else different purposes match up twice
+		join_by(person_id, origin, destination, depart, trip_purpose, tour_purpose),
+		suffix = paste0("_", names(trips))
+	)
+
+	joined %>%
+		filter(
+			tour_purpose == "atwork",
+			person_id %in% per,
+			!is.na(mode_tr),
+			!is.na(mode_by),
+			mode_tr != "da"
+		)
 }

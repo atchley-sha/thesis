@@ -420,15 +420,6 @@ transit_targets <- tar_plan(
 	asim_tr_all_trips_diff = get_trip_diff(list(
 		tr = asim_tr_trips, by = asim_by_trips)),
 
-	asim_tr_raw_trip_diff = get_asim_raw_trip_diff(list(
-		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
-
-	asim_tr_mode_switching = get_asim_mode_switching(asim_tr_raw_trip_diff),
-	asim_tr_atwork_mode_switching = get_asim_atwork_mode_switching(
-		asim_tr_raw_trip_diff, asim_tr_mode_switching),
-	asim_tr_work_transit_switching = get_asim_work_transit_switching(
-		asim_tr_raw_trip_diff, asim_tr_mode_switching),
-
 	# Mode split
 	combined_tr_mode_split_diff = dplyr::full_join(
 		calculate_mode_split_diff_pct(cube_tr_all_trips_diff, "cube"),
@@ -436,10 +427,19 @@ transit_targets <- tar_plan(
 		join_by(purpose, mode)),
 
 	# Mode switching
-	asim_tr_mode_switching_plot = plot_asim_mode_switching(
-		dplyr::filter(asim_tr_mode_switching, purpose != "at-work")),
-	asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
-	asim_tr_work_transit_switching_plot = plot_asim_mode_switching(asim_tr_work_transit_switching),
+	asim_tr_mode_switching = get_asim_mode_switching(list(
+		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
+	asim_tr_mode_switching_plot = plot_asim_mode_switching(asim_tr_mode_switching),
+
+	asim_tr_work_switchers = get_asim_work_switchers(asim_tr_mode_switching),
+	asim_tr_atwork_switching = get_asim_atwork_switching(
+		list(tr = asim_tr_raw_trips, by = asim_by_raw_trips),
+		asim_tr_work_switchers
+	),
+	asim_tr_atwork_switching_plot = plot_asim_mode_switching(asim_tr_atwork_switching),
+
+	# asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
+	# asim_tr_work_transit_switching_plot = plot_asim_mode_switching(asim_tr_work_transit_switching),
 
 	# SE comparison
 	cube_tr_productions_se = get_cube_production_se(cube_tr_trips, cube_by_taz_se),

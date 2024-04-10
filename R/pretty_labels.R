@@ -1,10 +1,15 @@
 pretty_mode <- function(mode) {
 	case_match(
 		as.character(mode),
-		c("drivealone", "drive_alone") ~ "Drive Alone",
+		c("drivealone", "drive_alone", "da") ~ "Drive Alone",
 		"carpool" ~ "Carpool",
+		"sr2" ~ "Carpool (2)",
+		c("sr3", "sr3p") ~ "Carpool (3+)",
 		"auto" ~ "Auto",
 		"transit" ~ "Transit",
+		"local" ~ "Local Transit",
+		"crt" ~ "Commuter Rail",
+		"rh" ~ "Ridehail",
 		"nonmotor" ~ "Non-motorized",
 		"all" ~ "All",
 		.default = as.character(mode)
@@ -13,8 +18,13 @@ pretty_mode <- function(mode) {
 			"All",
 			"Drive Alone",
 			"Carpool",
+			"Carpool (2)",
+			"Carpool (3+)",
 			"Auto",
 			"Transit",
+			"Local Transit",
+			"Commuter Rail",
+			"Ridehail",
 			"Non-motorized")
 		)
 }

@@ -99,14 +99,28 @@ plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
 
 plot_asim_mode_switching <- function(mode_switching) {
 	mode_switching %>%
-		group_by(purpose, from, to) %>%
-		summarise(trips = sum(trips), .groups = "drop") %>%
 		mutate(
-			purpose = pretty_purpose(purpose),
+			from = mode_by,
+			to = mode_tr,
+			purpose = case_match(
+				tour_purpose,
+				c("work", "school", "univ") ~ tour_purpose,
+				c("school", "univ") ~ "school",
+				.default = "other"
+			)
+		) %>%
+		count(purpose, from, to) %>%
+		filter(from != "rh", to != "rh") %>%
+		mutate(
+			purpose = factor(
+				purpose,
+				levels = c("work", "school", "univ", "other"),
+				labels = c("Work", "School", "University", "Other")
+			),
 			across(c(from, to), \(x) pretty_mode(x))) %>%
-		ggplot(aes(axis1 = from, axis2 = to, y = trips)) +
-		# list(if(length(unique(mode_switching$purpose)) > 1) facet_wrap(~purpose, scales = "free")) +
-		facet_wrap(~purpose, scales = "free") +
+		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
+		list(if(length(unique(mode_switching$purpose)) > 1) facet_wrap(~purpose, scales = "free")) +
+		# facet_wrap(~purpose, scales = "free") +
 		scale_x_discrete(limits = c("From", "To"), expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2) +
 		geom_stratum(width = 1/2) +
@@ -114,3 +128,4 @@ plot_asim_mode_switching <- function(mode_switching) {
 		scale_fill_brewer(palette = "Set1") +
 		labs(x = element_blank(), y = "Trips", fill = "Original mode")
 }
+
