@@ -1,4 +1,4 @@
-# Methodology {#methods-methods-methods-methods-methods-methods-sec-methods}
+# Methodology {#sec-methods}
 
 {{< include _setup.qmd >}}
 

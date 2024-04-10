@@ -7,14 +7,14 @@ Currently, there is only one set of tracks for much of the line, and train cross
 Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
 Additionally, trains occasionally need to wait for each other in order to cross paths.
 
-There is a planned improvement to the FrontRunner that would "double-track" the entire route, allowing trains to pass each other at any point.
+There is a planned improvement to the FrontRunner that would "double track" the entire route, allowing trains to pass each other at any point.
 This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively (half of the current headways).
 The improvement would also partially electrify the FrontRunner, allowing for faster travel speeds, and extend the track farther south with additional stops.
 
 This scenario models these planned improvements to the FrontRunner.
 The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard, Springville, Spanish Fork, and Payson.
 @fig-frontrunner-map shows the FrontRunner network with the modeled changes.
-No other modifications were made to the baseline scenario; for example, a revised bus service network serving the Springville station is not included.
+No other modifications were made to the baseline scenario; for example, a revised bus service network serving the Springville station (part of the actual transportation plan for the area) is not included.
 
 ```{r}
 #| label: fig-frontrunner-map

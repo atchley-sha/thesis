@@ -1,4 +1,4 @@
-# Scenario 1: Change in Land Use {#1_land_use-1_land_use-1_land_use-1_land_use-sec-landuse}
+# Scenario 1: Change in Land Use {#sec-landuse}
 
 {{< include _setup.qmd >}}
 
@@ -156,11 +156,11 @@ Two things are immediately noticeable from this plot.
 
 The first is that many pairs of zones saw a decrease in non--home-based trips between them compared to the baseline scenario (i.e. there were more non--home-based trips in the baseline scenario between these zones).
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
-However, this is in fact not an overall decrease in non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
+However, this is in fact not an *overall* decrease in non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
 
 The second is that all pairs of zones that saw an increase in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
-Changing the land use as we did in @tbl-the-point-data has two effects in the WFRC model: the increase in population changed the total quantity of non--home-based trips, and the increase in employment changed the distribution of non--home-based trips.
-Because the change in employment was much more significant than the change in population, many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the population.
+Because the change in employment was much more significant than the change in population (see @tbl-the-point-data), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the population.
+Both effects (the global increase in and the changed distribution of non--home-based trips) are present in the model, but the effects are impossible to separate.
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
@@ -170,7 +170,10 @@ targets::tar_read(cube_lu_nhb_diff_desire_map)
 ```
 
 As mentioned, an ABM allows for tracking of individuals explicitly, and so analyzing non--home-based trips is much more straightforward.
-@fig-lu-desire-abm shows desire lines of all trips made by individuals living in the new development zones, colored by place of production.
+@fig-lu-desire-abm shows desire lines of all trips made by individuals living in the new development zones.
+Non--home-based trips are colored differently from home-based trips.
+
+It is easy to connect non--home-based trips to their place of production, as each trip is linked to a specific individual (who has a defined home location).
 It is also easy to see how trips are related to each other, as each individual has a specific sequence of trips.
 The individual nature of an ABM avoids entirely the problems trip-based models have with non--home-based trips.
 In a complicated land use forecast, each development's full contribution to network congestion can be analyzed individually.

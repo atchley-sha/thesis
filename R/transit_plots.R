@@ -102,30 +102,30 @@ plot_asim_mode_switching <- function(mode_switching) {
 		mutate(
 			from = mode_by,
 			to = mode_tr,
-			purpose = case_match(
+			tour_purpose = case_match(
 				tour_purpose,
 				c("work", "school", "univ") ~ tour_purpose,
 				c("school", "univ") ~ "school",
 				.default = "other"
 			)
 		) %>%
-		count(purpose, from, to) %>%
+		count(tour_purpose, from, to) %>%
 		filter(from != "rh", to != "rh") %>%
 		mutate(
-			purpose = factor(
-				purpose,
+			tour_purpose = factor(
+				tour_purpose,
 				levels = c("work", "school", "univ", "other"),
 				labels = c("Work", "School", "University", "Other")
 			),
 			across(c(from, to), \(x) pretty_mode(x))) %>%
 		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
-		list(if(length(unique(mode_switching$purpose)) > 1) facet_wrap(~purpose, scales = "free")) +
-		# facet_wrap(~purpose, scales = "free") +
+		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free")) +
+		# facet_wrap(~tour_purpose, scales = "free") +
 		scale_x_discrete(limits = c("From", "To"), expand = c(.2, .1)) +
-		geom_alluvium(aes(fill = from), width = 1/2) +
+		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
 		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
-		scale_fill_brewer(palette = "Set1") +
+		scale_fill_brewer(palette = "Accent") +
 		labs(x = element_blank(), y = "Trips", fill = "Original mode")
 }
 
