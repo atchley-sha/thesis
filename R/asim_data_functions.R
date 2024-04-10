@@ -73,6 +73,17 @@ count_asim_trips <- function(trips) {
 		count(origin, destination, purpose, mode, name = "trips")
 }
 
+count_asim_tr_trips <- function(trips) {
+	trips %>%
+		mutate(
+			purpose = make_asim_purpose(
+				select(., tour_id, tour_purpose, trip_purpose)
+			),
+			mode = convert_asim_mode_tr(mode)
+		) %>%
+		count(origin, destination, purpose, mode, name = "trips")
+}
+
 count_asim_trips_keep_purpose <- function(trips) {
 	trips %>%
 		mutate(
@@ -131,7 +142,7 @@ keep_asim_purpose <- function(purpose) {
 	)
 }
 
-convert_asim_mode <- function(mode){
+convert_asim_mode <- function(mode) {
 	case_when(
 		mode == "DRIVEALONEFREE" ~ "drive_alone",
 		mode %in% c("SHARED2FREE", "SHARED3FREE") ~ "carpool",
@@ -140,6 +151,19 @@ convert_asim_mode <- function(mode){
 		TRUE ~ "ERROR IN MODE CONVERSION"
 	) %>%
 		factor(c("drive_alone", "carpool", "transit", "nonmotor"))
+}
+
+convert_asim_mode_tr <- function(mode) {
+	case_when(
+		mode == "DRIVEALONEFREE" ~ "drive_alone",
+		# str_detect(mode, "SHARED2") ~ "sr2",
+		# str_detect(mode, "SHARED3") ~ "sr3p",
+		str_detect(mode, "SHARED2|SHARED3") ~ "carpool",
+		str_detect(mode, "COM|HVY") ~ "crt",
+		str_detect(mode, "LOC|EXP|LRF") ~ "local",
+		str_detect(mode, "TNC|TAXI") ~ "rh",
+		str_detect(mode, "BIKE|WALK") ~ "nonmotor"
+	)
 }
 
 read_asim_telecommute_coefficients <- function(coeffs_file, job_code_transl) {

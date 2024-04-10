@@ -121,7 +121,10 @@ plot_asim_mode_switching <- function(mode_switching) {
 		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
 		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free")) +
 		# facet_wrap(~tour_purpose, scales = "free") +
-		scale_x_discrete(limits = c("From", "To"), expand = c(.2, .1)) +
+		scale_x_discrete(
+			limits = c("From", "To"),
+			labels = c("Baseline\nscenario", "Improved\ntransit"),
+			expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
 		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +

@@ -118,7 +118,7 @@ In addition to looking at total person-miles traveled, it is also useful to anal
 One common way to visualize trip origins and destinations is with desire lines, which show lines for each trip origin/destination pair.
 The thickness of the line represents the number of trips between the pair of zones.
 
-@fig-lu-desire-cube-hb shows a desire line plot by mode for ***all?*** home-based trips produced in the new development zones.
+@fig-lu-desire-cube-hb shows a desire line plot by mode for all home-based trips produced in the new development zones.
 This figure is in line with what is expected: non-motorized trips are quite short, transit trips are exclusively to downtown areas, and many auto trips are made with varying lengths.
 @fig-lu-desire-cube-hb also shows a similar mode split to @fig-lu-personmiles-cube.
 Although the former depicts the *number* of trips and the latter depicts trip *distance*, there is a rough correlation between trip count and miles traveled, so it is not surprising that the mode split is similar between the figures.

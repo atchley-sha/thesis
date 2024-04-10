@@ -22,7 +22,23 @@ read_trip_matrix <- function(omx_file) {
 			drive_alone = DA, carpool = auto - DA, transit, nonmotor,
 			.keep = "none"
 		) %>%
-		# read_all_omx(names = c("auto", "transit", "nonmotor")) %>%
+		pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>%
+		filter(trips > 0) %>%
+		mutate(trips = trips/100) #The trip matrices are multiplied by 100
+}
+
+#' @export
+read_tr_trip_matrix <- function(omx_file) {
+	omx_file %>%
+		read_all_omx(names = c("DA", "SR2", "SR3p", "nonmotor", "transit", "wCRT", "dCRT")) %>%
+		mutate(
+			origin, destination,
+			drive_alone = DA,
+			carpool = SR2 + SR3p,
+			# sr2 = SR2, sr3p = SR3p,
+			nonmotor, crt = wCRT + dCRT, local = transit - crt,
+			.keep = "none"
+		) %>%
 		pivot_longer(-c(origin, destination), names_to = "mode", values_to = "trips") %>%
 		filter(trips > 0) %>%
 		mutate(trips = trips/100) #The trip matrices are multiplied by 100

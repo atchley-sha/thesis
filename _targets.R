@@ -415,10 +415,32 @@ land_use_targets <- tar_plan(
 # Transit ####
 transit_targets <- tar_plan(
 	# Data
+	cube_tr_by_hbw = read_tr_trip_matrix(cube_tr_hbw_omx),
+	cube_tr_by_hbo = read_tr_trip_matrix(cube_tr_hbo_omx),
+	cube_tr_by_nhb = read_tr_trip_matrix(cube_tr_nhb_omx),
+	cube_tr_by_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_tr_by_hbw,
+			hbo = cube_tr_by_hbo,
+			nhb = cube_tr_by_nhb),
+		.id = "purpose"),
+	cube_tr_tr_hbw = read_tr_trip_matrix(cube_tr_hbw_omx),
+	cube_tr_tr_hbo = read_tr_trip_matrix(cube_tr_hbo_omx),
+	cube_tr_tr_nhb = read_tr_trip_matrix(cube_tr_nhb_omx),
+	cube_tr_tr_trips = dplyr::bind_rows(
+		list(
+			hbw = cube_tr_tr_hbw,
+			hbo = cube_tr_tr_hbo,
+			nhb = cube_tr_tr_nhb),
+		.id = "purpose"),
+
+	asim_by_tr_trips = count_asim_tr_trips(asim_by_raw_trips),
+	asim_tr_tr_trips = count_asim_tr_trips(asim_tr_raw_trips),
+
 	cube_tr_all_trips_diff = get_trip_diff(list(
-		tr = cube_tr_trips, by = cube_by_trips)),
+		tr = cube_tr_tr_trips, by = cube_tr_by_trips)),
 	asim_tr_all_trips_diff = get_trip_diff(list(
-		tr = asim_tr_trips, by = asim_by_trips)),
+		tr = asim_tr_tr_trips, by = asim_by_tr_trips)),
 
 	# Mode split
 	combined_tr_mode_split_diff = dplyr::full_join(
@@ -427,22 +449,23 @@ transit_targets <- tar_plan(
 		join_by(purpose, mode)),
 
 	# Mode switching
-	asim_tr_mode_switching = get_asim_mode_switching(list(
+	asim_tr_mode_switching_raw = get_asim_mode_switching(list(
 		tr = asim_tr_raw_trips, by = asim_by_raw_trips)),
+	asim_tr_mode_switching = dplyr::filter(asim_tr_mode_switching_raw, mode_tr != mode_by),
 	asim_tr_mode_switching_plot = plot_asim_mode_switching(asim_tr_mode_switching),
 
 	asim_tr_work_switchers = get_asim_work_switchers(asim_tr_mode_switching),
-	asim_tr_atwork_switching = get_asim_atwork_switching(
-		list(tr = asim_tr_raw_trips, by = asim_by_raw_trips),
-		asim_tr_work_switchers
+	asim_tr_atwork_switching = dplyr::filter(
+		asim_tr_mode_switching_raw,
+			tour_purpose == "atwork",
+			person_id %in% asim_tr_work_switchers,
+			!is.na(mode_tr), !is.na(mode_by),
+			mode_tr != "drive_alone"
 	),
 	asim_tr_atwork_switching_plot = plot_asim_mode_switching(asim_tr_atwork_switching),
 
-	# asim_tr_atwork_mode_switching_plot = plot_asim_mode_switching(asim_tr_atwork_mode_switching),
-	# asim_tr_work_transit_switching_plot = plot_asim_mode_switching(asim_tr_work_transit_switching),
-
 	# SE comparison
-	cube_tr_productions_se = get_cube_production_se(cube_tr_trips, cube_by_taz_se),
+	cube_tr_productions_se = get_cube_production_se(cube_tr_tr_trips, cube_by_taz_se),
 	cube_tr_productions_se_summary = summarise_cube_transit_se(
 		cube_tr_productions_se),
 	asim_tr_trips_se = get_asim_trips_se(

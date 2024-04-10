@@ -1,4 +1,4 @@
-# Scenario 2: Increased Transit Service {#sec-transit}
+# Scenario 2: Improved Transit Service {#sec-transit}
 
 {{< include _setup.qmd >}}
 
@@ -34,31 +34,63 @@ The only additional change needed was to turn on the "park and ride" flag in the
 
 To implement this scenario in ActivitySim, only updated travel skims are needed.
 As in the baseline scenario, the transit skims output from the WFRC model's network assignment in this model scenario are taken directly as inputs to ActivitySim.
-Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change, and so the highway skims are taken from the baseline scenario in the WFRC model and not updated for this scenario.
+Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change.
+The highway skims are therefore taken from the baseline scenario in the WFRC model and not updated for this scenario.
 No other changes to ActivitySim are necessary to model this scenario.
 <!-- No other changes are needed to ActivitySim for this model scenario. -->
 
 ## Scenario Analysis
 
+One of the most straightforward analyses to perform for this scenario is a comparison of the mode split.
+@tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
+***Unsurprisingly, both models predict a significant increase in commuter rail trips.*** The models differ, however, in which modes the new commuter rail trips come from.
+....
+
 ```{r}
+#| label: tbl-tr-mode-split
+#| tbl-cap: mode split
+
 targets::tar_read(combined_tr_mode_split_diff) |>
 	flextable()
 ```
 
+\
+
 ```{r}
-#| fig-cap: a
+#| fig-cap: cube
+targets::tar_read(cube_tr_diff_by_district_plot)
+```
+
+```{r}
+#| fig-cap: asim
+targets::tar_read(asim_tr_diff_by_district_plot)
+```
+
+\
+
+\
+
+\
+
+One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
+Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
+@fig-tr-mode-switching shows the distribution of these "switched" trips, grouped by tour purpose.
+
+For the purposes of
+
+```{r}
+#| label: fig-tr-mode-switching
+#| fig-cap: Trip mdoes of individuals who switched modes with improved transit service.
+
 targets::tar_read(asim_tr_mode_switching_plot)
 ```
 
 ```{r}
-#| fig-cap: At-work trip modes of individuals who switched their work mode away from Drive Alone
+#| label: fig-tr-atwork-switching
+#| fig-cap: At-work trip modes of individuals who switched their work mode away from Drive Alone.
  
 targets::tar_read(asim_tr_atwork_mode_switching_plot)
-# targets::tar_read(asim_tr_work_transit_switching_plot)
 ```
-
-With greater access the commuter rail by decreasing the headways, we wanted to see how the ridership changed in this scenario.
-We also wanted to see where the commuter rail riders were coming from.
 
 Analyzing this with the trip-based model was straightforward since one of the outputs is a file listing the amount of trips made by each form of transit.
 There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions.
@@ -101,13 +133,3 @@ ActivitySim also has an “at-work” tour purpose, indicating a subtour from th
 The team analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour.
 Figure 10 shows that most people did not switch subtour modes from the base scenario.
 The similar number of switches between auto and non-motorized modes indicates that the switching here may be mostly due to ActivitySim’s randomness and not any changes in the network.
-
-```{r}
-#| fig-cap: cube
-targets::tar_read(cube_tr_diff_by_district_plot)
-```
-
-```{r}
-#| fig-cap: asim
-targets::tar_read(asim_tr_diff_by_district_plot)
-```
