@@ -66,17 +66,22 @@ targets::tar_read(cube_tr_diff_by_district_plot)
 targets::tar_read(asim_tr_diff_by_district_plot)
 ```
 
-\
-
-\
-
-\
-
 One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
 @fig-tr-mode-switching shows the distribution of these "switched" trips, grouped by tour purpose.
+These are trips that are "the same" between scenarios and differ only by mode.
 
-For the purposes of
+For the purposes of this analysis, trips are considered "the same" between scenarios if they share the following: person id, origin and destination zones, time of day[^2_transit-1], and tour and trip purpose.
+Most of these trips also share the same mode, which is to be expected, but many do not.
+@fig-tr-mode-switching is filtered to show only trips that do not share the same mode between scenarios.
+
+[^2_transit-1]: ActivitySim models time of day as the "departure hour" for each trip.
+    If two trips share the same departure hour, they are considered here to have happened at the same time.
+
+There is some amount of randomness in the way ActivitySim determines trip modes, though.
+This randomness is seen partly in trips that switch away from commuter rail despite the improved commuter rail service, as well as some trips that switch to modes other than commuter rail, especially to "Drive Alone".
+Although, part of the switch from "Carpool" to "Drive Alone" can be explained as previously-carpool trips where all but one vehicle occupant switched to another mode, leaving one person in the vehicle for the trip.
+Overall, though, the randomness is not a significant percentage of the overall mode switching seen in @fig-tr-mode-switching.
 
 ```{r}
 #| label: fig-tr-mode-switching
@@ -85,12 +90,30 @@ For the purposes of
 targets::tar_read(asim_tr_mode_switching_plot)
 ```
 
+Mode choice is not the only step of ActivitySim affected by the improved transit service, however.
+In fact, there are many trips that do not have a match between scenarios, where origin, destination, time of day and/or purpose differ.
+The number of trips an individual makes may also differ between scenarios, as each person's DAP is partially dependent on accessibility measures.
+Notably, @fig-tr-mode-switching also does not include any of these trips; the figure only shows trips which do have a match between scenarios.
+
+ABMs also allow for even more granular analysis than shown in @fig-tr-mode-switching.
+For example, @fig-tr-atwork-switching shows the trip modes of at-work subtours made by individuals who switched their work tour mode away from "Drive Alone".
+The figure shows the at-work subtour trip modes for *all* these individuals, not just those who also switched their at-work subtour trip modes.
+These results are essentially as expected.
+All trips that were "Drive Alone" in the baseline scenario switched to carpool, and there was little mode switching otherwise.
+The switching that did occur here can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
+
 ```{r}
 #| label: fig-tr-atwork-switching
-#| fig-cap: At-work trip modes of individuals who switched their work mode away from Drive Alone.
+#| fig-cap: At-work subtour trip modes of individuals who switched their work mode away from "Drive Alone".
  
 targets::tar_read(asim_tr_atwork_mode_switching_plot)
 ```
+
+\
+
+\
+
+\
 
 Analyzing this with the trip-based model was straightforward since one of the outputs is a file listing the amount of trips made by each form of transit.
 There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions.
@@ -121,13 +144,6 @@ targets::tar_read(combined_tr_new_transit_income_plot)
 ```
 
 \
-
-Figure 8 shows the increased productions and attractions of the “drive to CRT” mode by district.
-These could as an example be further analyzed by TAZ/district median income or similar variables.
-However, there is no indication of which types of individuals are switching their mode.
-In an ABM, this can be analyzed.
-Figure 9 shows the trips that switched modes from the base scenario, as well as which mode they switched to.
-Though some of this switching is due to the internal randomness in ActivitySim, the majority of the mode-switching was from auto to transit, and this shows a clear increase in transit usage over the base scenario.
 
 ActivitySim also has an “at-work” tour purpose, indicating a subtour from the workplace.
 The team analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour.

@@ -415,9 +415,9 @@ land_use_targets <- tar_plan(
 # Transit ####
 transit_targets <- tar_plan(
 	# Data
-	cube_tr_by_hbw = read_tr_trip_matrix(cube_tr_hbw_omx),
-	cube_tr_by_hbo = read_tr_trip_matrix(cube_tr_hbo_omx),
-	cube_tr_by_nhb = read_tr_trip_matrix(cube_tr_nhb_omx),
+	cube_tr_by_hbw = read_tr_trip_matrix(cube_by_hbw_omx),
+	cube_tr_by_hbo = read_tr_trip_matrix(cube_by_hbo_omx),
+	cube_tr_by_nhb = read_tr_trip_matrix(cube_by_nhb_omx),
 	cube_tr_by_trips = dplyr::bind_rows(
 		list(
 			hbw = cube_tr_by_hbw,
