@@ -123,7 +123,7 @@ plot_asim_mode_switching <- function(mode_switching) {
 		# facet_wrap(~tour_purpose, scales = "free") +
 		scale_x_discrete(
 			limits = c("From", "To"),
-			labels = c("Baseline\nscenario", "Improved\ntransit"),
+			labels = c("Baseline\nScenario", "Improved\nTransit"),
 			expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
@@ -132,3 +132,15 @@ plot_asim_mode_switching <- function(mode_switching) {
 		labs(x = element_blank(), y = "Trips", fill = "Original mode")
 }
 
+
+make_combined_mode_split_table <- function(df) {
+	df %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			mode = pretty_mode(mode),
+			across(c(cube_tr, cube_by),round),
+			across(contains("pct"), label_percent(accuracy = 0.1))
+		) %>%
+		relocate(purpose, mode, cube_by, cube_tr, cube_diff_pct, asim_by, asim_tr, asim_diff_pct) %>%
+		arrange(purpose, mode)
+}

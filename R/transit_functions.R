@@ -111,6 +111,38 @@ get_asim_mode_switching <- function(trips_list = list()) {
 	return(joined)
 }
 
+get_asim_atwork_mode_switching <- function(trips_list = list(), per) {
+	trips <- trips_list %>%
+		map(\(x) {
+			x %>%
+				mutate(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose,
+					mode = convert_asim_mode_tr_atwork(mode),
+					.keep = "none") %>%
+				distinct(
+					person_id, depart, origin, destination,
+					tour_purpose, trip_purpose, .keep_all = TRUE)
+		}
+		)
+
+	base <- trips[[2]]
+	scen <- trips[[1]]
+
+	joined <- full_join(
+		scen, base,
+		# Have to join by everything or else different purposes match up twice
+		join_by(person_id, origin, destination, depart, trip_purpose, tour_purpose),
+		suffix = paste0("_", names(trips))
+	) %>%
+		filter(
+			person_id %in% per, tour_purpose == "atwork",
+			mode_tr != "drive_alone",
+			!is.na(mode_tr), !is.na(mode_by))
+
+	return(joined)
+}
+
 get_asim_work_switchers <- function(mode_switching) {
 	mode_switching %>%
 		filter(tour_purpose == "work", mode_by == "drive_alone") %>%

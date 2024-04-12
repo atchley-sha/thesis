@@ -166,6 +166,19 @@ convert_asim_mode_tr <- function(mode) {
 	)
 }
 
+convert_asim_mode_tr_atwork <- function(mode) {
+	case_when(
+		mode == "DRIVEALONEFREE" ~ "drive_alone",
+		str_detect(mode, "SHARED2") ~ "sr2",
+		str_detect(mode, "SHARED3") ~ "sr3p",
+		# str_detect(mode, "SHARED2|SHARED3") ~ "carpool",
+		str_detect(mode, "COM|HVY") ~ "crt",
+		str_detect(mode, "LOC|EXP|LRF") ~ "local",
+		str_detect(mode, "TNC|TAXI") ~ "rh",
+		str_detect(mode, "BIKE|WALK") ~ "nonmotor"
+	)
+}
+
 read_asim_telecommute_coefficients <- function(coeffs_file, job_code_transl) {
 	coeffs_file %>%
 		read_csv() %>%

@@ -43,15 +43,29 @@ No other changes to ActivitySim are necessary to model this scenario.
 
 One of the most straightforward analyses to perform for this scenario is a comparison of the mode split.
 @tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
-***Unsurprisingly, both models predict a significant increase in commuter rail trips.*** The models differ, however, in which modes the new commuter rail trips come from.
+Unsurprisingly, both models predict a significant increase in commuter rail trips.
+The models differ, however, in which modes the new commuter rail trips come from.
 ....
 
 ```{r}
 #| label: tbl-tr-mode-split
 #| tbl-cap: mode split
 
-targets::tar_read(combined_tr_mode_split_diff) |>
-	flextable()
+targets::tar_read(combined_tr_mode_split_table) |>
+	flextable() |>
+	set_header_labels(
+		purpose = "Purpose", mode = "Mode",
+		cube_by = "Baseline Trips", cube_tr = "Improved Transit Trips",
+		cube_diff_pct = "Change",
+		asim_by = "Baseline Trips", asim_tr = "Improved Transit Trips",
+		asim_diff_pct = "Change"
+	) |>
+	add_header_row(
+		values = c("Purpose", "Mode", "WFRC Model", "ActivitySim"),
+		colwidths = c(1,1,3,3)) |>
+	merge_v(j = 1) |>
+	merge_at(j = 1:2, part = "header") |>
+	autofit()
 ```
 
 \
@@ -99,8 +113,8 @@ ABMs also allow for even more granular analysis than shown in @fig-tr-mode-switc
 For example, @fig-tr-atwork-switching shows the trip modes of at-work subtours made by individuals who switched their work tour mode away from "Drive Alone".
 The figure shows the at-work subtour trip modes for *all* these individuals, not just those who also switched their at-work subtour trip modes.
 These results are essentially as expected.
-All trips that were "Drive Alone" in the baseline scenario switched to carpool, and there was little mode switching otherwise.
-The switching that did occur here can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
+All trips that were "Drive Alone" in the baseline scenario switched to carpool, and there was virtually no mode switching otherwise, except a few trips that switched from Carpool to Non-motorized.
+This switching can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
 
 ```{r}
 #| label: fig-tr-atwork-switching
