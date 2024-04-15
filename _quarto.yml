@@ -34,14 +34,14 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - qmd/intro.qmd
-    - qmd/lit-review.qmd
-    - qmd/methods.qmd
-    - qmd/1_land_use.qmd
+    # - qmd/intro.qmd
+    # - qmd/lit-review.qmd
+    # - qmd/methods.qmd
+    # - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
-    - qmd/3_wfh.qmd
-    - qmd/conclusions.qmd
-    - qmd/references.qmd
+    # - qmd/3_wfh.qmd
+    # - qmd/conclusions.qmd
+    # - qmd/references.qmd
 
 affiliations:
   - id: byucce
@@ -61,17 +61,21 @@ number-depth: 2
 toc-depth: 2
 
 format:
-  html:
-    theme: cosmo
-  # pdf:
-  #   keep-tex: false
-  #   # template: style/template.tex
-  #   include-in-header:
-  #     - style/latex_preamble.tex
-  #     - style/tt_preamble.tex
+  # html:
+  #   theme: cosmo
+  pdf:
+    keep-tex: false
+    # template: style/template.tex
+    include-in-header:
+      - style/latex_preamble.tex
+      - style/tt_preamble.tex
+    # dpi: 900
+    # fig-dpi: 900
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF
+    fig-width: 8
+    fig-height: 12
   # docx:
   #   reference-doc: style/template.docx
 

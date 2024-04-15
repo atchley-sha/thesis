@@ -44,8 +44,7 @@ No other changes to ActivitySim are necessary to model this scenario.
 One of the most straightforward analyses to perform for this scenario is a comparison of the mode split.
 @tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
 Unsurprisingly, both models predict a significant increase in commuter rail trips.
-The models differ, however, in which modes the new commuter rail trips come from.
-....
+The models differ, however, in where the new commuter rail trips come from.
 
 ```{r}
 #| label: tbl-tr-mode-split
@@ -63,19 +62,50 @@ targets::tar_read(combined_tr_mode_split_table) |>
 	add_header_row(
 		values = c("Purpose", "Mode", "WFRC Model", "ActivitySim"),
 		colwidths = c(1,1,3,3)) |>
+	hline(c(6,12)) |>
 	merge_v(j = 1) |>
-	merge_at(j = 1:2, part = "header") |>
+	merge_v(j = 1:2, part = "header") |>
+	align(part = "all", align = "c") |>
+	fix_border_issues() |>
 	autofit()
 ```
 
-\
+For home-based other and non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.
+This indicates that the new commuter rail trips are mostly coming from those who would have taken local transit in the baseline scenario.
+Home-based work trips do see a decrease in auto trips with the improved transit, but there are still significantly fewer local transit trips compared to the baseline scenario.
+
+ActivitySim, on the other hand, actually shows an *increase* in local transit trips for home-based work and non--home-based trips.
+For home-based other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.[^2_transit-1]
+This shows that most new commuter rail trips in ActivitySim are coming from auto modes, rather than other transit modes.
+
+[^2_transit-1]: Notably, the absolute difference in *number* of home-based other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
+
+The discrepancy may be partially explained by the difference in the way trips are modeled.
+In the WFRC model, trips are modeled in aggregate, with no interaction between separate trips.
+Regardless of trip purpose, trips are treated essentially the same, though potentially with different coefficients in mode choice equations.
+Even non--home-based trips are treated like any other trip during mode choice.
+Additionally, there is a nesting structure to the mode choice model in the WFRC model.
+The transit "nest" contains all transit modes, and so when the commuter rail service is improved the utility of commuter rail compared to other transit modes increases more than the utility of commuter rail compared to non-transit modes.
+Many of the new commuter rail trips therefore come from those who would have taken transit otherwise.
+
+ActivitySim, however, *does* model interactions between trips.
+An individual who makes a commuter rail trip will (usually) not be able to drive for subsequent trips until they have returned home.
+Because of this, individuals taking commuter rail are more likely to then take other forms of transit on the same tour.
+There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced in part due the aforementioned structuring of trips into tours.
+
+Figures [-@fig-tr-cube-trip-diff] and [-@fig-tr-asim-trip-diff] show the difference in trips by mode and purpose geographically.
+These figures tell much the same story as @tbl-tr-mode-split, and unsurprisingly many of the new commuter rail trips are produced in zones near the new FrontRunner stations.
+There are a large number of new commuter rail trips that occur along the entire length of the FrontRunner line, however.
+Some of this increase can be attributed to trips with a destination or attraction near a new FrontRunner station, and much of the increase can be attributed to the increased frequency of service.
 
 ```{r}
+#| label: fig-tr-cube-trip-diff
 #| fig-cap: cube
 targets::tar_read(cube_tr_diff_by_district_plot)
 ```
 
 ```{r}
+#| label: fig-tr-asim-trip-diff
 #| fig-cap: asim
 targets::tar_read(asim_tr_diff_by_district_plot)
 ```
@@ -85,11 +115,11 @@ Because trips are modeled individually rather than in aggregate, it is possible 
 @fig-tr-mode-switching shows the distribution of these "switched" trips, grouped by tour purpose.
 These are trips that are "the same" between scenarios and differ only by mode.
 
-For the purposes of this analysis, trips are considered "the same" between scenarios if they share the following: person id, origin and destination zones, time of day[^2_transit-1], and tour and trip purpose.
+For the purposes of this analysis, trips are considered "the same" between scenarios if they share the following: person id, origin and destination zones, time of day[^2_transit-2], and tour and trip purpose.
 Most of these trips also share the same mode, which is to be expected, but many do not.
 @fig-tr-mode-switching is filtered to show only trips that do not share the same mode between scenarios.
 
-[^2_transit-1]: ActivitySim models time of day as the "departure hour" for each trip.
+[^2_transit-2]: ActivitySim models time of day as the "departure hour" for each trip.
     If two trips share the same departure hour, they are considered here to have happened at the same time.
 
 There is some amount of randomness in the way ActivitySim determines trip modes, though.
@@ -125,18 +155,9 @@ targets::tar_read(asim_tr_atwork_mode_switching_plot)
 
 \
 
-\
+-----\
 
 \
-
-Analyzing this with the trip-based model was straightforward since one of the outputs is a file listing the amount of trips made by each form of transit.
-There are also more detailed matrices that shows commuter rail transit (CRT) trip productions and attractions.
-There is a matrix for driving to the CRT and a matrix for walking to the CRT.
-With these matrices and the taz shape file, we were able to to visualize the catchment area in a plot like *(another figure that we can show)*
-
-Implications: We saw that there was more than a 30% increase in commuter rail transit trips in this scenario but not much change in the other transit trips.
-We could see the areas where peoples' CRT trips began on a zonal and a district level and noticed a big increase in the people coming from zones that were closer to the new stations that were part of the extended rail line.
-(I think more can be added here as well)
 
 Limitations: Apart from the increase in CRT trips and the catchment areas, there wasn't much more we could see with the trip-based model.
 By connecting the catchment areas with what we know of the zonal SE data, we could make some assumptions about the income of the new people taking the commuter rail, but we couldn't find anything more about the demographics of the riders.
@@ -156,10 +177,3 @@ targets::tar_read(asim_tr_trips_se_summary) |>
 ```{r}
 targets::tar_read(combined_tr_new_transit_income_plot)
 ```
-
-\
-
-ActivitySim also has an “at-work” tour purpose, indicating a subtour from the workplace.
-The team analyzed the trip modes of these subtours for the individuals who switched to transit for their work tour.
-Figure 10 shows that most people did not switch subtour modes from the base scenario.
-The similar number of switches between auto and non-motorized modes indicates that the switching here may be mostly due to ActivitySim’s randomness and not any changes in the network.

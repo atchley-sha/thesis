@@ -125,6 +125,8 @@ Although the former depicts the *number* of trips and the latter depicts trip *d
 
 ```{r}
 #| label: fig-lu-desire-cube-hb
+#| fig-width: 8
+#| fig-height: 12
 #| fig-cap: Desire lines of home-based trips produced in the new development in the WFRC model, by mode.
 
 targets::tar_read(cube_lu_new_productions_desire_map)
@@ -158,19 +160,21 @@ The first is that many pairs of zones saw a decrease in non--home-based trips be
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
 However, this is in fact not an *overall* decrease in non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
 
-The second is that all pairs of zones that saw an increase in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
+The second is that the largest increases in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
 Because the change in employment was much more significant than the change in population (see @tbl-the-point-data), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the population.
 Both effects (the global increase in and the changed distribution of non--home-based trips) are present in the model, but the effects are impossible to separate.
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
+#| fig-width: 8
+#| fig-height: 12
 #| fig-cap: "Desire lines of non--home-based trips made in the WFRC model, by mode. Note that the trip countss are obtained by differencing the non\u2013home-based trip matrix with the base year."
 
 targets::tar_read(cube_lu_nhb_diff_desire_map)
 ```
 
 As mentioned, an ABM allows for tracking of individuals explicitly, and so analyzing non--home-based trips is much more straightforward.
-@fig-lu-desire-abm shows desire lines of all trips made by individuals living in the new development zones.
+@fig-lu-desire-asim shows desire lines of all trips made by individuals living in the new development zones.
 Non--home-based trips are colored differently from home-based trips.
 
 It is easy to connect non--home-based trips to their place of production, as each trip is linked to a specific individual (who has a defined home location).
@@ -182,6 +186,8 @@ In a complicated land use forecast, each development's full contribution to netw
 
 ```{r}
 #| label: fig-lu-desire-asim
+#| fig-width: 8
+#| fig-height: 12
 #| fig-cap: "Desire lines of trips made in ActivitySim by mode."
 
 targets::tar_read(asim_lu_new_desire_map)

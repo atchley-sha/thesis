@@ -11,4 +11,5 @@ library(sf)
 # library(ggspatial)
 
 ggplot2::theme_set(ggplot2::theme_bw())
+set_flextable_defaults(float = "float")
 ```
