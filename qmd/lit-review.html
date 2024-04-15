@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../qmd/methods.html" rel="next">
+<link href="../qmd/1_land_use.html" rel="next">
 <link href="../qmd/intro.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -146,32 +146,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../qmd/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methodology</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../qmd/1_land_use.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/2_transit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 2: Increased Transit Service</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Scenario 2: Improved Transit Service</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/3_wfh.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Scenario 3: Increase in Remote Work</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qmd/conclusions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Conclusions and Recommendations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Conclusions and Recommendations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -243,9 +237,9 @@ div.csl-indent {
 <p>This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012</a>)</span>. However, the types of analyses possible are limited by the initial segmentation of the aggregate population data. An analysis based on parents’/adults’ highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level. This can theoretically be done, but more detailed and varied analyses would require more levels of segmentation, greatly increasing the number of classifications needed. Aggregation at any point precludes that segmentation from use in subsequent model steps as well as in any post-hoc analysis. Since these segmentations need to be carried through each model step, trip rates, mode choice equations, etc. need to be estimated for every classification, and while relevant real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value <span class="citation" data-cites="moeckel_agent-based_2020 national_academies_travel_2012">(<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">Moeckel et al. 2020</a>; <a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012</a>)</span>.</p>
 <p>This becomes a particular issue in equity analysis because it is perhaps impossible to determine equitable distribution of “winners” and “losers” of a potential policy without using demographic variables in the trip generation and destination and mode choice steps <span class="citation" data-cites="bills_looking_2017">(<a href="references.html#ref-bills_looking_2017" role="doc-biblioref">Bills and Walker 2017</a>)</span>. Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income <span class="citation" data-cites="yum_association_2020">Bhat and Naumann (<a href="references.html#ref-bhat_travel-related_2013" role="doc-biblioref">2013</a>)</span>, including such variables in trip-based models is problematic. Does coding such a variable in a mode choice model represent discrimination? Or does doing so assert that present differences resulting from unequal opportunity will persist into the future planning years? Regardless the reasons for their exclusion, these variables consequently cannot be used in a post-hoc analysis of a transportation policy because the trip matrices do not contain the adequate segmentation.</p>
 <p>An alternative approach to population data is to use a full synthetic population. A synthetic population takes demographic and socioeconomic data at various levels of detail to create a “population” with generally the same distribution as the study area <span class="citation" data-cites="national_academies_travel_2012">(<a href="references.html#ref-national_academies_travel_2012" role="doc-biblioref">National Academies 2012, 93</a>)</span>. The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data. <span class="citation" data-cites="castiglione_application_2006">Castiglione et al. (<a href="references.html#ref-castiglione_application_2006" role="doc-biblioref">2006</a>)</span> argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process. This allows, for example, an equity analysis to determine the “winners” and “losers” of a proposed development without needing to encode demographic variables into each step of the model.</p>
-<p><span class="citation" data-cites="bills_looking_2017">Bills and Walker (<a href="references.html#ref-bills_looking_2017" role="doc-biblioref">2017</a>)</span> used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations. With a 20% reduction in travel cost, they found that high income workers benefited more than low income workers. They did similar comparisons for scenarios involving reduced travel times for different mode choices and saw the effects each scenario had on the high and low income workers. These types of analysis, which are not possible with aggregate population data (<strong>this is actually possible; a lot of trip-based models segment high/low income</strong>), can be very valuable in transportation planning and policy making.</p>
+<p><span class="citation" data-cites="bills_looking_2017">Bills and Walker (<a href="references.html#ref-bills_looking_2017" role="doc-biblioref">2017</a>)</span> used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations. With a 20% reduction in travel cost, they found that high income workers benefited more than low income workers. They did similar comparisons for scenarios involving reduced travel times for different mode choices and saw the effects each scenario had on the high and low income workers. These types of analysis, which are difficult with aggregate population data, can be very valuable in transportation planning and policy making.</p>
 <p>It is important to note that while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well. Trip-based models using a synthetic population—often called trip-based microsimulation models—do exist (see <span class="citation" data-cites="walker_making_2005">Walker (<a href="references.html#ref-walker_making_2005" role="doc-biblioref">2005</a>)</span> and <span class="citation" data-cites="moeckel_agent-based_2020">Moeckel et al. (<a href="references.html#ref-moeckel_agent-based_2020" role="doc-biblioref">2020</a>)</span>), but these are relatively rare.</p>
-<p><a href="#fig-pipeline-example" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> gives a visualization of an example “information pipeline” for a trip-based model using aggregate data and an ABM using a synthetic population. In the aggregate data model, it is impossible to know which trips are made by e.g.&nbsp;2-worker, 1-vehicle, low-income households; it only describes which trips are made by households with fewer vehicles than workers. With a synthetic population, however, <em>individuals</em> are being modeled, and so each trip can be traced to a specific person. All information is known at each point in the model regardless of which data is used in previous steps.</p>
+<p><a href="#fig-pipeline-example" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> gives a visualization of an example “information pipeline” for a model using aggregate data and a model using a synthetic population. In the aggregate data model, it is impossible to know which trips are made by e.g.&nbsp;2-worker, 1-vehicle, low-income households; it only describes which trips are made by households with fewer vehicles than workers. With a synthetic population, however, <em>individuals</em> are being modeled, and so each trip can be traced to a specific person. All information is known at each point in the model regardless of which data is used in previous steps.</p>
 <div id="fig-pipeline-example" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pipeline-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -257,7 +251,7 @@ div.csl-indent {
 <img src="../images/aggregate.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pipeline-example-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(a) Trip-based
+(a) Aggregate data
 </figcaption>
 </figure>
 </div>
@@ -271,7 +265,7 @@ div.csl-indent {
 <img src="../images/synthetic.png" class="img-fluid figure-img" data-ref-parent="fig-pipeline-example">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pipeline-example-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-(b) Activity-based
+(b) Synthetic population
 </figcaption>
 </figure>
 </div>
@@ -279,7 +273,7 @@ div.csl-indent {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pipeline-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Example “information pipeline” for a trip-based model and an ABM.
+Figure&nbsp;2.1: Example “information pipeline” for aggregate data vs.&nbsp;a synthetic population.
 </figcaption>
 </figure>
 </div>
@@ -853,8 +847,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../qmd/methods.html" class="pagination-link" aria-label="Methodology">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Methodology</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../qmd/1_land_use.html" class="pagination-link" aria-label="Scenario 1: Change in Land Use">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Scenario 1: Change in Land Use</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
