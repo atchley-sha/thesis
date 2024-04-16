@@ -294,10 +294,10 @@ plot_mcc_adjustments <- function(adjustments) {
 		geom_line(linewidth = 1)
 }
 
-get_asim_trips_se <- function(raw_trips, per, hh) {
-	raw_trips %>%
+get_asim_trips_se <- function(trips, per, hh) {
+	trips %>%
 		mutate(
-			mode = convert_asim_mode(mode),
+			mode = convert_asim_mode_tr(mode),
 			purpose = make_asim_purpose(
 				select(., tour_id, tour_purpose, trip_purpose))
 		) %>%
@@ -309,14 +309,21 @@ get_asim_trips_se <- function(raw_trips, per, hh) {
 
 summarise_asim_transit_se <- function(se_trips) {
 	se_trips %>%
-		filter(mode == "transit") %>%
-		group_by(purpose) %>%
+		filter(mode %in% c("local", "crt")) %>%
+		group_by(purpose, mode) %>%
 		summarise(
 			transit_trips = n(),
 			across(
-				c(income, age, ),
+				c(
+					income, age, distance_to_work,
+					# num_adults, num_young_children,
+					),
 				\(x) median(x, na.rm = TRUE)),
 			.groups = "drop"
-		)
+		) %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			mode = pretty_mode(mode)
+		) %>%
+		arrange(purpose, mode)
 }
-

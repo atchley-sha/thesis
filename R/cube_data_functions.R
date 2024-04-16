@@ -106,16 +106,21 @@ get_cube_production_se <- function(trips, cube_se) {
 
 summarise_cube_transit_se <- function(se_trips) {
 	se_trips %>%
-		filter(mode == "transit") %>%
-		group_by(purpose) %>%
+		filter(mode %in% c("crt", "local")) %>%
+		group_by(purpose, mode) %>%
 		summarise(
 			transit_trips = sum(trips),
 			across(
-				c(TOTHH, ALLEMP, med_income),
+				c(TOTHH, HHPOP, ALLEMP, med_income),
 				\(x) matrixStats::weightedMedian(x, trips, na.rm = TRUE)),
 			.groups = "drop"
-		)
-
+		) %>%
+		mutate(
+			purpose = pretty_purpose(purpose),
+			mode = pretty_mode(mode),
+			across(where(is.numeric), round)
+		) %>%
+		arrange(purpose, mode)
 }
 
 read_cube_remote_work_totals <- function(cube_remote_work_totals_file) {

@@ -88,10 +88,11 @@ plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
 	combined_transit_se_trips %>%
 		mutate(
 			purpose = pretty_purpose(purpose),
-			model = pretty_model(model)
+			model = pretty_model(model),
+			mode = pretty_mode(mode)
 		) %>%
 		ggplot(aes(x = income, weight = trips, color = model)) +
-		facet_wrap(~purpose, scales = "free", ncol = 1) +
+		facet_grid(cols = vars(mode), rows = vars(purpose), scales = "free") +
 		scale_x_continuous(limits = c(NA,2e5), labels = label_currency()) +
 		geom_density() +
 		labs(x = "Income", y = "Kernel density", color = "Model")

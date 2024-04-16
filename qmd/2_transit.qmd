@@ -153,27 +153,45 @@ This switching can again be largely explained by the randomness in ActivitySim's
 targets::tar_read(asim_tr_atwork_mode_switching_plot)
 ```
 
-\
-
------\
-
-\
-
-Limitations: Apart from the increase in CRT trips and the catchment areas, there wasn't much more we could see with the trip-based model.
-By connecting the catchment areas with what we know of the zonal SE data, we could make some assumptions about the income of the new people taking the commuter rail, but we couldn't find anything more about the demographics of the riders.
+Both model types additionally allow for analyzing the types of people who use transit.
+The WFRC model, however, is limited to analyses using aggregate, TAZ-level data.
+@tbl-tr-se-cube shows, for example, the median number of households, people, and jobs weighted by the number of transit trip productions in each TAZ for the WFRC model.
+Additionally, @tbl-tr-cube-se shows a median income associated with transit trips, but note that this is not a median income of transit *riders*, but a median of *TAZ median income*, weighted by trip productions.
+It is difficult to know the actual income distribution of transit riders since individuals are not modeled explicitly.
 
 ```{r}
+#| label: tbl-tr-cube-se
 #| tbl-cap: cube
+
 targets::tar_read(cube_tr_productions_se_summary) |>
 	flextable()
 ```
 
+Because an ABM *does* model individuals explicitly, information about each individual is accessible at every stage of the model, including in post-hoc analysis.
+We can therefore determine the actual distribution of e.g. age and income for transit riders.
+@tbl-tr-asim-se shows a similar summary as @tbl-tr-cube-se, but for ActivitySim.
+@tbl-tr-asim-se presents median values for the individuals who made transit trips, not simply TAZ averages.
+Notably, Tables [-@tbl-tr-cube-se] and [-@tbl-tr-asim-se] show that ActivitySim is predicting a higher median income of transit riders than the WFRC model.
+Our synthetic population does over-predict high-income households along the length of the FrontRunner (see @fig-income-group-map), and this may partially be the cause of the discrepancy.
+
 ```{r}
+#| label: tbl-tr-asim-se
 #| tbl-cap: asim
+
 targets::tar_read(asim_tr_trips_se_summary) |>
 	flextable()
 ```
 
+Additionally, @fig-tr-se-income-dist shows the income distribution of transit riders for the WFRC model and ActivitySim.
+Again, the WFRC model is not modeling individuals, so for the WFRC model @fig-tr-se-income-dist shows the distribution of median TAZ income weighted by number of trip productions.
+For ActivitySim, however, the true income distribution of individual transit riders is shown.
+
+ActivitySim shows a rather wide income distribution of transit riders, while the distribution of the WFRC model is much denser around \$50,000--\$75,000.
+This makes sense given that the WFRC model shows a distribution of *median* incomes, while ActivitySim shows the distribution of *individual* incomes.
+
 ```{r}
+#| label: fig-tr-se-income-dist
+#| fig-cap: income dist
+
 targets::tar_read(combined_tr_new_transit_income_plot)
 ```

@@ -87,7 +87,7 @@ Chief among them would be an analysis of the new trips resulting from the develo
 This could include analysis in the number of trips, the distance traveled, and where the trips are being made.
 
 Both model types allow for very easy analysis of trip numbers and lengths, as the WFRC model outputs origin-destination trip tables directly by mode and purpose, and ActivitySim outputs a list of trips containing information on origin, destination, and mode.
-[@fig-lu-personmiles-cube; @fig-lu-personmiles-abm], for example, show the new trip-miles produced in the updated zones for the WFRC mode and ActivitySim, respectively.
+Figures [-@fig-lu-personmiles-cube] and [-@fig-lu-personmiles-asim], for example, show the new trip-miles produced in the updated zones for the WFRC mode and ActivitySim, respectively.
 However, there is a crucial difference between the model types, and that is the treatment of trips that do not begin or end at the home.
 
 ```{r}
@@ -108,6 +108,22 @@ In the WFRC model (and in many trip-based models), homes produce trips with diff
 "Home-based" trips have an origin or destination at the home, and are fairly straightforward to model, as the destination choice step can take for granted that these trips have one trip end in the zone that produced them.
 In addition to home-based trips, though, individuals make many "non--home-based" trips, which do not have an origin or destination at the home (e.g. traveling from work to a grocery store).
 Non--home-based trips can be a significant portion of total travel, as @fig-lu-personmiles-cube shows, but are not as straightforward to model as home-based trips.
+
+Because non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
+It is difficult therefore to know how best to redistribute non--home-based trips, as they could in reality have any number of origins and/or destinations.
+Though modeling the destination choice for non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
+
+There are several methods to redistribute non--home-based trips in trip-based models.
+One approach is to assign non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, either with a gravity model or some other distance-decay function.
+The destinations of these non--home-based trips can then be assigned as if they were any other trip.
+This results in non--home-based trips that are more likely to have both an origin and destination relatively near to the home.
+
+The WFRC model takes a different approach.
+Here there are two sources of information for non--home-based trip ends: a production model and an attraction model.
+In the trip generation step, households produce non--home-based trips similarly to any other trip purpose.
+However, the trips produced in this step determine only the *quantity* of non--home-based trips, not the trip ends.
+The *distribution* of non--home-based trips is determined by a trip attraction model (largely based on TAZ employment).
+This distribution is then globally scaled to match the total quantity of non--home-based trips produced in the trip generation step.
 
 By contrast, an ABM models individuals and their travel explicitly, and this makes the treatment of non--home-based trips much more straightforward.
 Each trip is tied to a specific individual with a defined home location, and so no extra "redistribution" step is needed to analyze non--home-based trips: these are "built-in" to each individual's tour pattern.
@@ -133,22 +149,6 @@ targets::tar_read(cube_lu_new_productions_desire_map)
 ```
 
 There is difficulty in analyzing the non--home-based trips, however.
-Because non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
-It is difficult therefore to know how best to redistribute non--home-based trips, as they could in reality have any number of origins and/or destinations.
-Though modeling the destination choice for non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
-
-There are several methods to redistribute non--home-based trips in trip-based models.
-One approach is to assign non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, either with a gravity model or some other distance-decay function.
-The destinations of these non--home-based trips can then be assigned as if they were any other trip.
-This results in non--home-based trips that are more likely to have both an origin and destination relatively near to the home.
-
-The WFRC model takes a different approach.
-Here there are two sources of information for non--home-based trip ends: a production model and an attraction model.
-In the trip generation step, households produce non--home-based trips similarly to any other trip purpose.
-However, the trips produced in this step determine only the *quantity* of non--home-based trips, not the trip ends.
-The *distribution* of non--home-based trips is determined by a trip attraction model (largely based on TAZ employment).
-This distribution is then globally scaled to match the total quantity of non--home-based trips produced in the trip generation step.
-
 Typically in a trip-based model, once non--home-based trips are assigned trip ends, they have no connection to the homes/zones that produced them, and are treated as "belonging" to either the origin or destination zone.
 Because of this, it is not possible to simply filter trips by origin or destination as can be done with the home-based trips.
 Instead, we took the difference between the entire non--home-based trip matrices in both this scenario and the baseline scenario.
