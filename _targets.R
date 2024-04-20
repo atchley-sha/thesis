@@ -59,8 +59,8 @@ shared_data_targets <- tar_plan(
 	tar_file(job_code_translation_file, "data/job_code_translation.csv"),
 	job_code_translation = readr::read_csv(job_code_translation_file),
 
-	# tar_file(cube_time_spent_table_file, "data/cube_time_spent.csv"),
-	# cube_time_spent_table = readr::read_csv(cube_time_spent_table_file),
+	tar_file(cube_time_spent_table_file, "data/cube_time_spent.csv"),
+	cube_time_spent_table = readr::read_csv(cube_time_spent_table_file),
 	tar_file(asim_time_spent_table_file, "data/asim_time_spent.csv"),
 	asim_time_spent_table = readr::read_csv(asim_time_spent_table_file),
 )

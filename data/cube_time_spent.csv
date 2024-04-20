@@ -1,0 +1,5 @@
+task,hours
+Configure baseline scenario,2
+Scenario creation: Land Use,15
+Scenario creation: Transit,10
+Scenario creation: Remote Work,20

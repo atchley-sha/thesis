@@ -271,9 +271,9 @@ Based largely on the model results of @christhesis, and partly on the existing (
 #| label: tbl-mode-crosswalk
 #| fig-cap: mode crosswalk
 
-targets::tar_read(mode_crosswalk) |>
-  flextable() |>
-	autofit()
+# targets::tar_read(mode_crosswalk) |>
+#   flextable() |>
+# 	autofit()
 ```
 
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
@@ -430,8 +430,10 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 
 targets::tar_read(asim_tc_dap_coeffs) |>
 	flextable() |>
-	autofit() #|>
-	# group_tt(j = list("Utility Coefficient" = 2:4))
+	autofit()
+	# tt() |>
+	# group_tt(j = list("Utility Coefficient" = 1:2, "test" = 3:4)) |>
+	# print("latex")
 ```
 
 ## Example Scenarios

@@ -6,10 +6,27 @@
 
 library(tidyverse)
 library(flextable)
+library(ftExtra)
+library(officer)
 library(sf)
 # library(scales)
 # library(ggspatial)
 
 ggplot2::theme_set(ggplot2::theme_bw())
-set_flextable_defaults(float = "float")
+set_flextable_defaults(
+	float = "float",
+	font.family = "Alte Haas Grotesk",
+	# text.align = "center",
+	padding.bottom = 3,
+	padding.top = 3,
+	# padding.left = 3,
+	# padding.right = 3,
+	line_spacing = 1,
+	digits = 2,
+	pct_digits = 1,
+	big.mark = "",
+	keep_with_next = TRUE,
+	table.layout = "autofit",
+	table_align = "center"
+)
 ```
