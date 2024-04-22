@@ -14,7 +14,8 @@ package_list <- c(
 	"ggnewscale",
 	"ggrepel",
 	"DiagrammeR",
-	"od"
+	"od",
+	"magrittr"
 )
 
 tar_option_set(
@@ -517,12 +518,13 @@ wfh_targets <- tar_plan(
 		asim_wfh_all_trips_diff, distances),
 
 	# TLFD
-	combined_wfh_tlfd_diff_plot = plot_wfh_tlfd_diff(
+	combined_tlfd_diff = calculate_tlfd_diff(
 		combined_wfh_trips_diff, distances),
-	cube_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
-		combined_wfh_trips_diff, which_model = "cube", distances),
-	asim_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
-		combined_wfh_trips_diff, which_model = "asim", distances),
+	combined_tlfd_diff_plot = plot_tlfd_diff(combined_tlfd_diff),
+	# cube_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
+	# 	combined_wfh_trips_diff, which_model = "cube", distances),
+	# asim_wfh_tlfd_diff_comp_plot = plot_wfh_by_tlfd_diff_comp(
+	# 	combined_wfh_trips_diff, which_model = "asim", distances),
 
 )
 

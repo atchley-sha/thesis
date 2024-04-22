@@ -280,7 +280,7 @@ Additionally, since the WFRC model has a significantly different mode split depe
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
 Because activity-based models create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
 Specifically, an ABM doesn't have much of a concept of e.g. "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
-For simplicitly, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
+For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
 Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
 All other trips are considered HBO trips.
 

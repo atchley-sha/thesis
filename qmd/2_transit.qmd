@@ -195,6 +195,8 @@ For ActivitySim, however, the true income distribution of individual transit rid
 
 ActivitySim shows a rather wide income distribution of transit riders, while the distribution of the WFRC model is much denser around \$50,000--\$75,000.
 This makes sense given that the WFRC model shows a distribution of *median* incomes, while ActivitySim shows the distribution of *individual* incomes.
+It is clear that ActivitySim considers transit to be more attractive for a wider range of incomes than the overall income distribution, though notably low- to medium-income individuals are somewhat more likely to take transit.
+In the WFRC model, however, the income distribution of individuals taking transit is unknown.
 
 ```{r}
 #| label: fig-tr-se-income-dist

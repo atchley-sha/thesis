@@ -4,7 +4,7 @@
 
 With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
 Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].
-The WFRC model predicts a year-over-year increase in remote work rates of about XXX%, as illustrated in @fig-wfrc-remote-work-rate-plot.
+The WFRC model predicts an increase in remote work rates over time, as illustrated in @fig-wfrc-remote-work-rate-plot.
 
 ```{r}
 #| label: fig-wfrc-remote-work-rate-plot
@@ -17,10 +17,13 @@ This scenario is a "what-if" analysis that models a significant increase in remo
 We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
 In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
 
-## Considerations for Modelling Remote Work
+<!-- While it is relatively straightforward to measure and predict remote work *rates*, -->
 
 There has been much research, especially in recent years, on the implications of remote work.
 While many agencies have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggested that considerations for remote work should be made on a case by case basis because there is no single best approach.
+The following section discusses some of these considerations.
+
+## Considerations for Modelling Remote Work
 
 Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
@@ -37,6 +40,8 @@ Additionally, the types of trips people make can differ depending on remote work
 While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
 This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
 @moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
+
+In our case, we are using the existing frameworks for modeling remote work in both ActivitySim and the WFRC model, as discussed in @sec-baseline-calibration.
 
 <!-- It is also not clear if the rebound effect is real. @zhu_impact_2014 find that there are more miles traveled on the days people telecommute, but @mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. -->
 
@@ -110,7 +115,7 @@ The "travel time budget" proposed by @moreno_microscopic_2017 suggests that long
 
 The WFRC model does not consider trip length when adjusting trip rates due to remote work.
 There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
-@tbl-cube-wfh-trip-pmt-diff illustrates this, where for example home-based work driving trips decreased by 6.5% relative to the baseline scenario, but person-miles traveled decreased only by 5.8%.
+@tbl-cube-wfh-trip-pmt-diff illustrates this, where for example home-based work "Drive Alone" trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
 This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
 
 ```{r}
@@ -122,7 +127,9 @@ targets::tar_read(cube_wfh_trip_pmt_diff) |>
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live further away from their job site are more likely to work remotely.
-ActivitySim therefore predicts a greater decrease in miles traveled than in trips for home-based work, as seen in @tbl-asim-wfh-trip-pmt-diff.
+ActivitySim therefore predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
+This discrepancy is not especially large, which shows that ActivitySim is not considering the trip distance too heavily, but the discrepancy is consistent across all modes.
+Additionally, for home-based other trips, ActivitySim predicts a greater increase in number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged shorter discretionary trips.
 
 ```{r}
 #| label: tbl-asim-wfh-trip-pmt-diff
@@ -132,29 +139,13 @@ targets::tar_read(asim_wfh_trip_pmt_diff) |>
 	flextable()
 ```
 
-Figures [-@fig-cube-wfh-tlfd-diff] and [-@fig-asim-wfh-tlfd-diff] show the trip length frequency distribution of "unmade" trips in the increased remote work scenario (i.e. the trip length frequency distribution of the *difference* in trips) compared to that of the baseline scenario.
-Similar to Tables [-@tbl-cube-wfh-trip-pmt-diff] and [-@tbl-asim-wfh-trip-pmt-diff], this shows that ActivitySim "removes" longer trips more frequently than shorter trips, and the WFRC model makes no distinction.
+The difference in how trip length is modeled between ActivitySim and the WFRC model can be seen more clearly in @fig-wfh-tlfd-comp.
+This figure shows the difference in TLFD between the Increased Remote Work scenario and the baseline scenario.
+Note that a point on the positive y-axis indicates an increased density of trips in the Increased Remote Work scenario compared to the baseline, and vice versa.
 
 ```{r}
-#| label: fig-cube-wfh-tlfd-diff
+#| label: fig-wfh-tlfd-comp
 #| fig-cap: cube
 
-targets::tar_read(cube_wfh_tlfd_diff_comp_plot)
+targets::tar_read(combined_tlfd_diff_plot)
 ```
-
-```{r}
-#| label: fig-asim-wfh-tlfd-diff
-#| fig-cap: asim
-
-targets::tar_read(asim_wfh_tlfd_diff_comp_plot)
-```
-
-````{=html}
-<!--
-```{r}
-#| label: fig-combined-tlfd
-
-targets::tar_read(combined_wfh_tlfd_diff_plot)
-```
--->
-````
