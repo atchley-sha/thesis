@@ -16,10 +16,23 @@ It was easy to throw on the WFH model without having to completely change the re
 
 More analyses can be done with ABMs - We were able to replicate each TBM analysis with the ABM and more - We could make more demographic-type analyses with ABM - We were able to compare changes in individual behavior with ABM - Simpler to go about the analysis when thinking on the individual level
 
+non-home-based trips don't really make sense in tbm, in abm they're really easy.
+
+transit: we can see mode switching.
+
+wfh: distance to work is a factor in wfh probability in abm.
+Not sure how to do that in tbm, it would have to be a part of trip generation.
+
+analyses that were easier/harder in tbm vs abm
+
 \
 
 Many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation.
-However, *some conclusions can apply more broadly*....
+However, some conclusions can apply to trip- and/or activity-based models more broadly, and it is noted when this is the case.
+
+\
+
+{{< pagebreak >}}
 
 We additionally wish to highlight two aspects of this project that have not been discussed so far in this paper.
 These are the computational resources used (and runtimes) for each model, and an analysis of the time spent in setting up each model and configuring each scenario.
@@ -105,3 +118,13 @@ Any comparisons between these tables should therefore take this into considerati
 An agency looking to switch to an ABM would likely not need additional computational resources beyond those used for trip-based models, as discussed in @sec-computational-resources.
 However, considering the potential gains in runtime (in the case of ActivitySim, given enough RAM to avoid chunking), it may be worth considering buying or renting additional computational resources.
 Computer hardware prices certainly change over time, but as of early 2024, a 12-core, 360 GB RAM computer (using very rough price estimates) would likely cost a few thousand dollars.
+
+\
+
+{{< pagebreak >}}
+
+abms are probably better.
+but is the switch worth it?
+if you have an existing tbm that works, is the transition cost worth it to get something better?
+if it's a lot better, then probably, but if it's only marginally better, then probably not.
+how much better it is will depend on a lot of things, but generally speaking more complicated, dense, urban areas are more likely to benefit more from an abm than rural areas.
