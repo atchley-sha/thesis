@@ -2,7 +2,21 @@
 
 {{< include _setup.qmd >}}
 
-It is clear that there are significant 
+Our results
+
+It is clear that there are significant
+
+\
+
+## Notes
+
+ABM is more malleable.
+It was easy to throw on the WFH model without having to completely change the rest of the model, and it seemed more realistic than the TBM.
+- For planning agencies wanting a model that more easily adapts to unforeseen travel behavior change, an ABM would be preferable
+
+More analyses can be done with ABMs - We were able to replicate each TBM analysis with the ABM and more - We could make more demographic-type analyses with ABM - We were able to compare changes in individual behavior with ABM - Simpler to go about the analysis when thinking on the individual level
+
+\
 
 Many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation.
 However, *some conclusions can apply more broadly*....
@@ -12,7 +26,7 @@ These are the computational resources used (and runtimes) for each model, and an
 These two aspects are only tangentially related to the results presented in Chapters [-@sec-landuse]--[-@sec-wfh], but would likely be as important to an agency looking to switch to an ABM.
 The following two sections contain a discussion of these two aspects.
 
-## Computational resources
+## Computational resources {#sec-computational-resources}
 
 All runs of the WFRC model were done on a Windows 10 computer with 2 Intel Xeon Silver 4114 CPUs.
 The CPUs have a base frequency of 2.2 GHz with a maximum turbo frequency of 3.0 GHz, and 10 cores/20 threads each.
@@ -30,9 +44,12 @@ This is a huge difference in runtime between the two models, though crucially Ac
 ActivitySim offers "chunking" options [@asim-chunking], where large tables are loaded into RAM in chunks rather than all at once.
 This can dramatically reduce the amount of RAM required to run an ActivitySim scenario, at the expense of increased runtimes.
 For comparison, we ran the baseline scenario in ActivitySim on the same computer used for the WFRC model scenarios, with chunking enabled to account for the amount of RAM available.
-With multi-threading set to use 12 threads, and the chunk size set to 102 GB, the baseline ActivitySim scenario ran in about 13 hours.
-With multi-threading set to use 16 threads, and the chunk size set to 112 GB, the baseline ActivitySim scenario ran in about XXX hours.
-This is still somewhat faster than the WFRC model runs on the same computer, though the difference in runtime is less dramatic than the ActivitySim runs on the BYU supercomputer without chunking.
+With multi-threading set to use 16 threads, and the chunk size set to 112 GB, the baseline ActivitySim scenario ran in about 13 hours.
+
+ActivitySim completed its scenario runs faster than the WFRC model even on the same hardware, though the difference in runtime is less dramatic than with the ActivitySim runs on the BYU supercomputer.
+This runs counter to one of the reasons @miller_current_2023 gives for the relatively slow adoption of ABMs: their increased resource requirements and runtimes compared to trip-based models.
+Notably, our experience is certainly not universal, and the runtime of any model will greatly depend on several factors, including the specific modeling software and the hardware configuration.
+But at least in our case, ActivitySim outperformed the WFRC model with the same hardware, and was an order of magnitude faster with enough RAM to avoid chunking.
 
 ## Time Spent
 
@@ -47,19 +64,19 @@ Note as well that these tables show time spent by one graduate and one undergrad
 ```{r}
 #| label: tbl-time-spent
 #| tbl-cap: time spent
-#| layout-nrow: 1
 #| tbl-subcap:
-#|   - WFRC Model
-#|   - ActivitySim
+#|   - "WFRC Model"
+#|   - "ActivitySim"
+#| layout-nrow: 2
 
 targets::tar_read(cube_time_spent_table) |>
 	flextable() |>
-	set_header_labels(task = "Task", hours = "Hours spent\n(undergraduate RA)") |>
+	set_header_labels(task = "Task", hours = "Hours spent (undergraduate RA)") |>
 	align(j = ~ hours, align = "c") |>
 	align(align = "c", part = "h")
 targets::tar_read(asim_time_spent_table) |>
 	flextable() |>
-	set_header_labels(task = "Task", hours = "Hours spent\n(graduate RA)") |>
+	set_header_labels(task = "Task", hours = "Hours spent (graduate RA)") |>
 	align(j = ~ hours, align = "c") |>
 	align(align = "c", part = "h")
 ```
@@ -76,23 +93,15 @@ Notably, this initial time investment would be applicable for a switch to *any* 
 Second, the scenarios in ActivitySim were somewhat dependent on the outputs of the WFRC model.
 The most notable of ActivitySim's dependencies is the on the WFRC model's travel skims, as ActivitySim does not perform network assignment and so is unable to determine congested travel times on its own.
 In the Transit scenario, for example, the only change needed for ActivitySim was to use updated transit skims, which was extremely quick to implement.
-However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim should possibly include the time spent for the WFRC model (@tbl-time-spent-2 does not include this).
+However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim should possibly include the time spent for the WFRC model.
 
 Finally, the tasks were divided between two research assistants almost exclusively in line with the model type.
-This means that @tbl-time-spent-1 and @tbl-time-spent-2 are showing the time spent with each model type by a specific individual.
+This means that @tbl-time-spent is showing the time spent with each model type by a specific individual.
 In other words, the difference between these tables is not only the model type, but also the individual working on the task.
 Any comparisons between these tables should therefore take this into consideration.
 
 ## Recommendations
 
-
-
-## Notes
-
-ABM is more malleable.
-It was easy to throw on the WFH model without having to completely change the rest of the model, and it seemed more realistic than the TBM.
-- For planning agencies wanting a model that more easily adapts to unforeseen travel behavior change, an ABM would be preferable
-
-More analyses can be done with ABMs - We were able to replicate each TBM analysis with the ABM and more - We could make more demographic-type analyses with ABM - We were able to compare changes in individual behavior with ABM - Simpler to go about the analysis when thinking on the individual level
-
-ActivitySim doesn't have the built in analysis tools like CUBE does (I think this is true, but not sure) - We had to use different programs to analyze ActivitySim output (like R)
+An agency looking to switch to an ABM would likely not need additional computational resources beyond those used for trip-based models, as discussed in @sec-computational-resources.
+However, considering the potential gains in runtime (in the case of ActivitySim, given enough RAM to avoid chunking), it may be worth considering buying or renting additional computational resources.
+Computer hardware prices certainly change over time, but as of early 2024, a 12-core, 360 GB RAM computer (using very rough price estimates) would likely cost a few thousand dollars.

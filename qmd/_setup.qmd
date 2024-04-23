@@ -4,10 +4,10 @@
 #| include: false
 #| cache: false
 
-library(tidyverse)
 library(flextable)
 library(ftExtra)
 library(officer)
+library(tidyverse)
 library(sf)
 # library(scales)
 # library(ggspatial)

@@ -143,10 +143,19 @@ The difference in how trip length is modeled between ActivitySim and the WFRC mo
 This figure shows the difference in TLFD between the Increased Remote Work scenario and the baseline scenario.
 Note that a point on the positive y-axis indicates an increased density of trips in the Increased Remote Work scenario compared to the baseline, and vice versa.
 
-
 ```{r}
 #| label: fig-wfh-tlfd-comp
 #| fig-cap: cube
+#| fig-width: 8
+#| fig-height: 6
 
 targets::tar_read(combined_tlfd_diff_plot)
 ```
+
+For home-based work trips, the WFRC model shows two patterns.
+Drive alone and non-motorized trips shifted their distribution toward longer trips with increased remote work, and carpool and transit trips shifted toward shorter trips.
+Home-based other trips show a shift toward longer trips for all modes except transit, though the distribution of transit trips hardly shifted at all between scenarios.
+
+The TLFD for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
+Home-based other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
+However, even when ActivitySim shows a shift in distribution away from very short trips, such as in home-based other drive alone and carpool trips, the peak of the home-based other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.

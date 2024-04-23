@@ -59,9 +59,9 @@ plot_tlfd_diff <- function(tlfd_diff) {
 
 		ggplot(aes(x = x, y = diff, color = model)) +
 		facet_grid(rows = vars(purpose), cols = vars(mode), scales = "free") +
-		# geom_line() +
 		geom_hline(yintercept = 0) +
-		geom_smooth(se = FALSE, method = "loess") +
+		# geom_line() +
+		geom_smooth(se = FALSE, method = "loess", span = 0.5) +
 		facetted_pos_scales(
 			x = list(
 				mode %in% c("Drive Alone", "Carpool") ~ scale_x_continuous(limits = c(0,50)),
@@ -69,6 +69,8 @@ plot_tlfd_diff <- function(tlfd_diff) {
 				mode == "Transit" ~ scale_x_continuous(limits = c(0,50))
 			)
 		) +
+		coord_cartesian(ylim = c(-4e-4, 4e-4)) +
+		# scale_y_continuous(limits = c(-4e-4, 4e-4)) +
 		labs(
 			x = "Distance (mi)",
 			y = "Difference in kernel density (Remote Work \u2212 Baseline)",
