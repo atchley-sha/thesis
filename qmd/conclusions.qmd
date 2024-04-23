@@ -2,7 +2,7 @@
 
 {{< include _setup.qmd >}}
 
-Intro.
+It is clear that there are significant 
 
 Many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation.
 However, *some conclusions can apply more broadly*....
@@ -76,10 +76,16 @@ Notably, this initial time investment would be applicable for a switch to *any* 
 Second, the scenarios in ActivitySim were somewhat dependent on the outputs of the WFRC model.
 The most notable of ActivitySim's dependencies is the on the WFRC model's travel skims, as ActivitySim does not perform network assignment and so is unable to determine congested travel times on its own.
 In the Transit scenario, for example, the only change needed for ActivitySim was to use updated transit skims, which was extremely quick to implement.
-However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim should include the time spent for the WFRC model.
+However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim should possibly include the time spent for the WFRC model (@tbl-time-spent-2 does not include this).
 
-Finally(??), the tasks were divided between two research assistants almost exclusively in line with the model type.
-This means that ....
+Finally, the tasks were divided between two research assistants almost exclusively in line with the model type.
+This means that @tbl-time-spent-1 and @tbl-time-spent-2 are showing the time spent with each model type by a specific individual.
+In other words, the difference between these tables is not only the model type, but also the individual working on the task.
+Any comparisons between these tables should therefore take this into consideration.
+
+## Recommendations
+
+
 
 ## Notes
 

@@ -143,6 +143,7 @@ The difference in how trip length is modeled between ActivitySim and the WFRC mo
 This figure shows the difference in TLFD between the Increased Remote Work scenario and the baseline scenario.
 Note that a point on the positive y-axis indicates an increased density of trips in the Increased Remote Work scenario compared to the baseline, and vice versa.
 
+
 ```{r}
 #| label: fig-wfh-tlfd-comp
 #| fig-cap: cube
