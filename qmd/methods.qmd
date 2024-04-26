@@ -77,11 +77,12 @@ The trips are estimated using lookup tables which assert an average number of tr
 There are separate lookup tables for each trip purpose, and depending on the trip purpose the lookup table will use different categories of household.
 The trip rates in the lookup tables are multiplied by the number of households in each category, and this gives a total number of trips by purpose produced in each TAZ.
 
-The WFRC model contains the following trip purposes: Home-based work (HBW), home-based ....
-The HBW and NHBW purposes use only the number of workers per household, and all other trip purposes use the cross-classification of household size with life cycle.
+The WFRC model contains the following trip purposes: Home-based work (HBW), home-based shopping (HBShp), home-based school (HBSch), home-based other (HBO), non--home-based work (NHBW), and non--home-based non-work (NHBNW).
+The HBW and NHBW purposes use only the number of workers per household in determining trip productions, and all other trip purposes use the cross-classification of household size with life cycle.
 
-***figure out when trip attractions are estimated and if it's part of the distribution step***.
-\*\*\* Finish this section\*\*\*.
+Trip attractions are estimated for each purpose based mostly on the number of jobs by industry in each TAZ.
+Home-based other and non--home-based trip attractions also are affected by the number of households in a TAZ, and school attractions are based on the school enrollment by TAZ.
+Each purpose has a different coefficient for each variable, and these are left unchanged from the existing values.
 
 Trip distribution uses a gravity model of the form\
 $$
@@ -89,9 +90,7 @@ T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
 $$\
 where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the productions at $i$, $A_j$ is the attractions at $j$, $F_{ij}$ is the cost term/function from $i$ to $j$, and $J$ is the set of all zones trips from $i$ can be attracted to.
 
-The mode choice step uses a choice model to assign a percentage of trips of each purpose to each mode.
-Network assignment is done via an iterative process to equalize travel time between potential routes.
-
+The mode choice step uses a choice model to assign a percentage of trips of each purpose to each mode, and network assignment is done via an iterative process to equalize travel time between potential routes.
 The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
 
 ## ActivitySim
