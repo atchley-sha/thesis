@@ -46,7 +46,7 @@ calculate_tlfd_diff <- function(trips, distances) {
 		bind_rows() %>%
 		pivot_wider(names_from = scenario, values_from = y) %>%
 		mutate(diff = wfh - by)
-	}
+}
 
 plot_tlfd_diff <- function(tlfd_diff) {
 	tlfd_diff %>%
