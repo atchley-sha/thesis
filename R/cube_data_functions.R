@@ -131,18 +131,3 @@ read_cube_remote_work_totals <- function(cube_remote_work_totals_file) {
 		rename(year = YEAR, wfh = HBJ, tc = Telecom) %>%
 		pivot_longer(-year, names_to = "type", values_to = "pct")
 }
-
-plot_cube_remote_work_totals <- function(cube_remote_work_totals) {
-	cube_remote_work_totals %>%
-		mutate(type = case_match(
-			type,
-			"tc" ~ "Telecommute",
-			"wfh" ~ "Work-From-Home"
-		)) %>%
-		ggplot(aes(x = year, y = pct, color = type)) +
-		geom_line(linewidth = 1) +
-		geom_vline(xintercept = c(2019, 2050), lty = "dotted") +
-		scale_y_continuous(transform = "sqrt", labels = label_percent()) +
-		scale_x_continuous(breaks = seq(1990,2060,10)) +
-		labs(x = "Year", y = "Rate", color = element_blank())
-}
