@@ -49,7 +49,8 @@ targets::tar_read(income_groups) |>
   select(group, inc_range) |>
   rename("Income Group" = group, "Income Range" = inc_range) |>
 	flextable() |>
-	autofit()
+	autofit() |>
+	align(align = "c", part = "a")
 ```
 
 There is an additional distribution estimated, which is termed "life cycle" in the WFRC model.
@@ -68,7 +69,8 @@ tribble(
 ) |>
   flextable() |>
   add_header_row(values = c("Life Cycle", "Presense of persons in household aged:"), colwidths = c(1,3)) |>
-  merge_at(1:2, 1, part = "header") |>
+  merge_v(part = "header") |>
+	align(align = "c", part = "a") |>
 	autofit()
 ```
 
@@ -169,7 +171,6 @@ tibble::tribble(
   "Households by Income Group", "Census Tract", "Census", 500,
   "Workers per Household", "Census Tract", "Census", 1000
 ) |>
-  dplyr::mutate(Weight = scales::label_comma()(Weight)) |>
 	flextable() |>
 	autofit()
 ```
@@ -203,6 +204,8 @@ The average household size will therefore follow a similar error distribution to
 ```{r}
 #| label: fig-population-comparison
 #| fig-cap: population comparison
+#| fig-width: 6.5
+#| fig-height: 8
 
 targets::tar_read(comparison_pop_map)
 ```
@@ -217,6 +220,8 @@ The synthetic population does have a lower median income than the WFRC data in m
 ```{r}
 #| label: fig-median-income-comparison
 #| fig-cap: med inc
+#| fig-width: 6.5
+#| fig-height: 8
 
 targets::tar_read(comparison_med_income_map)
 ```
@@ -228,6 +233,8 @@ These groups are taken from the WFRC model (see @tbl-income-groups), and the gro
 ```{r}
 #| label: fig-income-group-map
 #| fig-cap: inc groups
+#| fig-width: 6.5
+#| fig-height: 8
 
 targets::tar_read(comparison_inc_groups_map)
 ```
@@ -242,6 +249,8 @@ A production-ready synthetic population would match its income distribution more
 ```{r}
 #| label: fig-median-income-density
 #| fig-cap: inc density
+#| fig-width: 6.5
+#| fig-height: 8
 
 targets::tar_read(comparison_inc_density_plot)
 ```
@@ -345,8 +354,11 @@ Note that though these distributions match well enough for the purposes of this 
 ```{r}
 #| label: fig-tlfd-comp
 #| fig-cap: tlfd comparison
+#| fig-width: 6.5
+#| fig-height: 8
 
-targets::tar_read(combined_by_tlfd_plot)
+targets::tar_read(combined_by_tlfd_plot) +
+	scale_color_bright()
 ```
 
 The WFRC model has basic support for predicting telecommuting and work-from-home trips.
@@ -403,20 +415,21 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 
 targets::tar_read(comparison_by_telecommute_coeffs) |>
 	flextable() |>
-	autofit()
-#   mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
-#   rename(
-#     "Job Type" = name,
-#     "WFRC Telecommute %" = pct
-#     ) %>%
-# 	tt() %>% 
-# 	format_tt(escape = TRUE)
-  # kbl(
-  #   booktabs = TRUE,
-  #   align = "c"
-  # ) %>%
-  # add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
-  # kable_styling()
+	set_header_labels(
+		name = "Industry",
+		pct = "2019 WFRC Telecommute %"
+	) |>
+	add_header_row(
+		values = c("Industry", "2019 WFRC Telecommute %", "ActivitySim Telecommute Frequency Coefficients"),
+		colwidths = c(1, 1, 3)
+	) |>
+	set_formatter(pct = label_percent()) |>
+	merge_v(part = "h") |>
+	set_table_properties(layout = "fixed") |>
+	width(width = 0.1) |>
+	width(j = 2, 1.3) |>
+	width(j = 3:5, 1.2) |>
+	align(j = 2:5, align = "c", part = "a")
 ```
 
 Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim implicitly models a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.

@@ -52,6 +52,7 @@ plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),
 			labels = c("-1" = "Base year", "1" = "Land use")) +
+		# scale_color_bright(reverse = TRUE, labels = c("-1" = "Base year", "1" = "Land use")) +
 		labs(color = "More trips in:", linewidth = "Trips")
 }
 
@@ -72,7 +73,7 @@ plot_cube_lu_new_pmt <- function(trips_diff, distances, lu_tazs) {
 			fill = "Mode") +
 		scale_x_continuous(
 			trans = sqrt_trans(),
-			breaks = c(0, 10^3, 10^4, 5*10^4, 10^5, 2*10^5, 5*10^5),
+			breaks = c(0, 1e3, 1e4, 5e4, 1e5, 2e5, 5e5),
 			labels = label_comma(),
 			expand = expansion(c(0,0.05))) +
 		scale_y_discrete(expand = expansion(0, 0.5), limits = rev) +
@@ -101,7 +102,7 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 			fill = "Mode") +
 		scale_x_continuous(
 			trans = sqrt_trans(),
-			breaks = c(0, 10^3, 10^4, 5*10^4, 10^5, 2*10^5, 5*10^5),
+			breaks = c(0, 1e3, 1e4, 5e4, 1e5, 2e5, 5e5),
 			labels = label_comma(),
 			expand = expansion(c(0,0.05))) +
 		scale_y_discrete(limits = rev) +

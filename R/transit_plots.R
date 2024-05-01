@@ -129,7 +129,8 @@ plot_asim_mode_switching <- function(mode_switching) {
 		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
 		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
-		scale_fill_brewer(palette = "Accent") +
+		# scale_fill_brewer(palette = "Accent") +
+		scale_fill_bright() +
 		labs(x = element_blank(), y = "Trips", fill = "Original mode")
 }
 

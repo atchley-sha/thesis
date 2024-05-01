@@ -10,7 +10,8 @@ The WFRC model predicts an increase in remote work rates over time, as illustrat
 #| label: fig-wfrc-remote-work-rate-plot
 #| fig-cap: wfrc remote work plot
 
-targets::tar_read(cube_remote_work_totals_plot)
+targets::tar_read(cube_remote_work_totals_plot) +
+	theme(legend.position = "bottom")
 ```
 
 This scenario is a "what-if" analysis that models a significant increase in remote work rates.
@@ -66,7 +67,23 @@ However, this was left unchanged (set at 1) as we considered that the 2050 predi
 #| tbl-cap: wfrc remote work data
 
 targets::tar_read(cube_wfh_by_remote_work_pct_comparison) |>
-	flextable()
+	mutate(across(!name, label_percent())) |>
+	flextable(col_keys = c(
+		"name", "2019_tc", "2050_tc", "blank", "2019_wfh", "2050_wfh")) |>
+	set_header_labels(
+		name = "Industry",
+		`2019_tc` = "2019",
+		`2050_tc` = "2050",
+		`2019_wfh` = "2019",
+		`2050_wfh` = "2050"
+	) |>
+	add_header_row(
+		values = c("Industry", "Telecommute %", "", "Home-based Jobs %"),
+		colwidths = c(1,2,1,2)
+	) |>
+	merge_v(part = "h") |>
+	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
+	align(j = 2:5, align = "c", part = "a")
 ```
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
@@ -80,18 +97,22 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 #| tbl-cap: wfh telecommute
 
 targets::tar_read(comparison_wfh_telecommute_coeffs) |>
-	flextable()
-  # mutate(pct = scales::label_percent(accuracy = 0.01)(pct)) %>%
-  # rename(
-  #   "Job Type" = name,
-  #   "WFRC Telecommute %" = pct
-  #   ) %>%
-  # kbl(
-  #   booktabs = TRUE,
-  #   align = "c"
-  # ) %>%
-  # add_header_above(c(" " = 2, "ActivitySim Telecommute Utility Coefficients" = 3)) %>%
-  # kable_styling()
+	flextable() |>
+	set_header_labels(
+		name = "Industry",
+		pct = "2050 WFRC Telecommute %"
+	) |>
+	add_header_row(
+		values = c("Industry", "2050 WFRC Telecommute %", "ActivitySim Telecommute Frequency Coefficients"),
+		colwidths = c(1, 1, 3)
+	) |>
+	set_formatter(pct = label_percent()) |>
+	merge_v(part = "h") |>
+	set_table_properties(layout = "fixed") |>
+	width(width = 0.1) |>
+	width(j = 2, 1.3) |>
+	width(j = 3:5, 1.2) |>
+	align(j = 2:5, align = "c", part = "a")
 ```
 
 ## Scenario Analysis
@@ -107,7 +128,41 @@ ActivitySim on the other hand does account for this, in that individuals working
 #| tbl-cap: wfh mode split comp
 
 targets::tar_read(combined_wfh_mode_split_diff) |>
-	flextable()
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
+	arrange(purpose, mode) |>
+	flextable(col_keys = c(
+		"purpose", "mode", "cube_wfh", "cube_by", "cube_diff_pct",
+		"blank", "asim_wfh", "asim_by", "asim_diff_pct"
+	)) |>
+	set_header_labels(
+		purpose = "Purpose",
+		mode = "Mode",
+		cube_wfh = "Remote Work scenario",
+		cube_by = "Baseline scenario",
+		cube_diff_pct = "% Change",
+		asim_wfh = "Remote Work scenario",
+		asim_by = "Baseline scenario",
+		asim_diff_pct = "% Change"
+	) |>
+	add_header_row(
+		values = c("Purpose", "Mode", "WFRC Model Trips", "", "ActivitySim Trips"),
+		colwidths = c(1,1,3,1,3)
+	) |>
+	merge_v(part = "h") |>
+	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
+	colformat_double(digits = 0) |>
+	align(j = 3:9, align = "c", part = "a") |>
+	merge_v(j = 1) |>
+	hline(i = c(4,8)) |>
+	fix_border_issues() |>
+	set_table_properties(layout = "fixed") |>
+	width(width = 0.1) |>
+	width(1, 1) |>
+	# width(2, 1.1) |>
+	# width(c(3,7), 1) |>
+	fontsize(size = 10, part = "a")
+	
 ```
 
 In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
@@ -123,7 +178,40 @@ This shows that in fact the *shorter* work trips are being made less frequently 
 #| tbl-cap: cube
 
 targets::tar_read(cube_wfh_trip_pmt_diff) |>
-	flextable()
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
+	arrange(purpose, mode) |>
+	flextable(col_keys = c(
+		"purpose", "mode", "wfh_trips", "by_trips", "trips_pct",
+		"blank", "wfh_pmt", "by_pmt", "pmt_pct"
+	)) |>
+	set_header_labels(
+		purpose = "Purpose",
+		mode = "Mode",
+		wfh_trips = "Remote Work scenario",
+		by_trips = "Baseline scenario",
+		trips_pct = "% Change",
+		wfh_pmt = "Remote Work scenario",
+		by_pmt = "Baseline scenario",
+		pmt_pct = "% Change"
+	) |>
+	add_header_row(
+		values = c("Purpose", "Mode", "Trips", "", "Person-miles"),
+		colwidths = c(1,1,3,1,3)
+	) |>
+	merge_v(part = "h") |>
+	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
+	colformat_double(digits = 0) |>
+	align(j = 3:9, align = "c", part = "a") |>
+	merge_v(j = 1) |>
+	hline(i = c(4,8)) |>
+	fix_border_issues() |>
+	set_table_properties(layout = "fixed") |>
+	width(width = 0.1) |>
+	width(1, 1) |>
+	# width(2, 1.1) |>
+	# width(c(3,7), 1) |>
+	fontsize(size = 10, part = "a")
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live further away from their job site are more likely to work remotely.
@@ -136,7 +224,40 @@ Additionally, for home-based other trips, ActivitySim predicts a greater increas
 #| tbl-cap: asim
 
 targets::tar_read(asim_wfh_trip_pmt_diff) |>
-	flextable()
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
+	arrange(purpose, mode) |>
+	flextable(col_keys = c(
+		"purpose", "mode", "wfh_trips", "by_trips", "trips_pct",
+		"blank", "wfh_pmt", "by_pmt", "pmt_pct"
+	)) |>
+	set_header_labels(
+		purpose = "Purpose",
+		mode = "Mode",
+		wfh_trips = "Remote Work scenario",
+		by_trips = "Baseline scenario",
+		trips_pct = "% Change",
+		wfh_pmt = "Remote Work scenario",
+		by_pmt = "Baseline scenario",
+		pmt_pct = "% Change"
+	) |>
+	add_header_row(
+		values = c("Purpose", "Mode", "Trips", "", "Person-miles"),
+		colwidths = c(1,1,3,1,3)
+	) |>
+	merge_v(part = "h") |>
+	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
+	colformat_double(digits = 0) |>
+	align(j = 3:9, align = "c", part = "a") |>
+	merge_v(j = 1) |>
+	hline(i = c(4,8)) |>
+	fix_border_issues() |>
+	set_table_properties(layout = "fixed") |>
+	width(width = 0.1) |>
+	width(1, 1) |>
+	# width(2, 1.1) |>
+	# width(c(3,7), 1) |>
+	fontsize(size = 10, part = "a")
 ```
 
 The difference in how trip length is modeled between ActivitySim and the WFRC model can be seen more clearly in @fig-wfh-tlfd-comp.
@@ -146,10 +267,12 @@ Note that a point on the positive y-axis indicates an increased density of trips
 ```{r}
 #| label: fig-wfh-tlfd-comp
 #| fig-cap: cube
-#| fig-width: 8
-#| fig-height: 6
+#| fig-width: 6.5
+#| fig-height: 5
 
-targets::tar_read(combined_tlfd_diff_plot)
+targets::tar_read(combined_tlfd_diff_plot) +
+	scale_color_bright() +
+	theme(legend.position = "bottom")
 ```
 
 For home-based work trips, the WFRC model shows two patterns.

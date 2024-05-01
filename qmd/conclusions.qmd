@@ -107,13 +107,18 @@ Note as well that these tables show time spent by one graduate and one undergrad
 targets::tar_read(cube_time_spent_table) |>
 	flextable() |>
 	set_header_labels(task = "Task", hours = "Hours spent (undergraduate RA)") |>
-	align(j = ~ hours, align = "c") |>
-	align(align = "c", part = "h")
+	set_table_properties(layout = "fixed") |>
+	width(1, 2.4) |>
+	width(2, 1.5) |>
+	align(j = ~ hours, align = "c", part = "a")
+
 targets::tar_read(asim_time_spent_table) |>
 	flextable() |>
 	set_header_labels(task = "Task", hours = "Hours spent (graduate RA)") |>
-	align(j = ~ hours, align = "c") |>
-	align(align = "c", part = "h")
+	set_table_properties(layout = "fixed") |>
+	width(1, 2.9) |>
+	width(2, 1.1) |>
+	align(j = ~ hours, align = "c", part = "a")
 ```
 
 The overall time spent for ActivitySim is significantly more than that for the WFRC model, though most of the time for ActivitySim was spent on initial configuration.

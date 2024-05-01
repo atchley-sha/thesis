@@ -15,7 +15,8 @@ package_list <- c(
 	"ggrepel",
 	"DiagrammeR",
 	"od",
-	"magrittr"
+	"magrittr",
+	"khroma"
 )
 
 tar_option_set(

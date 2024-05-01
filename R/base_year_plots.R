@@ -67,7 +67,8 @@ make_inc_density_comparison_plot <- function(combined_se_data, income_groups) {
 			aes(xintercept = high, lty = "line"),
 			data = income_groups %>% filter(!is.infinite(high))) +
 		scale_x_continuous(labels = label_comma(prefix = "$")) +
-		scale_color_brewer(labels = pretty_model, palette = "Paired") +
+		# scale_color_brewer(labels = pretty_model, palette = "Paired") +
+		scale_color_bright(labels = pretty_model) +
 		scale_linetype_manual(
 			values = c(line = "dotted"),
 			labels = c("Income group\nboundaries"), name = NULL) +
@@ -97,7 +98,7 @@ plot_asim_mode_choice_calibration <- function(calibration_iters) {
 			limits = c(0,1),
 			trans = scales::pseudo_log_trans(0.1),
 			breaks = c(0,0.1,0.2,0.3,0.4,0.5,0.75,1),
-			labels = scales::percent
+			labels = scales::label_percent()
 		)
 }
 

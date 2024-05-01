@@ -34,19 +34,46 @@ targets::tar_read(lu_plot_new_tazs)
 ```{r}
 #| label: tbl-the-point-data
 #| tbl-cap: TAZ-level Socioeconomic Data for The Point
-#| layout-ncol: 2
+#| layout-ncol: 1
 #| tbl-subcap: 
 #|   - Baseline Scenario
 #|   - New Land Use
 
-targets::tar_read(lu_se_by_table) |>
-	flextable() |>
-	colformat_double(digits = 0) |>
-	autofit()
-targets::tar_read(lu_se_lu_table) |> 
-	flextable() |>
-	colformat_double(digits = 0) |>
-	autofit()
+targets::tar_read(lu_se_by_table) %>% 
+	flextable() %>% 
+	set_header_labels(
+		TOTHH = "Households",
+		HHPOP = "Population",
+		RETEMP = "Retail",
+		INDEMP = "Industrial",
+		OTHEMP = "Other",
+		TOTEMP = "Total"
+	) %>% 
+	colformat_double(digits = 0) %>% 
+	colformat_double(j = ~TAZ, digits = 0, big.mark = "") %>% 
+	add_header_row(
+		values = c("TAZ", "Households", "Population", "Employment"),
+		colwidths = c(1,1,1,4)) %>%
+	merge_v(part = "h") %>% 
+	align(align = "c", part = "all")
+
+targets::tar_read(lu_se_lu_table) %>%  
+	flextable() %>% 
+	set_header_labels(
+		TOTHH = "Households",
+		HHPOP = "Population",
+		RETEMP = "Retail",
+		INDEMP = "Industrial",
+		OTHEMP = "Other",
+		TOTEMP = "Total"
+	) %>% 
+	colformat_double(digits = 0) %>% 
+	colformat_double(j = ~TAZ, digits = 0, big.mark = "") %>% 
+	add_header_row(
+		values = c("TAZ", "Households", "Population", "Employment"),
+		colwidths = c(1,1,1,4)) %>%
+	merge_v(part = "h") %>% 
+	align(align = "c", part = "all")
 ```
 
 ## Scenario Creation
@@ -93,15 +120,21 @@ However, there is a crucial difference between the model types, and that is the 
 ```{r}
 #| label: fig-lu-personmiles-cube
 #| fig-cap: personmiles cube
+#| fig-width: 6.5
 
-targets::tar_read(cube_lu_new_pmt_plot)
+targets::tar_read(cube_lu_new_pmt_plot) +
+	scale_fill_bright() +
+	theme(legend.position = "bottom")
 ```
 
 ```{r}
 #| label: fig-lu-personmiles-asim
 #| fig-cap: personmiles asim
+#| fig-width: 6.5
 
-targets::tar_read(asim_lu_new_pmt_plot)
+targets::tar_read(asim_lu_new_pmt_plot) +
+	scale_fill_bright() +
+	theme(legend.position = "bottom")
 ```
 
 In the WFRC model (and in many trip-based models), homes produce trips with different trip purposes, including home-based work, home-based other, and non--home-based trips.
@@ -141,9 +174,10 @@ Although the former depicts the *number* of trips and the latter depicts trip *d
 
 ```{r}
 #| label: fig-lu-desire-cube-hb
-#| fig-width: 8
-#| fig-height: 12
+#| fig-width: 6.5
+#| fig-height: 8
 #| fig-cap: Desire lines of home-based trips produced in the new development in the WFRC model, by mode.
+#| fig-scap: Desire lines of home-based trips made in the WFRC model.
 
 targets::tar_read(cube_lu_new_productions_desire_map)
 ```
@@ -166,9 +200,10 @@ Both effects (the global increase in and the changed distribution of non--home-b
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
-#| fig-width: 8
-#| fig-height: 12
+#| fig-width: 6.5
+#| fig-height: 8
 #| fig-cap: "Desire lines of non--home-based trips made in the WFRC model, by mode. Note that the trip countss are obtained by differencing the non\u2013home-based trip matrix with the base year."
+#| fig-scap: Desire lines of non--home-based trips made in the WFRC model.
 
 targets::tar_read(cube_lu_nhb_diff_desire_map)
 ```
@@ -186,9 +221,10 @@ In a complicated land use forecast, each development's full contribution to netw
 
 ```{r}
 #| label: fig-lu-desire-asim
-#| fig-width: 8
-#| fig-height: 12
+#| fig-width: 6.5
+#| fig-height: 8
 #| fig-cap: "Desire lines of trips made in ActivitySim by mode."
 
-targets::tar_read(asim_lu_new_desire_map)
+targets::tar_read(asim_lu_new_desire_map) +
+	scale_color_bright()
 ```

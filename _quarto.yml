@@ -34,11 +34,11 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    # - qmd/intro.qmd
-    # - qmd/lit-review.qmd
-    # - qmd/methods.qmd
-    # - qmd/1_land_use.qmd
-    # - qmd/2_transit.qmd
+    - qmd/intro.qmd
+    - qmd/lit-review.qmd
+    - qmd/methods.qmd
+    - qmd/1_land_use.qmd
+    - qmd/2_transit.qmd
     - qmd/3_wfh.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
@@ -65,6 +65,7 @@ format:
   #   theme: cosmo
   pdf:
     keep-tex: false
+    fontsize: 11pt
     # template: style/template.tex
     # include-in-header:
     #   - style/latex_preamble.tex
@@ -74,9 +75,12 @@ format:
     # mainfont: Gentium Book Basic
     # sansfont: Alte Haas Grotesk
     # monofont: SauceCodePro NF
-    # fig-width: 8
-    # fig-height: 12
+    fig-width: 5
+    fig-height: 5
     fig-format: png
+    # fig-cap-location: margin
+    # reference-location: margin
+    # cap-location: margin
   # docx:
   #   reference-doc: style/template.docx
 
