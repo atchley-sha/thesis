@@ -2,19 +2,22 @@
 
 {{< include _setup.qmd >}}
 
-The FrontRunner is a commuter rail line between Provo and Ogden, Utah, with several stops in-between.
+The FrontRunner is a commuter rail line that runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in-between.
 Currently, there is only one set of tracks for much of the line, and train crossings are only possible near stations.
 Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
 Additionally, trains occasionally need to wait for each other in order to cross paths.
 
 There is a planned improvement to the FrontRunner that would "double track" the entire route, allowing trains to pass each other at any point.
-This would allow for much smaller headways, which are currently planned at 15 and 30 minutes for peak and off-peak periods respectively (half of the current headways).
-The improvement would also partially electrify the FrontRunner, allowing for faster travel speeds, and extend the track farther south with additional stops.
+The main benefit of this improvement is a substantial decrease in headways, which are currently 30 minutes for peak period service and 60 minutes off-peak.
+The improvement would halve these headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
+A secondary benefit is partial electrification of the FrontRunner, allowing for faster travel speeds.
+The improvement also extends the track farther south with additional stops.
 
 This scenario models these planned improvements to the FrontRunner.
 The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard, Springville, Spanish Fork, and Payson.
 @fig-frontrunner-map shows the FrontRunner network with the modeled changes.
-No other modifications were made to the baseline scenario; for example, a revised bus service network serving the Springville station (part of the actual transportation plan for the area) is not included.
+There are additional transit improvements in the actual WFRC transportation plan, such as a revised bus service network serving the Springville station, but for the sake of simplicity these additional improvements are not included in this model scenario.
+Only the changes to the FrontRunner service are modeled here.
 
 ```{r}
 #| label: fig-frontrunner-map
@@ -29,14 +32,14 @@ targets::tar_read(frontrunner_plot)
 In the WFRC model, this change is relatively easy to implement.
 The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis.
 The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station.
-<!-- In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file. The last thing we did was change the posted speed of each link to the speeds that \acr{WFRC} had predicted for a partially electrified train system. -->
+<!-- In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file. The last thing we did was change the posted speed of each link to the speeds that WFRC had predicted for a partially electrified train system. -->
 
 <!-- The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario. -->
 
 To implement this scenario in ActivitySim, only updated travel skims are needed.
-As in the baseline scenario, the transit skims output from the WFRC model's network assignment in this model scenario are taken directly as inputs to ActivitySim.
+As in the baseline scenario, ActivitySim directly uses the transit skims that are output from the WFRC model's network assignment in this model scenario.
 Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change.
-The highway skims are therefore taken from the baseline scenario in the WFRC model and not updated for this scenario.
+The highway skims used for ActivitySim are therefore taken from the WFRC model baseline scenario and not updated for this scenario.
 No other changes to ActivitySim are necessary to model this scenario.
 <!-- No other changes are needed to ActivitySim for this model scenario. -->
 
@@ -45,7 +48,7 @@ No other changes to ActivitySim are necessary to model this scenario.
 One of the most straightforward analyses to perform for this scenario is a comparison of the mode split.
 @tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
 Unsurprisingly, both models predict a significant increase in commuter rail trips.
-The models differ, however, in where the new commuter rail trips come from.
+The models differ, however, in which modes the new commuter rail trips come from.
 
 ```{r}
 #| label: tbl-tr-mode-split
@@ -86,20 +89,20 @@ targets::tar_read(combined_tr_mode_split_table) %>%
 ```
 
 For home-based other and non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.
-This indicates that the new commuter rail trips are mostly coming from those who would have taken local transit in the baseline scenario.
 Home-based work trips do see a decrease in auto trips with the improved transit, but there are still significantly fewer local transit trips compared to the baseline scenario.
+This indicates that the new commuter rail trips are mostly coming from those who would have taken local transit in the baseline scenario.
 
 ActivitySim, on the other hand, actually shows an *increase* in local transit trips for home-based work and non--home-based trips.
 For home-based other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.[^2_transit-1]
 This shows that most new commuter rail trips in ActivitySim are coming from auto modes, rather than other transit modes.
 
-[^2_transit-1]: Notably, the absolute difference in *number* of home-based other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
+[^2_transit-1]: The absolute difference in *number* of home-based other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
 
 The discrepancy may be partially explained by the difference in the way trips are modeled.
 In the WFRC model, trips are modeled in aggregate, with no interaction between separate trips.
 Regardless of trip purpose, trips are treated essentially the same, though potentially with different coefficients in mode choice equations.
 Even non--home-based trips are treated like any other trip during mode choice.
-Additionally, there is a nesting structure to the mode choice model in the WFRC model.
+Additionally, there is a nesting structure to the mode choice step in the WFRC model.
 The transit "nest" contains all transit modes, and so when the commuter rail service is improved the utility of commuter rail compared to other transit modes increases more than the utility of commuter rail compared to non-transit modes.
 Many of the new commuter rail trips therefore come from those who would have taken transit otherwise.
 
@@ -110,7 +113,7 @@ There is a similar nesting structure in the mode choice model of ActivitySim as 
 
 Figures [-@fig-tr-cube-trip-diff] and [-@fig-tr-asim-trip-diff] show the difference in trips by mode and purpose geographically.
 These figures tell much the same story as @tbl-tr-mode-split, and unsurprisingly many of the new commuter rail trips are produced in zones near the new FrontRunner stations.
-There are a large number of new commuter rail trips that occur along the entire length of the FrontRunner line, however.
+Additionally, there are a large number of new commuter rail trips that occur along the entire length of the FrontRunner line.
 Some of this increase can be attributed to trips with a destination or attraction near a new FrontRunner station, and much of the increase can be attributed to the increased frequency of service.
 
 ```{r}
@@ -135,7 +138,6 @@ One particularly interesting analysis that can be done with an ABM is to see who
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
 @fig-tr-mode-switching shows the distribution of these "switched" trips, grouped by tour purpose.
 These are trips that are "the same" between scenarios and differ only by mode.
-
 For the purposes of this analysis, trips are considered "the same" between scenarios if they share the following: person id, origin and destination zones, time of day[^2_transit-2], and tour and trip purpose.
 Most of these trips also share the same mode, which is to be expected, but many do not.
 @fig-tr-mode-switching is filtered to show only trips that do not share the same mode between scenarios.
