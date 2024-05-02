@@ -22,7 +22,8 @@ Only the changes to the FrontRunner service are modeled here.
 ```{r}
 #| label: fig-frontrunner-map
 #| fig-cap: frontrunner map
-#| fig-width: 5.5
+#| fig-width: 6.5
+#| fig-height: 8
 
 targets::tar_read(frontrunner_plot)
 ```
@@ -78,7 +79,7 @@ targets::tar_read(combined_tr_mode_split_table) %>%
 	align(part = "h", align = "c") |>
 	align(j = ~ cube_diff_pct + asim_diff_pct, align = "r") |>
 	surround(2, 6, border.top = fp_border(width = 0), part = "h") |>
-	width(j = ~cube_by + asim_by, 0.1) |>
+	# width(j = ~cube_by + asim_by, 0.1) |>
 	width(j = ~cube_tr + asim_tr, 0.875) |>
 	width(j = ~cube_diff_pct + asim_diff_pct, 0.1) |>
 	width(j = ~purpose + mode, 1) |>
@@ -177,7 +178,7 @@ This switching can again be largely explained by the randomness in ActivitySim's
 #| fig-width: 6.5
 #| fig-height: 4
  
-targets::tar_read(asim_tr_atwork_mode_switching_plot)
+targets::tar_read(asim_tr_atwork_switching_plot)
 ```
 
 Both model types additionally allow for analyzing the types of people who use transit.
@@ -240,7 +241,7 @@ targets::tar_read(asim_tr_trips_se_summary) |>
 	merge_v(part = "b") |>
 	align(align = "c", part = "h") |>
 	colformat_double(j = ~income, prefix = "$", digits = 0) |>
-	width(width = 0.1) |>
+	# width(width = 0.1) |>
 	width(j = ~distance_to_work, 1) |>
 	width(j = ~purpose + mode, 1.5) |>
 	width(j = ~mode, 1.2) |>

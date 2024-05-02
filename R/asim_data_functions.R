@@ -275,6 +275,7 @@ plot_mcc_adjustments <- function(adjustments) {
 	adjustments %>%
 		select(iter, purpose, mode, asim_share, wfrc_share) %>%
 		pivot_longer(c(asim_share, wfrc_share), names_to = "model", values_to = "share") %>%
+		mutate(model = str_remove(model, "_share")) %>%
 		mutate(mode_cat = pretty_mode(case_match(
 			mode,
 			c("bike", "walk") ~ "nonmotor",

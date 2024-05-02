@@ -39,7 +39,7 @@ Because trips in an ABM are organized into tours, it is easy to "follow" an indi
 
 The Transit scenario (@sec-transit) highlights the individual nature of ABMs.
 Because an ABM produces a list of trips with attached personal IDs, we are able to follow each individual throughout the day, and to some extent even between scenarios.
-This allows us to see, for example, who "switched" modes after an improvement in transit service (see Figures [-@XXX] and [-@XXX]).
+This allows us to see, for example, who "switched" modes after an improvement in transit service (see Figures [-@fig-tr-mode-switching] and [-@fig-tr-atwork-switching]).
 Additionally, this allows us to analyze the demographics of individuals using transit, rather than being limited to aggregate data as in a trip-based model.
 
 In the Remote Work scenario (@sec-wfh), we see two main differences between the models.

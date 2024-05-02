@@ -38,7 +38,7 @@ The model also includes a disaggregation step at the beginning where the TAZ-lev
 ![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
 The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
-The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and XXX, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
+The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and 3, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
 The specific income groups used in the WFRC model are given in @tbl-income-groups.
 
 ```{r}
@@ -69,8 +69,9 @@ tribble(
 ) |>
 	mutate(across(-`Life Cycle`, \(x) if_else(
 		x == "y",
-		"\u2713",
+		# "\u2713",
 		# "\u2717"
+		"Y",
 		"\u2014"
 		))) |>
   flextable() |>
@@ -278,11 +279,11 @@ The available modes between ActivitySim and the WFRC model are not incredibly di
 However, some adjustment was needed, and @tbl-mode-crosswalk shows the adjustments that were made.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
-Based largely on the model results of @christhesis, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for HBW trips, 0.38% for HBO trips, and 0.4% for NHB trips.
+Based largely on the model results of @chris-thesis, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for HBW trips, 0.38% for HBO trips, and 0.4% for NHB trips.
 
 ```{r}
 #| label: tbl-mode-crosswalk
-#| fig-cap: mode crosswalk
+#| tbl-cap: mode crosswalk
 
 targets::tar_read(mode_crosswalk) |>
 	mutate(across(`Calibration Mode`, str_to_title)) |>
@@ -301,7 +302,7 @@ For simplicity, though, we converted the trips from ActivitySim into purposes th
 Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
 All other trips are considered HBO trips.
 
-To perform the calibration, the output mode split of ActivitySim for each purpose was compared to the target mode split (output from the WFRC model).
+To perform the calibration, the output mode split of ActivitySim for each purpose was compared to the target mode split output from the WFRC model.
 An adjustment value was determined by the formula $A_k = \ln(T_k/M_k)$, where $A_k$ is the adjustment value for mode $k$, $T_k$ is the target mode share of mode $k$, and $M_k$ is the ActivitySim-predicted mode share of mode $k$.
 This adjustment value was added to the current alternative-specific constants (ASCs) in the ActivitySim configuration, and this process was repeated iteratively until calibration was satisfactory.
 
@@ -361,7 +362,7 @@ targets::tar_read(mc_comparison) |>
 	fix_border_issues() |>
 	footnote(
 		i = ~mode == "Ridehail", j = ~wfrc_share, ref_symbols = "1",
-		value = as_paragraph("Ridehail mode shares were asserted for mode choice calibration, but are not counted here"))
+		value = as_paragraph("Ridehail mode shares were asserted for mode choice calibration,\nbut are not counted here"))
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
@@ -458,7 +459,7 @@ targets::tar_read(comparison_by_telecommute_coeffs) |>
 	set_formatter(pct = label_percent()) |>
 	merge_v(part = "h") |>
 	set_table_properties(layout = "fixed") |>
-	width(width = 0.1) |>
+	# width(width = 0.1) |>
 	width(j = 2, 1.3) |>
 	width(j = 3:5, 1.2) |>
 	align(j = 2:5, align = "c", part = "a")
