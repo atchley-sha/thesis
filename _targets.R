@@ -306,6 +306,8 @@ base_year_targets <- tar_plan(
 		combined_by_se_data_distsml, income_groups),
 
 	# Mode choice
+	tar_file(mode_crosswalk_file, "data/calibration/mode_crosswalk.csv"),
+	mode_crosswalk = readr::read_csv(mode_crosswalk_file),
 	tar_files(
 		mcc_adjustments_files,
 		list.files(
@@ -349,6 +351,8 @@ base_year_targets <- tar_plan(
 		mcc_trip_coeffs_combined,
 		tidyr::pivot_wider(mcc_trip_coeffs, names_from = iter, values_from = value)
 	),
+
+	mc_comparison = get_mode_split_table(mcc_adjustments, 4),
 
 	# TLFD
 	combined_by_tlfd_plot = plot_combined_tlfd(

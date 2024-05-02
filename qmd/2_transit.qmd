@@ -182,7 +182,7 @@ targets::tar_read(asim_tr_atwork_mode_switching_plot)
 
 Both model types additionally allow for analyzing the types of people who use transit.
 The WFRC model, however, is limited to analyses using aggregate, TAZ-level data.
-@tbl-tr-se-cube shows, for example, the median number of households, people, and jobs weighted by the number of transit trip productions in each TAZ for the WFRC model.
+@tbl-tr-cube-se shows, for example, the median number of households, people, and jobs weighted by the number of transit trip productions in each TAZ for the WFRC model.
 Additionally, @tbl-tr-cube-se shows a median income associated with transit trips, but note that this is not a median income of transit *riders*, but a median of *TAZ median income*, weighted by trip productions.
 It is difficult to know the actual income distribution of transit riders since individuals are not modeled explicitly.
 

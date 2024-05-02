@@ -9,7 +9,9 @@ pretty_mode <- function(mode) {
 		"transit" ~ "Transit",
 		"local" ~ "Local Transit",
 		"crt" ~ "Commuter Rail",
-		"rh" ~ "Ridehail",
+		"bus" ~ "Bus",
+		"rail" ~ "Rail",
+		c("rh", "TNC") ~ "Ridehail",
 		"nonmotor" ~ "Non-motorized",
 		"all" ~ "All",
 		.default = as.character(mode)
@@ -23,6 +25,8 @@ pretty_mode <- function(mode) {
 			"Auto",
 			"Transit",
 			"Local Transit",
+			"Bus",
+			"Rail",
 			"Commuter Rail",
 			"Ridehail",
 			"Non-motorized")

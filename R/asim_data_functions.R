@@ -275,7 +275,7 @@ plot_mcc_adjustments <- function(adjustments) {
 	adjustments %>%
 		select(iter, purpose, mode, asim_share, wfrc_share) %>%
 		pivot_longer(c(asim_share, wfrc_share), names_to = "model", values_to = "share") %>%
-		mutate(mode_cat = case_match(
+		mutate(mode_cat = pretty_mode(case_match(
 			mode,
 			c("bike", "walk") ~ "nonmotor",
 			c("local_bus", "express_bus") ~ "bus",
@@ -283,7 +283,9 @@ plot_mcc_adjustments <- function(adjustments) {
 			# c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
 			c("sr2", "sr3") ~ "carpool",
 			.default = mode
-		)) %>%
+		)),
+		model = pretty_model(model),
+		purpose = pretty_purpose(purpose)) %>%
 		filter(mode_cat != "TNC") %>%
 		group_by(model, purpose, iter, mode_cat) %>%
 		summarise(share = sum(share)) %>%
@@ -291,7 +293,13 @@ plot_mcc_adjustments <- function(adjustments) {
 		facet_wrap(~purpose) +
 		scale_y_continuous(transform = "sqrt") +
 		scale_color_brewer(palette = "Set1") +
-		geom_line(linewidth = 1)
+		geom_line(linewidth = 1) +
+		labs(
+			x = "Calibration Iteration",
+			y = "Mode Share",
+			color = "Mode",
+			lty = "Model"
+		)
 }
 
 get_asim_trips_se <- function(trips, per, hh) {
@@ -326,4 +334,27 @@ summarise_asim_transit_se <- function(se_trips) {
 			mode = pretty_mode(mode)
 		) %>%
 		arrange(purpose, mode)
+}
+
+get_mode_split_table <- function(mcc_adjustments, it){
+	mcc_adjustments %>%
+		filter(it == iter) %>%
+		mutate(mode_cat = pretty_mode(case_match(
+			mode,
+			c("bike", "walk") ~ "nonmotor",
+			c("local_bus", "express_bus") ~ "bus",
+			c("lrt", "crt") ~ "rail",
+			# c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
+			c("sr2", "sr3") ~ "carpool",
+			.default = mode
+		)),
+		purpose = pretty_purpose(purpose)) %>%
+		select(purpose, mode_cat, asim_trips, asim_share, wfrc_trips, wfrc_share) %>%
+		group_by(purpose, mode_cat) %>%
+		summarise(across(everything(), \(x) sum(x, na.rm = FALSE))) %>%
+		# mutate(wfrc_share = wfrc_share/sum(wfrc_share, na.rm = TRUE)) %>%
+		mutate(wfrc_share = if_else(mode_cat == "Ridehail", NA, wfrc_share)) %>%
+		arrange(purpose, mode_cat) %>%
+		mutate(across(contains("share"), label_percent(accuracy = 0.1))) %>%
+		rename(mode = mode_cat)
 }

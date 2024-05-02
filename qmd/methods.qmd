@@ -35,7 +35,7 @@ The WFRC model, like many trip-based models, requires the following inputs:
 Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
 The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
 
-![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#methods-methods-methods-methods-methods-methods-fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
+![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
 The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
 The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and XXX, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
@@ -62,11 +62,17 @@ This is done by estimating the age distribution in each TAZ and categorizing eac
 #| tbl-cap: lif cyc
 
 tribble(
-  ~"Life Cycle", ~"0\u201318", ~"18\u201365", ~"65+",
-  1, "x", "x", "x",
-  2, "x", "x", "x",
-  3, "x", "x", "x"
+  ~"Life Cycle", ~"0\u201318", ~"18\u201364", ~"65+",
+  1, "x", "y", "x",
+  2, "y", "y", "x",
+  3, "y", "x", "y"
 ) |>
+	mutate(across(-`Life Cycle`, \(x) if_else(
+		x == "y",
+		"\u2713",
+		# "\u2717"
+		"\u2014"
+		))) |>
   flextable() |>
   add_header_row(values = c("Life Cycle", "Presense of persons in household aged:"), colwidths = c(1,3)) |>
   merge_v(part = "header") |>
@@ -115,7 +121,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#methods-methods-methods-methods-methods-methods-fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -171,8 +177,7 @@ tibble::tribble(
   "Households by Income Group", "Census Tract", "Census", 500,
   "Workers per Household", "Census Tract", "Census", 1000
 ) |>
-	flextable() |>
-	autofit()
+	flextable()
 ```
 
 Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data.
@@ -279,9 +284,13 @@ Based largely on the model results of @christhesis, and partly on the existing (
 #| label: tbl-mode-crosswalk
 #| fig-cap: mode crosswalk
 
-# targets::tar_read(mode_crosswalk) |>
-#   flextable() |>
-# 	autofit()
+targets::tar_read(mode_crosswalk) |>
+	mutate(across(`Calibration Mode`, str_to_title)) |>
+  flextable() |>
+	set_table_properties(layout = "fixed") |>
+	width(1, 1.4) |>
+	width(2, 1.6) |>
+	width(3, 2)
 ```
 
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
@@ -319,30 +328,40 @@ targets::tar_read(mcc_adjustments_plot)
 In any case, we chose the calibration at iteration 4 for the final ASC values, as subsequent iterations adjusted the ASCs without changing the mode split very much.
 At subsequent iterations ActivitySim was also less sensitive to changes in infrastructure, which would not allow for effective policy analysis.
 @tbl-mode-split compares the mode split of both models after iteration 4 of calibration.
-Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting about twice as many transit trips as the WFRC model).
+Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting significantly more transit trips compared to the WFRC model).
 While the calibration is not perfect, for the purposes of this paper this calibration is reasonable enough.
 
 ```{r}
 #| label: tbl-mode-split
 #| tbl-cap: mode split
 
-targets::tar_read(by_mode_split_comparison) |>
-	flextable() |>
-	autofit()
-	# tt() %>% 
-	# format_tt(escape = TRUE)
-  # kbl(
-  #   booktabs = TRUE,
-  #   col.names = c("Purpose", "Mode", "ActivitySim predicted trips", "WFRC predicted trips", "Error", "% Error"),
-  #   digits = c(0,0,0,0,0,1),
-  #   align = "c"
-  # ) %>%
-  # kable_styling(latex_options = "scale_down") %>% 
-  # column_spec(3, "3cm") %>%
-  # column_spec(4, "3.5cm") %>%
-  # column_spec(6, "3.7cm")
-  # collapse_rows(1)
-  # collapse_rows(1, valign = "middle", latex_hline = "major")
+targets::tar_read(mc_comparison) |>
+	flextable(col_keys = c(
+		"purpose", "mode", "asim_trips", "asim_share",
+		"blank", "wfrc_trips", "wfrc_share"
+	)) |>
+	set_header_labels(
+		purpose = "Purpose",
+		mode = "Mode",
+		asim_trips = "Trips",
+		asim_share = "Share",
+		wfrc_trips = "Trips",
+		wfrc_share = "Share"
+	) |>
+	add_header_row(
+		values = c("Purpose", "Mode", "ActivitySim", "", "WFRC Model"),
+		colwidths = c(1,1,2,1,2)) |>
+	colformat_double(digits = 0) |>
+	align(j = ~asim_share + wfrc_share, align = "r") |>
+	align(j = 3:7, align = "c", part = "h") |>
+	merge_v(1) |>
+	merge_v(part = "h") |>
+	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
+	hline(i = c(6, 12)) |>
+	fix_border_issues() |>
+	footnote(
+		i = ~mode == "Ridehail", j = ~wfrc_share, ref_symbols = "1",
+		value = as_paragraph("Ridehail mode shares were asserted for mode choice calibration, but are not counted here"))
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
@@ -385,7 +404,7 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 
 targets::tar_read(asim_wfh_model_coeffs) |>
 	flextable() |>
-	autofit()
+	colformat_double(digits = 3)
 ```
 
 The two models differ in their approach to telecommuting, however.
@@ -401,8 +420,21 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 #| tbl-cap: asim tc model coeffs
 
 targets::tar_read(asim_telecommute_model_coeffs) |>
+	filter(
+		!Description %in% c(
+			"temp_calibration", "not sure, unused",
+			"Retail", "Food", "Manufacturing", "Government and education",
+			"Office", "Health", "other", "Agriculture", "Mining", "Construction"),
+		!if_all(-Description, \(x) x == 0)) |>
+	mutate(Description = str_to_sentence(Description)) |>
 	flextable() |>
-	autofit()
+	set_header_labels(
+		`1_day_week` = "1 day",
+		`2_3_days_week` = "2\u20133 days",
+		`4_days_week` = "4 days") |>
+	add_header_row(values = c("Description", "Telecommute Frequency Coefficients"), colwidths = c(1, 3)) |>
+	merge_v(part = "h") |>
+	align(j = 2:4, part = "a", align = "c")
 ```
 
 In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
@@ -442,10 +474,7 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 
 targets::tar_read(asim_tc_dap_coeffs) |>
 	flextable() |>
-	autofit()
-	# tt() |>
-	# group_tt(j = list("Utility Coefficient" = 1:2, "test" = 3:4)) |>
-	# print("latex")
+	align(j = 2:4, align = "c")
 ```
 
 ## Example Scenarios

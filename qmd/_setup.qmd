@@ -11,7 +11,7 @@ library(tidyverse)
 library(sf)
 library(ggrepel)
 library(khroma)
-# library(scales)
+library(scales)
 # library(ggspatial)
 
 ggplot2::theme_set(
@@ -65,4 +65,6 @@ set_flextable_defaults(
 ft_widths <- function(widths) {
 	
 }
+
+targets::tar_source()
 ```

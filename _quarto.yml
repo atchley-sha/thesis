@@ -7,7 +7,7 @@ execute:
   warning: false
   cache: refresh
   # cache: true
-  # freeze: auto
+  freeze: auto
 
 book:
   title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
