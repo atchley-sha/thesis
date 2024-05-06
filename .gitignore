@@ -5,7 +5,6 @@
 .RData
 
 /.quarto/
-/_book/
 /_targets/
 /output/
 
@@ -30,3 +29,7 @@
 /index.pdf
 /index.tex
 /index.toc
+
+# ignore outputs for now, will commit at some point
+A_Comparative_Illustration_of_Trip-_and_Activity-Based_Modeling_Techniuqes.tex
+/_book
