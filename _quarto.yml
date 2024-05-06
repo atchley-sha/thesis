@@ -8,28 +8,41 @@ execute:
   cache: refresh
   # cache: true
   freeze: auto
+pdf-engine: xelatex
 
+layout: fancy, twoside, masters
+department: Civil and Construction Engineering
+chair: Gregory S. Macfarlane
+committee:
+  - Grant G. Schultz
+  - Gustavious P. Williams
+
+# Title with custom formatting for fancy title page
+customtitle: |
+  | A Comparative Illustration of
+  | Trip- and Activity-Based
+  | Modeling Techniques
 book:
-  title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
+  output-file: "A_Comparative_Illustration_of_Trip-_and_Activity-Based_Modeling_Techniuqes"
+  title: |
+    | A Comparative Illustration of Trip- and
+    | Activity-Based Modeling Techniques
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
       orcid: 0000-0002-0815-3488
       affiliations:
         - ref: byucce
-    - name: Kamryn Mansfield
-      email: kamrynwm@student.byu.edu
-      orcid:
-      affiliations:
-        - ref: byucce
-    - name: Gregory S. Macfarlane
-      email: gregmacfarlane@byu.edu
-      orcid: 0000-0003-3999-7584
-      affiliations:
-        - ref: byucce
-  abstract: |
-    "this is an abstract"
-
+    # - name: Kamryn Mansfield
+    #   email: kamrynwm@student.byu.edu
+    #   orcid:
+    #   affiliations:
+    #     - ref: byucce
+    # - name: Gregory S. Macfarlane
+    #   email: gregmacfarlane@byu.edu
+    #   orcid: 0000-0003-3999-7584
+    #   affiliations:
+    #     - ref: byucce
   date: "1 January 1900"
   date-format: D MMMM YYYY
   chapters:
@@ -42,6 +55,18 @@ book:
     - qmd/3_wfh.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
+  abstract: >-
+    this is an abstract
+
+keywords:
+  - awesome stuff
+  - engineering
+acknowledgments: >-
+  Students should acknowledge funding sources.
+  They may also use the acknowledgment page to express appreciation
+  for the committee members, friends or family who provided support or
+  aided the research, writing or technical aspects of the thesis/dissertation.
+  Acknowledgments should be simple and in good taste.
 
 affiliations:
   - id: byucce
@@ -51,62 +76,32 @@ affiliations:
     state: UT
     postal-code: 84602
 
-# Layout options are simple/fancy, oneside/twoside, and masters/phd.
-# Leave options blank for defaults.
-# Defaults are simple for document style, and masters for degree type.
-layout: fancy, oneside, masters
-# If your degree is not a PhD or MS, then you can overwrite the degree using
-# the \degree command: \degree{Bachelors of Science}
-# degree: Bachelors of Science with University Honors
-
-department: Civil and Construction Engineering
-# list your chair and any other members of your committee
-chair: Gregory S. Macfarlane
-committee:
-  - Grant G. Schultz
-  - Gustavious P. Williams
-
-# Include any keywords you would like for your thesis/dissertation
-keywords:
-  - awesome stuff
-  - engineering
-acknowledgments: |
-  Students should acknowledge funding sources. They may also use the acknowledgment page to express appreciation for the committee members, friends or family who provided support or aided the research, writing or technical aspects of the thesis/dissertation. Acknowledgments should be simple and in good taste.
-
-bibliography:
-  - bib/references.bib
-  - bib/packages.bib
-lof: true
-lot: true
-fig-align: center
-number-depth: 2
-toc-depth: 2
-
-csl: apa.csl
-
 format:
-  # html:
-  #   theme: cosmo
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow
-    # template: style/template.tex
     # include-in-header:
     #   - style/latex_preamble.tex
     #   - style/tt_preamble.tex
-    # dpi: 900
-    # fig-dpi: 900
-    # mainfont: Gentium Book Basic
-    # sansfont: Alte Haas Grotesk
-    # monofont: SauceCodePro NF
+    dpi: 900
+    fig-dpi: 900
+    mainfont: Gentium Book Basic
+    sansfont: Alte Haas Grotesk
+    monofont: SauceCodePro NF
     fig-width: 5
     fig-height: 5
     fig-format: png
-    # fig-cap-location: margin
-    # reference-location: margin
-    # cap-location: margin
+  # html:
+  #   theme: cosmo
   # docx:
-  #   reference-doc: style/template.docx
+  #   reference-doc: style/udot_template.docx
+fig-align: center
+number-depth: 2
+toc-depth: 2
+bibliography:
+  - bib/references.bib
+  - bib/packages.bib
+csl: style/apa.csl
 
 filters:
   - acronyms
