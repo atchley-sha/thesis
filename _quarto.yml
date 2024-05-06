@@ -51,6 +51,28 @@ affiliations:
     state: UT
     postal-code: 84602
 
+# Layout options are simple/fancy, oneside/twoside, and masters/phd.
+# Leave options blank for defaults.
+# Defaults are simple for document style, and masters for degree type.
+layout: fancy, oneside, masters
+# If your degree is not a PhD or MS, then you can overwrite the degree using
+# the \degree command: \degree{Bachelors of Science}
+# degree: Bachelors of Science with University Honors
+
+department: Civil and Construction Engineering
+# list your chair and any other members of your committee
+chair: Gregory S. Macfarlane
+committee:
+  - Grant G. Schultz
+  - Gustavious P. Williams
+
+# Include any keywords you would like for your thesis/dissertation
+keywords:
+  - awesome stuff
+  - engineering
+acknowledgments: |
+  Students should acknowledge funding sources. They may also use the acknowledgment page to express appreciation for the committee members, friends or family who provided support or aided the research, writing or technical aspects of the thesis/dissertation. Acknowledgments should be simple and in good taste.
+
 bibliography:
   - bib/references.bib
   - bib/packages.bib
@@ -60,12 +82,14 @@ fig-align: center
 number-depth: 2
 toc-depth: 2
 
+csl: apa.csl
+
 format:
   # html:
   #   theme: cosmo
-  pdf:
-    keep-tex: false
-    fontsize: 11pt
+  byu-thesis-pdf:
+    keep-tex: true
+    highlight-style: arrow
     # template: style/template.tex
     # include-in-header:
     #   - style/latex_preamble.tex
