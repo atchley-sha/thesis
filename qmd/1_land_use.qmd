@@ -1,4 +1,4 @@
-# Scenario 1: Change in Land Use {#1_land_use-1_land_use-sec-landuse}
+# Scenario 1: Change in Land Use {#sec-landuse}
 
 {{< include _setup.qmd >}}
 

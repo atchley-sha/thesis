@@ -1,4 +1,4 @@
-# Scenario 3: Increase in Remote Work {#3_wfh-sec-wfh}
+# Scenario 3: Increase in Remote Work {#sec-wfh}
 
 {{< include _setup.qmd >}}
 
@@ -27,7 +27,7 @@ There has been much research, especially in recent years, on the implications of
 While many agencies have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggests that considerations for remote work should be made on a case-by-case basis because there is no single best approach.
 The following section discusses some of these considerations.
 
-## Considerations for Modelling Remote Work {#3_wfh-sec-remote-work-considerations}
+## Considerations for Modelling Remote Work {#sec-remote-work-considerations}
 
 Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].

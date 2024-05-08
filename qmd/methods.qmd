@@ -1,4 +1,4 @@
-# Methodology {#methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-sec-methods}
+# Methodology {#sec-methods}
 
 {{< include _setup.qmd >}}
 
@@ -34,7 +34,7 @@ Like many trip-based models, the WFRC model follows the "four-step" approach and
 The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
 This does not create a fully synthetic or disaggregated population, but is more segmented than the initial TAZ-level data.
 
-![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
+![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
 The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
 The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and 3, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
@@ -124,7 +124,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -153,7 +153,7 @@ $$\
 where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives [@mcfadden1974].
 The utility values are determined by coefficients on variables such as income, age, and work status, in addition to calibration constants for each alternative.
 
-### PopulationSim {#methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-sec-populationsim}
+### PopulationSim {#sec-populationsim}
 
 This research uses PopulationSim [@populationsim_2023] to create a synthetic population for ActivitySim.
 The synthetic population aims to be representative of the study area while maintaining privacy.
@@ -271,7 +271,7 @@ targets::tar_read(comparison_inc_density_plot)
 
 <!-- ***Comparison of number of workers?*** -->
 
-### Validation and Calibration of ActivitySim {#methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-methods-sec-baseline-calibration}
+### Validation and Calibration of ActivitySim {#sec-baseline-calibration}
 
 This section compares the outputs of both models to verify that trip patterns roughly agree between them.
 There are three comparisons of interest that we make between the outputs of the two models: mode split, trip length frequency distribution, and remote work.

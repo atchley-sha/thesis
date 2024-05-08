@@ -1,4 +1,4 @@
-# Scenario 2: Improved Transit Service {#2_transit-2_transit-2_transit-2_transit-sec-transit}
+# Scenario 2: Improved Transit Service {#sec-transit}
 
 {{< include _setup.qmd >}}
 
