@@ -1,4 +1,4 @@
-# Scenario 3: Increase in Remote Work {#sec-wfh}
+# Scenario 3: Increase in Remote Work {#3_wfh-sec-wfh}
 
 {{< include _setup.qmd >}}
 
@@ -27,21 +27,21 @@ There has been much research, especially in recent years, on the implications of
 While many agencies have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggests that considerations for remote work should be made on a case-by-case basis because there is no single best approach.
 The following section discusses some of these considerations.
 
-## Considerations for Modelling Remote Work {#sec-remote-work-considerations}
+## Considerations for Modelling Remote Work {#3_wfh-sec-remote-work-considerations}
 
 Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
 Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
 While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect", where individuals make more discretionary trips on days they do not commute to work.
-@moreno_microscopic_2017 similarly propose the existence of a "travel time budget", where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
+@moreno_microscopic_2017 similarly discuss the idea of a "travel time budget", where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
 
 This rebound effect is not straightforward, however.
 @ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and those who work form home only part of the day might make a difference.
 Compared to those who commute to work, those who worked from home the entire day had fewer trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
 
 Additionally, the types of trips people make can differ depending on remote work status.
-While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
+While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 find a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
 This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
 @moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
 
@@ -58,7 +58,6 @@ The first is to replace the 2019 estimates for work-from-home and telecommuting 
 @tbl-wfrc-remote-work-years shows both the original and updated estimates.
 The second change is to the TAZ-level socioeconomic data.
 The WFRC model estimates a number of home-based jobs in each TAZ, and the original 2019 home-based job estimates are similarly replaced with the 2050 estimates.
-
 The WFRC model additionally includes a global scaling factor for all remote work percentages.
 However, this scaling factor was left unchanged, as we considered that the 2050 predicted remote work percentages would better model a more realistic increase in remote work than simply scaling the 2019 rates globally.
 
@@ -214,8 +213,8 @@ targets::tar_read(cube_wfh_trip_pmt_diff) |>
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
 ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
-This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily, but the discrepancy is consistent across all modes.
-Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged shorter discretionary trips.
+This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily (see @tbl-asim-dap-model-rw-coeffs), but the discrepancy is consistent across all modes.
+Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged for shorter discretionary trips.
 
 ```{r}
 #| label: tbl-asim-wfh-trip-pmt-diff
