@@ -1,4 +1,4 @@
-# Literature Review {#lit-review-lit-review-lit-review-lit-review-lit-review-sec-literature}
+# Literature Review {#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-sec-literature}
 
 Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework [@mcnally_four-step_2007].
 Up to this point, most urban transportation planning used existing demand or uniform-growth travel forecasts to model travel demand, but the Chicago Study used a combination of trip generation, trip distribution, modal split, and network assignment models to more accurately represent travel behavior [@weiner_urban_1997].
@@ -90,10 +90,10 @@ In the aggregate data model, it is impossible to know which trips are made by e.
 With a synthetic population, however, *individuals* are being modeled, and so each trip can be traced to a specific person.
 All information is known at each point in the model regardless of which data is used in previous steps.
 
-::: {#lit-review-lit-review-fig-pipeline-example layout-ncol="1"}
-![Aggregate data](../images/aggregate.png){#lit-review-lit-review-fig-pipeline-example-1}
+::: {#lit-review-lit-review-lit-review-fig-pipeline-example layout-ncol="1"}
+![Aggregate data](../images/aggregate.png){#lit-review-lit-review-lit-review-fig-pipeline-example-1}
 
-![Synthetic population](../images/synthetic.png){#lit-review-lit-review-fig-pipeline-example-2}
+![Synthetic population](../images/synthetic.png){#lit-review-lit-review-lit-review-fig-pipeline-example-2}
 
 Example "information pipeline" for aggregate data vs. a synthetic population.
 :::
@@ -127,7 +127,7 @@ Though each individual's trips are known, there is no guarantee of consistency b
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
 The activity-based approach, depicted in @fig-network-synth-2, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
 
-![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
+![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
 ````{=html}
 <!--
@@ -149,10 +149,10 @@ The activity-based approach, depicted in @fig-network-synth-2, attempts to add t
 -->
 ````
 
-::: {#lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"}
-![Trip-based microsimulation](./../images/trip.png){#lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth-1}
+::: {#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"}
+![Trip-based microsimulation](./../images/trip.png){#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth-1}
 
-![Activity (tour)-based](./../images/tour.png){#lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth-2}
+![Activity (tour)-based](./../images/tour.png){#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-synth-2}
 
 Example trip distribution using a synthetic population allows an individual's travel to be tracked.
 In the tour-based approach, an attempt is made to make the trips consistent with each other, while the trip-based approach may not be consistent.
@@ -179,7 +179,7 @@ Even in an open-source model like ActivitySim [@association_of_metropolitan_plan
 
 -   Computational inefficiency and complicated program design: \acr{ABM}s take more time, more computing power, and more money to run.
     This is because the synthetic population needed to run an \acr{ABM} uses much more data.
-    In areas with thousands of \acr{TAZ}s and millions of people, a super computer is needed, and it will cost much more than what is spent to run trip-based models.
+    In areas with thousands of \acr{TAZ}s and millions of people, a supercomputer is needed, and it will cost much more than what is spent to run trip-based models.
     If a region can see similar results using a trip-based model, they may decide not to invest in an \acr{ABM}.
 
 -   Absence of a standard model system: The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
