@@ -1,4 +1,4 @@
-# Scenario 1: Change in Land Use {#sec-landuse}
+# Scenario 1: Change in Land Use {#1_land_use-1_land_use-sec-landuse}
 
 {{< include _setup.qmd >}}
 
@@ -14,7 +14,7 @@ This development, known as The Point, is the basis for the first model scenario 
 targets::tar_read(draper_prison_site_map)
 ```
 
-This scenario models the change in land use that a development such as The Point would create.
+This scenario models the change in transportation behavior that a development such as The Point would create.
 Though the actual development plans for The Point include an expansion of transit services, only the additional households and jobs created from this development are modeled in this scenario.
 The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021].
 The Point development is expected to be fully completed by 2050, and its projected land use and socioeconomic data is included in the 2050 WFRC forecast, so the 2050 WFRC land use and socioeconomic data projections are used for this site.
@@ -78,41 +78,30 @@ targets::tar_read(lu_se_lu_table) %>%
 
 ## Scenario Creation
 
-In the WFRC model, this scenario is trivial to implement.
-The model uses the land use/socioeconomic data directly, so the only adjustment needed is replacing the data for the specific TAZs with the 2050 data.
+In the WFRC model, this scenario is simple to implement.
+The model uses the land use/socioeconomic data directly, so the only adjustment needed is replacing the data for the specific TAZs with the 2050 forecasted data.
 All other TAZs have the same land use data as in the 2019 baseline scenario.
 
 ActivitySim requires two changes for this scenario.
 The first is an update to the TAZ-level land use and socioeconomic data, which is identical to the process for the WFRC model.
 The second is an updated synthetic population.
-
 In order to keep consistency between model scenarios, a new population was created only for the 5 affected TAZs and joined to the existing synthetic population.
 There were no individuals or households in the affected zones in the existing synthetic population, so no individuals or households needed to be removed before joining the two populations.
 
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
-Additionally, many of the controls for PopulationSim use tract-level data from the Census.
-Existing Census data for The Point site is unrepresentative of the new development, however, as currently the site lacks residential and economic activity.
-Because of this, the Census tract covering the Gateway area in Salt Lake City (see @fig-gateway-tract) is used to represent the new development patterns at The Point.
-The income distribution, etc. of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
+Because of this, the Census tract covering the Gateway area in downtown Salt Lake City is used to represent the new development patterns at The Point.
+The income distribution, etc. of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
 
-```{r}
-#| label: fig-gateway-tract
-#| fig-cap: Census tract for the Gateway area in Salt Lake City (shown in blue). Tract-level controls for the synthetic population in the new development come from this tract rather than the tract at the development site.
-#| fig-scap: Census tract for the Gateway area in Salt Lake City.
-
-targets::tar_read(gateway_and_prison_map)
-```
-
-In a more realistic case, a transportation agency would have forecasted land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
+In a more realistic case, a transportation agency would forecast land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
 However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
-<!-- @tbl-new-land-use-comparison shows that the new synthetic population has ***only minor discrepancies  -->\
 Additionally, our ActivitySim implementation is designed to be independent from the WFRC model where feasible.
 
 ## Scenario Analysis
 
 There are several kinds of analyses an agency likely would want to do in assessing the effects of a change in land use.
 Chief among them would be an analysis of the new trips resulting from the development.
-These analyses could include analysis in the number of trips, the distance traveled, and where the trips are being made.
+These analyses could include the number of trips, the distance traveled, and where the trips are being made.
 
 Both model types allow for very easy analysis of trip numbers and lengths, as the WFRC model outputs origin-destination trip tables directly by mode and purpose, and ActivitySim outputs a list of trips containing information on origin, destination, and mode.
 Figures [-@fig-lu-personmiles-cube] and [-@fig-lu-personmiles-asim], for example, show the new trip-miles produced in the updated zones for the WFRC model and ActivitySim, respectively.
@@ -146,12 +135,10 @@ Non--home-based trips can be a significant portion of total travel, as @fig-lu-p
 Because non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
 It is difficult therefore to know how best to redistribute non--home-based trips, as they could in reality have any number of origins and/or destinations.
 Though modeling the destination choice for non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
-
 There are several methods to redistribute non--home-based trips in trip-based models.
-One approach is to assign non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, either with a gravity model or some other distance-decay function.
+One approach is to assign non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, either with a gravity model or some distance-decay function.
 The destinations of these non--home-based trips can then be assigned as if they were any other trip.
 This results in non--home-based trips that are more likely to have both an origin and destination relatively near to the home.
-
 The WFRC model takes a different approach.
 Here there are two sources of information for non--home-based trip ends: a production model and an attraction model.
 In the trip generation step, households produce non--home-based trips similarly to any other trip purpose.
@@ -190,20 +177,18 @@ Instead, we took the difference between the entire non--home-based trip matrices
 
 @fig-lu-desire-cube-nhb shows the desire line plot for the difference in non--home-based trips between this scenario and the baseline scenario.
 Two things are immediately noticeable from this plot.
-
-The first is that many pairs of zones saw a decrease in non--home-based trips between them compared to the baseline scenario (i.e. there were more non--home-based trips in the baseline scenario between these zones).
+The first observation is that many pairs of zones saw a decrease in non--home-based trips between them compared to the baseline scenario (i.e. there were more non--home-based trips in the baseline scenario between these zones).
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
 However, this is in fact not an *overall* decrease in non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
-
-The second is that the largest increases in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
-Because the change in employment was much more significant than the change in population (see @tbl-the-point-data), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the population.
-Both effects (the global increase in and the changed distribution of non--home-based trips) are present in the model, but the effects are impossible to separate.
+The second observation is that the largest increases in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
+Because the change in employment was much more significant than the change in population (see @tbl-the-point-data), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the increase in population.
+Both effects (the global increase in and the changed distribution of non--home-based trips) are present in the model, but the two effects are impossible to separate.
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
 #| fig-width: 6.5
 #| fig-height: 8
-#| fig-cap: "Desire lines of non--home-based trips made in the WFRC model, by mode. Note that the trip countss are obtained by differencing the non\u2013home-based trip matrix with the base year."
+#| fig-cap: "Desire lines of non--home-based trips made in the WFRC model, by mode. Note that the trip counts are obtained by differencing the non\u2013home-based trip matrix with the base year."
 #| fig-scap: Desire lines of non--home-based trips made in the WFRC model.
 
 targets::tar_read(cube_lu_nhb_diff_desire_map)
