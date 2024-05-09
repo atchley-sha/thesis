@@ -75,8 +75,7 @@ Running in single-threaded mode (i.e. only one CPU core was utilized), each run 
 With multi-threading enabled, however, the runtimes decreased to around an hour per scenario, using 72% of the available CPU time across all 12 cores and 88% of the available RAM.
 This is a huge difference in runtime between the two models, though crucially ActivitySim had 3 times as much RAM available for use.
 
-ActivitySim offers "chunking" options [@asim-chunking], where large tables are loaded into RAM in chunks rather than all at once.
-This can dramatically reduce the amount of RAM required to run an ActivitySim scenario, at the expense of increased runtimes.
+ActivitySim can significantly reduce the RAM required, at the expense of increased runtimes, through "chunking" options [@asim-chunking], where large tables are loaded into RAM in chunks rather than all at once.
 For comparison, we ran the baseline scenario in ActivitySim on the same computer used for the WFRC model scenarios, with chunking enabled to account for the amount of RAM available.
 With multi-threading set to use 16 threads, and the chunk size set to 112 GB, the baseline ActivitySim scenario ran in about 13 hours.
 

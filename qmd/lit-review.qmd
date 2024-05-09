@@ -54,9 +54,15 @@ The following sections explain these aspects of travel demand modeling and discu
 
 The aggregate population data used in trip-based models can vary in origin and level of detail, but the basic concept is the same: the study area is organized into generally small zones, and certain demographic and socioeconomic data is known or obtained for each zone [@national_academies_travel_2012, p. 14].
 This includes data such as number of households, average household income, population, number of workers, etc.
-Based on this information, the zone can be segmented along arbitrary variables.
-For example, since households with more workers and more vehicles tend to make more work trips, it is useful to estimate the distribution of households in each zone along these two variables.
-Then, average trip production rates are determined for each household category (e.g. for households with each number of workers by vehicles), and the total number of trips produced in a zone is calculated based on these rates [@national_academies_travel_2012, p. 37].
+Rather than predict travel behavior using only this zone-level aggregate data, many models include a "disaggregation" step, which classifies the households in a zone along variables such as household size, vehicle ownership, and number of workers.
+For example, a 1000-household zone with an average household size of 3 may be classified into 500 2-person and 500 4-person households.[^lit-review-1]
+This disaggregation is useful as travel behavior (such as the number of trips made) can vary significantly based on a household's classification.
+
+[^lit-review-1]: The specific method for classifying households may differ between models, so different models will have a different distribution of households along each variable used for classification.
+
+Subsequent model steps then use this disaggregated data in their estimations.
+A 2-worker, 1-vehicle household, for example, may be modeled to make 3.8 work trips on an average weekday, while a 1-worker, 1-vehicle household may make fewer.
+The trips are then added to obtain the total number of trips produced by each zone [@national_academies_travel_2012, p. 37].
 
 This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@national_academies_travel_2012].
 However, the types of analyses possible are limited by the initial segmentation of the aggregate population data.
