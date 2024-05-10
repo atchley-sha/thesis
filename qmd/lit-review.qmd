@@ -202,8 +202,9 @@ For these reasons, as well as the inertia of current practices, many agencies an
 Although there has been much research on \acr{ABM}s and their theoretical advantages, practical comparisons of the model frameworks have been limited.
 It is often taken as given that \acr{ABM}s are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results in terms of analytical flexibility or policy outcomes.
 @ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the \acr{ABM} was slightly more accurate to observed data at the region level, but about the same at the project level.
-This is not an overwhelming victory for \acr{ABM}s, and so based on this an agency may reasonably decide that the increase in data, computation, training, and potentially financial requirements outweighs the potential gains of switching to an \acr{ABM}.
+@zhongComparativeAnalysisTraditional2015 found significant differences in the predictions from an ABM compared to a trip-based model in Tampa, Florida, but @mouwComparisonAggregatedMacroscopic2022 found that both model types had similar prediction quality when compared with observed data.
 
+These comparisons have somewhat contradictory findings, and certainly do not present an overwhelming victory for ABMs.
 Each of these comparisons, however, is focused on the *accuracy* of the two frameworks, but do not address the methodological differences between model types.
 What types of data collection/synthesis are needed for each model type?
 Are there analyses that can only be done through (or that are made easier by) one of the model types?
@@ -211,9 +212,9 @@ What would an agency need in order to transition from a trip-based model to an \
 Are certain types of scenarios suited to one model type?
 Though some of these questions have been discussed [see e.g. @lemp_aggregate_2007], a holistic methodological comparison is lacking.
 The answers in the current literature are mainly theoretical, with little use to an agency considering the transition.
-Additionally, the existing literature comparing the two model types is outdated, and the technology of both model types may have significantly changed in recent years.
+Additionally, much of the existing literature comparing the two model types is outdated, and the technology of both model types may have significantly changed in recent years.
 
 This research aims to answer these questions by providing a side-by-side comparison of a potential trip-based and activity-based modeling methodology.
 Several "proposed development" scenarios are run in each model, and the strengths and weaknesses of each approach are compared.
-It is important to note that this paper is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts.
+It is important to note that this research is not focused on model accuracy, as in any model type this can be adjusted dramatically through calibration efforts.
 Rather, the focus is on the methodological differences between the approaches, and the types of analyses that can be done with each model type.
