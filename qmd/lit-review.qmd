@@ -196,7 +196,7 @@ It is often taken as given that \acr{ABM}s are unilaterally superior to traditio
 @ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the \acr{ABM} performed slightly better at the region level, but about the same at the project level.
 This is not an overwhelming victory for \acr{ABM}s, and so based on this an agency may reasonably decide that the increase in data, computational, training, and potentially financial requirements outweigh the potential gains of switching to an \acr{ABM}.
 
-@ferdous_comparison_2012, however, mainly compared the *accuracy* of the two frameworks, but did not address the methodological differences between them.
+Each of these comparisons, however, is focused on the *accuracy* of the two frameworks, but do not address the methodological differences between model types.
 What types of data collection/synthesis are needed for each model type?
 Are there analyses that can only be done through (or that are made easier by) one of the model types?
 What would an agency need in order to transition from a trip-based model to an \acr{ABM}?
