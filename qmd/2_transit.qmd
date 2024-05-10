@@ -2,22 +2,22 @@
 
 {{< include _setup.qmd >}}
 
-The FrontRunner is a commuter rail line that runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in-between.
-Currently, there is only one set of tracks for much of the line, and train crossings are only possible near stations.
+The FrontRunner is a commuter rail line that runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in between.
+Currently, there is only one set of tracks for much of the line, and it is only possible for trains to pass each other near stations.
 Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
-Additionally, trains occasionally need to wait for each other in order to cross paths.
+<!-- Additionally, trains occasionally need to wait for each other in order to pass each other. -->
 
-There is a planned improvement to the FrontRunner that would "double track" the entire route, allowing trains to pass each other at any point.
-The main benefit of this improvement is a substantial decrease in headways, which are currently 30 minutes for peak period service and 60 minutes off-peak.
-The improvement would halve these headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
-A secondary benefit is partial electrification of the FrontRunner, allowing for faster travel speeds.
-The improvement also extends the track farther south with additional stops.
+A potential improvement to the FrontRunner would "double track" the entire route, allowing trains to pass each other at any point.
+The main benefit of this improvement is a substantial decrease in headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
+Two additional improvements are partial electrification of the FrontRunner, allowing for faster travel speeds, and extending the track farther south with additional stops.
 
-This scenario models these planned improvements to the FrontRunner.
-The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard, Springville, Spanish Fork, and Payson.
-@fig-frontrunner-map shows the FrontRunner network with the modeled changes.
-There are additional transit improvements in the actual WFRC transportation plan, such as a revised bus service network serving the Springville station, but for the sake of simplicity these additional improvements are not included in this model scenario.
+This scenario models these improvements to the FrontRunner.
+The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard[^2_transit-1], Springville, Spanish Fork, and Payson.
+@fig-frontrunner-map shows the FrontRunner network along with the modeled changes.
+In reality there would be additional transit improvements, such as a revised bus service network serving the Springville station, but for the sake of simplicity these additional improvements are not included in this model scenario.
 Only the changes to the FrontRunner service are modeled here.
+
+[^2_transit-1]: In 2019, the model year for the baseline scenario, the Vineyard station was not yet open, though the station has been operational since late 2022.
 
 ```{r}
 #| label: fig-frontrunner-map
@@ -30,24 +30,20 @@ targets::tar_read(frontrunner_plot)
 
 ## Scenario Creation
 
-In the WFRC model, this change is relatively easy to implement.
+In the WFRC model, this scenario is relatively easy to implement.
 The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis.
-The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station.
-<!-- In the same file, we added the extra nodes corresponding to the nodes on the extended rail line in the network file. The last thing we did was change the posted speed of each link to the speeds that WFRC had predicted for a partially electrified train system. -->
-
-<!-- The WFRC/MAG model contains data on transit headways (including FrontRunner). The BYU team will change this data from 30-minute to 15-minute peak headways and 60-minute to 30-minute off-peak headways. To increase the speed, the team will modify the model to use the predicted speeds after electrification instead of the base year speeds. The 2050 transit networks from the WFRC/MAG model appear to have these changes made, and so the team will use these speed values for the FrontRunner. These networks will be paired with the 2019 socioeconomic scenario for comparison with the base scenario. -->
+The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station, which allows transfers between auto and transit modes at these nodes.
 
 To implement this scenario in ActivitySim, only updated travel skims are needed.
 As in the baseline scenario, ActivitySim directly uses the transit skims that are output from the WFRC model's network assignment in this model scenario.
 Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change.
 The highway skims used for ActivitySim are therefore taken from the WFRC model baseline scenario and not updated for this scenario.
 No other changes to ActivitySim are necessary to model this scenario.
-<!-- No other changes are needed to ActivitySim for this model scenario. -->
 
 ## Scenario Analysis
 
-One of the most straightforward analyses to perform for this scenario is a comparison of the mode split.
-@tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
+One of the most straightforward analyses to perform is a comparison of the mode split between this and the baseline scenario.
+@tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario (*n.b.* "local transit" includes both light rail and bus travel).
 Unsurprisingly, both models predict a significant increase in commuter rail trips.
 The models differ, however, in which modes the new commuter rail trips come from.
 
@@ -94,10 +90,10 @@ Home-based work trips do see a decrease in auto trips with the improved transit,
 This indicates that the new commuter rail trips are mostly coming from those who would have taken local transit in the baseline scenario.
 
 ActivitySim, on the other hand, actually shows an *increase* in local transit trips for home-based work and non--home-based trips.
-For home-based other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.[^2_transit-1]
+For home-based other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.[^2_transit-2]
 This shows that most new commuter rail trips in ActivitySim are coming from auto modes, rather than other transit modes.
 
-[^2_transit-1]: The absolute difference in *number* of home-based other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
+[^2_transit-2]: The absolute difference in *number* of home-based other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
 
 The discrepancy may be partially explained by the difference in the way trips are modeled.
 In the WFRC model, trips are modeled in aggregate, with no interaction between separate trips.
@@ -137,13 +133,13 @@ targets::tar_read(asim_tr_diff_by_district_plot)
 
 One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
-@fig-tr-mode-switching shows the distribution of these "switched" trips, grouped by tour purpose.
+@fig-tr-mode-switching shows the distribution of these "switched" trips.
 These are trips that are "the same" between scenarios and differ only by mode.
-For the purposes of this analysis, trips are considered "the same" between scenarios if they share the following: person id, origin and destination zones, time of day[^2_transit-2], and tour and trip purpose.
+For the purposes of this analysis, trips are considered "the same" between scenarios if they are made by the same person and have the same origin and destination zones, time of day[^2_transit-3], and tour and trip purpose.
 Most of these trips also share the same mode, which is to be expected, but many do not.
 @fig-tr-mode-switching is filtered to show only trips that do not share the same mode between scenarios.
 
-[^2_transit-2]: ActivitySim models time of day as the "departure hour" for each trip.
+[^2_transit-3]: ActivitySim models time of day as the "departure hour" for each trip.
     If two trips share the same departure hour, they are considered here to have happened at the same time.
 
 There is some amount of randomness in the way ActivitySim determines trip modes, though.
@@ -153,7 +149,8 @@ Overall, though, the randomness is not a significant percentage of the overall m
 
 ```{r}
 #| label: fig-tr-mode-switching
-#| fig-cap: Trip mdoes of individuals who switched modes with improved transit service.
+#| fig-cap: Trip modes of individuals who switched modes with improved commuter rail service, by tour purpose.
+#| fig-scap: Trip modes of individuals who switched modes with improved commuter rail service.
 #| fig-width: 6.5
 #| fig-height: 8
 
@@ -162,7 +159,7 @@ targets::tar_read(asim_tr_mode_switching_plot)
 
 Mode choice is not the only step of ActivitySim affected by the improved transit service, however.
 In fact, there are many trips that do not have a match between scenarios, where origin, destination, time of day and/or purpose differ.
-The number of trips an individual makes may also differ between scenarios, as each person's DAP is partially dependent on accessibility measures.
+The number of trips an individual makes may also differ between scenarios, as each person's DAP is partially dependent on accessibility measures (see @fig-asim-flowchart).
 Notably, @fig-tr-mode-switching also does not include any of these trips; the figure only shows trips which do have a match between scenarios.
 
 ABMs also allow for even more granular analysis than shown in @fig-tr-mode-switching.
