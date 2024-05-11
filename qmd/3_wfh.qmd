@@ -2,7 +2,9 @@
 
 {{< include _setup.qmd >}}
 
-With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
+Our final model scenario addresses changes in travel behavior as a result of social and/or economic factors.
+Specifically, we represent an increase in remote work rates since the COVID-19 pandemic.
+With the onset of the COVID-19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
 Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].
 
 As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).

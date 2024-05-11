@@ -2,16 +2,17 @@
 
 {{< include _setup.qmd >}}
 
-The FrontRunner is a commuter rail line that runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in between.
+Our second scenario models changes in travel behavior as a result of changes to transportation infrastructure.
+This model scenario, termed the "Transit" scenario, is based on a planned improvement to the FrontRunner commuter rail (CRT) line.
+The FrontRunner runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in between.
 Currently, there is only one set of tracks for much of the line, and it is only possible for trains to pass each other near stations.
 Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
-<!-- Additionally, trains occasionally need to wait for each other in order to pass each other. -->
 
 A potential improvement to the FrontRunner would "double track" the entire route, allowing trains to pass each other at any point.
 The main benefit of this improvement is a substantial decrease in headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
 Two additional improvements are partial electrification of the FrontRunner, allowing for faster travel speeds, and extending the track farther south with additional stops.
 
-This scenario models these improvements to the FrontRunner.
+The Transit scenario models these improvements to the FrontRunner.
 The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard[^2_transit-1], Springville, Spanish Fork, and Payson.
 @fig-frontrunner-map shows the FrontRunner network along with the modeled changes.
 In reality there would be additional transit improvements, such as a revised bus service network serving the Springville station, but for the sake of simplicity these additional improvements are not included in this model scenario.

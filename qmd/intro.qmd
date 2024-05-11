@@ -13,7 +13,7 @@ We additionally discuss the potential practical advantages regarding the quality
 Though this research occasionally makes quantitative comparisons between model types, we do not focus heavily on model *accuracy* (either to each other or to observed data), as this can be adjusted in any model type through model calibration.
 Instead, this research seeks to illustrate the differences between trip- and activity-based models in a way that would be practically useful to an agency considering transitioning to an ABM, noting potential pain points both in the literature and in our experience in this research itself.
 
-To compare the model types, we first identify three main goals of travel demand modeling, which are to model changes in land use, transportaiton infrastructure, and travel behavior.
+To compare the model types, we first identify three main goals of travel demand modeling, which are to model travel behavior in response to changes in land use, transportaiton infrastructure, and social/economic factors.
 We then create three hypothetical model scenarios, one for each goal identified.
 These scenarios are the addition of a new development, an increase in commuter rail service, and an increase in remote work, respectively.
 Each of these scenarios is created in both a trip-based and activity-based model representing the Wasatch Front (Salt Lake City) region of Utah, USA.
@@ -22,4 +22,4 @@ We discuss the process of implementing each scenario, as well as perform a varie
 The document proceeds in a typical fashion: @sec-literature provides an overview of the literature discussing the differences between trip-based models and ABMs, including the theoretical and analytical benefits of each framework.
 @sec-methods first describes the models used in this research, namely the existing regional trip-based model and an activity-based model constructed to support research activities in the region; this section also describes the scenarios designed to test the usefulness and applicability of the different model frameworks.
 Chapters [-@sec-landuse]--[-@sec-wfh] describe the findings from each scenario, alongside a discussion of related limitations and implications.
-@sec-conclusions provides a summary of our findings and a discussion of our conclusions, along with recommendations
+@sec-conclusions provides a summary of our findings and a discussion of our conclusions, along with a set of recommendations.

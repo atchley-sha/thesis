@@ -473,7 +473,7 @@ targets::tar_read(comparison_by_telecommute_coeffs) |>
 	align(j = 2:5, align = "c", part = "a")
 ```
 
-Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim implicitly models a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
+Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim can model a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
 However, because the WFRC model does not include this effect, the ActivitySim DAP model is left unchanged.
 @tbl-asim-dap-model-rw-coeffs shows the coefficients of the DAP model for individuals who work remotely.
 
@@ -489,15 +489,16 @@ targets::tar_read(asim_tc_dap_coeffs) |>
 ## Example Scenarios
 
 With these two calibrated models, we created three model scenarios to implement and run in each model for comparison.
-This is not a comprehensive list covering all potential scenario possibilities, but is taken to represent many of the types of scenarios an agency would analyze.
+This is not a comprehensive list covering all potential scenario possibilities, but the scenarios identified here are intended to represent the main goals of travel demand modeling in modeling changes in travel behavior.
+Change in travel behavior could arise in response to changes in land use, transportaiton infrastructure, and social/economic factors, and so we create three hypothetical model scenarios that each implement one of these aspects.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
 Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
 This research scenario will be based on this development, but will include only the land use changes.
 The actual development plans also include expansion of transit, but this will not be a part of this scenario.
 
-The second scenario centers around an augmentation of transit service along the Wasatch Front.
-The FrontRunner, a CRT line connecting Provo to Ogden, is slated for expansion.
+The second scenario centers around a change in transportation infrastructure, namely an augmentation of commuter rail service along the Wasatch Front.
+The FrontRunner, a commuter rail line connecting Provo to Ogden, is slated for expansion.
 The expansion includes additional stations and increased travel speeds due to vehicle electrification.
 This scenario models these changes in accordance with the planned expansion of the service.
 
