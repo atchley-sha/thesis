@@ -20,7 +20,7 @@ targets::tar_read(cube_remote_work_totals_plot) +
 ```
 
 This scenario is a "what-if" analysis that models a significant increase in remote work rates.
-We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
+We use the remote work rates from 2050 as predicted by the WFRC model, but make no other changes from the baseline scenario.
 In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
 
 <!-- While it is relatively straightforward to measure and predict remote work *rates*, -->

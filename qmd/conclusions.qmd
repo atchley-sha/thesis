@@ -88,7 +88,7 @@ But at least in our case, ActivitySim outperformed the WFRC model with the same 
 
 In order to change from a trip-based to an ABM, an agency will need to spend time to understand the model and train its staff.
 We analyzed the time spent on each part of the modeling process for this project, and this section provides discussion on this.
-Obviously the actual time an agency would require to transition to an ABM depends greatly on many specific factors, but this section is intended to give a very rough approximation of the time and effort needed.
+Obviously the actual time an agency would require to transition to an ABM depends greatly on many factors such as specific staff experience, but this section is intended to give a very rough approximation of the time and effort needed.
 
 @tbl-time-spent shows the amount of time spent on creating and analyzing each scenario in both models.
 These are approximations, as detailed time logs are not available, but should serve to give a general idea of the time spent.

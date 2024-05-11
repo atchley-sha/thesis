@@ -12,6 +12,7 @@ pdf-engine: xelatex
 
 layout: fancy, twoside, masters
 department: Civil and Construction Engineering
+student: Hayden Atchley
 chair: Gregory S. Macfarlane
 committee:
   - Grant G. Schultz
@@ -33,16 +34,16 @@ book:
       orcid: 0000-0002-0815-3488
       affiliations:
         - ref: byucce
-    # - name: Kamryn Mansfield
-    #   email: kamrynwm@student.byu.edu
-    #   orcid:
-    #   affiliations:
-    #     - ref: byucce
-    # - name: Gregory S. Macfarlane
-    #   email: gregmacfarlane@byu.edu
-    #   orcid: 0000-0003-3999-7584
-    #   affiliations:
-    #     - ref: byucce
+    - name: Kamryn Mansfield
+      email: kamrynwm@student.byu.edu
+      orcid:
+      affiliations:
+        - ref: byucce
+    - name: Gregory S. Macfarlane
+      email: gregmacfarlane@byu.edu
+      orcid: 0000-0003-3999-7584
+      affiliations:
+        - ref: byucce
   date: "1 January 1900"
   date-format: D MMMM YYYY
   chapters:

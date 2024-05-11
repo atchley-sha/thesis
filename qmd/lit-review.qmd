@@ -56,7 +56,7 @@ The aggregate population data used in trip-based models can vary in origin and l
 This includes data such as number of households, average household income, population, number of workers, etc.
 Rather than predict travel behavior using only this zone-level aggregate data, many models include a "disaggregation" step, which classifies the households in a zone along variables such as household size, vehicle ownership, and number of workers.
 For example, a 1000-household zone with an average household size of 3 may be classified into 500 2-person and 500 4-person households.[^lit-review-1]
-This disaggregation is useful as travel behavior (such as the number of trips made) can vary significantly based on a household's classification.
+This disaggregation is useful, as travel behavior (such as the number of trips made) can vary significantly based on a household's classification.
 
 [^lit-review-1]: The specific method for classifying households may differ between models, so different models will have a different distribution of households along each variable used for classification.
 
