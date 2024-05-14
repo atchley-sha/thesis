@@ -91,6 +91,8 @@ format:
     monofont: SauceCodePro NF
     fig-width: 5
     fig-height: 5
+    out-width: 100%
+    out-height: 100%
     fig-format: png
   # html:
   #   theme: cosmo

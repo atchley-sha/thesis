@@ -2,7 +2,7 @@
 
 {{< include _setup.qmd >}}
 
-Our final model scenario addresses changes in travel behavior as a result of social and/or economic factors.
+Our final model scenario, termed the "Remote Work" scenario, addresses changes in travel behavior as a result of social and/or economic factors.
 Specifically, we represent an increase in remote work rates since the COVID-19 pandemic.
 With the onset of the COVID-19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
 Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].

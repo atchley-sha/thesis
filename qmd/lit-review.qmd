@@ -177,7 +177,7 @@ As an example, if an individual doesn't live within a 20-minute drive of a groce
 However, if a grocery store lies on their path between work and home, then in reality the accessibility should be rated much higher.
 Overall, they found that the "activity-based accessibility measure" predicts more reasonable accessibility outcomes compared to traditional measures.
 
-## Lack of ABM Adoption
+## Lack of ABM Adoption {#sec-literature-lack-of-adpotion}
 
 Though \acr{ABM}s have many clear theoretical advantages over trip-based models, adoption among agencies has been relatively slow.
 Many \acr{ABM}s are implemented in proprietary software, which creates difficulty in maintaining and iterating on the model, @miller_current_2023 argues.
@@ -197,7 +197,7 @@ Even in an open-source model like ActivitySim [@association_of_metropolitan_plan
 
 For these reasons, as well as the inertia of current practices, many agencies and organizations in the US remain using trip-based models for demand forecasting and policy analysis.
 
-## Research Gap
+## Research Gap {#sec-literature-research-gap}
 
 Although there has been much research on \acr{ABM}s and their theoretical advantages, practical comparisons of the model frameworks have been limited.
 It is often taken as given that \acr{ABM}s are unilaterally superior to traditional trip-based models due to their better theoretical foundation, but it is not clear if that better foundation always yields better results in terms of analytical flexibility or policy outcomes.
