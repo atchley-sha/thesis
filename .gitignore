@@ -30,6 +30,10 @@
 /index.tex
 /index.toc
 
+# byu-thesis template writes/moves these files to root, don't need to check in
+/byuthesis.cls
+/index.nlo
+
 # ignore outputs for now, will commit at some point
 A_Comparative_Illustration_of_Trip-_and_Activity-Based_Modeling_Techniuqes.tex
 /_book
