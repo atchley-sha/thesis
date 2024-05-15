@@ -5,8 +5,8 @@ project:
 execute:
   echo: false
   warning: false
-  cache: refresh
-  # cache: true
+  # cache: refresh
+  cache: true
   # freeze: auto
 pdf-engine: xelatex
 
@@ -48,14 +48,15 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - qmd/intro.qmd
-    - qmd/lit-review.qmd
-    - qmd/methods.qmd
-    - qmd/1_land_use.qmd
+    # - qmd/intro.qmd
+    # - qmd/lit-review.qmd
+    # - qmd/methods.qmd
+    # - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
-    - qmd/3_wfh.qmd
-    - qmd/conclusions.qmd
-    - qmd/references.qmd
+    # - qmd/2_transit_test.qmd
+    # - qmd/3_wfh.qmd
+    # - qmd/conclusions.qmd
+    # - qmd/references.qmd
   abstract: >-
     this is an abstract
 

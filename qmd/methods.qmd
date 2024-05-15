@@ -105,7 +105,7 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 
 ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
-This paper uses an ActivitySim implementation based on the one used in @macfarlaneHowFarAre2023, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
+This paper uses an ActivitySim implementation based on the one used in @macfarlaneEstimationSimulationDaily2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
 The exact implementation is available on GitHub.[^methods-1]
 
 [^methods-1]: [<https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration>]{.content-visible when-format="html"} [[https://github.com\slash byu-transpolab\slash wfrc_asim_scenario\slash tree\slash update-abm-illustration](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration)]{.content-visible when-format="pdf"}
@@ -395,7 +395,7 @@ This includes a lookup table of telecommute percentages based on job type and ye
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
-The ActivitySim implementation discussed in @gregory_s_macfarlane_estimation_2021 does not include any submodels related to remote work.
+The ActivitySim implementation discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
 However, a separate ActivitySim implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) MPO in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG implementation.
 Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the SEMCOG submodels were consistent with the existing implementation.
 

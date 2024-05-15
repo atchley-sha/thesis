@@ -78,13 +78,13 @@ plot_trips_diff_by_district <- function(
 	ggplot() +
 		facet_grid(rows = vars(purpose), cols = vars(mode)) +
 		annotation_map_tile("cartolight", zoom = 10) +
-		geom_sf(aes(fill = diff), data = trips) +
+		geom_sf(aes(fill = diff), color = "#00000000", data = trips) +
 		scale_fill_gradient2() +
 		# scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
 		labs(fill = "Change in trips by\nproduction district") +
 		.add_frontrunner_to_plot(fr_line, fr_stops, alpha = 0.4) +
-		theme_map(zoom = FALSE) +
-		theme(legend.position = "bottom")
+		theme_map(zoom = FALSE)
+		# theme(legend.position = "bottom")
 }
 
 plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
