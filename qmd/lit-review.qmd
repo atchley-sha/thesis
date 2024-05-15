@@ -166,7 +166,7 @@ In the tour-based approach, an attempt is made to make the trips consistent with
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that \acr{ABM}s can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.
-Because the people within the household will have travel patterns that depend on the patterns of others in the household, a policy affecting one person in the household can affect everyone in the household no matter how directly the policy connects to them [@vovsha_activity-based_2005; @lant2003].
+Because the people within the household will have travel patterns that depend on the patterns of others in the household, a policy affecting one person in the household can affect everyone in the household no matter how directly the policy connects to them [@vovsha_activity-based_2005; @macfarlaneHowFarAre2023].
 These effects aren't possible to forecast in a trip-based model.
 
 Another advantage of organizing travel into tours comes regarding accessibility analyses.

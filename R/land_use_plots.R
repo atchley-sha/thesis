@@ -120,19 +120,24 @@ plot_asim_lu_pmt <- function(raw_trips, persons, distances, lu_tazs) {
 		)
 }
 
-plot_lu_new_tazs <- function(taz_geom, taz_list, se_diff) {
+plot_lu_new_tazs <- function(taz_geom, taz_list) {
 	taz_geom %>%
 		filter(TAZ %in% taz_list) %>%
 		# left_join(se_diff, join_by(TAZ)) %>%
 		# filter(name %in% c("TOTHH", "HHPOP", "TOTEMP")) %>%
 		ggplot() +
 		annotation_map_tile("cartolight", zoomin = 0) +
+		annotation_north_arrow(
+			style = north_arrow_fancy_orienteering, location = "tl") +
+		annotation_scale(
+			unit_category = "imperial", location = "tl", pad_y = unit(2, "cm")) +
 		geom_sf(fill = NA, linewidth = 2, color = "black") +
 		geom_sf_label(aes(label = TAZ)) +
 		# coord_sf(
 		# 	xlim = c(-111.93, -111.88), ylim = c(40.47, 40.53),
 		# 	crs = 4326) +
-		theme_map(zoom = FALSE)
+		# theme_map(zoom = FALSE)
+		theme_map(lims = list(x = c(-111.93, -111.88), y = c(40.47, 40.53)))
 }
 
 make_draper_prison_site_map <- function(taz, lu_tazs) {

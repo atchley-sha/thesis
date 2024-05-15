@@ -374,7 +374,7 @@ land_use_targets <- tar_plan(
 	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
 	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
 	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
-	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs, cube_lu_se_diff),
+	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs),
 	lu_se_by_table = make_lu_se_table(cube_by_taz_se, lu_tazs),
 	lu_se_lu_table = make_lu_se_table(cube_lu_taz_se, lu_tazs),
 	lu_combined_se_table = combine_se_tables(list(by = lu_se_by_table, lu = lu_se_lu_table)),

@@ -68,7 +68,9 @@ plot_trips_diff_by_district <- function(
 		left_join(dist_transl, join_by(origin == TAZ)) %>%
 		group_by(purpose, mode, DIST) %>%
 		summarise(diff = sum(diff)) %>%
-		mutate(mode = pretty_mode(mode)) %>%
+		mutate(
+			mode = pretty_mode(mode),
+			purpose = pretty_purpose(purpose)) %>%
 		filter(!round(diff) == 0) %>%
 		left_join(dist_geom, join_by(DIST)) %>%
 		st_as_sf()
@@ -80,8 +82,9 @@ plot_trips_diff_by_district <- function(
 		scale_fill_gradient2() +
 		# scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
 		labs(fill = "Change in trips by\nproduction district") +
-		.add_frontrunner_to_plot(fr_line, fr_stops) +
-		theme_map(zoom = FALSE)
+		.add_frontrunner_to_plot(fr_line, fr_stops, alpha = 0.4) +
+		theme_map(zoom = FALSE) +
+		theme(legend.position = "bottom")
 }
 
 plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {

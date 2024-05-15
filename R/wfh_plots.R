@@ -75,8 +75,8 @@ plot_tlfd_diff <- function(tlfd_diff) {
 				mode == "Transit" ~ scale_x_continuous(limits = c(0,50))
 			)
 		) +
+		# scale_y_continuous(labels = label_number(style_negative = "hyphen")) +
 		coord_cartesian(ylim = c(-4e-4, 4e-4)) +
-		# scale_y_continuous(limits = c(-4e-4, 4e-4)) +
 		labs(
 			x = "Distance (mi)",
 			y = "Difference in kernel density (Remote Work \u2212 Baseline)",
@@ -89,12 +89,12 @@ plot_cube_remote_work_totals <- function(cube_remote_work_totals) {
 		mutate(type = case_match(
 			type,
 			"tc" ~ "Telecommute",
-			"wfh" ~ "Work-From-Home"
+			"wfh" ~ "Work From Home"
 		)) %>%
 		ggplot(aes(x = year, y = pct, color = type)) +
 		geom_line(linewidth = 1) +
 		geom_vline(xintercept = c(2019, 2050), lty = "dotted") +
 		scale_y_continuous(transform = "sqrt", labels = label_percent()) +
 		scale_x_continuous(breaks = seq(1990,2060,10)) +
-		labs(x = "Year", y = "Remote Work Rate", color = element_blank())
+		labs(x = "Year", y = "Remote Work Rate Among Workers", color = element_blank())
 }

@@ -22,10 +22,10 @@ All runs of the WFRC model were done on a Windows 10 computer with 2 Intel Xeon 
 The CPUs have a base frequency of 2.2 GHz with a maximum turbo frequency of 3.0 GHz, and 10 cores/20 threads each.
 The WFRC model is configured for multiprocessing in its destination and mode choice steps, and was configured to use 16 threads for our scenario runs.
 This machine also has 128 GB of RAM installed.
-There were not significant differences in runtimes between each model scenario, and each scenario had a runtime of 14--15 hours, not including the network assignment step.[^conclusions-2]
+There were not significant differences in runtimes between each model scenario, and each scenario had a runtime of 14--15 hours, not including the network assignment step.[^conclusions-1]
 Notably, this is a specialized computer, but would not be prohibitively expensive to most agencies.
 
-[^conclusions-2]: As discussed in @sec-methods, ActivitySim does not perform network assignment, while the WFRC model does.
+[^conclusions-1]: As discussed in @sec-methods, ActivitySim does not perform network assignment, while the WFRC model does.
     The runtimes presented here for the WFRC model therefore do not include the network assignment step in order to remain consistent between models.
 
 Most runs of ActivitySim were done on nodes of the BYU supercomputer.
@@ -72,9 +72,11 @@ Additionally, each step of an ABM is straightforward to interpret.
 Each step assigns each household or individual a specific value, such as the number of vehicles owned or the individual's DAP.
 These assigned values can then be used in subsequent model steps.
 In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
-It is easy to then model a remote work "rebound effect"^[See @sec-remote-work-considerations] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
+It is easy to then model a remote work "rebound effect"[^conclusions-2] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
 Since trip-based models exclusively deal with aggreagte data, the interpretation of each model step is more vague.
-It is still possible to model a "rebound effect", for example (though the WFRC model does not), but 
+It is still possible to model a "rebound effect", for example (though the WFRC model does not), but
+
+[^conclusions-2]: See @sec-remote-work-considerations
 
 ## Model Interoperability
 
@@ -84,9 +86,9 @@ We found, however, that at least with ActivitySim this is not the case.
 In fact, ActivitySim is relatively easy to customize and extend.
 Our ActivitySim implementation originally did not include remote work submodels, but it was simple to copy the remote work models from the SEMCOG example configuration into our implementation.
 Some minor changes were made to ensure consistent variable names, but this process was not very involved.
-Additionally, the SEMCOG remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-1]
+Additionally, the SEMCOG remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-3]
 
-[^conclusions-1]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
+[^conclusions-3]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
 
 The WFRC model does already include different remote work rates by job industry, but it would be difficult to add in different rates based on e.g. vehicle ownership or TAZ average income.
 It is worth noting though that this difficulty may be a result of the specific way that the WFRC model is written, and may not apply equally to all trip-based models.
@@ -160,7 +162,7 @@ Though in our experience the effort required to configure ActivitySim was not un
 An agency would need to spend time and effort to re-train its staff and modify its existing workflow pipeline.
 Additionally, an agency switching to an ABM would lose conformity with previous analyses.
 Comparing model results from before and after the transition could therefore be difficult, though this would depend on the specific comparisons desired.
-In this research, we were for example able to make several direct comparisons between ActivitySim and the WFRC model (see Chapters [-@sec-landues]--[-@sec-wfh]).
+In this research, we were for example able to make several direct comparisons between ActivitySim and the WFRC model (see Chapters [-@sec-landuse]--[-@sec-wfh]).
 
 One crucial consideration to make is that ActivitySim does not perform network assignment.
 Many agencies that currently use ActivitySim in fact use CUBE or other similar software to perform assignment, though there are also several open-source network assignment programs such as MATSim [@cite] and AequilibraE [@cite] that are also in use.
@@ -177,3 +179,4 @@ This further shows that ABMs are not necessarily more difficult to work with tha
 The goal of this research is not to determine unilaterally which model type an agency should use, nor is the goal even to specify exact criteria under which an ABM should be used over a trip-based model.
 Rather, the research presents our experience with both model types as an illustration for agencies to reference in determining which model type to use.
 We therefore encourage each agency to review our findings in the context of their individual circumstances, and then determine which model type will best fulfill their specific modeling needs.
+

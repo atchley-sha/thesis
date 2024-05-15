@@ -7,7 +7,7 @@ execute:
   warning: false
   cache: refresh
   # cache: true
-  freeze: auto
+  # freeze: auto
 pdf-engine: xelatex
 
 layout: fancy, twoside, masters

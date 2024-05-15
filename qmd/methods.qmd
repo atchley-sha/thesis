@@ -105,10 +105,10 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 
 ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
-This paper uses an ActivitySim implementation based on @gregory_s_macfarlane_estimation_2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
-The exact implementation is available on GitHub.[^methods-1].
+This paper uses an ActivitySim implementation based on the one used in @macfarlaneHowFarAre2023, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
+The exact implementation is available on GitHub.[^methods-1]
 
-[^methods-1]: https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration
+[^methods-1]: [<https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration>]{.content-visible when-format="html"} [[https://github.com\slash byu-transpolab\slash wfrc_asim_scenario\slash tree\slash update-abm-illustration](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration)]{.content-visible when-format="pdf"}
 
 ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
 However, ActivitySim does require network skims for information on travel time, cost, etc.
@@ -124,7 +124,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones. @associationofmetropolitanplanningorganizationsExamplesActivitySim2022.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -150,7 +150,7 @@ Most of ActivitySim's individual models are based on a multinomial logit model o
 $$
 P(k) = \frac{e^{V_k}}{\displaystyle \sum_{k \in K} e^{V_k}},
 $$\
-where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives [@mcfadden1974].
+where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives [as discussed in @mcfaddenMeasurementUrbanTravel1974].
 The utility values are determined by coefficients on variables such as income, age, and work status, in addition to calibration constants for each alternative.
 
 ### PopulationSim {#sec-populationsim}
@@ -287,7 +287,7 @@ The available modes between ActivitySim and the WFRC model are not incredibly di
 However, some adjustment was needed, and @tbl-mode-crosswalk shows the adjustments that were made.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
-Based largely on the model results of @chris-thesis, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
+Based largely on the model results of @dayForecastingRideHailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
 
 ```{r}
 #| label: tbl-mode-crosswalk
@@ -305,7 +305,7 @@ targets::tar_read(mode_crosswalk) |>
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
 Because activity-based models create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
-Specifically, an ABM doesn't have a concept of e.g.\ "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+Specifically, an ABM doesn't have a concept of e.g. "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
 For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
 Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
 All other trips are considered HBO trips.
@@ -375,7 +375,7 @@ targets::tar_read(mc_comparison) |>
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
-Both ActivitySim and the WFRC model contain destination choice models which can be adjusted to affect the distribution of trip length.
+Both ActivitySim and the WFRC model contain trip distribution steps which can be adjusted to affect the distribution of trip length.
 However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
 The most significant discrepancies are with transit trips, again likely due to this configuration of ActivitySim being developed for San Francisco, making transit more attractive.
 Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.

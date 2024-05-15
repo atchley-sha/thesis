@@ -117,6 +117,7 @@ Some of this increase can be attributed to trips with a destination or attractio
 ```{r}
 #| label: fig-tr-cube-trip-diff
 #| fig-cap: cube
+#| fig-env: sidewaysfigure
 #| fig-width: 6.5
 #| fig-height: 8
 
@@ -126,8 +127,9 @@ targets::tar_read(cube_tr_diff_by_district_plot)
 ```{r}
 #| label: fig-tr-asim-trip-diff
 #| fig-cap: asim
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-env: sidewaysfigure
+#| fig-width: 8
+#| fig-height: 6.5
 
 targets::tar_read(asim_tr_diff_by_district_plot)
 ```
