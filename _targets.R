@@ -21,14 +21,45 @@ package_list <- c(
 
 tar_option_set(
 	packages = package_list,
-	# memory = "transient",
-	# garbage_collection = TRUE,
-	format = "qs",
+	memory = "transient",
+	garbage_collection = TRUE,
+	# format = "qs",
 )
 
 tar_source("R")
 tar_seed_set(34985723)
-ggplot2::theme_set(ggplot2::theme_bw())
+
+ggplot2::theme_set(
+	ggplot2::theme_bw() +
+		ggplot2::theme(
+			text = ggplot2::element_text(
+				family = "Alte Haas Grotesk",
+				size = 11),
+			axis.title = ggplot2::element_text(size = ggplot2::rel(1)),
+			axis.text = ggplot2::element_text(size = ggplot2::rel(0.8)),
+			strip.text = ggplot2::element_text(size = ggplot2::rel(0.9))
+		)
+)
+
+ggplot2::update_geom_defaults(
+	"text",
+	list(
+		colour = ggplot2::theme_get()$text$colour,
+		family = ggplot2::theme_get()$text$family,
+		size = ggplot2::theme_get()$text$size/ggplot2::.pt * 0.8
+	)
+)
+library(ggrepel)
+ggplot2::update_geom_defaults(
+	"text_repel",
+	list(
+		colour = ggplot2::theme_get()$text$colour,
+		family = ggplot2::theme_get()$text$family,
+		size = ggplot2::theme_get()$text$size/ggplot2::.pt * 0.8
+	)
+)
+detach("package:ggrepel", unload = TRUE)
+
 
 #### List targets ######################################################
 # FrontRunner ####

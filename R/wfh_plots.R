@@ -56,7 +56,8 @@ plot_wfh_tlfd_diff <- function(combined_trip_diff, distances) {
 
 plot_tlfd_diff <- function(tlfd_diff) {
 	tlfd_diff %>%
-		filter(purpose != "nhb") %>%
+		# filter(purpose != "nhb") %>%
+		filter(purpose == "hbw") %>%
 		mutate(
 			model = pretty_model(model),
 			purpose = pretty_purpose(purpose),
@@ -64,7 +65,8 @@ plot_tlfd_diff <- function(tlfd_diff) {
 		) %>%
 
 		ggplot(aes(x = x, y = diff, color = model)) +
-		facet_grid(rows = vars(purpose), cols = vars(mode), scales = "free") +
+		# facet_grid(rows = vars(purpose), cols = vars(mode), scales = "free") +
+		facet_wrap(~mode, scales = "free") +
 		geom_hline(yintercept = 0) +
 		# geom_line() +
 		geom_smooth(se = FALSE, method = "loess", span = 0.5) +
@@ -76,7 +78,7 @@ plot_tlfd_diff <- function(tlfd_diff) {
 			)
 		) +
 		# scale_y_continuous(labels = label_number(style_negative = "hyphen")) +
-		coord_cartesian(ylim = c(-4e-4, 4e-4)) +
+		# coord_cartesian(ylim = c(-4e-4, 4e-4)) +
 		labs(
 			x = "Distance (mi)",
 			y = "Difference in kernel density (Remote Work \u2212 Baseline)",

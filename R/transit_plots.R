@@ -82,8 +82,8 @@ plot_trips_diff_by_district <- function(
 		scale_fill_gradient2() +
 		# scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
 		labs(fill = "Change in trips by\nproduction district") +
-		.add_frontrunner_to_plot(fr_line, fr_stops, alpha = 0.4) +
-		theme_map(zoom = FALSE)
+		.add_frontrunner_to_plot(fr_line, fr_stops, alpha = 0.6) +
+		theme_map(lims = list(x = c(-112.4,-111.3), y = c(39.9,41.3)))
 		# theme(legend.position = "bottom")
 }
 
