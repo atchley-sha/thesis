@@ -13,7 +13,7 @@ We additionally discuss the potential practical advantages regarding the quality
 Though this research occasionally makes quantitative comparisons between model types, we do not focus heavily on model *accuracy* (either to each other or to observed data), as this can be adjusted in any model type through model calibration.
 Instead, this research seeks to illustrate the differences between trip- and activity-based models in a way that would be practically useful to an agency considering transitioning to an ABM, noting potential pain points both in the literature and in our experience in this research itself.
 
-To compare the model types, we first identify three main goals of travel demand modeling, which are to model travel behavior in response to changes in land use, transportaiton infrastructure, and social/economic factors.
+To compare the model types, we first identify three main goals of travel demand modeling, which are to model travel behavior in response to changes in land use, transportation infrastructure, and social/economic factors.
 We then create three hypothetical model scenarios, one for each goal identified.
 These scenarios are the addition of a new development, an increase in commuter rail service, and an increase in remote work, respectively.
 Each of these scenarios is created in both a trip-based and activity-based model representing the Wasatch Front (Salt Lake City) region of Utah, USA. We discuss the process of implementing each scenario, as well as perform a variety of post-hoc analyses, for both model types.

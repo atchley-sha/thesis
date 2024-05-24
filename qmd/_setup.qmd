@@ -74,7 +74,6 @@ options(
 	kable_styling_latex_options = c("scale_down")
 )
 
-skbl <- function(x, ...) kbl(x, booktabs = TRUE, ...)
-style_kbl <- function(x, ...) kable_styling(x, linesep = "", ...)
+skbl <- function(x, align = "c", ...) kbl(x, booktabs = TRUE, linesep = "", align = align, ...)
 
 ```

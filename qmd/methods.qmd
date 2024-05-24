@@ -25,7 +25,7 @@ The WFRC model, like many trip-based models, requires the following inputs:
 
 -   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).
 -   Travel skims detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the destination and mode choice model steps.
--   Transportation networks, including highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
+-   Transportation networks, including highway, transit, etc.\@ networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   Lookup tables, used in many model steps for information such as trip rates by household type. These are taken directly from the WFRC model without modification.
 -   Model constants and coefficients, which some model steps such as mode choice require for calibration. These are also taken directly from the WFRC model.
 
@@ -47,9 +47,8 @@ The specific income groups used in the WFRC model are given in @tbl-income-group
 targets::tar_read(income_groups) |>
   select(group, inc_range) |>
   rename("Income Group" = group, "Income Range" = inc_range) |>
-	flextable() |>
-	autofit() |>
-	align(align = "c", part = "a")
+	skbl() |>
+	kable_styling()
 ```
 
 There is an additional distribution estimated, which is termed "life cycle" in the WFRC model.
@@ -68,16 +67,14 @@ tribble(
 ) |>
 	mutate(across(-`Life Cycle`, \(x) if_else(
 		x == "y",
-		# "\u2713",
+		"\u2713",
+		# "Y",
 		# "\u2717"
-		"Y",
 		"\u2014"
 		))) |>
-  flextable() |>
-  add_header_row(values = c("Life Cycle", "Presence of persons in household aged:"), colwidths = c(1,3)) |>
-  merge_v(part = "header") |>
-	align(align = "c", part = "a") |>
-	autofit()
+	skbl() |>
+	kable_styling() |>
+	add_header_above(c(" " = 1, "Presence of persons in household aged:" = 3))
 ```
 
 The disaggregated household data is then used in the trip generation step to estimate the number of trips produced from each TAZ.
@@ -183,7 +180,9 @@ tibble::tribble(
   "Households by Income Group", "Census Tract", "Census", 500,
   "Workers per Household", "Census Tract", "Census", 1000
 ) |>
-	flextable()
+	mutate(Weight = label_comma()(Weight)) |>
+	skbl(align = c("l", "l", "l", "r")) |>
+	kable_styling()
 ```
 
 Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data.
@@ -295,17 +294,14 @@ Based largely on the model results of @dayForecastingRideHailingMultiple2022, an
 
 targets::tar_read(mode_crosswalk) |>
 	mutate(across(`Calibration Mode`, str_to_title)) |>
-  flextable() |>
-	set_table_properties(layout = "fixed") |>
-	width(1, 1.4) |>
-	width(2, 1.6) |>
-	width(3, 2)
+	skbl(align = "l") |>
+	kable_styling()
 ```
 
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
 Because activity-based models create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
-Specifically, an ABM doesn't have a concept of e.g. "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+Specifically, an ABM doesn't have a concept of e.g.\@ "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
 For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
 Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
 All other trips are considered HBO trips.
@@ -346,32 +342,14 @@ While the calibration is not perfect, for the purposes of this research this cal
 #| tbl-cap: mode split
 
 targets::tar_read(mc_comparison) |>
-	flextable(col_keys = c(
-		"purpose", "mode", "asim_trips", "asim_share",
-		"blank", "wfrc_trips", "wfrc_share"
-	)) |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		asim_trips = "Trips",
-		asim_share = "Share",
-		wfrc_trips = "Trips",
-		wfrc_share = "Share"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "ActivitySim", "", "WFRC Model"),
-		colwidths = c(1,1,2,1,2)) |>
-	colformat_double(digits = 0) |>
-	align(j = ~asim_share + wfrc_share, align = "r") |>
-	align(j = 3:7, align = "c", part = "h") |>
-	merge_v(1) |>
-	merge_v(part = "h") |>
-	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
-	hline(i = c(6, 12)) |>
-	fix_border_issues() |>
-	footnote(
-		i = ~mode == "Ridehail", j = ~wfrc_share, ref_symbols = "1",
-		value = as_paragraph("Ridehail mode shares were asserted for mode choice calibration,\nbut are not counted here"))
+	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) |>
+	ungroup() |>
+	`colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) |>
+	skbl() |>
+	kable_styling() |>
+	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) |>
+	collapse_rows(1, latex_hline = "major") |>
+	footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here")
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
@@ -412,8 +390,8 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 #| tbl-cap: asim wfh model coeffs
 
 targets::tar_read(asim_wfh_model_coeffs) |>
-	flextable() |>
-	colformat_double(digits = 3)
+	skbl(align = c("l", "c"), digits = 3) |>
+	kable_styling()
 ```
 
 The two models differ in their approach to telecommuting, however.
@@ -436,14 +414,14 @@ targets::tar_read(asim_telecommute_model_coeffs) |>
 			"Office", "Health", "other", "Agriculture", "Mining", "Construction"),
 		!if_all(-Description, \(x) x == 0)) |>
 	mutate(Description = str_to_sentence(Description)) |>
-	flextable() |>
-	set_header_labels(
-		`1_day_week` = "1 day",
-		`2_3_days_week` = "2\u20133 days",
-		`4_days_week` = "4 days") |>
-	add_header_row(values = c("Description", "Telecommute Frequency Coefficients"), colwidths = c(1, 3)) |>
-	merge_v(part = "h") |>
-	align(j = 2:4, part = "a", align = "c")
+	rename(
+		"1 day" = `1_day_week`,
+		"2\u20133 days" = `2_3_days_week`,
+		"4 days" = `4_days_week`
+	) |>
+	skbl(align = c("l", "c", "c", "c")) |>
+	kable_styling() |>
+	add_header_above(c(" ", "Telecommute Frequency Coefficients" = 3))
 ```
 
 In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
@@ -455,22 +433,11 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| tbl-cap: wfrc telecommute data
 
 targets::tar_read(comparison_by_telecommute_coeffs) |>
-	flextable() |>
-	set_header_labels(
-		name = "Industry",
-		pct = "2019 WFRC Telecommute %"
-	) |>
-	add_header_row(
-		values = c("Industry", "2019 WFRC Telecommute %", "ActivitySim Telecommute Frequency Coefficients"),
-		colwidths = c(1, 1, 3)
-	) |>
-	set_formatter(pct = label_percent()) |>
-	merge_v(part = "h") |>
-	set_table_properties(layout = "fixed") |>
-	# width(width = 0.1) |>
-	width(j = 2, 1.3) |>
-	width(j = 3:5, 1.2) |>
-	align(j = 2:5, align = "c", part = "a")
+	mutate(pct = label_percent()(pct)) |> 
+	rename(Industry = "name", `2019 WFRC Telecommute %` = "pct") |>
+	skbl(align = c("l", "c", "c", "c", "c")) |>
+	kable_styling() |>
+	add_header_above(c(" " = 2, "ActivitySim Telecommute Frequency Coefficients" = 3))
 ```
 
 Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim can model a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
@@ -482,15 +449,15 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 #| tbl-cap: asim dap model remote work coeffs
 
 targets::tar_read(asim_tc_dap_coeffs) |>
-	flextable() |>
-	align(j = 2:4, align = "c")
+	skbl(align = c("l", "c", "c", "c")) |>
+	kable_styling()
 ```
 
 ## Example Scenarios
 
 With these two calibrated models, we created three model scenarios to implement and run in each model for comparison.
 This is not a comprehensive list covering all potential scenario possibilities, but the scenarios identified here are intended to represent the main goals of travel demand modeling in modeling changes in travel behavior.
-Change in travel behavior could arise in response to changes in land use, transportaiton infrastructure, and social/economic factors, and so we create three hypothetical model scenarios that each implement one of these aspects.
+Change in travel behavior could arise in response to changes in land use, transportation infrastructure, and social/economic factors, and so we create three hypothetical model scenarios that each implement one of these aspects.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
 Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.

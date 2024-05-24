@@ -122,24 +122,20 @@ This attempts to create consistency in trip origins/destinations, mode choice, a
 The open-source \acr{ABM} ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
-Figures [-@fig-network-aggregate] and [-@fig-network-synth] show an example of the trips distributed across several TAZs in the various model forms.
+Figures [-@fig-network-aggregate] and [-@fig-network-synth] show an example of the trips distributed across several TAZs in the various model types.
 @fig-network-aggregate depicts the distribution in a typical trip-based model where the total number of trips between each zone is modeled.
 With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see @fig-pipeline-example-1).
 It is also not possible to construct a coherent daily list of trips for individuals.
-
 @fig-network-synth, on the other hand, depicts visual representations of an *individual's* travel made possible by the use of a synthetic population.
 @fig-network-synth-1 depicts the trip distribution that could be given for an individual in a trip-based microsimulation model.
 Though each individual's trips are known, there is no guarantee of consistency between trips.
 For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two recreational trips without ever making a return trip.
 The activity-based approach, depicted in @fig-network-synth-2, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
 
-![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#lit-review-lit-review-lit-review-lit-review-lit-review-lit-review-fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
-
-````{=html}
-<!--
+![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
 ```{r}
-#| label: fig-network-syntha
+#| label: fig-network-synth
 #| fig-cap: "Example network assignment using a synthetic population allows an individual's travel to be tracked. In the tour-based approach, an attempt is made to make the trips consistent with each other."
 #| fig-scap: "Example network assignment using a synthetic population"
 #| layout-ncol: 2
@@ -152,17 +148,17 @@ The activity-based approach, depicted in @fig-network-synth-2, attempts to add t
 # knitr::include_graphics("./images/tour.png")
 ```
 
--->
-````
+<!-- ::: {#fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"} -->
 
-::: {#fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"}
-![Trip-based microsimulation](./../images/trip.png){#fig-network-synth-1}
+<!-- ![Trip-based microsimulation](./../images/trip.png){#fig-network-synth-1} -->
 
-![Activity (tour)-based](./../images/tour.png){#fig-network-synth-2}
+<!-- ![Activity (tour)-based](./../images/tour.png){#fig-network-synth-2} -->
 
-Example trip distribution using a synthetic population allows an individual's travel to be tracked.
-In the tour-based approach, an attempt is made to make the trips consistent with each other, while the trip-based approach may not be consistent.
-:::
+<!-- Example trip distribution using a synthetic population allows an individual's travel to be tracked. -->
+
+<!-- In the tour-based approach, an attempt is made to make the trips consistent with each other, while the trip-based approach may not be consistent. -->
+
+<!-- ::: -->
 
 In addition to intra-person dependencies, @rasouli_activity-based_2014 note that \acr{ABM}s can model dependencies between members of a household as well.
 A vehicle can't be used by multiple people in the same household at the same time to travel to different destinations.
