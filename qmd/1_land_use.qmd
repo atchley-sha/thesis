@@ -29,7 +29,6 @@ targets::tar_read(lu_plot_new_tazs)
 ```{r}
 #| label: tbl-the-point-data
 #| tbl-cap: TAZ-level Socioeconomic Data for The Point
-#| layout-ncol: 1
 #| tbl-subcap: 
 #|   - Baseline Scenario
 #|   - New Land Use
@@ -183,4 +182,3 @@ In a complicated land use forecast, each development's full contribution to netw
 targets::tar_read(asim_lu_new_desire_map) +
 	scale_color_bright()
 ```
-

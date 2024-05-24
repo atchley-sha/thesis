@@ -5,9 +5,9 @@ project:
 execute:
   echo: false
   warning: false
-  cache: refresh
-  # cache: true
-  freeze: auto
+  # cache: refresh
+  cache: true
+  # freeze: auto
 pdf-engine: xelatex
 
 layout: fancy, twoside, masters
@@ -48,14 +48,14 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - qmd/intro.qmd
-    - qmd/lit-review.qmd
-    - qmd/methods.qmd
-    - qmd/1_land_use.qmd
+    # - qmd/intro.qmd
+    # - qmd/lit-review.qmd
+    # - qmd/methods.qmd
+    # - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
-    - qmd/3_wfh.qmd
-    - qmd/conclusions.qmd
-    - qmd/references.qmd
+    # - qmd/3_wfh.qmd
+    # - qmd/conclusions.qmd
+    # - qmd/references.qmd
   abstract: >-
     this is an abstract
 
@@ -104,7 +104,7 @@ toc-depth: 2
 bibliography:
   - bib/references.bib
   - bib/packages.bib
-csl: style/apa.csl
+csl: style/asce.csl
 
 filters:
   - acronyms

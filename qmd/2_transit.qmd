@@ -25,6 +25,7 @@ Only the changes to the FrontRunner service are modeled here.
 #| fig-cap: frontrunner map
 #| fig-width: 6.5
 #| fig-height: 8
+#| out-width: "100%"
 
 targets::tar_read(frontrunner_plot)
 ```
