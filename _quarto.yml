@@ -53,7 +53,6 @@ book:
     - qmd/methods.qmd
     - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
-    # - qmd/2_transit_test.qmd
     - qmd/3_wfh.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
