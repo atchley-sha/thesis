@@ -44,10 +44,10 @@ The specific income groups used in the WFRC model are given in @tbl-income-group
 #| label: tbl-income-groups
 #| tbl-cap: income groups
 
-targets::tar_read(income_groups) |>
-  select(group, inc_range) |>
-  rename("Income Group" = group, "Income Range" = inc_range) |>
-	skbl() |>
+targets::tar_read(income_groups) %>%
+  select(group, inc_range) %>%
+  rename("Income Group" = group, "Income Range" = inc_range) %>%
+	skbl() %>%
 	kable_styling()
 ```
 
@@ -64,16 +64,16 @@ tribble(
   1, "x", "y", "x",
   2, "y", "y", "x",
   3, "y", "x", "y"
-) |>
+) %>%
 	mutate(across(-`Life Cycle`, \(x) if_else(
 		x == "y",
 		"\u2713",
 		# "Y",
 		# "\u2717"
 		"\u2014"
-		))) |>
-	skbl() |>
-	kable_styling() |>
+		))) %>%
+	skbl() %>%
+	kable_styling() %>%
 	add_header_above(c(" " = 1, "Presence of persons in household aged:" = 3))
 ```
 
@@ -179,9 +179,9 @@ tibble::tribble(
   "Persons by Age Group", "Census Tract", "Census", 10000,
   "Households by Income Group", "Census Tract", "Census", 500,
   "Workers per Household", "Census Tract", "Census", 1000
-) |>
-	mutate(Weight = label_comma()(Weight)) |>
-	skbl(align = c("l", "l", "l", "r")) |>
+) %>%
+	mutate(Weight = label_comma()(Weight)) %>%
+	skbl(align = c("l", "l", "l", "r")) %>%
 	kable_styling()
 ```
 
@@ -292,9 +292,9 @@ Based largely on the model results of @dayForecastingRideHailingMultiple2022, an
 #| label: tbl-mode-crosswalk
 #| tbl-cap: mode crosswalk
 
-targets::tar_read(mode_crosswalk) |>
-	mutate(across(`Calibration Mode`, str_to_title)) |>
-	skbl(align = "l") |>
+targets::tar_read(mode_crosswalk) %>%
+	mutate(across(`Calibration Mode`, str_to_title)) %>%
+	skbl(align = "l") %>%
 	kable_styling()
 ```
 
@@ -341,14 +341,14 @@ While the calibration is not perfect, for the purposes of this research this cal
 #| label: tbl-mode-split
 #| tbl-cap: mode split
 
-targets::tar_read(mc_comparison) |>
-	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) |>
-	ungroup() |>
-	`colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) |>
-	skbl() |>
-	kable_styling() |>
-	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) |>
-	collapse_rows(1, latex_hline = "major") |>
+targets::tar_read(mc_comparison) %>%
+	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) %>%
+	ungroup() %>%
+	`colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) %>%
+	skbl() %>%
+	kable_styling() %>%
+	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) %>%
+	collapse_rows(1, latex_hline = "major") %>%
 	footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here")
 ```
 
@@ -389,8 +389,8 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 #| label: tbl-asim-wfh-model-coeffs
 #| tbl-cap: asim wfh model coeffs
 
-targets::tar_read(asim_wfh_model_coeffs) |>
-	skbl(align = c("l", "c"), digits = 3) |>
+targets::tar_read(asim_wfh_model_coeffs) %>%
+	skbl(align = c("l", "c"), digits = 3) %>%
 	kable_styling()
 ```
 
@@ -406,21 +406,21 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 #| label: tbl-asim-tc-model-coeffs
 #| tbl-cap: asim tc model coeffs
 
-targets::tar_read(asim_telecommute_model_coeffs) |>
+targets::tar_read(asim_telecommute_model_coeffs) %>%
 	filter(
 		!Description %in% c(
 			"temp_calibration", "not sure, unused",
 			"Retail", "Food", "Manufacturing", "Government and education",
 			"Office", "Health", "other", "Agriculture", "Mining", "Construction"),
-		!if_all(-Description, \(x) x == 0)) |>
-	mutate(Description = str_to_sentence(Description)) |>
+		!if_all(-Description, \(x) x == 0)) %>%
+	mutate(Description = str_to_sentence(Description)) %>%
 	rename(
 		"1 day" = `1_day_week`,
 		"2\u20133 days" = `2_3_days_week`,
 		"4 days" = `4_days_week`
-	) |>
-	skbl(align = c("l", "c", "c", "c")) |>
-	kable_styling() |>
+	) %>%
+	skbl(align = c("l", "c", "c", "c")) %>%
+	kable_styling() %>%
 	add_header_above(c(" ", "Telecommute Frequency Coefficients" = 3))
 ```
 
@@ -432,11 +432,11 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 #| label: tbl-baseline-telecommute
 #| tbl-cap: wfrc telecommute data
 
-targets::tar_read(comparison_by_telecommute_coeffs) |>
-	mutate(pct = label_percent()(pct)) |> 
-	rename(Industry = "name", `2019 WFRC Telecommute %` = "pct") |>
-	skbl(align = c("l", "c", "c", "c", "c")) |>
-	kable_styling() |>
+targets::tar_read(comparison_by_telecommute_coeffs) %>%
+	mutate(pct = label_percent()(pct)) %>% 
+	rename(Industry = "name", `2019 WFRC Telecommute %` = "pct") %>%
+	skbl(align = c("l", "c", "c", "c", "c")) %>%
+	kable_styling() %>%
 	add_header_above(c(" " = 2, "ActivitySim Telecommute Frequency Coefficients" = 3))
 ```
 
@@ -448,8 +448,8 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 #| label: tbl-asim-dap-model-rw-coeffs
 #| tbl-cap: asim dap model remote work coeffs
 
-targets::tar_read(asim_tc_dap_coeffs) |>
-	skbl(align = c("l", "c", "c", "c")) |>
+targets::tar_read(asim_tc_dap_coeffs) %>%
+	skbl(align = c("l", "c", "c", "c")) %>%
 	kable_styling()
 ```
 

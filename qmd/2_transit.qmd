@@ -53,37 +53,11 @@ The models differ, however, in which modes the new commuter rail trips come from
 #| tbl-cap: mode split
 
 targets::tar_read(combined_tr_mode_split_table) %>%
-	flextable(
-		col_keys = c(
-			"purpose", "mode", #"blank1",
-			str_subset(names(.), "cube"), "blank2", str_subset(names(.), "asim")
-		)
-	) |>
-	set_table_properties(layout = "fixed") |>
-	set_header_labels(
-		purpose = "Purpose", mode = "Mode",
-		cube_by = "Baseline Trips", cube_tr = "Improved Transit Trips",
-		cube_diff_pct = "Change",
-		asim_by = "Baseline Trips", asim_tr = "Improved Transit Trips",
-		asim_diff_pct = "Change"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "WFRC Model", "", "ActivitySim"),
-		colwidths = c(1,1,3,1,3)) |>
-	hline(c(6,12)) |>
-	merge_v(j = 1) |>
-	merge_v(j = 1:2, part = "header") |>
-	align(part = "h", align = "c") |>
-	align(j = ~ cube_diff_pct + asim_diff_pct, align = "r") |>
-	surround(2, 6, border.top = fp_border(width = 0), part = "h") |>
-	# width(j = ~cube_by + asim_by, 0.1) |>
-	width(j = ~cube_tr + asim_tr, 0.875) |>
-	width(j = ~cube_diff_pct + asim_diff_pct, 0.6) |>
-	width(j = ~purpose + mode, 1) |>
-	width(j = ~blank2, 0.1) |>
-	fontsize(size = 9, part = "all") |>
-	# empty_blanks(part = "h") |>
-	fix_border_issues()
+	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Trips", "Transit\u00b9 Trips", "Change"), 2))) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 2, "WFRC Model" = 3, "ActivitySim" = 3)) %>% 
+	collapse_rows(1, latex_hline = "major") %>% 
+	footnote(number = "\"Transit\" here refers to the Transit scenario, not the mode of travel")
 ```
 
 For home-based other and non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.
@@ -191,25 +165,12 @@ It is difficult to know the actual income distribution of transit riders since i
 #| label: tbl-tr-cube-se
 #| tbl-cap: cube
 
-targets::tar_read(cube_tr_productions_se_summary) |>
-	flextable() |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		transit_trips = "Trips",
-		TOTHH = "Households",
-		HHPOP = "Population",
-		ALLEMP = "Employment",
-		med_income = "Income"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "Trips", "TAZ-level Median (weighted by trips)"),
-		colwidths = c(1,1,1,4)) |>
-	merge_v(part = "h") |>
-	merge_v(part = "b") |>
-	align(align = "c", part = "h") |>
-	colformat_double(j = ~med_income, prefix = "$", digits = 0) |>
-	fix_border_issues()
+targets::tar_read(cube_tr_productions_se_summary) %>% 
+	mutate(across(med_income, label_comma(prefix = "$"))) %>% 
+	skbl(col.names = c("Purpose", "Mode", "Trips", "Households", "Population", "Employment", "Income")) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 3, "TAZ-level Median (weighted by trips)" = 4)) %>% 
+	collapse_rows(1, latex_hline = "major")
 ```
 
 Because an ABM *does* model individuals explicitly, information about each individual is accessible at every stage of the model, including in post-hoc analysis.
@@ -223,29 +184,12 @@ Our synthetic population does over-predict high-income households along the leng
 #| label: tbl-tr-asim-se
 #| tbl-cap: asim
 
-targets::tar_read(asim_tr_trips_se_summary) |>
-	flextable(col_keys = c("purpose", "mode", "transit_trips", "age", "distance_to_work", "income")) |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		transit_trips = "Trips",
-		age = "Age",
-		distance_to_work = "Distance to Work (mi)",
-		income = "Income"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "Trips", "Individual-level Median"),
-		colwidths = c(1,1,1,3)) |>
-	merge_v(part = "h") |>
-	merge_v(part = "b") |>
-	align(align = "c", part = "h") |>
-	colformat_double(j = ~income, prefix = "$", digits = 0) |>
-	# width(width = 0.1) |>
-	width(j = ~distance_to_work, 1) |>
-	width(j = ~purpose + mode, 1.5) |>
-	width(j = ~mode, 1.2) |>
-	set_table_properties(layout = "fixed") |>
-	fix_border_issues()
+targets::tar_read(asim_tr_trips_se_summary) %>% 
+	mutate(across(income, label_comma(prefix = "$"))) %>% 
+	skbl(col.names = c("Purpose", "Mode", "Trips", "Income", "Age", "Distance to work (mi)"), digits = 1) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 3, "Individual-level Median" = 3)) %>% 
+	collapse_rows(1, latex_hline = "major")
 ```
 
 Additionally, @fig-tr-se-income-dist shows the income distribution of transit riders for the WFRC model and ActivitySim.

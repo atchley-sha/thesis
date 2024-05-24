@@ -5,7 +5,9 @@
 One of the primary ways that travel behavior is affected is through changes in land use.
 Such changes involve the addition or removal of households and/or jobs in an area, and our first model scenario, termed the "Land Use" scenario, addresses this aspect of travel demand modeling by simulating a new development in a single area.
 The basis for the Land Use scenario is the redevelopment of a defunct prison site near Draper, Utah.
-This redevelopment is part of the actual ?plan? for the area, and the new development is known as The Point [@cite].
+This redevelopment is part of the actual ?p
+lan?
+for the area, and the new development is known as The Point [@cite].
 
 This scenario models the change in transportation behavior that a development such as The Point would create.
 Though the actual development plans for The Point include an expansion of transit services, only the additional households and jobs created from this development are represented in this scenario.
@@ -33,40 +35,14 @@ targets::tar_read(lu_plot_new_tazs)
 #|   - New Land Use
 
 targets::tar_read(lu_se_by_table) %>% 
-	flextable() %>% 
-	set_header_labels(
-		TOTHH = "Households",
-		HHPOP = "Population",
-		RETEMP = "Retail",
-		INDEMP = "Industrial",
-		OTHEMP = "Other",
-		TOTEMP = "Total"
-	) %>% 
-	colformat_double(digits = 0) %>% 
-	colformat_double(j = ~TAZ, digits = 0, big.mark = "") %>% 
-	add_header_row(
-		values = c("TAZ", "Households", "Population", "Employment"),
-		colwidths = c(1,1,1,4)) %>%
-	merge_v(part = "h") %>% 
-	align(align = "c", part = "all")
+	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 3, "Employment" = 4))
 
-targets::tar_read(lu_se_lu_table) %>%  
-	flextable() %>% 
-	set_header_labels(
-		TOTHH = "Households",
-		HHPOP = "Population",
-		RETEMP = "Retail",
-		INDEMP = "Industrial",
-		OTHEMP = "Other",
-		TOTEMP = "Total"
-	) %>% 
-	colformat_double(digits = 0) %>% 
-	colformat_double(j = ~TAZ, digits = 0, big.mark = "") %>% 
-	add_header_row(
-		values = c("TAZ", "Households", "Population", "Employment"),
-		colwidths = c(1,1,1,4)) %>%
-	merge_v(part = "h") %>% 
-	align(align = "c", part = "all")
+targets::tar_read(lu_se_lu_table) %>% 
+	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 3, "Employment" = 4))
 ```
 
 ## Scenario Creation
@@ -207,3 +183,4 @@ In a complicated land use forecast, each development's full contribution to netw
 targets::tar_read(asim_lu_new_desire_map) +
 	scale_color_bright()
 ```
+

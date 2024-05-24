@@ -111,21 +111,13 @@ Note as well that these tables show time spent by one graduate and one undergrad
 #|   - "ActivitySim"
 #| layout-nrow: 2
 
-targets::tar_read(cube_time_spent_table) |>
-	flextable() |>
-	set_header_labels(task = "Task", hours = "Hours spent (undergraduate RA)") |>
-	set_table_properties(layout = "fixed") |>
-	width(1, 2.4) |>
-	width(2, 1.5) |>
-	align(j = ~ hours, align = "c", part = "a")
+targets::tar_read(cube_time_spent_table) %>% 
+	skbl(col.names = c("Task", "Hours spent (undergraduate RA)"), align = c("l", "c")) %>% 
+	kable_styling()
 
-targets::tar_read(asim_time_spent_table) |>
-	flextable() |>
-	set_header_labels(task = "Task", hours = "Hours spent (graduate RA)") |>
-	set_table_properties(layout = "fixed") |>
-	width(1, 2.9) |>
-	width(2, 1.1) |>
-	align(j = ~ hours, align = "c", part = "a")
+targets::tar_read(asim_time_spent_table) %>% 
+	skbl(col.names = c("Task", "Hours spent (graduate RA)"), align = c("l", "c")) %>%
+	kable_styling()
 ```
 
 The overall time spent for ActivitySim is significantly more than that for the WFRC model, though most of the time for ActivitySim was spent on initial configuration.
@@ -179,4 +171,3 @@ This further shows that ABMs are not necessarily more difficult to work with tha
 The goal of this research is not to determine unilaterally which model type an agency should use, nor is the goal even to specify exact criteria under which an ABM should be used over a trip-based model.
 Rather, the research presents our experience with both model types as an illustration for agencies to reference in determining which model type to use.
 We therefore encourage each agency to review our findings in the context of their individual circumstances, and then determine which model type will best fulfill their specific modeling needs.
-

@@ -144,8 +144,8 @@ The activity-based approach, depicted in @fig-network-synth-2, attempts to add t
 #|   - Activity (tour)-based
 #| error: true
 
-# knitr::include_graphics("./images/trip.png")
-# knitr::include_graphics("./images/tour.png")
+knitr::include_graphics("./images/trip.png")
+knitr::include_graphics("./images/tour.png")
 ```
 
 <!-- ::: {#fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"} -->
