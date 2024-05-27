@@ -5,9 +5,9 @@ project:
 execute:
   echo: false
   warning: false
-  cache: refresh
-  # cache: true
-  # freeze: auto
+  # cache: refresh
+  cache: true
+  freeze: auto
 pdf-engine: xelatex
 
 layout: fancy, twoside, masters
