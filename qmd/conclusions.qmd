@@ -158,7 +158,7 @@ Comparing model results from before and after the transition could therefore be 
 In this research, we were for example able to make several direct comparisons between ActivitySim and the WFRC model (see Chapters [-@sec-landuse]--[-@sec-wfh]).
 
 One crucial consideration to make is that ActivitySim does not perform network assignment.
-Many agencies that currently use ActivitySim in fact use CUBE or other similar software to perform assignment, though there are also several open-source network assignment programs such as MATSim [@cite] and AequilibraE [@cite] that are also in use.
+Many agencies that currently use ActivitySim in fact use CUBE or other similar software to perform assignment, though there are also several open-source network assignment programs such as MATSim [@horni_multi-agent_2016] and AequilibraE [@aequilibrae] that are also in use.
 Regardless of the software used for network assignment, an agency will need to determine how best to integrate assignment into their modeling workflow in order to use ActivitySim.
 This issue is specific to ActivitySim, and other ABMs may incorporate network assignment directly.
 However, even ActivitySim itself is designed to be extensible, and as discussed above it is relatively easy to modify ActivitySim's model pipeline to allow for adding model steps.

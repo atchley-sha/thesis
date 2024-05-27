@@ -135,7 +135,9 @@ The activity-based approach, depicted in @fig-network-synth-2, attempts to add t
 ![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
 ::: {#fig-network-synth fig-scap="Example trip distribution using a synthetic population" layout-ncol="2"}
-![Trip-based microsimulation](./../images/trip.png){#fig-network-synth-1} ![Activity (tour)-based](./../images/tour.png){#fig-network-synth-2}
+![Trip-based microsimulation](./../images/trip.png){#fig-network-synth-1}
+
+![Activity (tour)-based](./../images/tour.png){#fig-network-synth-2}
 
 Example trip distribution using a synthetic population allows an individual's travel to be tracked.
 In the tour-based approach, an attempt is made to make the trips consistent with each other, while the trip-based approach may not be consistent.

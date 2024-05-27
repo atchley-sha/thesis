@@ -1,12 +1,12 @@
 # Introduction {#sec-introduction}
 
-Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s [@cite, maybe miller 2023].
+Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s [@rasouli_activity-based_2014].
 ABMs explicitly model individuals, in contrast to the aggregate nature of trip-based models, and so in theory are able to represent travel behavior more accurately.
 Additionally, the focus on individuals in an ABM can allow for more detailed post-hoc analysis of model outputs compared to a trip-based model.
 
-There have been a number of comparisons and case studies between trip- and activity-based models [@cite the ones at the end of the lit review], but these comparisons focus almost exclusively on the technical ability of the two model types.
+There have been a number of comparisons and case studies between trip- and activity-based models [see e.g. @ferdous_comparison_2012; @zhongComparativeAnalysisTraditional2015; and @mouwComparisonAggregatedMacroscopic2022], but these comparisons focus almost exclusively on the technical ability of the two model types.
 Though there are potential *theoretical* benefits to ABMs over trip-based models, there is little discussion in the literature of the *practical* benefits an ABM has, if any.
-In fact, while trip-based models are almost ubiquitous among transportation agencies, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns [@cite, also maybe miller].
+In fact, while trip-based models are almost ubiquitous among transportation agencies, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns [@miller_current_2023].
 
 In this research, we perform a more holistic comparison of ABMs to trip-based models, with a particular focus on the practical considerations an agency would need to make in transitioning to an ABM.
 We additionally discuss the potential practical advantages regarding the quality and characteristics of travel analyses that an ABM allows.

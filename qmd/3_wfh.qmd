@@ -5,7 +5,7 @@
 Our final model scenario, termed the "Remote Work" scenario, addresses changes in travel behavior as a result of social and/or economic factors.
 Specifically, we represent an increase in remote work rates since the COVID-19 pandemic.
 With the onset of the COVID-19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
-Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].
+Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@ozimekFutureRemoteWork2020].
 
 As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).
 The WFRC model contains a lookup table of both work-from-home (called "home-based jobs" in the WFRC model) and telecommute percentages by job type and year, and predicts an increase in both remote work rates over time.
@@ -120,7 +120,7 @@ In addition to the number of trips, increasing remote work rates can also have a
 
 The WFRC model does not consider trip length when adjusting trip rates due to remote work.
 There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
-@tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, home-based work "Drive Alone" trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
+@tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, Home-based Work drive alone trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
 This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
 
 ```{r}
@@ -140,9 +140,9 @@ targets::tar_read(cube_wfh_trip_pmt_diff) %>%
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
-ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
+ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for Home-based Work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
 This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily (see @tbl-asim-dap-model-rw-coeffs), but the discrepancy is consistent across all modes.
-Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged for shorter discretionary trips.
+Additionally, for Home-based Other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged for shorter discretionary trips.
 
 ```{r}
 #| label: tbl-asim-wfh-trip-pmt-diff
@@ -168,8 +168,8 @@ Drive alone and non-motorized trips shifted their distribution toward longer tri
 Again, though, the WFRC model does not model the interaction between working remotely and commute distance, so this shift in trip length is essentially random, due largely to the distribution of jobs by type.
 
 The TLFD for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
-Home-based other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
-However, even when ActivitySim shows a shift in distribution away from very short trips, such as in home-based other drive alone and carpool trips, the peak of the home-based other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.
+Home-based Other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
+However, even when ActivitySim shows a shift in distribution away from very short trips, such as in Home-based Other drive alone and carpool trips, the peak of the Home-based Other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.
 
 ```{r}
 #| label: fig-wfh-tlfd-comp

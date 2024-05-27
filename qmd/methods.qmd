@@ -25,7 +25,7 @@ The WFRC model, like many trip-based models, requires the following inputs:
 
 -   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).
 -   Travel skims detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the destination and mode choice model steps.
--   Transportation networks, including highway, transit, etc.\@ networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
+-   Transportation networks, including highway, transit, etc.\\\@ networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   Lookup tables, used in many model steps for information such as trip rates by household type. These are taken directly from the WFRC model without modification.
 -   Model constants and coefficients, which some model steps such as mode choice require for calibration. These are also taken directly from the WFRC model.
 
@@ -131,7 +131,7 @@ The household/personal steps relate to long-term decisions that are unlikely to 
 These steps include determining remote work status, work/school location, auto ownership, transit pass ownership, and free parking availability at work.
 Our ActivitySim implementation models remote work status, work/school location, auto ownership, and free parking availability, but transit pass ownership is not modeled and it is assumed that everyone pays the transit fare.
 
-The daily decisions primarily concern an individual's DAP.
+The daily decisions primarily concern an individual's \acr{DAP}.
 ActivitySim contains a step to assign mandatory, non-mandatory, and home DAPs based on personal and household information (a home DAP involves no travel).
 For example, full-time workers are more likely to have a mandatory DAP than part-time workers, all else being equal.
 
@@ -292,11 +292,11 @@ targets::tar_read(mode_crosswalk) %>%
 
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
-Because activity-based models create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
-Specifically, an ABM doesn't have a concept of e.g.\@ "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+Because ABMs create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
+Specifically, an ABM doesn't have a concept of e.g.\\\@ "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
 For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
-Any trip that doesn't start or end at home is considered a NHB trip, and if a trip starting or ending at home has its other end at work, it is considered a HBW trip.
-All other trips are considered HBO trips.
+Any trip that doesn't start or end at home is considered a Non--home-based trip, and if a trip starting or ending at home has its other end at work, it is considered a Home-based Work trip.
+All other trips are considered Home-based Other trips.
 
 To perform the calibration, the output mode split of ActivitySim for each purpose was compared to the target mode split output from the WFRC model.
 An adjustment value was determined by the formula $A_k = \ln(T_k/M_k)$, where $A_k$ is the adjustment value for mode $k$, $T_k$ is the target mode share of mode $k$, and $M_k$ is the ActivitySim-predicted mode share of mode $k$.
@@ -304,10 +304,10 @@ This adjustment value was added to the current alternative-specific constants (A
 
 There are two aspects of this calibration process worth noting.
 The first is that ActivitySim contains ASCs for both tour mode choice and trip mode choice, where the tour mode is the principal mode used on the tour, and the trip mode is the mode of the individual trip (for example, there could be a "walk" trip on a "transit" tour).
-Both the tour-level and trip-level ASCs were adjusted by the calculated adjustment value for each mode.
+Because tour-level mode choice influences trip mode choice, both the tour-level and trip-level ASCs were adjusted by the calculated adjustment value for each mode.
 The second is that while it is possible to categorize ActivitySim trips into purposes similar to a trip-based model, ActivitySim does not do this conversion internally.
 ActivitySim *does* have separate ASCs by purpose, but these purposes are ActivitySim's tour purposes, rather than purposes resembling those in a trip-based model.
-Though it is not a perfect correspondence to how the adjustment values were calculated, we adjusted the ASCs as follows: All ActivitySim "atwork" ASCs are calibrated with the NHB adjustment, all "work" ASCs are calibrated with the HBW adjustment, and all other ASCs are calibrated with the HBO adjustment.
+Though it is not a perfect correspondence to how the adjustment values were calculated, we adjusted the ASCs as follows: All ActivitySim "atwork" ASCs are calibrated with the Non--home-based adjustment, all "work" ASCs are calibrated with the Home-based Work adjustment, and all other ASCs are calibrated with the Home-based Other adjustment.
 
 @fig-mcc-adjustments shows the mode split from ActivitySim compared against the target mode split for each iteration of calibration.
 After a few iterations, the mode split more closely matches between the models; however, there are still some discrepancies.
@@ -337,7 +337,7 @@ targets::tar_read(mc_comparison) %>%
 	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) %>%
 	ungroup() %>%
 	`colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) %>%
-	skbl() %>%
+	skbl(digits = 0) %>%
 	kable_styling() %>%
 	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) %>%
 	collapse_rows(1, latex_hline = "major") %>%
@@ -366,7 +366,7 @@ ActivitySim also has this functionality, and can additionally use individual- an
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
 The ActivitySim implementation discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
-However, a separate ActivitySim implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) MPO in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG implementation.
+However, a separate ActivitySim implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) metropolitan planning organization in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG implementation.
 Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the SEMCOG submodels were consistent with the existing implementation.
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
