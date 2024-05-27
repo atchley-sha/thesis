@@ -359,7 +359,7 @@ targets::tar_read(mc_comparison) %>%
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
 Both ActivitySim and the WFRC model contain trip distribution steps which can be adjusted to affect the distribution of trip length.
-However, as the figure shows, the two models have similar TLFDs, so no adjustment was necessary.
+However, as the figure shows, the two models have similar trip length frequency distributions, so no adjustment was necessary.
 The most significant discrepancies are with transit trips, again likely due to this configuration of ActivitySim being developed for San Francisco, making transit more attractive.
 Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.
 

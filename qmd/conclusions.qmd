@@ -73,8 +73,7 @@ Each step assigns each household or individual a specific value, such as the num
 These assigned values can then be used in subsequent model steps.
 In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
 It is easy to then model a remote work "rebound effect"[^conclusions-2] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
-Since trip-based models exclusively deal with aggreagte data, the interpretation of each model step is more vague.
-It is still possible to model a "rebound effect", for example (though the WFRC model does not), but
+Since trip-based models exclusively deal with aggregate data, the interpretation of each model step is more vague.
 
 [^conclusions-2]: See @sec-remote-work-considerations
 

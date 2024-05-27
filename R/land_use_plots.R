@@ -1,6 +1,6 @@
 .lu_desire_bg <- function(dists_geom, max, range = c(0,3)) {
 	list(
-		facet_wrap(~mode),
+		facet_wrap(~mode, nrow = 1),
 		annotation_map_tile("cartolight", zoomin = 0),
 		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE),
 		geom_sf(),
@@ -51,7 +51,7 @@ plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
 		.lu_desire_bg(dists_geom, max) +
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),
-			labels = c("-1" = "Base year", "1" = "Land use")) +
+			labels = c("-1" = "Baseline scenario", "1" = "Land Use scenario")) +
 		# scale_color_bright(reverse = TRUE, labels = c("-1" = "Base year", "1" = "Land use")) +
 		labs(color = "More trips in:", linewidth = "Trips")
 }

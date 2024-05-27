@@ -108,7 +108,8 @@ plot_asim_mode_switching <- function(mode_switching) {
 			to = mode_tr,
 			tour_purpose = case_match(
 				tour_purpose,
-				c("work", "school", "univ") ~ tour_purpose,
+				"work" ~ "work",
+				# c("school", "univ") ~ tour_purpose,
 				c("school", "univ") ~ "school",
 				.default = "other"
 			)
@@ -118,23 +119,25 @@ plot_asim_mode_switching <- function(mode_switching) {
 		mutate(
 			tour_purpose = factor(
 				tour_purpose,
-				levels = c("work", "school", "univ", "other"),
-				labels = c("Work", "School", "University", "Other")
+				# levels = c("work", "school", "univ", "other"),
+				levels = c("work", "school", "other"),
+				# labels = c("Work", "School", "University", "Other")
+				labels = c("Work", "School/University", "Other")
 			),
 			across(c(from, to), \(x) pretty_mode(x))) %>%
 		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
-		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free")) +
+		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free", nrow = 1)) +
 		# facet_wrap(~tour_purpose, scales = "free") +
 		scale_x_discrete(
 			limits = c("From", "To"),
-			labels = c("Baseline\nScenario", "Improved\nTransit"),
+			labels = c("Baseline\nscenario", "Transit\nscenario"),
 			expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
-		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+		geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 7/.pt) +
 		# scale_fill_brewer(palette = "Accent") +
 		scale_fill_bright() +
-		labs(x = element_blank(), y = "Trips", fill = "Original mode")
+		labs(x = element_blank(), y = "Trips", fill = "Baseline scenario mode")
 }
 
 

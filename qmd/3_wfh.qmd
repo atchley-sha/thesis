@@ -86,9 +86,11 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
 	mutate(pct = label_percent()(pct)) %>% 
 	rename(Industry = "name", `2050 WFRC Telecommute %` = "pct") %>% 
-	skbl() %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "ActivitySim Telecommute Frequency Coefficients" = 3))
+	skbl(align = c("l", "c", "c", "c", "c")) %>%
+	kable_styling() %>%
+	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
+	column_spec(2, "1.3in") %>% 
+	column_spec(3:5, "0.87in")
 ```
 
 ## Scenario Analysis
@@ -161,21 +163,25 @@ targets::tar_read(asim_wfh_trip_pmt_diff) %>%
 ```
 
 The difference in how trip length is modeled between ActivitySim and the WFRC model can be seen more clearly in @fig-wfh-tlfd-comp.
-This figure shows the difference in TLFD for Home-based Work trips between the Remote Work scenario and the baseline scenario.
+This figure shows the difference in trip length frequency distribution for Home-based Work trips between the Remote Work scenario and the baseline scenario.
 Note that a point on the positive y-axis indicates an increased density of trips in the Remote Work scenario compared to the baseline, and vice versa.
 The WFRC model shows two patterns.
 Drive alone and non-motorized trips shifted their distribution toward longer trips with increased remote work, and carpool and transit trips shifted toward shorter trips.
 Again, though, the WFRC model does not model the interaction between working remotely and commute distance, so this shift in trip length is essentially random, due largely to the distribution of jobs by type.
 
-The TLFD for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
-Home-based Other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
-However, even when ActivitySim shows a shift in distribution away from very short trips, such as in Home-based Other drive alone and carpool trips, the peak of the Home-based Other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.
-
 ```{r}
 #| label: fig-wfh-tlfd-comp
 #| fig-cap: Difference in trip length frequency distribution between scenarios for each model.
+#| fig-env: sidewaysfigure
+#| fig-width: 9
+#| fig-height: 5
+#| fig-pos: p
 
 targets::tar_read(combined_tlfd_diff_plot) +
 	scale_color_bright() +
 	theme(legend.position = "bottom")
 ```
+
+The distribution for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
+Home-based Other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
+However, even when ActivitySim shows a shift in distribution away from very short trips, such as in Home-based Other drive alone and carpool trips, the peak of the Home-based Other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.

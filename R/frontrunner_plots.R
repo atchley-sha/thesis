@@ -22,7 +22,7 @@ plot_frontrunner <- function(line, stops) {
 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
 		scale_color_manual(
 			values = c("2019" = "purple4", "2050" = "coral"),
-			labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")) +
+			labels = c("2019" = "Baseline scenario", "2050" = "Transit scenario (addt'l)")) +
 		labs(color = "Scenario") +
 		theme_map(zoom = FALSE)
 

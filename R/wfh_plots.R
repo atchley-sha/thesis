@@ -56,8 +56,8 @@ plot_wfh_tlfd_diff <- function(combined_trip_diff, distances) {
 
 plot_tlfd_diff <- function(tlfd_diff) {
 	tlfd_diff %>%
-		# filter(purpose != "nhb") %>%
-		filter(purpose == "hbw") %>%
+		filter(purpose != "nhb") %>%
+		# filter(purpose == "hbw") %>%
 		mutate(
 			model = pretty_model(model),
 			purpose = pretty_purpose(purpose),
@@ -65,10 +65,9 @@ plot_tlfd_diff <- function(tlfd_diff) {
 		) %>%
 
 		ggplot(aes(x = x, y = diff, color = model)) +
-		# facet_grid(rows = vars(purpose), cols = vars(mode), scales = "free") +
-		facet_wrap(~mode, scales = "free") +
+		facet_grid(rows = vars(purpose), cols = vars(mode), scales = "free") +
+		# facet_wrap(~mode, scales = "free") +
 		geom_hline(yintercept = 0) +
-		# geom_line() +
 		geom_smooth(se = FALSE, method = "loess", span = 0.5) +
 		facetted_pos_scales(
 			x = list(

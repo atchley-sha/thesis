@@ -59,7 +59,7 @@ There were no individuals or households in the affected zones in the existing sy
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
 Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
 Because of this, the Census tract covering the Gateway area in downtown Salt Lake City is used to represent the new development patterns at The Point.
-The income distribution, etc.\\\@ of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+The income distribution, etc. of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
 
 In a more realistic case, a transportation agency would forecast land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
 However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
@@ -78,20 +78,26 @@ However, there is a crucial difference between the model types, and that is the 
 ```{r}
 #| label: fig-lu-personmiles-cube
 #| fig-cap: Trip-miles produced in the updated zones in the Land Use scenario (WFRC model).
+#| fig-env: sidewaysfigure
+#| fig-pos: p
+#| fig-width: 8
+#| fig-height: 5
 
 targets::tar_read(cube_lu_new_pmt_plot) +
-	scale_fill_bright() +
-	theme(legend.position = "bottom")
+	scale_fill_bright()
 ```
 
 ```{r}
 #| label: fig-lu-personmiles-asim
 #| fig-cap: Trip-miles of individuals living in the updates zones (ActivitySim). Note that many of these trips do not have an origin or destination in the home zone of the individual.
 #| fig-scap: Trip-miles of individuals living in the updates zones (ActivitySim).
+#| fig-env: sidewaysfigure
+#| fig-pos: p
+#| fig-width: 8
+#| fig-height: 5
 
 targets::tar_read(asim_lu_new_pmt_plot) +
-	scale_fill_bright() +
-	theme(legend.position = "bottom")
+	scale_fill_bright()
 ```
 
 In the WFRC model (and in many trip-based models), homes produce trips with different trip purposes, including Home-based Work, Home-based Other, and Non--home-based trips.
@@ -131,6 +137,10 @@ Although the former depicts the *number* of trips and the latter depicts trip *d
 #| label: fig-lu-desire-cube-hb
 #| fig-cap: Desire lines of home-based trips produced in the new development in the WFRC model, by mode.
 #| fig-scap: Desire lines of home-based trips made in the WFRC model.
+#| fig-env: sidewaysfigure
+#| fig-width: 8
+#| fig-height: 4
+#| fig-pos: p
 
 targets::tar_read(cube_lu_new_productions_desire_map)
 ```
@@ -153,6 +163,10 @@ Both effects (the global increase in and the changed distribution of Non--home-b
 #| label: fig-lu-desire-cube-nhb
 #| fig-cap: "Desire lines of Non--home-based trips made in the WFRC model, by mode. Note that the trip counts are obtained by differencing the Non--home-based trip matrix with the base year."
 #| fig-scap: Desire lines of Non--home-based trips made in the WFRC model.
+#| fig-env: sidewaysfigure
+#| fig-width: 8
+#| fig-height: 4
+#| fig-pos: p
 
 targets::tar_read(cube_lu_nhb_diff_desire_map)
 ```
@@ -171,6 +185,10 @@ In a complicated land use forecast, each development's full contribution to netw
 ```{r}
 #| label: fig-lu-desire-asim
 #| fig-cap: "Desire lines of trips made in ActivitySim by mode."
+#| fig-env: sidewaysfigure
+#| fig-width: 8
+#| fig-height: 4
+#| fig-pos: p
 
 targets::tar_read(asim_lu_new_desire_map) +
 	scale_color_bright()
