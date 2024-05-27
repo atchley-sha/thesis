@@ -99,21 +99,22 @@ In order to change from a trip-based to an ABM, an agency will need to spend tim
 We analyzed the time spent on each part of the modeling process for this project, and this section provides discussion on this.
 Obviously the actual time an agency would require to transition to an ABM depends greatly on many factors such as specific staff experience, but this section is intended to give a very rough approximation of the time and effort needed.
 
-@tbl-time-spent shows the amount of time spent on creating and analyzing each scenario in both models.
+Tables [-@tbl-time-spent-cube] and [-@tbl-time-spent-asim] show the amount of time spent on creating and analyzing each scenario in both models.
 These are approximations, as detailed time logs are not available, but should serve to give a general idea of the time spent.
 Note as well that these tables show time spent by one graduate and one undergraduate research assistant; more experienced modelers would likely require significantly less time to create and analyze similar scenarios.
 
 ```{r}
-#| label: tbl-time-spent
-#| tbl-cap: time spent
-#| tbl-subcap:
-#|   - "WFRC Model"
-#|   - "ActivitySim"
-#| layout-nrow: 2
+#| label: tbl-time-spent-cube
+#| tbl-cap: Estimated Time Spent on Modeling Tasks (WFRC Model)
 
 targets::tar_read(cube_time_spent_table) %>% 
 	skbl(col.names = c("Task", "Hours spent (undergraduate RA)"), align = c("l", "c")) %>% 
 	kable_styling()
+```
+
+```{r}
+#| label: tbl-time-spent-asim
+#| tbl-cap: Estimated Time Spent on Modeling Tasks (ActivitySim)
 
 targets::tar_read(asim_time_spent_table) %>% 
 	skbl(col.names = c("Task", "Hours spent (graduate RA)"), align = c("l", "c")) %>%
@@ -136,7 +137,7 @@ In the Transit scenario, for example, the only change needed for ActivitySim was
 However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim should possibly include the time spent for the WFRC model.
 
 Finally, the tasks were divided between two research assistants almost exclusively in line with the model type.
-This means that @tbl-time-spent is showing the time spent with each model type by a specific individual.
+This means that Tables [-@tbl-time-spent-cube] and [-@tbl-time-spent-asim] are showing the time spent with each model type by a specific individual.
 In other words, the difference between these tables is not only the model type, but also the individual working on the task.
 Any comparisons between these tables should therefore take this into consideration.
 

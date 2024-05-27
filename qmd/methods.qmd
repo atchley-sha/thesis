@@ -42,7 +42,7 @@ The specific income groups used in the WFRC model are given in @tbl-income-group
 
 ```{r}
 #| label: tbl-income-groups
-#| tbl-cap: income groups
+#| tbl-cap: Income Groups in the WFRC Model
 
 targets::tar_read(income_groups) %>%
   select(group, inc_range) %>%
@@ -57,7 +57,7 @@ This is done by estimating the age distribution in each TAZ and categorizing eac
 
 ```{r}
 #| label: tbl-lif-cyc-categories
-#| tbl-cap: lif cyc
+#| tbl-cap: Life Cycle Categories in the WFRC Model
 
 tribble(
   ~"Life Cycle", ~"0\u201318", ~"18\u201364", ~"65+",
@@ -215,9 +215,7 @@ The average household size will therefore follow a similar error distribution to
 
 ```{r}
 #| label: fig-population-comparison
-#| fig-cap: population comparison
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-cap: Population by district, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
 
 targets::tar_read(comparison_pop_map)
 ```
@@ -231,9 +229,7 @@ The synthetic population does have a lower median income than the WFRC data in m
 
 ```{r}
 #| label: fig-median-income-comparison
-#| fig-cap: med inc
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-cap: District-level median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
 
 targets::tar_read(comparison_med_income_map)
 ```
@@ -245,9 +241,7 @@ This figure shows PopulationSim predicting slightly more high-income households,
 
 ```{r}
 #| label: fig-income-group-map
-#| fig-cap: inc groups
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-cap: Households in each income group, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
 
 targets::tar_read(comparison_inc_groups_map)
 ```
@@ -261,9 +255,7 @@ A production-ready synthetic population would match its income distribution more
 
 ```{r}
 #| label: fig-median-income-density
-#| fig-cap: inc density
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-cap: Distribution of TAZ median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
 
 targets::tar_read(comparison_inc_density_plot)
 ```
@@ -290,7 +282,7 @@ Based largely on the model results of @dayForecastingRideHailingMultiple2022, an
 
 ```{r}
 #| label: tbl-mode-crosswalk
-#| tbl-cap: mode crosswalk
+#| tbl-cap: Crosswalk Between Modes in Both Models
 
 targets::tar_read(mode_crosswalk) %>%
 	mutate(across(`Calibration Mode`, str_to_title)) %>%
@@ -326,7 +318,7 @@ Additionally, we did not calibrate the vehicle ownership model, and this may be 
 
 ```{r}
 #| label: fig-mcc-adjustments
-#| fig-cap: mcc adjustments
+#| fig-cap: Mode choice calibration, target vs. actual shares over several iterations.
 
 targets::tar_read(mcc_adjustments_plot)
 ```
@@ -339,7 +331,7 @@ While the calibration is not perfect, for the purposes of this research this cal
 
 ```{r}
 #| label: tbl-mode-split
-#| tbl-cap: mode split
+#| tbl-cap: Comparison of Mode Split Between Models After Calibration
 
 targets::tar_read(mc_comparison) %>%
 	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) %>%
@@ -360,7 +352,7 @@ Note that though these distributions match well enough for the purposes of this 
 
 ```{r}
 #| label: fig-tlfd-comp
-#| fig-cap: tlfd comparison
+#| fig-cap: Comparison between models of trip length frequency distribution.
 #| fig-width: 6.5
 #| fig-height: 8
 
@@ -387,7 +379,7 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 
 ```{r}
 #| label: tbl-asim-wfh-model-coeffs
-#| tbl-cap: asim wfh model coeffs
+#| tbl-cap: Work-From-Home Submodel Coefficients in ActivitySim
 
 targets::tar_read(asim_wfh_model_coeffs) %>%
 	skbl(align = c("l", "c"), digits = 3) %>%
@@ -404,7 +396,7 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 
 ```{r}
 #| label: tbl-asim-tc-model-coeffs
-#| tbl-cap: asim tc model coeffs
+#| tbl-cap: Telecommute Frequency Submodel Coefficients in ActivitySim
 
 targets::tar_read(asim_telecommute_model_coeffs) %>%
 	filter(
@@ -430,7 +422,7 @@ The calibration allowed ActivitySim to match these targets exactly, and the coef
 
 ```{r}
 #| label: tbl-baseline-telecommute
-#| tbl-cap: wfrc telecommute data
+#| tbl-cap: Telecommute Rates and Coefficients by Job Industry
 
 targets::tar_read(comparison_by_telecommute_coeffs) %>%
 	mutate(pct = label_percent()(pct)) %>% 
@@ -446,7 +438,7 @@ However, because the WFRC model does not include this effect, the ActivitySim DA
 
 ```{r}
 #| label: tbl-asim-dap-model-rw-coeffs
-#| tbl-cap: asim dap model remote work coeffs
+#| tbl-cap: Daily Activity Pattern Submodel Coefficients in ActivitySim
 
 targets::tar_read(asim_tc_dap_coeffs) %>%
 	skbl(align = c("l", "c", "c", "c")) %>%

@@ -13,7 +13,7 @@ The WFRC model contains a lookup table of both work-from-home (called "home-base
 
 ```{r}
 #| label: fig-wfrc-remote-work-rate-plot
-#| fig-cap: wfrc remote work plot
+#| fig-cap: Remote work rates as given in the WFRC model.
 
 targets::tar_read(cube_remote_work_totals_plot) +
 	theme(legend.position = "bottom")
@@ -65,7 +65,7 @@ However, this scaling factor was left unchanged, as we considered that the 2050 
 
 ```{r}
 #| label: tbl-wfrc-remote-work-years
-#| tbl-cap: wfrc remote work data
+#| tbl-cap: Comparison of Remote Work Rates in the WFRC Model by Year
 
 targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
 	mutate(across(!name, label_percent())) %>% 
@@ -81,7 +81,7 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 
 ```{r}
 #| label: tbl-wfh-telecommute
-#| tbl-cap: wfh telecommute
+#| tbl-cap: Telecommute Rates and Coefficients by Job Industry 
 
 targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
 	mutate(pct = label_percent()(pct)) %>% 
@@ -101,7 +101,7 @@ ActivitySim on the other hand does account for this, in that individuals working
 
 ```{r}
 #| label: tbl-wfh-mode-split-comp
-#| tbl-cap: wfh mode split comp
+#| tbl-cap: Change in Mode Split After Increased Remote Work Rates
 
 targets::tar_read(combined_wfh_mode_split_diff) %>% 
 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
@@ -125,7 +125,7 @@ This shows that in fact the *shorter* work trips are being made less frequently 
 
 ```{r}
 #| label: tbl-cube-wfh-trip-pmt-diff
-#| tbl-cap: cube
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled (WFRC Model)
 
 targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
@@ -146,7 +146,7 @@ Additionally, for home-based other trips, ActivitySim predicts a greater increas
 
 ```{r}
 #| label: tbl-asim-wfh-trip-pmt-diff
-#| tbl-cap: asim
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled (ActivitySim)
 
 targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
@@ -174,8 +174,6 @@ However, even when ActivitySim shows a shift in distribution away from very shor
 ```{r}
 #| label: fig-wfh-tlfd-comp
 #| fig-cap: Difference in trip length frequency distribution between scenarios for each model.
-#| fig-width: 5
-#| fig-height: 6
 
 targets::tar_read(combined_tlfd_diff_plot) +
 	scale_color_bright() +

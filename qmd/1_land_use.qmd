@@ -5,9 +5,7 @@
 One of the primary ways that travel behavior is affected is through changes in land use.
 Such changes involve the addition or removal of households and/or jobs in an area, and our first model scenario, termed the "Land Use" scenario, addresses this aspect of travel demand modeling by simulating a new development in a single area.
 The basis for the Land Use scenario is the redevelopment of a defunct prison site near Draper, Utah.
-This redevelopment is part of the actual ?p
-lan?
-for the area, and the new development is known as The Point [@cite].
+This redevelopment is part of the actual plan for the area, and the new development is known as The Point [@cite].
 
 This scenario models the change in transportation behavior that a development such as The Point would create.
 Though the actual development plans for The Point include an expansion of transit services, only the additional households and jobs created from this development are represented in this scenario.
@@ -15,7 +13,7 @@ The data for the land use changes comes from the WFRC land use forecast, which i
 The Point development is expected to be fully completed by 2050, and its projected land use and socioeconomic data is included in the 2050 WFRC forecast, so the 2050 WFRC land use and socioeconomic data projections are used for this site.
 
 The site consists of 5 TAZs, as shown in @fig-the-point-zones.
-@tbl-the-point-data shows the households, population, and employment by type of these TAZs in both the baseline scenario and with the new land use.
+@tbl-the-point-data-old shows the households, population, and employment by type of these TAZs in the baseline scenario, and @tbl-the-point-data-new shows this information with the new land use.
 Notably, there were no households and relatively few jobs in these TAZs in the baseline scenario.
 No changes other than to the land use/socioeconomic data in these 5 TAZs were made relative to the baseline scenario.
 
@@ -27,16 +25,18 @@ targets::tar_read(lu_plot_new_tazs)
 ```
 
 ```{r}
-#| label: tbl-the-point-data
-#| tbl-cap: TAZ-level Socioeconomic Data for The Point
-#| tbl-subcap: 
-#|   - Baseline Scenario
-#|   - New Land Use
+#| label: tbl-the-point-data-old
+#| tbl-cap: TAZ-level Socioeconomic Data for The Point (Baseline Scenario)
 
 targets::tar_read(lu_se_by_table) %>% 
 	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
 	kable_styling() %>% 
 	add_header_above(c(" " = 3, "Employment" = 4))
+```
+
+```{r}
+#| label: tbl-the-point-data-new
+#| tbl-cap: TAZ-level Socioeconomic Data for The Point (Land Use Scenario)
 
 targets::tar_read(lu_se_lu_table) %>% 
 	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
@@ -59,7 +59,7 @@ There were no individuals or households in the affected zones in the existing sy
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
 Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
 Because of this, the Census tract covering the Gateway area in downtown Salt Lake City is used to represent the new development patterns at The Point.
-The income distribution, etc. of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+The income distribution, etc.\@ of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
 
 In a more realistic case, a transportation agency would forecast land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
 However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
@@ -77,8 +77,7 @@ However, there is a crucial difference between the model types, and that is the 
 
 ```{r}
 #| label: fig-lu-personmiles-cube
-#| fig-cap: personmiles cube
-#| fig-width: 6.5
+#| fig-cap: Trip-miles produced in the updated zones in the Land Use scenario (WFRC model).
 
 targets::tar_read(cube_lu_new_pmt_plot) +
 	scale_fill_bright() +
@@ -87,8 +86,8 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 
 ```{r}
 #| label: fig-lu-personmiles-asim
-#| fig-cap: personmiles asim
-#| fig-width: 6.5
+#| fig-cap: Trip-miles of individuals living in the updates zones (ActivitySim). Note that many of these trips do not have an origin or destination in the home zone of the individual.
+#| fig-scap: Trip-miles of individuals living in the updates zones (ActivitySim).
 
 targets::tar_read(asim_lu_new_pmt_plot) +
 	scale_fill_bright() +
@@ -130,8 +129,6 @@ Although the former depicts the *number* of trips and the latter depicts trip *d
 
 ```{r}
 #| label: fig-lu-desire-cube-hb
-#| fig-width: 6.5
-#| fig-height: 8
 #| fig-cap: Desire lines of home-based trips produced in the new development in the WFRC model, by mode.
 #| fig-scap: Desire lines of home-based trips made in the WFRC model.
 
@@ -149,13 +146,11 @@ The first observation is that many pairs of zones saw a decrease in non--home-ba
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
 However, this is in fact not an *overall* decrease in non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
 The second observation is that the largest increases in non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
-Because the change in employment was much more significant than the change in population (see @tbl-the-point-data), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the increase in population.
+Because the change in employment was much more significant than the change in population (see Tables [-@tbl-the-point-data-old] and [-@tbl-the-point-data-new]), many more non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in non--home-based trips due to the increase in population.
 Both effects (the global increase in and the changed distribution of non--home-based trips) are present in the model, but the two effects are impossible to separate.
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
-#| fig-width: 6.5
-#| fig-height: 8
 #| fig-cap: "Desire lines of non--home-based trips made in the WFRC model, by mode. Note that the trip counts are obtained by differencing the non\u2013home-based trip matrix with the base year."
 #| fig-scap: Desire lines of non--home-based trips made in the WFRC model.
 
@@ -175,8 +170,6 @@ In a complicated land use forecast, each development's full contribution to netw
 
 ```{r}
 #| label: fig-lu-desire-asim
-#| fig-width: 6.5
-#| fig-height: 8
 #| fig-cap: "Desire lines of trips made in ActivitySim by mode."
 
 targets::tar_read(asim_lu_new_desire_map) +

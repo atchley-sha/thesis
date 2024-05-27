@@ -22,10 +22,7 @@ Only the changes to the FrontRunner service are modeled here.
 
 ```{r}
 #| label: fig-frontrunner-map
-#| fig-cap: frontrunner map
-#| fig-width: 6.5
-#| fig-height: 8
-#| out-width: "100%"
+#| fig-cap: Map of the FrontRunner commuter rail line.
 
 targets::tar_read(frontrunner_plot)
 ```
@@ -51,7 +48,7 @@ The models differ, however, in which modes the new commuter rail trips come from
 
 ```{r}
 #| label: tbl-tr-mode-split
-#| tbl-cap: mode split
+#| tbl-cap: Change in Mode Split with Improved Transit
 
 targets::tar_read(combined_tr_mode_split_table) %>%
 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Trips", "Transit\u00b9 Trips", "Change"), 2))) %>% 
@@ -84,14 +81,15 @@ An individual who makes a commuter rail trip will (usually) not be able to drive
 Because of this, individuals taking commuter rail are more likely to then take other forms of transit on the same tour.
 There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced in part due the aforementioned structuring of trips into tours.
 
-Figures [-@fig-tr-cube-trip-diff] and [-@fig-tr-asim-trip-diff] show the difference in trips by mode and purpose geographically.
+````{=html}
+<!-- Figures [-@fig-tr-cube-trip-diff] and [-@fig-tr-asim-trip-diff] show the difference in trips by mode and purpose geographically.
 These figures tell much the same story as @tbl-tr-mode-split, and unsurprisingly many of the new commuter rail trips are produced in zones near the new FrontRunner stations.
 Additionally, there are a large number of new commuter rail trips that occur along the entire length of the FrontRunner line.
 Some of this increase can be attributed to trips with a destination or attraction near a new FrontRunner station, and much of the increase can be attributed to the increased frequency of service.
 
 ```{r}
 #| label: fig-tr-cube-trip-diff
-#| fig-cap: cube
+#| fig-cap: Geographic distribution of the change in trips (WFRC model).
 #| fig-env: sidewaysfigure
 #| fig-width: 9
 #| fig-height: 6
@@ -101,13 +99,15 @@ targets::tar_read(cube_tr_diff_by_district_plot)
 
 ```{r}
 #| label: fig-tr-asim-trip-diff
-#| fig-cap: asim
+#| fig-cap: Geographic distribution of the change in trips (ActivitySim).
 #| fig-env: sidewaysfigure
 #| fig-width: 9
 #| fig-height: 6
 
 targets::tar_read(asim_tr_diff_by_district_plot)
 ```
+-->
+````
 
 One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
@@ -129,8 +129,6 @@ Overall, though, the randomness is not a significant percentage of the overall m
 #| label: fig-tr-mode-switching
 #| fig-cap: Trip modes of individuals who switched modes with improved commuter rail service, by tour purpose.
 #| fig-scap: Trip modes of individuals who switched modes with improved commuter rail service.
-#| fig-width: 6.5
-#| fig-height: 8
 
 targets::tar_read(asim_tr_mode_switching_plot)
 ```
@@ -150,8 +148,6 @@ This switching can again be largely explained by the randomness in ActivitySim's
 ```{r}
 #| label: fig-tr-atwork-switching
 #| fig-cap: At-work subtour trip modes of individuals who switched their work mode away from "Drive Alone".
-#| fig-width: 6.5
-#| fig-height: 4
  
 targets::tar_read(asim_tr_atwork_switching_plot)
 ```
@@ -164,7 +160,7 @@ It is difficult to know the actual income distribution of transit riders since i
 
 ```{r}
 #| label: tbl-tr-cube-se
-#| tbl-cap: cube
+#| tbl-cap: Example Socioeconomic Analysis of Transit Trips (WFRC Model)
 
 targets::tar_read(cube_tr_productions_se_summary) %>% 
 	mutate(across(med_income, label_comma(prefix = "$"))) %>% 
@@ -183,7 +179,7 @@ Our synthetic population does over-predict high-income households along the leng
 
 ```{r}
 #| label: tbl-tr-asim-se
-#| tbl-cap: asim
+#| tbl-cap: Example Socioeconomic Analysis of Transit Trips (ActivitySim)
 
 targets::tar_read(asim_tr_trips_se_summary) %>% 
 	mutate(across(income, label_comma(prefix = "$"))) %>% 
@@ -204,9 +200,8 @@ In the WFRC model, however, the income distribution of individuals taking transi
 
 ```{r}
 #| label: fig-tr-se-income-dist
-#| fig-cap: income dist
-#| fig-width: 6.5
-#| fig-height: 8
+#| fig-cap: Income distribution of transit riders in both models. The distribution of TAZ median income weighted by transit trips is used for the WFRC model, while for ActivitySim the actual income distribution of transit riders is used.
+#| fig-scap: Income distribution of transit riders in both models.
 
 targets::tar_read(combined_tr_new_transit_income_plot) +
 	scale_color_bright() +
