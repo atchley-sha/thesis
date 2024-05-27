@@ -5,8 +5,8 @@ project:
 execute:
   echo: false
   warning: false
-  # cache: refresh
-  cache: true
+  cache: refresh
+  # cache: true
   # freeze: auto
 pdf-engine: xelatex
 
@@ -82,8 +82,8 @@ format:
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow
-    # include-in-header:
-    #   - style/latex_preamble.tex
+    include-in-header:
+      - style/latex_preamble.tex
     #   - style/tt_preamble.tex
     dpi: 900
     fig-dpi: 900
@@ -109,20 +109,17 @@ csl: style/asce.csl
 
 filters:
   - acronyms
-  # - abstract-section
 
 acronyms:
-  loa_title: ""
+  # loa_title: ""
   insert_loa: false
   insert_links: false
   include_unused: true
+  loa_header_classes:
+    - unnumbered
   sorting: "alphabetical"
   non_existing: "??"
   style: "long-short"
   on_duplicate: "error"
   fromfile:
     - _acronyms.yml
-
-# abstract-section:
-#   section-identifiers:
-#     - abstract
