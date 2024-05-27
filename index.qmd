@@ -1,7 +1,5 @@
 ::: {.content-hidden when-format="html"}
-# List of Acronyms {.unnumbered .unlisted}
 
 {{< print-acronyms header_classes=.unnumbered >}}
 
-{{< pagebreak >}}
 :::
