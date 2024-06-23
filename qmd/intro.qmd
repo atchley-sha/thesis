@@ -4,7 +4,7 @@ Activity-based models (ABMs) have been championed by researchers and many practi
 ABMs explicitly model individuals, in contrast to the aggregate nature of trip-based models, and so in theory are able to represent travel behavior more accurately.
 Additionally, the focus on individuals in an ABM can allow for more detailed post-hoc analysis of model outputs compared to a trip-based model.
 
-There have been a number of comparisons and case studies between trip- and activity-based models [see e.g. @ferdous_comparison_2012; @zhongComparativeAnalysisTraditional2015; and @mouwComparisonAggregatedMacroscopic2022], but these comparisons focus almost exclusively on the technical ability of the two model types.
+There have been a number of comparisons and case studies between trip- and activity-based models [@ferdous_comparison_2012; @zhongComparativeAnalysisTraditional2015; and @mouwComparisonAggregatedMacroscopic2022], but these comparisons focus almost exclusively on the technical ability of the two model types.
 Though there are potential *theoretical* benefits to ABMs over trip-based models, there is little discussion in the literature of the *practical* benefits an ABM has, if any.
 In fact, while trip-based models are almost ubiquitous among transportation agencies, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns [@miller_current_2023].
 

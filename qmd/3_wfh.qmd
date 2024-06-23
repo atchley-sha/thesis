@@ -35,8 +35,8 @@ Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
 Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
-While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect", where individuals make more discretionary trips on days they do not commute to work.
-@moreno_microscopic_2017 similarly discuss the idea of a "travel time budget", where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
+While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect," where individuals make more discretionary trips on days they do not commute to work.
+@moreno_microscopic_2017 similarly discuss the idea of a "travel time budget," where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
 
 This rebound effect is not straightforward, however.
 @ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and those who work form home only part of the day might make a difference.
@@ -141,47 +141,3 @@ targets::tar_read(cube_wfh_trip_pmt_diff) %>%
 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3))
 ```
 
-ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
-ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for Home-based Work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
-This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily (see @tbl-asim-dap-model-rw-coeffs), but the discrepancy is consistent across all modes.
-Additionally, for Home-based Other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged for shorter discretionary trips.
-
-```{r}
-#| label: tbl-asim-wfh-trip-pmt-diff
-#| tbl-cap: Comparison of Trips Taken and Miles Traveled (ActivitySim)
-
-targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
-	mutate(across(where(is.numeric), round)) %>% 
-	arrange(purpose, mode) %>% 
-	relocate(by_trips, .before = wfh_trips) %>% 
-	relocate(by_pmt, .before = wfh_pmt) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3))
-```
-
-The difference in how trip length is modeled between ActivitySim and the WFRC model can be seen more clearly in @fig-wfh-tlfd-comp.
-This figure shows the difference in trip length frequency distribution for Home-based Work trips between the Remote Work scenario and the baseline scenario.
-Note that a point on the positive y-axis indicates an increased density of trips in the Remote Work scenario compared to the baseline, and vice versa.
-The WFRC model shows two patterns.
-Drive alone and non-motorized trips shifted their distribution toward longer trips with increased remote work, and carpool and transit trips shifted toward shorter trips.
-Again, though, the WFRC model does not model the interaction between working remotely and commute distance, so this shift in trip length is essentially random, due largely to the distribution of jobs by type.
-
-```{r}
-#| label: fig-wfh-tlfd-comp
-#| fig-cap: Difference in trip length frequency distribution between scenarios for each model.
-#| fig-env: sidewaysfigure
-#| fig-width: 9
-#| fig-height: 5
-#| fig-pos: p
-
-targets::tar_read(combined_tlfd_diff_plot) +
-	scale_color_bright() +
-	theme(legend.position = "bottom")
-```
-
-The distribution for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
-Home-based Other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
-However, even when ActivitySim shows a shift in distribution away from very short trips, such as in Home-based Other drive alone and carpool trips, the peak of the Home-based Other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.

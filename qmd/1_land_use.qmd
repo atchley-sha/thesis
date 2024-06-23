@@ -12,7 +12,7 @@ Though the actual development plans for The Point include an expansion of transi
 The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021].
 The Point development is expected to be fully completed by 2050, and its projected land use and socioeconomic data is included in the 2050 WFRC forecast, so the 2050 WFRC land use and socioeconomic data projections are used for this site.
 
-The site consists of 5 TAZs, as shown in @fig-the-point-zones.
+The site consists of five TAZs, as shown in @fig-the-point-zones.
 @tbl-the-point-data-old shows the households, population, and employment by type of these TAZs in the baseline scenario, and @tbl-the-point-data-new shows this information with the new land use.
 Notably, there were no households and relatively few jobs in these TAZs in the baseline scenario.
 No changes other than to the land use/socioeconomic data in these 5 TAZs were made relative to the baseline scenario.
@@ -58,8 +58,8 @@ There were no individuals or households in the affected zones in the existing sy
 
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
 Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
-Because of this, the Census tract covering the Gateway area in downtown Salt Lake City is used to represent the new development patterns at The Point.
-The income distribution, etc. of The Point site will therefore match that of the Gateway area, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+Because of this, a Census tract covering part of downtown Salt Lake City is used to represent the new development patterns at The Point.
+The income distribution, etc. of The Point site will therefore match that of downtown Salt Lake City, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
 
 In a more realistic case, a transportation agency would forecast land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
 However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
@@ -89,7 +89,7 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 
 ```{r}
 #| label: fig-lu-personmiles-asim
-#| fig-cap: Trip-miles of individuals living in the updates zones (ActivitySim). Note that many of these trips do not have an origin or destination in the home zone of the individual.
+#| fig-cap: Trip-miles of individuals living in the updates zones (ActivitySim). Many of these trips do not have an origin or destination in the home zone of the individual.
 #| fig-scap: Trip-miles of individuals living in the updates zones (ActivitySim).
 #| fig-env: sidewaysfigure
 #| fig-pos: p
@@ -155,13 +155,13 @@ Two things are immediately noticeable from this plot.
 The first observation is that many pairs of zones saw a decrease in Non--home-based trips between them compared to the baseline scenario (i.e. there were more Non--home-based trips in the baseline scenario between these zones).
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
 However, this is in fact not an *overall* decrease in Non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
-The second observation is that the largest increases in Non--home-based trips include an origin or destination in the new development, i.e. the home zones of the new population.
+The second observation is that the largest increases in Non--home-based trips include an origin or destination in the new development (i.e. the home zones of the new population).
 Because the change in employment was much more significant than the change in population (see Tables [-@tbl-the-point-data-old] and [-@tbl-the-point-data-new]), many more Non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in Non--home-based trips due to the increase in population.
 Both effects (the global increase in and the changed distribution of Non--home-based trips) are present in the model, but the two effects are impossible to separate.
 
 ```{r}
 #| label: fig-lu-desire-cube-nhb
-#| fig-cap: "Desire lines of Non--home-based trips made in the WFRC model, by mode. Note that the trip counts are obtained by differencing the Non--home-based trip matrix with the base year."
+#| fig-cap: "Desire lines of Non--home-based trips made in the WFRC model, by mode. The trip counts are obtained by differencing the Non--home-based trip matrix with the base year."
 #| fig-scap: Desire lines of Non--home-based trips made in the WFRC model.
 #| fig-env: sidewaysfigure
 #| fig-width: 8
@@ -175,8 +175,8 @@ As mentioned, an ABM allows for tracking of individuals explicitly, and so analy
 @fig-lu-desire-asim shows desire lines of all trips made by individuals living in the new development zones for ActivitySim.
 Non--home-based trips are colored differently from home-based trips.
 
-It is easy to connect Non--home-based trips to their place of production, as each trip is linked to a specific individual who has a defined home location.
-It is also easy to see how trips are related to each other, as each individual has a specific sequence of trips.
+In an ABM, Non--home-based trips are directly connected to their place of production, as each trip is linked to a specific individual who has a defined home location.
+<!-- Each individual has a specific sequence of trips, and so it is easy to see how trips follow from each other. -->
 The individual nature of an ABM avoids entirely the problems trip-based models have with Non--home-based trips.
 In a complicated land use forecast, each development's full contribution to network congestion can be analyzed individually.
 

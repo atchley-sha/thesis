@@ -8,9 +8,9 @@ Therefore, while some of the conclusions presented here address quantitative dif
 
 Specifically, this section focuses on potential "pain points" an agency may encounter when transitioning from a trip-based model to an ABM, both as discussed in the literature and from our experience in this research.
 @miller_current_2023 notes several reasons agencies may not be adopting ABMs, as discussed in @sec-literature-lack-of-adpotion.
-These reasons include computational inefficiency, complicated design, and lack of interoperability between areas.
+Some of these reasons include computational inefficiency, complicated design, and lack of interoperability between areas.
 Additionally, switching to an ABM would require an agency to expend resources on staff training, though notably this is true for switching to any new modeling system, regardless of model type.
-The following sections address each of these difficulties in detail, and discusses our experience as relates to them.
+The following sections address each of these difficulties in detail, and discusses our experience as it relates to them.
 Note that many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation, though many conclusions can apply to trip- and/or activity-based models more broadly.
 
 ## Computational Resources
@@ -92,14 +92,14 @@ Additionally, the SEMCOG remote work models did not include provisions for diffe
 
 [^conclusions-3]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
 
-The WFRC model does already include different remote work rates by job industry, but it would be difficult to add in different rates based on e.g. vehicle ownership or TAZ average income.
+The WFRC model does already include different remote work rates by job industry, but it would be difficult to add in different rates based on, for example, vehicle ownership or TAZ average income.
 It is worth noting though that this difficulty may be a result of the specific way that the WFRC model is written, and may not apply equally to all trip-based models.
 
 ## Training requirements
 
 In order to change from a trip-based to an ABM, an agency will need to spend time to understand the model and train its staff.
 We analyzed the time spent on each part of the modeling process for this project, and this section provides discussion on this.
-Obviously the actual time an agency would require to transition to an ABM depends greatly on many factors such as specific staff experience, but this section is intended to give a very rough approximation of the time and effort needed.
+Obviously the actual time an agency would require to transition to an ABM depends on many factors such as specific staff experience, but this section is intended to give a very rough approximation of the time and effort needed.
 
 Tables [-@tbl-time-spent-cube] and [-@tbl-time-spent-asim] show the amount of time spent on creating and analyzing each scenario in both models.
 These are approximations, as detailed time logs are not available, but should serve to give a general idea of the time spent.

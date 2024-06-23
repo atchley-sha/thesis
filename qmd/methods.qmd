@@ -25,7 +25,7 @@ The WFRC model, like many trip-based models, requires the following inputs:
 
 -   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).
 -   Travel skims detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the destination and mode choice model steps.
--   Transportation networks, including highway, transit, etc.\\\@ networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
+-   Transportation networks, including highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   Lookup tables, used in many model steps for information such as trip rates by household type. These are taken directly from the WFRC model without modification.
 -   Model constants and coefficients, which some model steps such as mode choice require for calibration. These are also taken directly from the WFRC model.
 
@@ -37,7 +37,7 @@ This does not create a fully synthetic or disaggregated population, but is more 
 ![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
 The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
-The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and 3, respectively, i.e. every household with 3 or more workers is grouped into a "3+ workers" category.
+The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and 3, respectively (e.g., every household with 3 or more workers is grouped into a "3+ workers" category).
 The specific income groups used in the WFRC model are given in @tbl-income-groups.
 
 ```{r}
@@ -108,23 +108,13 @@ The exact implementation is available on GitHub.[^methods-1]
 
 [^methods-1]: [<https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration>]{.content-visible when-format="html"} [[https://github.com\slash byu-transpolab\slash wfrc_asim_scenario\slash tree\slash update-abm-illustration](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration)]{.content-visible when-format="pdf"}
 
-ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
-However, ActivitySim does require network skims for information on travel time, cost, etc.
-These skims are obtained from any network assignment process, though ActivitySim itself does not include network assignment.
-A discussion and comparison of network assignment processes is outside the scope of this project, so this ActivitySim implementation uses the travel skims output from the WFRC model directly.
-In practice, ActivitySim is mated to CUBE or another network assignment algorithm for network skimming and travel time feedback.
-
-ActivitySim additionally requires population data at an individual level, including information such as age, household income, and home location.
-Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead.
-@sec-populationsim discusses the population used in more detail.
-
 ActivitySim, like all ABMs, simulates transportation decisions on an individual level.
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones. @associationofmetropolitanplanningorganizationsExamplesActivitySim2022.](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones. [@associationofmetropolitanplanningorganizationsExamplesActivitySim2022.]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
-The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, daily, tour-level, and trip-level steps.
+The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, person daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
 In this case, these impedances are supplied directly as the network skims output from the WFRC model.
 
@@ -151,7 +141,15 @@ $$\
 where $P(k)$ is the probability of choosing alternative $k$, $V_k$ is the utility of alternative $k$, and $K$ is the set of all alternatives [as discussed in @mcfaddenMeasurementUrbanTravel1974].
 The utility values are determined by coefficients on variables such as income, age, and work status, in addition to calibration constants for each alternative.
 
-### PopulationSim {#sec-populationsim}
+ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
+However, ActivitySim does require network skims for information on travel time, cost, etc.
+These skims are obtained from any network assignment process, though ActivitySim itself does not include network assignment.
+A discussion and comparison of network assignment processes is outside the scope of this project, so this ActivitySim implementation uses the travel skims output from the WFRC model directly.
+In practice, ActivitySim is mated to CUBE or another network assignment algorithm for network skimming and travel time feedback.
+
+ActivitySim requires population data at an individual level, including information such as age, household income, and home location.
+Due to privacy concerns, real data is rarely used for this purpose, and a synthetic population representative of the study area is used instead.
+Using a synthetic population instead of real data also allows for modeling hypothetical scenarios, including future-year forecasts.
 
 This research uses PopulationSim [@populationsim_2023] to create a synthetic population for ActivitySim.
 The synthetic population aims to be representative of the study area while maintaining privacy.
@@ -187,7 +185,7 @@ tibble::tribble(
 ```
 
 Most of these controls come from Census data, with only the number of households per TAZ coming from the WFRC model data.
-Note also that there are many personal and household variables that are not accounted for in these controls, such as sex, vehicle ownership, internet access, etc.
+Note also that there are many personal and household variables that are not accounted for in these controls, such as gender, vehicle ownership, internet access, etc.
 These variables are not controlled for and are dependent on which seed persons or households are copied in controlling for the other variables.
 However, this process is assumed to still give a representative enough estimate for the uncontrolled variables without needing to model them explicitly.
 
@@ -207,8 +205,8 @@ However, the WFRC model contains TAZ-level data including population and median 
 The WFRC model also has a disaggregation step that estimates the number of households by size and income group.
 This section compares the output of PopulationSim to the WFRC model on each of these variables.
 Though these outputs are given at the TAZ level, most controls to PopulationSim were given at the Census tract level, and these tracts are not a one-to-one match with the region's TAZs.
-Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in, and so at small geographies such as TAZs the error distribution between the two models is noisy.
-The comparisons in this section are therefore made by aggregating each TAZ at the district level.
+Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in. As such, for small geographic areas such as TAZs the error distribution between the two models is noisy.
+The comparisons in this section are therefore made by aggregating each TAZ at the district level, where each district is defined by \acr{WFRC} and includes several contiguous TAZs.
 
 @fig-population-comparison shows the difference in district population between PopulationSim and the WFRC data.
 It is worth noting that since the number of households was controlled at the TAZ level from the WFRC data with an extremely high weight, the number of households per TAZ in the synthetic population match exactly to the WFRC data.
@@ -253,10 +251,9 @@ targets::tar_read(comparison_inc_groups_map)
 
 Note that in the synthetic population, each household has a specific income and so can be grouped directly, while the WFRC model requires a disaggregation step to estimate the number of households in each income group.
 @fig-income-group-map therefore is comparing two income disaggregation models, one a part of PopulationSim and the other in the WFRC model, rather than comparing the synthetic population to actual socioeconomic data.
-With this in mind, the difference shown in @fig-income-group-map is within an acceptable margin of error.
-
 Additionally, the overall distribution of income is similar between the models, as @fig-median-income-density shows.
-A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but for the purposes of this research the income distribution of the synthetic population is acceptable.
+A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but as mentioned, in this research the focus is on the process, rather than accuracy, for each model.
+Because of this focus, ActivitySim does not need to be perfectly calibrated to the WFRC model, and so for the purposes of this research the income distribution of the synthetic population is acceptable.
 
 ```{r}
 #| label: fig-median-income-density
@@ -279,7 +276,7 @@ However, recent travel survey data was not available for this project, and only 
 We therefore used the outputs of the baseline WFRC model scenario as mode split targets.
 A production model would certainly use travel survey data and perform a thorough calibration, but that is outside the scope of this project.
 
-Before beginning calibration, we created a crosswalk between the available modes in ActivitySim and in the WFRC model.
+Before beginning calibration, we matched the available modes in ActivitySim to those in the WFRC model, creating a "crosswalk" between the modes in each model.
 The available modes between ActivitySim and the WFRC model are not incredibly different, and in fact many modes have a 1-to-1 match between the models.
 However, some adjustment was needed, and @tbl-mode-crosswalk shows the adjustments that were made.
 
@@ -302,7 +299,7 @@ targets::tar_read(mode_crosswalk) %>%
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
 Because ABMs create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
-Specifically, an ABM doesn't have a concept of e.g. "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+Specifically, an ABM doesn't have a concept of, for example, "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
 For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
 Any trip that doesn't start or end at home is considered a Non--home-based trip, and if a trip starting or ending at home has its other end at work, it is considered a Home-based Work trip.
 All other trips are considered Home-based Other trips.
@@ -339,8 +336,8 @@ targets::tar_read(mcc_adjustments_plot)
 In any case, we chose the calibration at Iteration 4 for the final ASC values, as subsequent iterations adjusted the ASCs without changing the mode split very much.
 At subsequent iterations ActivitySim was also less sensitive to changes in infrastructure due to over-calibration, which would not allow for effective policy analysis.
 @tbl-mode-split compares the mode split of both models after iteration 4 of calibration.
-Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (e.g. ActivitySim is predicting significantly more transit trips compared to the WFRC model).
-While the calibration is not perfect, for the purposes of this research this calibration is reasonable enough.
+Overall, the calibration resulted in a reasonably similar mode split between the two models, though there are still discrepancies (ActivitySim is for example predicting significantly more transit trips compared to the WFRC model).
+While the calibration is not perfect, for the purposes of this research this calibration is determined to be reasonable enough.
 
 ```{r}
 #| label: tbl-mode-split
@@ -361,7 +358,8 @@ targets::tar_read(mc_comparison) %>%
 Both ActivitySim and the WFRC model contain trip distribution steps which can be adjusted to affect the distribution of trip length.
 However, as the figure shows, the two models have similar trip length frequency distributions, so no adjustment was necessary.
 The most significant discrepancies are with transit trips, again likely due to this configuration of ActivitySim being developed for San Francisco, making transit more attractive.
-Note that though these distributions match well enough for the purposes of this research, further calibration would be required to create a production-ready ActivitySim implementation.
+Note that further calibration may be required to create a production-ready ActivitySim implementation, but again we are focused more on process than accuracy.
+It is sufficient to ensure the models very roughly agree on outputs such as mode split and trip length distribution, and we determined that this is the case.
 
 ```{r}
 #| label: fig-tlfd-comp
@@ -376,7 +374,7 @@ targets::tar_read(combined_by_tlfd_plot) +
 The WFRC model has basic support for predicting telecommuting and work-from-home trips.
 This includes a lookup table of telecommute percentages based on job type and year.
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
-It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting", where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
+It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting," where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
 The ActivitySim implementation discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
 However, a separate ActivitySim implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) metropolitan planning organization in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG implementation.
@@ -384,7 +382,7 @@ Some modifications to the remote work submodels were needed for compatibility, b
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
-ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, sex, and education (coefficients on these variables were left unchanged from the existing configuration, see @tbl-asim-wfh-model-coeffs).
+ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, gender, and education (coefficients on these variables were left unchanged from the existing configuration, see @tbl-asim-wfh-model-coeffs).
 There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
 Individuals with work-from-home status are then prohibited from making a mandatory tour.
 This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
@@ -400,7 +398,7 @@ targets::tar_read(asim_wfh_model_coeffs) %>%
 ```
 
 The two models differ in their approach to telecommuting, however.
-The WFRC model has a lookup table of telecommuting shares based on job type (see @tbl-baseline-telecommute), including predictions for future years.
+The WFRC model has a lookup table of telecommuting shares based on job type, including predictions for future years.
 ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
 Based on this status, ActivitySim adjusts the likelihood of selecting a mandatory DAP.
 Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
@@ -465,10 +463,10 @@ targets::tar_read(asim_tc_dap_coeffs) %>%
 
 With these two calibrated models, we created three model scenarios to implement and run in each model for comparison.
 This is not a comprehensive list covering all potential scenario possibilities, but the scenarios identified here are intended to represent the main goals of travel demand modeling in modeling changes in travel behavior.
-Change in travel behavior could arise in response to changes in land use, transportation infrastructure, and social/economic factors, and so we create three hypothetical model scenarios that each implement one of these aspects.
+Change in travel behavior could arise in response to changes in land use, transportation infrastructure, and social/economic factors, and so we created three hypothetical model scenarios that each implement one of these aspects.
 
 The first scenario involves a change in land use near the former state prison site in Draper, Utah.
-Current plans for this site involve new development known as "The Point", which will add high-density housing and commercial development to the area.
+Current plans for this site involve new development known as "The Point," which will add high-density housing and commercial development to the area.
 This research scenario will be based on this development, but will include only the land use changes.
 The actual development plans also include expansion of transit, but this will not be a part of this scenario.
 
