@@ -99,7 +99,7 @@ where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the product
 The mode choice step uses a choice model to assign a percentage of trips of each purpose to each mode, and network assignment is done via an iterative process to equalize travel time between potential routes.
 The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
 
-## ActivitySim
+## ActivitySim {#sec-activitysim}
 
 ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.

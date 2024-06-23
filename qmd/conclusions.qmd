@@ -53,14 +53,21 @@ Depending on the budget of a given agency, this expense may be worthwhile.
 ## Complication of Model Design
 
 The second potential difficulty is the complication of an ABM's design.
-ABMs are in theory more complicated than trip-based models, as ABMs model individuals rather than simply using aggregate values.
-While ABMs may be more computationally intensive than trip-based models due to explicitly modeling individuals (though the previous section shows this is not always the case), our experience showed that this is not the same as being more *complicated*.
-Though an ABM does require additional information as inputs, essentially only the synthetic population is additional compared to the requirements for a trip-based model.
+ABMs may in theory be more complicated than trip-based models, as ABMs model individuals rather than simply using aggregate values.
+ABMs therefore have more "moving parts" than trip-based models.
+However, these "parts" are often much more straightforward to interpret in an ABM, as each model step simply assigns a household or individual a specific value, such as vehicle ownership or the individual's DAP.
+These assigned values can then be used in subsequent model steps.
+In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
+It is easy to then model a remote work "rebound effect"[^conclusions-2] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
+Since trip-based models exclusively deal with aggregate data, the interpretation of each model step is more vague.
 
-<!-- In fact, the WFRC model is itself quite complicated, as it is set up to model.... -->
+[^conclusions-2]: See @sec-remote-work-considerations
 
-Even if ABMs are more complicated than trip-based models in operation, we found that they are in many ways simpler in interpretation.
-The clearest example of this simplicity regards non--home-based trips.
+While it may be possible in a trip-based model to model distance to work as it relates to remote work, it is not clear how best to do this, and may require a separate trip purpose and/or trip distribution model specifically for remote work.
+In ActivitySim, on the other hand, distance to work is simply another model step that "slots in" to the model pipeline.
+This step (and most model steps) can be adjusted and calibrated independently of the rest of the model, and it is much easier to understand and interpret what each model step is doing.
+
+Another example that highlights the difference in interpretation between models regards non--home-based trips.
 Trip-based models model non--home-based trips quite abstractly, especially if (like the WFRC model) the model does not include a non--home-based trip redistribution step.
 While the idea of a trip that does not begin or end at home is conceptually simple, it is difficult to model concretely in a trip-based model.
 Homes may "produce" non--home-based trips, but it is not clear where the origins or destinations of those trips should be.
@@ -68,14 +75,10 @@ By contrast, the interpretation of non--home-based trips in an ABM is trivial.
 Because trips in an ABM are organized into tours, it is easy to "follow" an individual throughout the day; each trip has an origin and destination consistent with the other trips in the tour.
 "Non--home-based" trips are not really a concept in ABMs, as individuals simply make trips, some of which begin or end at home.
 
-Additionally, each step of an ABM is straightforward to interpret.
-Each step assigns each household or individual a specific value, such as the number of vehicles owned or the individual's DAP.
-These assigned values can then be used in subsequent model steps.
-In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
-It is easy to then model a remote work "rebound effect"[^conclusions-2] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
-Since trip-based models exclusively deal with aggregate data, the interpretation of each model step is more vague.
+A point worth noting, though, is that ABMs do require additional input data compared to a trip-based model.
+However, essentially the only additional input data needed for ActivitySim over the WFRC model is the synthetic population (see @sec-activitysim).
+While the synthetic population did require a significant amount of initial configuration, modifying the synthetic population (e.g., for the Land Use scenario) did not require much additional effort.
 
-[^conclusions-2]: See @sec-remote-work-considerations
 
 ## Model Interoperability
 
@@ -139,6 +142,16 @@ Finally, the tasks were divided between two research assistants almost exclusive
 This means that Tables [-@tbl-time-spent-cube] and [-@tbl-time-spent-asim] are showing the time spent with each model type by a specific individual.
 In other words, the difference between these tables is not only the model type, but also the individual working on the task.
 Any comparisons between these tables should therefore take this into consideration.
+
+One additional point to note is how the analyses were performed in each model.
+The WFRC model outputs relevant to our analyses consist mainly of matrices listing the number of trips between zones.
+There is a separate matrix for each mode and purpose, and so analyzing the data from the WFRC model requires making comparisons between several matrices for each scenario, and potentially aggregating values across different matrices.
+The only output of ActivitySim relevant to our analyses is a table listing every trip made in the scenario, which includes information on person id, mode, time of day, purpose, etc.
+There is therefore only one table per scenario that we used in our analyses, as this table contained all the necessary information for each analysis.
+For example, to create the Non--home-based desire line plot for the WFRC model (@fig-lu-desire-nhb-cube), we took the Non--home-based trip matrices and took the difference between the Land Use and baseline scenario for each mode.
+For the desire line plot in ActivitySim (@fig-lu-desire-asim), we took the table of trips and filtered the list to only persons whose home zone was in the new development.
+We then had a list of trips made by residents of the new development and were able to aggregate these trips and create the desire line plot.
+Both of these figures took roughly the same amount of effort to create, and the analysis in ActivitySim gives more detailed information than the equivalent analysis in the WFRC model.
 
 ## Recommendations
 
