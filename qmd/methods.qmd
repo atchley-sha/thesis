@@ -5,7 +5,7 @@
 This paper seeks to compare methodological differences between trip- and activity-based modeling frameworks.
 Both model types have a wide variety of implementations, as individual agencies will adjust the basic model framework to match their specific needs.
 It would be unreasonable to compare each of the various implementations of both model types.
-Instead, a representative model is used for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
+Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
 The representative trip-based model is the 2019 Wasatch Front Regional Council (WFRC) travel demand model, which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
 An ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
@@ -101,7 +101,7 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 
 ## ActivitySim {#sec-activitysim}
 
-ActivitySim is an open-source ABM led by a consortium of transportation planning agencies.
+ActivitySim is an open-source ABM whose development is led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
 This paper uses an ActivitySim implementation based on the one used in @macfarlaneEstimationSimulationDaily2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
 The exact implementation is available on GitHub.[^methods-1]
@@ -112,7 +112,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. Long-term decisions are made first, followed by more granular ones. [@associationofmetropolitanplanningorganizationsExamplesActivitySim2022.]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. [@associationofmetropolitanplanningorganizationsExamplesActivitySim2022.]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, person daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -127,7 +127,7 @@ ActivitySim contains a step to assign mandatory, non-mandatory, and home DAPs ba
 For example, full-time workers are more likely to have a mandatory DAP than part-time workers, all else being equal.
 
 Once a DAP is chosen, ActivitySim creates tours for each major activity in the day.
-Additionally, ActivitySim determines if an individual makes an "at-work" tour (e.g. leaving for lunch and returning to the workplace).
+Additionally, ActivitySim determines if an individual makes an "at-work" tour (e.g., leaving for lunch and returning to the workplace).
 Each tour is scheduled and assigned a primary mode, as well as a primary destination for non-mandatory and joint tours.
 The tours are then populated with trips, and ActivitySim assigns each trip a purpose, destination, time of day, and mode compatible with the tour-level assignment.
 
@@ -144,7 +144,7 @@ The utility values are determined by coefficients on variables such as income, a
 ActivitySim requires similar inputs to the WFRC model, though it does not assign traffic and so does not require any transportation networks.
 However, ActivitySim does require network skims for information on travel time, cost, etc.
 These skims are obtained from any network assignment process, though ActivitySim itself does not include network assignment.
-A discussion and comparison of network assignment processes is outside the scope of this project, so this ActivitySim implementation uses the travel skims output from the WFRC model directly.
+A discussion and comparison of network assignment processes is outside the scope of this project, and this ActivitySim implementation uses the travel skims output from the WFRC model directly.
 In practice, ActivitySim is mated to CUBE or another network assignment algorithm for network skimming and travel time feedback.
 
 ActivitySim requires population data at an individual level, including information such as age, household income, and home location.
@@ -194,7 +194,7 @@ The outputs of PopulationSim include a persons and households table comprising t
 ## Initial Model Comparison/Calibration
 
 While this research generally does not directly compare the outputs of ActivitySim to those of the WFRC model, it is important to ensure similar performance between the two models for meaningful analyses.
-As such, a baseline scenario in both models is used in order to calibrate the ActivitySim implementation to the WFRC model.
+As such, we used a "baseline" scenario in both models in order to calibrate the ActivitySim implementation to the WFRC model.
 This baseline scenario uses the 2019 WFRC model as-is.
 For ActivitySim, the baseline scenario uses 2019 Census and WFRC data to create the synthetic population, and uses land use data and network skims from the baseline WFRC scenario for accessibility and socioeconomic measures.
 
@@ -205,7 +205,8 @@ However, the WFRC model contains TAZ-level data including population and median 
 The WFRC model also has a disaggregation step that estimates the number of households by size and income group.
 This section compares the output of PopulationSim to the WFRC model on each of these variables.
 Though these outputs are given at the TAZ level, most controls to PopulationSim were given at the Census tract level, and these tracts are not a one-to-one match with the region's TAZs.
-Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in. As such, for small geographic areas such as TAZs the error distribution between the two models is noisy.
+Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in.
+As such, for small geographic areas such as TAZs the error distribution between the two models is noisy.
 The comparisons in this section are therefore made by aggregating each TAZ at the district level, where each district is defined by \acr{WFRC} and includes several contiguous TAZs.
 
 @fig-population-comparison shows the difference in district population between PopulationSim and the WFRC data.
@@ -267,7 +268,7 @@ targets::tar_read(comparison_inc_density_plot) +
 
 ### Validation and Calibration of ActivitySim {#sec-baseline-calibration}
 
-This section compares the outputs of both models to verify that trip patterns roughly agree between them.
+This section compares the outputs of both models to verify that trip patterns roughly agree.
 There are three comparisons of interest that we make between the outputs of the two models: mode split, trip length frequency distribution, and remote work.
 
 The initial baseline ActivitySim scenario predicted a mode split significantly different to that from the WFRC model, and so calibration efforts were needed.
@@ -278,7 +279,8 @@ A production model would certainly use travel survey data and perform a thorough
 
 Before beginning calibration, we matched the available modes in ActivitySim to those in the WFRC model, creating a "crosswalk" between the modes in each model.
 The available modes between ActivitySim and the WFRC model are not incredibly different, and in fact many modes have a 1-to-1 match between the models.
-However, some adjustment was needed, and @tbl-mode-crosswalk shows the adjustments that were made.
+However, not all modes have an exact match between models.
+@tbl-mode-crosswalk shows the modes in each model grouped in a way that allows for consistency during calibration.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
 Based largely on the model results of @dayForecastingRideHailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
@@ -299,14 +301,14 @@ targets::tar_read(mode_crosswalk) %>%
 Additionally, since the WFRC model has a significantly different mode split depending on the trip purpose, we calibrated each trip purpose individually.
 However, a crosswalk of trip purposes between the models is more complicated than the crosswalk for modes.
 Because ABMs create tours first, which are then populated with trips, an ABM's idea of "trip purpose" is entirely different to that of a trip-based model.
-Specifically, an ABM doesn't have a concept of, for example, "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
+Specifically, an ABM does not have a concept of, for example, "home-based work" trips, there are simply trips on a "work" tour, some of which have an origin or destination at home.
 For simplicity, though, we converted the trips from ActivitySim into purposes that roughly match the WFRC model's purposes.
 Any trip that doesn't start or end at home is considered a Non--home-based trip, and if a trip starting or ending at home has its other end at work, it is considered a Home-based Work trip.
 All other trips are considered Home-based Other trips.
 
-To perform the calibration, the output mode split of ActivitySim for each purpose was compared to the target mode split output from the WFRC model.
-An adjustment value was determined by the formula $A_k = \ln(T_k/M_k)$, where $A_k$ is the adjustment value for mode $k$, $T_k$ is the target mode share of mode $k$, and $M_k$ is the ActivitySim-predicted mode share of mode $k$.
-This adjustment value was added to the current alternative-specific constants (ASCs) in the ActivitySim configuration, and this process was repeated iteratively until calibration was satisfactory.
+We performed the calibration by iteratively adjusting the alternative-specific constants (ASCs) in ActivitySim's mode choice submodels.
+Each iteration, the output mode split of ActivitySim was compared to the target mode split output from the WFRC model, and we adjusted ActivitySim's ASCs by the formula $A_k = \ln(T_k/M_k)$, where $A_k$ is the adjustment value for mode $k$, $T_k$ is the target mode share of mode $k$, and $M_k$ is the ActivitySim-predicted mode share of mode $k$.
+This adjustment value was added to the current ASCs in ActivitySim, and this process was repeated until calibration was satisfactory.
 
 There are two aspects of this calibration process worth noting.
 The first is that ActivitySim contains ASCs for both tour mode choice and trip mode choice, where the tour mode is the principal mode used on the tour, and the trip mode is the mode of the individual trip (for example, there could be a "walk" trip on a "transit" tour).

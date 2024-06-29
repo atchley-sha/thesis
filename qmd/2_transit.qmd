@@ -46,7 +46,7 @@ No other changes to ActivitySim are necessary to model this scenario.
 ## Scenario Analysis
 
 One of the most straightforward analyses to perform is a comparison of the mode split between this and the baseline scenario.
-@tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario (*n.b.* "local transit" includes both light rail and bus travel).
+@tbl-tr-mode-split shows the number of trips by purpose and mode for each model, and compares these results between this scenario and the baseline scenario.
 Unsurprisingly, both models predict a significant increase in commuter rail trips.
 The models differ, however, in which modes the new commuter rail trips come from.
 
@@ -55,11 +55,12 @@ The models differ, however, in which modes the new commuter rail trips come from
 #| tbl-cap: Change in Mode Split with Improved Transit
 
 targets::tar_read(combined_tr_mode_split_table) %>%
+	mutate(mode = case_match(mode, "Local Transit" ~ "Local Transit\u00b2", .default = mode)) %>% 
 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Trips", "Transit\u00b9 Trips", "Change"), 2))) %>%
 	kable_styling() %>% 
 	add_header_above(c(" " = 2, "WFRC Model" = 3, "ActivitySim" = 3)) %>% 
 	collapse_rows(1, latex_hline = "major") %>% 
-	footnote(number = "\"Transit\" here refers to the Transit scenario, not the mode of travel")
+	footnote(number = c("\"Transit\" here refers to the Transit scenario, not the mode of travel", "\"Local Transit\" includes both light rail and bus travel"))
 ```
 
 For Home-based Other and Non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.
@@ -83,7 +84,7 @@ Many of the new commuter rail trips therefore come from those who would have tak
 ActivitySim, however, *does* model interactions between trips.
 An individual who makes a commuter rail trip will (usually) not be able to drive for subsequent trips until they have returned home.
 Because of this, individuals taking commuter rail are more likely to then take other forms of transit on the same tour.
-There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced in part due the aforementioned structuring of trips into tours.
+There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced in part due this structuring of trips into tours.
 
 One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.

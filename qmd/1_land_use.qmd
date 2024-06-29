@@ -59,7 +59,7 @@ There were no individuals or households in the affected zones in the existing sy
 Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
 Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
 Because of this, a Census tract covering part of downtown Salt Lake City is used to represent the new development patterns at The Point.
-The income distribution, etc. of The Point site will therefore match that of downtown Salt Lake City, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
+The income distribution, etc. of The Point site will therefore match that of downtown Salt Lake City, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
 
 In a more realistic case, a transportation agency would forecast land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.
 However, our ActivitySim implementation only needs to be within a rough approximation of the WFRC model for the purposes of this project, and the method used here results in reasonable accuracy between the models.
@@ -102,7 +102,7 @@ targets::tar_read(asim_lu_new_pmt_plot) +
 
 In the WFRC model (and in many trip-based models), homes produce trips with different trip purposes, including Home-based Work, Home-based Other, and Non--home-based trips.
 "Home-based" trips have an origin or destination at the home, and are fairly straightforward to model, as the destination choice step can take for granted that these trips have one trip end in the zone that produced them.
-In addition to home-based trips, though, individuals make many "non--home-based" trips, which do not have an origin or destination at the home (e.g. traveling from work to a grocery store).
+In addition to home-based trips, though, individuals make many "non--home-based" trips, which do not have an origin or destination at the home (e.g., traveling from work to a grocery store).
 Non--home-based trips can be a significant portion of total travel, as @fig-lu-personmiles-cube shows, but are not as straightforward to model as home-based trips.
 
 Because Non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
@@ -152,10 +152,10 @@ Instead, we took the difference between the entire Non--home-based trip matrices
 
 @fig-lu-desire-cube-nhb shows the desire line plot for the difference in Non--home-based trips between this scenario and the baseline scenario.
 Two things are immediately noticeable from this plot.
-The first observation is that many pairs of zones saw a decrease in Non--home-based trips between them compared to the baseline scenario (i.e. there were more Non--home-based trips in the baseline scenario between these zones).
+The first observation is that many pairs of zones saw a decrease in Non--home-based trips between them compared to the baseline scenario (i.e., there were more Non--home-based trips in the baseline scenario between these zones).
 Certainly it makes little sense to predict *fewer* trips as the result of added population and employment.
 However, this is in fact not an *overall* decrease in Non--home-based trips; these trips are simply being assigned trip ends in different locations due to the nearby change in land use.
-The second observation is that the largest increases in Non--home-based trips include an origin or destination in the new development (i.e. the home zones of the new population).
+The second observation is that the largest increases in Non--home-based trips include an origin or destination in the new development (the home zones of the new population).
 Because the change in employment was much more significant than the change in population (see Tables [-@tbl-the-point-data-old] and [-@tbl-the-point-data-new]), many more Non--home-based trip ends were attracted to the development zones compared to the relatively little global increase in Non--home-based trips due to the increase in population.
 Both effects (the global increase in and the changed distribution of Non--home-based trips) are present in the model, but the two effects are impossible to separate.
 
@@ -176,8 +176,7 @@ As mentioned, an ABM allows for tracking of individuals explicitly, and so analy
 Non--home-based trips are colored differently from home-based trips.
 
 In an ABM, Non--home-based trips are directly connected to their place of production, as each trip is linked to a specific individual who has a defined home location.
-<!-- Each individual has a specific sequence of trips, and so it is easy to see how trips follow from each other. -->
-The individual nature of an ABM avoids entirely the problems trip-based models have with Non--home-based trips.
+<!-- Each individual has a specific sequence of trips, and so it is easy to see how trips follow from each other. --> The individual nature of an ABM avoids entirely the problems trip-based models have with Non--home-based trips.
 In a complicated land use forecast, each development's full contribution to network congestion can be analyzed individually.
 
 <!-- With the synthetic population, we were also able to see which types of people were taking trips from the new development. -->
