@@ -6,7 +6,7 @@ Our second scenario models changes in travel behavior as a result of changes to 
 This model scenario, termed the "Transit" scenario, is based on a planned improvement to the FrontRunner commuter rail line.
 The FrontRunner runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in between.
 Currently, there is only one set of tracks for much of the line, and it is only possible for trains to pass each other near stations.
-Because of this, headways are quite large, with trains running every half-hour in peak periods and hourly in off-peak periods.
+Because of this, headways are quite large, with trains running every 30 minutes in peak periods and every 60 minutes in off-peak periods.
 
 A potential improvement to the FrontRunner would "double track" the entire route, allowing trains to pass each other at any point.
 The main benefit of this improvement is a substantial decrease in headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
@@ -98,8 +98,8 @@ Most of these trips also share the same mode, which is to be expected, but many 
 
 ```{r}
 #| label: fig-tr-mode-switching
-#| fig-cap: Trip modes of individuals who switched modes with improved commuter rail service, by tour purpose.
-#| fig-scap: Trip modes of individuals who switched modes with improved commuter rail service.
+#| fig-cap: Trip modes of individuals who switched modes with improved commuter rail service in ActivitySim, by tour purpose.
+#| fig-scap: Trip modes of individuals who switched modes with improved commuter rail service in ActivitySim.
 #| fig-env: sidewaysfigure
 #| fig-width: 9
 #| fig-height: 5
@@ -128,14 +128,14 @@ This switching can again be largely explained by the randomness in ActivitySim's
 
 ```{r}
 #| label: fig-tr-atwork-switching
-#| fig-cap: At-work subtour trip modes of individuals who switched their work mode away from "Drive Alone".
+#| fig-cap: At-work subtour trip modes of individuals who switched their work mode away from "Drive Alone" in ActivitySim.
  
 targets::tar_read(asim_tr_atwork_switching_plot)
 ```
 
 Both model types additionally allow for analyzing the types of people who use transit.
 The WFRC model, however, is limited to analyses using aggregate, TAZ-level data.
-@tbl-tr-cube-se shows, for example, the median number of households, people, and jobs weighted by the number of transit trip productions in each TAZ for the WFRC model.
+@tbl-tr-cube-se shows, for example, the median number of households, people, and jobs per TAZ weighted by the number of transit trip productions in each TAZ for the WFRC model.
 Additionally, @tbl-tr-cube-se shows a median income associated with transit trips, but note that this is not a median income of transit *riders*, but a median of *TAZ median income*, weighted by trip productions.
 It is difficult to know the actual income distribution of transit riders since individuals are not modeled explicitly.
 
@@ -152,7 +152,7 @@ targets::tar_read(cube_tr_productions_se_summary) %>%
 ```
 
 Because an ABM *does* model individuals explicitly, information about each individual is accessible at every stage of the model, including in post-hoc analysis.
-We can therefore determine the actual distribution of e.g. age and income for transit riders.
+We can therefore determine the individual-level distribution of age and income for transit riders, for example.
 @tbl-tr-asim-se shows a similar summary as @tbl-tr-cube-se, but for ActivitySim.
 @tbl-tr-asim-se presents median values for the individuals who made transit trips, not simply TAZ averages.
 Notably, Tables [-@tbl-tr-cube-se] and [-@tbl-tr-asim-se] show that ActivitySim is predicting a higher median income of transit riders than the WFRC model.

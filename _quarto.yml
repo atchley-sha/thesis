@@ -57,10 +57,10 @@ book:
     - qmd/conclusions.qmd
     - qmd/references.qmd
   abstract: >-
-    Activity-based travel demand models (ABMs) are generally considered superior to their trip-based counterparts, as ABMs explicitly model individuals in contrast to the aggregate nature of trip-based models.
+    Activity-based travel demand models are generally considered superior to their trip-based counterparts, as activity-based models (ABMs) explicitly model individuals in contrast to the aggregate nature of trip-based models.
     There have been a number of comparisons between trip- and activity-based models, but these comparisons focus almost exclusively on the technical ability of the two model types, while not considering the practical benefits an ABM may or may not have to a transportation agency.
     This research performs a more holistic comparison between trip- and activity-based models, focused specifically on the practical differences between model types, both in terms of usability and capability for complex analysis.
-    We use the existing Wasatch Front Regoinal Council (WFRC) model as a representative trip-based model, and an ActivitySim implementation in the same area as a representative ABM.
+    We use the existing Wasatch Front model as a representative trip-based model, and an ActivitySim implementation in the same area as a representative ABM.
     We create three hypothetical scenarios in both models: a change in land use, an improvement to commuter rail service, and an increase in remote work.
     We discuss the process of creating each scenario in both models, and perform several example analyses with each scenario and model.
     Notably, we find that many commonly-cited reasons for the lack of ABM adoption may not be as applicable as previously thought.
