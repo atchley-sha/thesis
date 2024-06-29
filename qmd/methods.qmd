@@ -392,7 +392,7 @@ We made no other adjustments to the ActivitySim work-from-home submodel.
 
 ```{r}
 #| label: tbl-asim-wfh-model-coeffs
-#| tbl-cap: Work-From-Home Submodel Coefficients in ActivitySim
+#| tbl-cap: Work-From-Home Submodel Choice Coefficients in ActivitySim
 
 targets::tar_read(asim_wfh_model_coeffs) %>%
 	skbl(align = c("l", "c"), digits = 3) %>%
@@ -409,7 +409,7 @@ No other changes were made to the existing variables in this submodel, and @tbl-
 
 ```{r}
 #| label: tbl-asim-tc-model-coeffs
-#| tbl-cap: Telecommute Frequency Submodel Coefficients in ActivitySim
+#| tbl-cap: Telecommute Frequency Submodel Choice Coefficients in ActivitySim
 
 targets::tar_read(asim_telecommute_model_coeffs) %>%
 	filter(

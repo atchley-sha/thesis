@@ -72,15 +72,16 @@ Since these segmentations need to be carried through each model step, trip rates
 Further, combining these segmentations at any point precludes that segmentation from use in subsequent model steps as well as in any post-hoc analysis.
 
 This becomes a particular issue in equity analysis because it is perhaps impossible to determine equitable distribution of "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and mode choice steps [@bills_looking_2017].
-Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income [@yum_association_2020; @zmud_invluence_2001; @bhat_travel-related_2013], including such variables in trip-based models is problematic.
+Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income [@yum_association_2020; @zmud_invluence_2001; @bhat_travel-related_2013], including such variables in travel demand models can be problematic.
 Does coding such a variable in a mode choice model represent discrimination?
 Or does doing so assert that present differences resulting from unequal opportunity will persist into future planning years?
-Regardless of the reasons for their exclusion, these variables consequently cannot be used in a post-hoc analysis of a transportation policy because the trip matrices do not contain the adequate segmentation.
+Regardless of the reasons for their exclusion, in a trip-based model these variables consequently cannot be used in a post-hoc analysis of a transportation policy because the trip matrices do not contain the adequate segmentation.
 
 An alternative approach to population data, and the approach that ABMs use, is to use a full synthetic population.
 A synthetic population takes demographic and socioeconomic data at various levels of detail to create a "population" with generally the same attributes as the study area [@national_academies_travel_2012, p. 93].
-The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real individual household data.
-@castiglione_application_2006 argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than the zone level, and this data remains available throughout the modeling process.
+The goal is to have a population that is functionally similar to the actual population, but without the privacy concerns of using real data.
+@castiglione_application_2006 argue that the major advantage with this approach is that the demographic and socioeconomic data is known at the person and household level, rather than aggregated at the zone level.
+In an ABM, decisions in each model step are tied to a specific individual, and so the individual-level socioeconomic data remains available throughout the modeling process regardless of the specific variables used in each model step.
 This allows, for example, an equity analysis to identify the "winners" and "losers" of a proposed development without needing to encode demographic variables into each step of the model.
 
 @bills_looking_2017 used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
@@ -116,20 +117,21 @@ These trips are then assigned an origin and destination, mode, and often a time 
 A trip-based microsimulation model may use choice models rather than aggregate data for some of the model steps [@moeckel_agent-based_2020], but the end result is similar: a list of trips by person, noting mode and purpose.
 However, this trip list may be inconsistent, and the forecasted trips may not be physically possible to complete in any sequence, as there is no sense of "trip-chaining." The hope, though, is that over an entire population the inconsistencies would cancel out, leaving an overall accurate forecast.
 
-\acr{ABM}s, on the other hand, model *tours* rather than trips.
-This attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a "chain" (tour), the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
+\acr{ABM}s, on the other hand, explicitly model this trip-chaining in the form of "tours", sequences of trips that begin and end at the home.
+This approach attempts to create consistency in trip origins/destinations, mode choice, and time of day: since each trip is a part of a tour, the trips within a tour are dependent on each other [@rasouli_activity-based_2014].
 The open-source \acr{ABM} ActivitySim [@association_of_metropolitan_planning_organizations_activitysim_2023], for example, has a tour-scheduling model that determines the number of "mandatory" (work, school, etc.) and "discretionary" tours each individual will make, and performs tour-level mode and destination choice for each tour.
 After the tour-level decisions are made, trip-level mode/destination choice is done for each trip in the tour, including the possible addition of subtours (see @vovsha_activity-based_2005, fig. 18.1).
 
 Figures [-@fig-network-aggregate] and [-@fig-network-synth] show examples of the trips distributed across several TAZs in the various model types.
 @fig-network-aggregate depicts the distribution in a typical trip-based model where the total number of trips between each zone is modeled.
-With these results, the mode and purpose of each trip is known, but, with aggregate data, there is no way of telling who made which trips other than the segmentation in the previous steps (see @fig-pipeline-example-1).
+With these results, the mode and purpose of each trip is known, but because trip-based models can only model trips at the zone level, there is no way of telling who made which trips other than the segmentation used through each model step (see @fig-pipeline-example-1).
 It is also not possible to construct a coherent daily list of trips for individuals.
+
 @fig-network-synth, on the other hand, depicts visual representations of an *individual's* travel made possible by the use of a synthetic population.
 @fig-network-synth-1 depicts the trip distribution that could be given for an individual in a trip-based microsimulation model.
 Though each individual's trips are known, there is no guarantee of consistency between trips.
-For example, it could predict that the individual takes transit to work but then drives home or that the individual makes two trips to recreation without ever making a return trip.
-The activity-based approach, depicted in @fig-network-synth-2, attempts to add this consistency by modeling tours, and only generating trips consistent with each tour.
+For example, a trip-based microsimulation model could predict that the individual takes transit to work but then drives home, or that the individual makes two trips to recreation without ever making a return trip.
+The activity-based approach, depicted in @fig-network-synth-2, attempts to add consistency by modeling tours, and only generating trips consistent with each tour.
 
 ![Example trip distribution using aggregate data. There is little information on who is making which trips, and it is not known how trips are related to each other.](../images/tbm.png){#fig-network-aggregate fig-scap="Example network assignment using aggregate data."}
 
