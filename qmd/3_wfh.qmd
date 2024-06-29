@@ -43,7 +43,7 @@ This rebound effect is not straightforward, however.
 Compared to those who commute to work, those who worked from home the entire day had fewer trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
 
 Additionally, the types of trips people make can differ depending on remote work status.
-While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 find a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
+While the rebound effect proposes that the *number* of trips may increase on remote work days [@he_telecommuting_2015], @mokhtarian_the_1998 find a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
 This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
 @moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
 
@@ -141,4 +141,3 @@ targets::tar_read(cube_wfh_trip_pmt_diff) %>%
 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
 	collapse_rows(1)
 ```
-

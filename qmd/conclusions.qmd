@@ -79,7 +79,6 @@ A point worth noting, though, is that ABMs do require additional input data comp
 However, essentially the only additional input data needed for ActivitySim over the WFRC model is the synthetic population (see @sec-activitysim).
 While the synthetic population did require a significant amount of initial configuration, modifying the synthetic population (e.g., for the Land Use scenario) did not require much additional effort.
 
-
 ## Model Interoperability
 
 A third potential difficulty is the interoperability/transferability of an ABM from one area to another.
@@ -144,7 +143,7 @@ In other words, the difference between these tables is not only the model type, 
 Any comparisons between these tables should therefore take this into consideration.
 
 One additional point to note is how the analyses were performed in each model.
-The WFRC model outputs relevant to our analyses consist mainly of matrices listing the number of trips between zones.
+The outputs of the WFRC model relevant to our analyses consist mainly of matrices listing the number of trips between zones.
 There is a separate matrix for each mode and purpose, and so analyzing the data from the WFRC model requires making comparisons between several matrices for each scenario, and potentially aggregating values across different matrices.
 The only output of ActivitySim relevant to our analyses is a table listing every trip made in the scenario, which includes information on person id, mode, time of day, purpose, etc.
 There is therefore only one table per scenario that we used in our analyses, as this table contained all the necessary information for each analysis.
@@ -156,7 +155,7 @@ Both of these figures took roughly the same amount of effort to create, and the 
 ## Recommendations
 
 Our experience in this research runs counter to many of the commonly discussed "pain points" of ABM adoption.
-Our ActivitySim implementation was no more computationally intensive than the WFRC model, we found relatively easy interoperability between the example MTC and SEMCOG ActivitySim configurations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
+Our ActivitySim implementation was no more computationally intensive than the WFRC model, we found relatively easy interoperability between the example Metropolitan Transportation Commission and SEMCOG ActivitySim configurations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
 Additionally, while ActivitySim may be more complicated "under the hood" than the WFRC model, the interpretation of ActivitySim is in some ways significantly simpler.
 It is possible that these "pain points" are outdated, as there have not been many comparisons between model types in recent years (as discussed in @sec-literature-research-gap).
 
@@ -179,7 +178,7 @@ This extensibility also includes the ability to add custom pipeline steps, so it
 An additional point worth noting is that the scenarios chosen and the analyses demonstrated in Chapters [-@sec-landuse]--[-@sec-wfh] are only examples.
 The number of scenarios and analyses that we could theoretically create is limitless, and we chose scenarios and analyses that we thought would illustrate well the differences between model types.
 A common trend, though, is that for roughly the same amount of effort, we were able to perform more in-depth analyses with ActivitySim compared to the WFRC model.
-This further shows that ABMs are not necessarily more difficult to work with than trip-based models, at least for analysis purposes.
+This further shows that ABMs are not necessarily more difficult to work with than trip-based models.
 
 The goal of this research is not to determine unilaterally which model type an agency should use, nor is the goal even to specify exact criteria under which an ABM should be used over a trip-based model.
 Rather, the research presents our experience with both model types as an illustration for agencies to reference in determining which model type to use.

@@ -63,7 +63,7 @@ book:
     We use the existing Wasatch Front model as a representative trip-based model, and an ActivitySim implementation in the same area as a representative ABM.
     We create three hypothetical scenarios in both models: a change in land use, an improvement to commuter rail service, and an increase in remote work.
     We discuss the process of creating each scenario in both models, and perform several example analyses with each scenario and model.
-    Notably, we find that many commonly-cited reasons for the lack of ABM adoption may not be as applicable as previously thought.
+    We find that many commonly-cited reasons for the lack of ABM adoption may not be as applicable as previously thought.
     ABMs are often considered more complicated than trip-based models, requiring more data and computational resources.
     While ABMs do require more input data, we found that in our case the complexity of the model and the computational resources required were similar between model types.
     Additionally, the ABM allows for much more intuitive and straightforward interpretation of results.

@@ -7,7 +7,7 @@ Both model types have a wide variety of implementations, as individual agencies 
 It would be unreasonable to compare each of the various implementations of both model types.
 Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
-The representative trip-based model is the 2019 Wasatch Front Regional Council (WFRC) travel demand model, which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
+The representative trip-based model is the 2019 Wasatch Front travel demand model (the WFRC model), which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
 An ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
 Both models are discussed in detail in the following sections.
 
@@ -18,7 +18,7 @@ Instead, this research highlights the strengths and weaknesses of each model typ
 ## WFRC Model
 
 The WFRC model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area.
-WFRC provided the model directly, including land use forecasts and the current long-range transportation plan.
+The Wasatch Front Regional Council (WFRC) provided the model directly, including land use forecasts and the current long-range transportation plan.
 The model is taken essentially as-is, with no changes other than those noted in Chapters [-@sec-landuse]--[-@sec-wfh] to implement the scenarios studied in this research.
 
 The WFRC model, like many trip-based models, requires the following inputs:
@@ -31,12 +31,12 @@ The WFRC model, like many trip-based models, requires the following inputs:
 
 @fig-wfrc-flowchart gives an overview of the WFRC model, showing broad model steps in a flowchart.
 Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
-The model also includes a disaggregation step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
+The model also includes a household classification step at the beginning where the TAZ-level data is used via lookup tables to estimate the number of households by size, income group, number of workers, and auto ownership.
 This does not create a fully synthetic or disaggregated population, but is more segmented than the initial TAZ-level data.
 
-![WFRC model flowchart. Note the feedback loop in the distribution step where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
+![WFRC model flowchart. The distribution step includes a feedback loop where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
-The disaggregation step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
+The classification step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, and vehicle ownership.
 The categories of household size, number of workers, and vehicle ownership are "capped" at 6, 3, and 3, respectively (e.g., every household with 3 or more workers is grouped into a "3+ workers" category).
 The specific income groups used in the WFRC model are given in @tbl-income-groups.
 
@@ -78,7 +78,7 @@ tribble(
 	column_spec(2:4, ".9in")
 ```
 
-The disaggregated household data is then used in the trip generation step to estimate the number of trips produced from each TAZ.
+The segmented household data is then used in the trip generation step to estimate the number of trips produced from each TAZ.
 The trips are estimated using lookup tables which assert an average number of trips for each household type.
 There are separate lookup tables for each trip purpose, and depending on the trip purpose the lookup table uses a different household classification.
 The trip rates in the lookup tables are multiplied by the number of households in each category, and this gives a total number of trips by purpose produced in each TAZ.
@@ -95,6 +95,7 @@ $$
 T_{ij} = P_i \times \frac{A_j  F_{ij}}{\displaystyle \sum_J A_j  F_{ij}},
 $$\
 where $T_{ij}$ is the number of trips from zone $i$ to $j$, $P_i$ is the productions at $i$, $A_j$ is the attractions at $j$, $F_{ij}$ is the cost term/function from $i$ to $j$, and $J$ is the set of all zones trips from $i$ can be attracted to.
+The WFRC model includes a "distribution feedback loop," where preliminary highway assignment is performed to obtain congested network skims, and then the distribution process is repeated iteratively until the trip distribution converges.
 
 The mode choice step uses a choice model to assign a percentage of trips of each purpose to each mode, and network assignment is done via an iterative process to equalize travel time between potential routes.
 The WFRC model outputs include trip tables by purpose, mode, and time of day, as well as loaded network skims.
@@ -202,7 +203,7 @@ For ActivitySim, the baseline scenario uses 2019 Census and WFRC data to create 
 
 The controls for PopulationSim mostly come from the Census, as can be seen in @tbl-control-totals.
 However, the WFRC model contains TAZ-level data including population and median income.
-The WFRC model also has a disaggregation step that estimates the number of households by size and income group.
+The WFRC model also has a household classification step that estimates the number of households by size and income group.
 This section compares the output of PopulationSim to the WFRC model on each of these variables.
 Though these outputs are given at the TAZ level, most controls to PopulationSim were given at the Census tract level, and these tracts are not a one-to-one match with the region's TAZs.
 Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in.
@@ -250,10 +251,10 @@ This figure shows PopulationSim predicting slightly more high-income households,
 targets::tar_read(comparison_inc_groups_map)
 ```
 
-Note that in the synthetic population, each household has a specific income and so can be grouped directly, while the WFRC model requires a disaggregation step to estimate the number of households in each income group.
-@fig-income-group-map therefore is comparing two income disaggregation models, one a part of PopulationSim and the other in the WFRC model, rather than comparing the synthetic population to actual socioeconomic data.
+Note that in the synthetic population, each household has a specific income and so can be grouped directly, while the WFRC model requires a household classification step to estimate the number of households in each income group.
+@fig-income-group-map therefore is comparing two models for determining income groups, one a part of PopulationSim and the other in the WFRC model, rather than comparing the synthetic population to actual socioeconomic data.
 Additionally, the overall distribution of income is similar between the models, as @fig-median-income-density shows.
-A production-ready synthetic population would match its income distribution more closely to the existing WFRC model, but as mentioned, in this research the focus is on the process, rather than accuracy, for each model.
+A production-ready synthetic population would match its income distribution more closely to the existing socioeconomic data, but as mentioned, in this research the focus is on the process, rather than accuracy, for each model.
 Because of this focus, ActivitySim does not need to be perfectly calibrated to the WFRC model, and so for the purposes of this research the income distribution of the synthetic population is acceptable.
 
 ```{r}
