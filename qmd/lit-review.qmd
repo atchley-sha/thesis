@@ -72,7 +72,7 @@ Since these segmentations need to be carried through each model step, trip rates
 Further, combining these segmentations at any point precludes that segmentation from use in subsequent model steps as well as in any post-hoc analysis.
 
 This approach becomes a particular issue in equity analysis because it is perhaps impossible to determine equitable distribution of "winners" and "losers" of a potential policy without using demographic variables in the trip generation and destination and mode choice steps [@bills_looking_2017].
-Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income [@bhat_travel-related_2013; @yum_association_2020; @zmud_invluence_2001], including such variables in travel demand models can be problematic.
+Though many studies have shown that trip production and mode choice behavior differ by ethnic group even after controlling for income [@bhat_travel-related_2013; @yum_association_2020; @zmud_influence_2001], including such variables in travel demand models can be problematic.
 Does coding such a variable in a mode choice model represent discrimination?
 Or does doing so assert that present differences resulting from unequal opportunity will persist into future planning years?
 Regardless of the reasons for their exclusion, in a trip-based model these variables consequently cannot be used in a post-hoc analysis of a transportation policy because the trip matrices do not contain the adequate segmentation.

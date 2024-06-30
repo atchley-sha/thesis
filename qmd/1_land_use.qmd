@@ -9,7 +9,7 @@ This redevelopment is part of the actual plan for the area, and the new developm
 
 This scenario models the change in transportation behavior that a development such as The Point would create.
 Though the actual development plans for The Point include an expansion of transit services [@the_point_plan], only the additional households and jobs created from this development are represented in this scenario.
-The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority [@state_land_authority_framework_2021].
+The data for the land use changes comes from the WFRC land use forecast, which is in turn based on projections from the Point of the Mountain State Land Authority [@the_point_plan].
 The Point development is expected to be fully completed by 2050, and its projected land use and socioeconomic data is included in the 2050 WFRC forecast, so the 2050 WFRC land use and socioeconomic data projections are used for this site.
 
 The site consists of five TAZs, as shown in @fig-the-point-zones.
