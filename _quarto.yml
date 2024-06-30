@@ -108,6 +108,7 @@ format:
   #   theme: cosmo
   docx:
     reference-doc: style/udot_template.docx
+    number-depth: 3
 
 fig-align: center
 number-depth: 2
