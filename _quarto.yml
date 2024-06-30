@@ -88,26 +88,27 @@ affiliations:
     postal-code: 84602
 
 format:
-  byu-thesis-pdf:
-    keep-tex: true
-    highlight-style: arrow
-    include-in-header:
-      - style/latex_preamble.tex
-    #   - style/tt_preamble.tex
-    dpi: 900
-    fig-dpi: 900
-    mainfont: Gentium Book Basic
-    sansfont: Alte Haas Grotesk
-    monofont: SauceCodePro NF
-    fig-width: 5
-    fig-height: 5
-    # out-width: 100%
-    # out-height: 100%
-    fig-format: png
+  # byu-thesis-pdf:
+  #   keep-tex: true
+  #   highlight-style: arrow
+  #   include-in-header:
+  #     - style/latex_preamble.tex
+  #   #   - style/tt_preamble.tex
+  #   dpi: 900
+  #   fig-dpi: 900
+  #   mainfont: Gentium Book Basic
+  #   sansfont: Alte Haas Grotesk
+  #   monofont: SauceCodePro NF
+  #   fig-width: 5
+  #   fig-height: 5
+  #   # out-width: 100%
+  #   # out-height: 100%
+  #   fig-format: png
   # html:
   #   theme: cosmo
-  # docx:
-  #   reference-doc: style/udot_template.docx
+  docx:
+    reference-doc: style/udot_template.docx
+
 fig-align: center
 number-depth: 2
 toc-depth: 2
