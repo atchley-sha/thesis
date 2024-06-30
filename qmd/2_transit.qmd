@@ -113,7 +113,7 @@ targets::tar_read(asim_tr_mode_switching_plot) +
 There is some amount of randomness in the way ActivitySim determines trip modes, though.
 This randomness is seen partly in trips that switch away from commuter rail despite the improved commuter rail service, as well as some trips that switch to modes other than commuter rail, especially to drive alone.
 Although, part of the switch from carpool to drive alone can be explained as previously-carpool trips where all but one vehicle occupant switched to another mode, leaving one person in the vehicle for the trip.
-Overall, though, the randomness is not a significant percentage of the overall mode switching seen in @fig-tr-mode-switching.
+Overall, though, the randomness is not a significant portion of the overall mode switching seen in @fig-tr-mode-switching.
 
 Mode choice is not the only step of ActivitySim affected by the improved transit service, however.
 In fact, there are many trips that do not have a match between scenarios, where origin, destination, time of day and/or purpose differ.
@@ -125,7 +125,7 @@ For example, @fig-tr-atwork-switching shows the trip modes of at-work subtours m
 The figure shows the at-work subtour trip modes for *all* these individuals, not just those who also switched their at-work subtour trip modes.
 These results are essentially as expected.
 All trips that were drive alone in the baseline scenario switched to carpool, and there was virtually no mode switching otherwise, except a few trips that switched from carpool to non-motorized.
-This switching can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
+This switching from carpool to non-motorized can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
 
 ```{r}
 #| label: fig-tr-atwork-switching

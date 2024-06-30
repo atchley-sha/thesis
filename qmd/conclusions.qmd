@@ -85,9 +85,9 @@ A third potential difficulty is the interoperability/transferability of an ABM f
 Collaboration between agencies could be difficult if each ABM implementation is bespoke and tailored to a specific area.
 We found, however, that at least with ActivitySim this is not the case.
 In fact, ActivitySim is relatively easy to customize and extend.
-Our ActivitySim implementation originally did not include remote work submodels, but it was simple to copy the remote work models from the SEMCOG example configuration into our implementation.
+Our ActivitySim implementation originally did not include remote work submodels, but it was simple to copy the remote work models from the Michigan example configuration into our implementation.
 Some minor changes were made to ensure consistent variable names, but this process was not very involved.
-Additionally, the SEMCOG remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-3]
+Additionally, the example remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-3]
 
 [^conclusions-3]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
 
@@ -155,7 +155,7 @@ Both of these figures took roughly the same amount of effort to create, and the 
 ## Recommendations
 
 Our experience in this research runs counter to many of the commonly discussed "pain points" of ABM adoption.
-Our ActivitySim implementation was no more computationally intensive than the WFRC model, we found relatively easy interoperability between the example Metropolitan Transportation Commission and SEMCOG ActivitySim configurations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
+Our ActivitySim implementation was no more computationally intensive than the WFRC model, we found relatively easy interoperability between the example San Francisco and Michigan ActivitySim implementations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
 Additionally, while ActivitySim may be more complicated "under the hood" than the WFRC model, the interpretation of ActivitySim is in some ways significantly simpler.
 It is possible that these "pain points" are outdated, as there have not been many comparisons between model types in recent years (as discussed in @sec-literature-research-gap).
 

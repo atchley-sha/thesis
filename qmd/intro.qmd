@@ -1,6 +1,6 @@
 # Introduction {#sec-introduction}
 
-Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s [@rasouli_activity-based_2014].
+In travel demand modeling, activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s [@rasouli_activity-based_2014].
 ABMs explicitly model individuals, in contrast to the aggregate nature of trip-based models, and so in theory are able to represent travel behavior more accurately.
 Additionally, the focus on individuals in an ABM can allow for more detailed post-hoc analysis of model outputs compared to a trip-based model.
 

@@ -8,7 +8,7 @@ It would be unreasonable to compare each of the various implementations of both 
 Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
 The representative trip-based model is the 2019 Wasatch Front travel demand model (the WFRC model), which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
-An ActivitySim implementation in the same study area is used as a representative activity-based model (ABM).
+An ActivitySim implementation in the same study area is used as a representative ABM.
 Both models are discussed in detail in the following sections.
 
 Note that the focus is not on comparing model accuracy or performance, but rather on comparing the process of using each model, including the types of analyses that can be performed.
@@ -23,7 +23,7 @@ The model is taken essentially as-is, with no changes other than those noted in 
 
 The WFRC model, like many trip-based models, requires the following inputs:
 
--   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by transportation analysis zone (TAZ). This is provided by WFRC directly, as an output of their land use forecasting model(s).
+-   Land use data, including information about population, employment, and socioeconomic variables such as income, delineated by TAZ. This is provided by WFRC directly, as an output of their land use forecasting model(s).
 -   Travel skims detailing travel time, cost, etc. between each origin-destination pair of TAZs. The WFRC model uses an iterative process of assigning volumes to the transportation network and recalculating the skims, which are used in the destination and mode choice model steps.
 -   Transportation networks, including highway, transit, etc. networks which connect the TAZs to each other. These networks contain information such as link speed and capacity. Though the WFRC model assigns travel volumes to the network, this paper does not analyze the model's network assignment results. However, the network volumes are still used to calculate the loaded network skims.
 -   Lookup tables, used in many model steps for information such as trip rates by household type. These are taken directly from the WFRC model without modification.
@@ -123,7 +123,7 @@ The household/personal steps relate to long-term decisions that are unlikely to 
 These steps include determining remote work status, work/school location, auto ownership, transit pass ownership, and free parking availability at work.
 Our ActivitySim implementation models remote work status, work/school location, auto ownership, and free parking availability, but transit pass ownership is not modeled and it is assumed that everyone pays the transit fare.
 
-The daily decisions primarily concern an individual's \acr{DAP}.
+The daily decisions primarily concern an individual's DAP.
 ActivitySim contains a step to assign mandatory, non-mandatory, and home DAPs based on personal and household information (a home DAP involves no travel).
 For example, full-time workers are more likely to have a mandatory DAP than part-time workers, all else being equal.
 
@@ -157,7 +157,7 @@ The synthetic population aims to be representative of the study area while maint
 Additionally, a synthetic population can be adjusted in line with projected socioeconomic forecasts to perform future-year analyses.
 PopulationSim takes as input a "seed" of individuals and households, and populates the area with copies of these to match given control totals.
 
-The seed sample comes from the 2019 American Community Survey Public Use Microdata Sample [@pums], which contains a sample of actual (anonymized) individuals and households at the Public Use Microdata Area (PUMA) geography (PUMAs partition the United States into areas of around 100,000 people each [@puma]).
+The seed sample comes from the 2019 American Community Survey Public Use Microdata Sample [@pums], which contains a sample of actual (anonymized) individuals and households at the Public Use Microdata Area geography (these geographies partition the United States into areas of around 100,000 people each [@puma]).
 The control totals come from two different sources: the U.S.
 Census and the WFRC model.
 @tbl-control-totals shows these controls as well as their geographic level and source.
@@ -208,7 +208,7 @@ This section compares the output of PopulationSim to the WFRC model on each of t
 Though these outputs are given at the TAZ level, most controls to PopulationSim were given at the Census tract level, and these tracts are not a one-to-one match with the region's TAZs.
 Because of this, PopulationSim has some amount of randomness in which TAZ it places each household in.
 As such, for small geographic areas such as TAZs the error distribution between the two models is noisy.
-The comparisons in this section are therefore made by aggregating each TAZ at the district level, where each district is defined by \acr{WFRC} and includes several contiguous TAZs.
+The comparisons in this section are therefore made by aggregating each TAZ at the district level, where each district is defined by WFRC and includes several contiguous TAZs.
 
 @fig-population-comparison shows the difference in district population between PopulationSim and the WFRC data.
 It is worth noting that since the number of households was controlled at the TAZ level from the WFRC data with an extremely high weight, the number of households per TAZ in the synthetic population match exactly to the WFRC data.
@@ -374,14 +374,14 @@ targets::tar_read(combined_by_tlfd_plot) +
 	scale_color_bright()
 ```
 
-The WFRC model has basic support for predicting telecommuting and work-from-home trips.
-This includes a lookup table of telecommute percentages based on job type and year.
+The WFRC model has basic support for predicting remote work.
+This includes a lookup table of remote work percentages based on job type and year.
 ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
 It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting," where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
 
 The ActivitySim implementation discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
-However, a separate ActivitySim implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) metropolitan planning organization in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG implementation.
-Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the SEMCOG submodels were consistent with the existing implementation.
+However, a separate ActivitySim example implementation, developed for the Southeast Michigan Council of Governments metropolitan planning organization in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the Michigan example.
+Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the remote work submodels were consistent with the existing ActivitySim implementation.
 
 Both models treat "work-from-home"/"home-based jobs" similarly.
 The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
@@ -482,7 +482,7 @@ The third scenario addresses the growing trend of remote work.
 Given technological advancements and the notable surge in remote work during the COVID-19 pandemic, this scenario models a substantial increase in remote work based on projections from WFRC.
 
 Each of these scenarios is based on the baseline 2019 scenario in the respective model, and ignores any additional expected growth or development beyond the specific changes of each scenario.
-For example, the increased WFH scenario uses WFH projections from 2050, but land use and socioeconomic data from 2019.
+For example, the "Remote Work" scenario [@sec-wfh] uses remote work projections from 2050, but land use and socioeconomic data from 2019.
 These scenarios are therefore not realistic, but they serve as illustrative examples of the types of planning and development scenarios agencies may wish to analyze.
 
 All three of these scenarios are coded in both the WFRC model and ActivitySim.

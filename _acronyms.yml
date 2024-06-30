@@ -9,12 +9,6 @@ acronyms:
       longname: activity-based model
     - shortname: DAP
       longname: daily activity pattern
-    - shortname: CRT
-      longname: commuter rail transit
-    - shortname: PUMA
-      longname: Public Use Microdata Area
     - shortname: ASC
       longname: alternative-specific constant
-    - shortname: SEMCOG
-      longname: Southeast Michigan Council of Governments
 ---

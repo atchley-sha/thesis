@@ -89,8 +89,8 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 
 ```{r}
 #| label: fig-lu-personmiles-asim
-#| fig-cap: Trip-miles of individuals living in the updates zones (ActivitySim). Many of these trips do not have an origin or destination in the home zone of the individual.
-#| fig-scap: Trip-miles of individuals living in the updates zones (ActivitySim).
+#| fig-cap: Trip-miles of individuals living in the updated zones (ActivitySim). Many of these trips do not have an origin or destination in the home zone of the individual.
+#| fig-scap: Trip-miles of individuals living in the updated zones (ActivitySim).
 #| fig-env: sidewaysfigure
 #| fig-pos: p
 #| fig-width: 8
@@ -107,10 +107,10 @@ Non--home-based trips can be a significant portion of total travel, as @fig-lu-p
 
 Because Non--home-based trips by definition have neither an origin or destination at the home (where trips are produced in the trip generation step), these trips happen exclusively between zones that did not produce them.
 It is difficult therefore to know how best to redistribute Non--home-based trips, as they could in reality have any number of origins and/or destinations.
-Though modeling the destination choice for Non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
+Though modeling the destinations for Non--home-based trips could be done via a similar process to that of home-based trips, the origins of these trips need to be modeled as well.
 There are several methods to redistribute Non--home-based trips in trip-based models.
 One approach is to assign Non--home-based trip origins in a similar manner to trip destinations as part of the trip distribution step, either with a gravity model or some distance-decay function.
-The destinations of these Non--home-based trips can then be assigned as if they were any other trip.
+The destinations of these Non--home-based trips can then be modeled as if they were any other trip.
 This results in Non--home-based trips that are more likely to have both an origin and destination relatively near to the home.
 The WFRC model takes a different approach.
 Here there are two sources of information for Non--home-based trip ends: a production model and an attraction model.
