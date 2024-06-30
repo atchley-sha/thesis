@@ -116,7 +116,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. [@associationofmetropolitanplanningorganizationsExamplesActivitySim2022.]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart. [@associationofmetropolitanplanningorganizationsExamplesActivitysim2022]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, person daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -291,7 +291,7 @@ However, not all modes have an exact match between models.
 @tbl-mode-crosswalk shows the modes in each model grouped in a way that allows for consistency during calibration.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
-Based largely on the model results of @dayForecastingRideHailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
+Based largely on the model results of @dayForecastingRidehailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
 
 ```{r}
 #| label: tbl-mode-crosswalk
