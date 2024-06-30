@@ -67,11 +67,11 @@ However, this scaling factor was left unchanged, as we considered that the 2050 
 #| label: tbl-wfrc-remote-work-years
 #| tbl-cap: Comparison of Remote Work Rates in the WFRC Model by Year
 
-targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
-	mutate(across(!name, label_percent())) %>% 
-	skbl(col.names = c("Industry", "2019", "2050", "2019", "2050"), align= c("l", rep("c", 4))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" ", "Telecommute %" = 2, "Home-based Jobs %" = 2))
+# targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
+# 	mutate(across(!name, label_percent())) %>% 
+# 	skbl(col.names = c("Industry", "2019", "2050", "2019", "2050"), align= c("l", rep("c", 4))) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" ", "Telecommute %" = 2, "Home-based Jobs %" = 2))
 ```
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
@@ -83,14 +83,14 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 #| label: tbl-wfh-telecommute
 #| tbl-cap: Telecommute Rates and Coefficients by Job Industry 
 
-targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
-	mutate(pct = label_percent()(pct)) %>% 
-	rename(Industry = "name", `2050 WFRC Telecommute %` = "pct") %>% 
-	skbl(align = c("l", "c", "c", "c", "c")) %>%
-	kable_styling() %>%
-	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
-	column_spec(2, "1.3in") %>% 
-	column_spec(3:5, "0.87in")
+# targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
+# 	mutate(pct = label_percent()(pct)) %>% 
+# 	rename(Industry = "name", `2050 WFRC Telecommute %` = "pct") %>% 
+# 	skbl(align = c("l", "c", "c", "c", "c")) %>%
+# 	kable_styling() %>%
+# 	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
+# 	column_spec(2, "1.3in") %>% 
+# 	column_spec(3:5, "0.87in")
 ```
 
 ## Scenario Analysis
@@ -105,17 +105,17 @@ ActivitySim on the other hand does account for this, in that individuals working
 #| label: tbl-wfh-mode-split-comp
 #| tbl-cap: Change in Mode Split After Increased Remote Work Rates
 
-targets::tar_read(combined_wfh_mode_split_diff) %>% 
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
-	mutate(across(where(is.numeric), round)) %>% 
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
-	arrange(purpose, mode) %>% 
-	relocate(cube_by, .before = cube_wfh) %>% 
-	relocate(asim_by, .before = asim_wfh) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline", "Remote Work Scenario", "Change"), 2))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "WFRC Model Trips" = 3, "ActivitySim Trips" = 3)) %>%
-	collapse_rows(1, latex_hline = "major")
+# targets::tar_read(combined_wfh_mode_split_diff) %>% 
+# 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
+# 	mutate(across(where(is.numeric), round)) %>% 
+# 	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
+# 	arrange(purpose, mode) %>% 
+# 	relocate(cube_by, .before = cube_wfh) %>% 
+# 	relocate(asim_by, .before = asim_wfh) %>% 
+# 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline", "Remote Work Scenario", "Change"), 2))) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 2, "WFRC Model Trips" = 3, "ActivitySim Trips" = 3)) %>%
+# 	collapse_rows(1, latex_hline = "major")
 ```
 
 In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
@@ -129,15 +129,15 @@ This shows that in fact the *shorter* work trips are being made less frequently 
 #| label: tbl-cube-wfh-trip-pmt-diff
 #| tbl-cap: Comparison of Trips Taken and Miles Traveled (WFRC Model)
 
-targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
-	mutate(across(where(is.numeric), round)) %>% 
-	arrange(purpose, mode) %>% 
-	relocate(by_trips, .before = wfh_trips) %>% 
-	relocate(by_pmt, .before = wfh_pmt) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
-	collapse_rows(1)
+# targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
+# 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
+# 	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
+# 	mutate(across(where(is.numeric), round)) %>% 
+# 	arrange(purpose, mode) %>% 
+# 	relocate(by_trips, .before = wfh_trips) %>% 
+# 	relocate(by_pmt, .before = wfh_pmt) %>% 
+# 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
+# 	collapse_rows(1)
 ```

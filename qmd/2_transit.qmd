@@ -54,13 +54,13 @@ The models differ, however, in which modes the new commuter rail trips come from
 #| label: tbl-tr-mode-split
 #| tbl-cap: Change in Mode Split with Improved Transit
 
-targets::tar_read(combined_tr_mode_split_table) %>%
-	mutate(mode = case_match(mode, "Local Transit" ~ "Local Transit\u00b2", .default = mode)) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Trips", "Transit\u00b9 Trips", "Change"), 2))) %>%
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "WFRC Model" = 3, "ActivitySim" = 3)) %>% 
-	collapse_rows(1, latex_hline = "major") %>% 
-	footnote(number = c("\"Transit\" here refers to the Transit scenario, not the mode of travel", "\"Local Transit\" includes both light rail and bus travel"))
+# targets::tar_read(combined_tr_mode_split_table) %>%
+# 	mutate(mode = case_match(mode, "Local Transit" ~ "Local Transit\u00b2", .default = mode)) %>% 
+# 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Trips", "Transit\u00b9 Trips", "Change"), 2))) %>%
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 2, "WFRC Model" = 3, "ActivitySim" = 3)) %>% 
+# 	collapse_rows(1, latex_hline = "major") %>% 
+# 	footnote(number = c("\"Transit\" here refers to the Transit scenario, not the mode of travel", "\"Local Transit\" includes both light rail and bus travel"))
 ```
 
 For Home-based Other and Non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.
@@ -144,12 +144,12 @@ It is difficult to know the actual income distribution of transit riders since i
 #| label: tbl-tr-cube-se
 #| tbl-cap: Example Socioeconomic Analysis of Transit Trips (WFRC Model)
 
-targets::tar_read(cube_tr_productions_se_summary) %>% 
-	mutate(across(med_income, label_comma(prefix = "$"))) %>% 
-	skbl(col.names = c("Purpose", "Mode", "Trips", "Households", "Population", "Employment", "Income")) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "TAZ-level Median (weighted by trips)" = 4)) %>% 
-	collapse_rows(1, latex_hline = "major")
+# targets::tar_read(cube_tr_productions_se_summary) %>% 
+# 	mutate(across(med_income, label_comma(prefix = "$"))) %>% 
+# 	skbl(col.names = c("Purpose", "Mode", "Trips", "Households", "Population", "Employment", "Income")) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 3, "TAZ-level Median (weighted by trips)" = 4)) %>% 
+# 	collapse_rows(1, latex_hline = "major")
 ```
 
 Because an ABM *does* model individuals explicitly, information about each individual is accessible at every stage of the model, including in post-hoc analysis.
@@ -163,12 +163,12 @@ Our synthetic population does over-predict high-income households along the leng
 #| label: tbl-tr-asim-se
 #| tbl-cap: Example Socioeconomic Analysis of Transit Trips (ActivitySim)
 
-targets::tar_read(asim_tr_trips_se_summary) %>% 
-	mutate(across(income, label_comma(prefix = "$"))) %>% 
-	skbl(col.names = c("Purpose", "Mode", "Trips", "Income", "Age", "Distance to work (mi)"), digits = 1) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "Individual-level Median" = 3)) %>% 
-	collapse_rows(1, latex_hline = "major")
+# targets::tar_read(asim_tr_trips_se_summary) %>% 
+# 	mutate(across(income, label_comma(prefix = "$"))) %>% 
+# 	skbl(col.names = c("Purpose", "Mode", "Trips", "Income", "Age", "Distance to work (mi)"), digits = 1) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 3, "Individual-level Median" = 3)) %>% 
+# 	collapse_rows(1, latex_hline = "major")
 ```
 
 Additionally, @fig-tr-se-income-dist shows the income distribution of transit riders for the WFRC model and ActivitySim.

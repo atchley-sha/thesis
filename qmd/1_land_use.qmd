@@ -28,20 +28,20 @@ targets::tar_read(lu_plot_new_tazs)
 #| label: tbl-the-point-data-old
 #| tbl-cap: TAZ-level Socioeconomic Data for The Point (Baseline Scenario)
 
-targets::tar_read(lu_se_by_table) %>% 
-	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "Employment" = 4))
+# targets::tar_read(lu_se_by_table) %>% 
+# 	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 3, "Employment" = 4))
 ```
 
 ```{r}
 #| label: tbl-the-point-data-new
 #| tbl-cap: TAZ-level Socioeconomic Data for The Point (Land Use Scenario)
 
-targets::tar_read(lu_se_lu_table) %>% 
-	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "Employment" = 4))
+# targets::tar_read(lu_se_lu_table) %>% 
+# 	skbl(col.names = c("TAZ", "Households", "Population", "Retail", "Industrial", "Other", "Total"), digits = 0) %>% 
+# 	kable_styling() %>% 
+# 	add_header_above(c(" " = 3, "Employment" = 4))
 ```
 
 ## Scenario Creation
