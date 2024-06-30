@@ -105,9 +105,11 @@ The WFRC model outputs include trip tables by purpose, mode, and time of day, as
 ActivitySim is an open-source ABM whose development is led by a consortium of transportation planning agencies.
 ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
 This paper uses an ActivitySim implementation based on the one used in @macfarlaneEstimationSimulationDaily2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
-The exact implementation is available on GitHub.[^methods-1]
+The exact implementation is available on GitHub [@abm_illustration].
 
-[^methods-1]: [<https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration>]{.content-visible when-format="html"} [[https://github.com\slash byu-transpolab\slash wfrc_asim_scenario\slash tree\slash update-abm-illustration](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration)]{.content-visible when-format="pdf"}
+<!-- [^methods-1] -->
+
+<!-- [^methods-1]: [<https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration>]{.content-visible when-format="html"} [[https://github.com\slash byu-transpolab\slash wfrc_asim_scenario\slash tree\slash update-abm-illustration](https://github.com/byu-transpolab/wfrc_asim_scenario/tree/update-abm-illustration)]{.content-visible when-format="pdf"} -->
 
 ActivitySim, like all ABMs, simulates transportation decisions on an individual level.
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
