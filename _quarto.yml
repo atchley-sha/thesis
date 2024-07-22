@@ -5,12 +5,29 @@ project:
 execute:
   echo: false
   warning: false
-  cache: refresh
-  # cache: true
+  # cache: refresh
+  cache: true
   freeze: auto
+pdf-engine: xelatex
 
+layout: fancy, twoside, masters
+department: Civil and Construction Engineering
+student: Hayden Atchley
+chair: Gregory S. Macfarlane
+committee:
+  - Grant G. Schultz
+  - Gustavious P. Williams
+
+# Title with custom formatting for fancy title page
+customtitle: |
+  | A Comparative Illustration of
+  | Trip- and Activity-Based
+  | Modeling Techniques
 book:
-  title: "A Comparative Illustration of Trip- and Activity-Based Modeling Techniques"
+  output-file: "A_Comparative_Illustration_of_Trip-_and_Activity-Based_Modeling_Techniuqes"
+  title: |
+    | A Comparative Illustration of Trip- and
+    | Activity-Based Modeling Techniques
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
@@ -27,10 +44,7 @@ book:
       orcid: 0000-0003-3999-7584
       affiliations:
         - ref: byucce
-  abstract: |
-    "this is an abstract"
-
-  date: "1 January 1900"
+  date: "27 May 2024"
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
@@ -41,6 +55,28 @@ book:
     - qmd/3_wfh.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
+  abstract: >-
+    Activity-based travel demand models are generally considered superior to their trip-based counterparts, as activity-based models (ABMs) explicitly model individuals in contrast to the aggregate nature of trip-based models.
+    There have been a number of comparisons between trip- and activity-based models, but these comparisons focus almost exclusively on the technical ability of the two model types, while not considering the practical benefits an ABM may or may not have to a transportation agency.
+    This research performs a more holistic comparison between trip- and activity-based models, focused specifically on the practical differences between model types, both in terms of usability and capability for complex analysis.
+    We use the existing Wasatch Front model as a representative trip-based model, and an ActivitySim implementation in the same area as a representative ABM.
+    We create three hypothetical scenarios in both models: a change in land use, an improvement to commuter rail service, and an increase in remote work.
+    We discuss the process of creating each scenario in both models, and perform several example analyses with each scenario and model.
+    We find that many commonly-cited reasons for the lack of ABM adoption may not be as applicable as previously thought.
+    ABMs are often considered more complicated than trip-based models, requiring more data and computational resources.
+    While ABMs do require more input data, we found that in our case the complexity of the model and the computational resources required were similar between model types.
+    Additionally, the ABM allows for much more intuitive and straightforward interpretation of results.
+
+keywords:
+  - travel demand model
+  - activity-based model
+  - ActivitySim
+acknowledgments: >-
+  I would like to acknowledge the Utah Department of Transportation for providing funding for this research.
+  Additionally, I would like to thank the modeling teams at the Utah Department of Transportation, Wasatch Front Regional Council, Mountainland Association of Governments, and Fehr & Peers for their help and input at several stages of this project.
+  I would specifically like to thank Chad Worthen and Chris Day at Wasatch Front Regional Council for answering my questions about their travel demand model.
+  I would also like to thank my peers in the BYU transportation lab for their friendship and support, and especially for their help dealing with miscellaneous issues that arose throughout this project.
+  Lastly, I would like to especially thank my graduate advisor, Greg Macfarlane, for his support and encouragement.
 
 affiliations:
   - id: byucce
@@ -50,39 +86,6 @@ affiliations:
     state: UT
     postal-code: 84602
 
-# Layout options are simple/fancy, oneside/twoside, and masters/phd.
-# Leave options blank for defaults.
-# Defaults are simple for document style, and masters for degree type.
-layout: fancy, oneside, masters
-# If your degree is not a PhD or MS, then you can overwrite the degree using
-# the \degree command: \degree{Bachelors of Science}
-# degree: Bachelors of Science with University Honors
-
-department: Civil and Construction Engineering
-# list your chair and any other members of your committee
-chair: Gregory S. Macfarlane
-committee:
-  - Grant G. Schultz
-  - Gustavious P. Williams
-
-# Include any keywords you would like for your thesis/dissertation
-keywords:
-  - awesome stuff
-  - engineering
-acknowledgments: |
-  Students should acknowledge funding sources. They may also use the acknowledgment page to express appreciation for the committee members, friends or family who provided support or aided the research, writing or technical aspects of the thesis/dissertation. Acknowledgments should be simple and in good taste.
-
-bibliography:
-  - bib/references.bib
-  - bib/packages.bib
-lof: true
-lot: true
-fig-align: center
-number-depth: 2
-toc-depth: 2
-
-csl: apa.csl
-
 format:
   # html:
   #   theme: cosmo
@@ -91,40 +94,44 @@ format:
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow
-    # template: style/template.tex
-    # include-in-header:
-    #   - style/latex_preamble.tex
+    include-in-header:
+      - style/latex_preamble.tex
     #   - style/tt_preamble.tex
-    # dpi: 900
-    # fig-dpi: 900
-    # mainfont: Gentium Book Basic
-    # sansfont: Alte Haas Grotesk
-    # monofont: SauceCodePro NF
+    dpi: 900
+    fig-dpi: 900
+    mainfont: Gentium Book Basic
+    sansfont: Alte Haas Grotesk
+    monofont: SauceCodePro NF
     fig-width: 5
     fig-height: 5
+    # out-width: 100%
+    # out-height: 100%
     fig-format: png
-    # fig-cap-location: margin
-    # reference-location: margin
-    # cap-location: margin
+  # html:
+  #   theme: cosmo
   # docx:
-  #   reference-doc: style/template.docx
+  #   reference-doc: style/udot_template.docx
+fig-align: center
+number-depth: 2
+toc-depth: 2
+bibliography:
+  - bib/references.bib
+  - bib/packages.bib
+csl: style/asce.csl
 
 filters:
   - acronyms
-  # - abstract-section
 
 acronyms:
   loa_title: ""
   insert_loa: false
   insert_links: false
   include_unused: true
+  loa_header_classes:
+    - unnumbered
   sorting: "alphabetical"
   non_existing: "??"
   style: "long-short"
   on_duplicate: "error"
   fromfile:
     - _acronyms.yml
-
-# abstract-section:
-#   section-identifiers:
-#     - abstract

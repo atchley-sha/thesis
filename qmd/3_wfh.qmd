@@ -2,8 +2,10 @@
 
 {{< include _setup.qmd >}}
 
-With the onset of the COVID 19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
-Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@cite].
+Our final model scenario, termed the "Remote Work" scenario, addresses changes in travel behavior as a result of social and/or economic factors.
+Specifically, we represent an increase in remote work rates since the COVID-19 pandemic.
+With the onset of the COVID-19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
+Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@ozimekFutureRemoteWork2020].
 
 As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).
 The WFRC model contains a lookup table of both work-from-home (called "home-based jobs" in the WFRC model) and telecommute percentages by job type and year, and predicts an increase in both remote work rates over time.
@@ -11,14 +13,14 @@ The WFRC model contains a lookup table of both work-from-home (called "home-base
 
 ```{r}
 #| label: fig-wfrc-remote-work-rate-plot
-#| fig-cap: wfrc remote work plot
+#| fig-cap: Remote work rates as given in the WFRC model.
 
 targets::tar_read(cube_remote_work_totals_plot) +
 	theme(legend.position = "bottom")
 ```
 
 This scenario is a "what-if" analysis that models a significant increase in remote work rates.
-We use the WFRC model predicted remote work rates in the year 2050, but make no other changes from the baseline scenario.
+We use the remote work rates from 2050 as predicted by the WFRC model, but make no other changes from the baseline scenario.
 In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
 
 <!-- While it is relatively straightforward to measure and predict remote work *rates*, -->
@@ -33,15 +35,15 @@ Increasing remote work rates may affect several aspects of travel behavior.
 The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
 Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
 
-While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect", where individuals make more discretionary trips on days they do not commute to work.
-@moreno_microscopic_2017 similarly propose the existence of a "travel time budget", where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
+While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect," where individuals make more discretionary trips on days they do not commute to work.
+@moreno_microscopic_2017 similarly discuss the idea of a "travel time budget," where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
 
 This rebound effect is not straightforward, however.
 @ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and those who work form home only part of the day might make a difference.
 Compared to those who commute to work, those who worked from home the entire day had fewer trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
 
 Additionally, the types of trips people make can differ depending on remote work status.
-While the rebound effect proposes that the *number* of trips may increase on remote work days [see e.g. @he_telecommuting_2015], @mokhtarian_the_1998 finds a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
+While the rebound effect proposes that the *number* of trips may increase on remote work days [@he_telecommuting_2015], @mokhtarian_the_1998 find a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
 This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
 @moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
 
@@ -58,32 +60,18 @@ The first is to replace the 2019 estimates for work-from-home and telecommuting 
 @tbl-wfrc-remote-work-years shows both the original and updated estimates.
 The second change is to the TAZ-level socioeconomic data.
 The WFRC model estimates a number of home-based jobs in each TAZ, and the original 2019 home-based job estimates are similarly replaced with the 2050 estimates.
-
 The WFRC model additionally includes a global scaling factor for all remote work percentages.
 However, this scaling factor was left unchanged, as we considered that the 2050 predicted remote work percentages would better model a more realistic increase in remote work than simply scaling the 2019 rates globally.
 
 ```{r}
 #| label: tbl-wfrc-remote-work-years
-#| tbl-cap: wfrc remote work data
+#| tbl-cap: Comparison of Remote Work Rates in the WFRC Model by Year
 
-targets::tar_read(cube_wfh_by_remote_work_pct_comparison) |>
-	mutate(across(!name, label_percent())) |>
-	flextable(col_keys = c(
-		"name", "2019_tc", "2050_tc", "blank", "2019_wfh", "2050_wfh")) |>
-	set_header_labels(
-		name = "Industry",
-		`2019_tc` = "2019",
-		`2050_tc` = "2050",
-		`2019_wfh` = "2019",
-		`2050_wfh` = "2050"
-	) |>
-	add_header_row(
-		values = c("Industry", "Telecommute %", "", "Home-based Jobs %"),
-		colwidths = c(1,2,1,2)
-	) |>
-	merge_v(part = "h") |>
-	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
-	align(j = 2:5, align = "center", part = "a")
+targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
+	mutate(across(!name, label_percent())) %>% 
+	skbl(col.names = c("Industry", "2019", "2050", "2019", "2050"), align= c("l", rep("c", 4))) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" ", "Telecommute %" = 2, "Home-based Jobs %" = 2))
 ```
 
 We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
@@ -93,25 +81,16 @@ As in the baseline scenario, this calibration allowed ActivitySim to match the W
 
 ```{r}
 #| label: tbl-wfh-telecommute
-#| tbl-cap: wfh telecommute
+#| tbl-cap: Telecommute Rates and Coefficients by Job Industry 
 
-targets::tar_read(comparison_wfh_telecommute_coeffs) |>
-	flextable() |>
-	set_header_labels(
-		name = "Industry",
-		pct = "2050 WFRC Telecommute %"
-	) |>
-	add_header_row(
-		values = c("Industry", "2050 WFRC Telecommute %", "ActivitySim Telecommute Frequency Coefficients"),
-		colwidths = c(1, 1, 3)
-	) |>
-	set_formatter(pct = label_percent()) |>
-	merge_v(part = "h") |>
-	set_table_properties(layout = "fixed") |>
-	# width(6, 0.1) |>
-	width(j = 2, 1.3) |>
-	width(j = 3:5, 1.2) |>
-	align(j = 2:5, align = "center", part = "a")
+targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
+	mutate(pct = label_percent()(pct)) %>% 
+	rename(Industry = "name", `2050 WFRC Telecommute %` = "pct") %>% 
+	skbl(align = c("l", "c", "c", "c", "c")) %>%
+	kable_styling() %>%
+	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
+	column_spec(2, "1.3in") %>% 
+	column_spec(3:5, "0.87in")
 ```
 
 ## Scenario Analysis
@@ -124,92 +103,43 @@ ActivitySim on the other hand does account for this, in that individuals working
 
 ```{r}
 #| label: tbl-wfh-mode-split-comp
-#| tbl-cap: wfh mode split comp
+#| tbl-cap: Change in Mode Split After Increased Remote Work Rates
 
-targets::tar_read(combined_wfh_mode_split_diff) |>
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
-	arrange(purpose, mode) |>
-	flextable(col_keys = c(
-		"purpose", "mode", "cube_wfh", "cube_by", "cube_diff_pct",
-		"blank", "asim_wfh", "asim_by", "asim_diff_pct"
-	)) |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		cube_wfh = "Remote Work scenario",
-		cube_by = "Baseline scenario",
-		cube_diff_pct = "% Change",
-		asim_wfh = "Remote Work scenario",
-		asim_by = "Baseline scenario",
-		asim_diff_pct = "% Change"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "WFRC Model Trips", "", "ActivitySim Trips"),
-		colwidths = c(1,1,3,1,3)
-	) |>
-	merge_v(part = "h") |>
-	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
-	colformat_double(digits = 0) |>
-	align(j = 3:9, align = "center", part = "a") |>
-	merge_v(j = 1) |>
-	hline(i = c(4,8)) |>
-	fix_border_issues() |>
-	set_table_properties(layout = "fixed") |>
-	width(6, 0.1) |>
-	width(1, 1) |>
-	# width(2, 1.1) |>
-	# width(c(3,7), 1) |>
-	fontsize(size = 10, part = "a")
-	
+targets::tar_read(combined_wfh_mode_split_diff) %>% 
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
+	mutate(across(where(is.numeric), round)) %>% 
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
+	arrange(purpose, mode) %>% 
+	relocate(cube_by, .before = cube_wfh) %>% 
+	relocate(asim_by, .before = asim_wfh) %>% 
+	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline", "Remote Work Scenario", "Change"), 2))) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 2, "WFRC Model Trips" = 3, "ActivitySim Trips" = 3)) %>%
+	collapse_rows(1, latex_hline = "major")
 ```
 
 In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
 
 The WFRC model does not consider trip length when adjusting trip rates due to remote work.
 There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
-@tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, home-based work "Drive Alone" trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
+@tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, Home-based Work drive alone trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
 This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
 
 ```{r}
 #| label: tbl-cube-wfh-trip-pmt-diff
-#| tbl-cap: cube
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled (WFRC Model)
 
-targets::tar_read(cube_wfh_trip_pmt_diff) |>
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
-	arrange(purpose, mode) |>
-	flextable(col_keys = c(
-		"purpose", "mode", "wfh_trips", "by_trips", "trips_pct",
-		"blank", "wfh_pmt", "by_pmt", "pmt_pct"
-	)) |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		wfh_trips = "Remote Work scenario",
-		by_trips = "Baseline scenario",
-		trips_pct = "% Change",
-		wfh_pmt = "Remote Work scenario",
-		by_pmt = "Baseline scenario",
-		pmt_pct = "% Change"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "Trips", "", "Person-miles"),
-		colwidths = c(1,1,3,1,3)
-	) |>
-	merge_v(part = "h") |>
-	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
-	colformat_double(digits = 0) |>
-	align(j = 3:9, align = "center", part = "a") |>
-	merge_v(j = 1) |>
-	hline(i = c(4,8)) |>
-	fix_border_issues() |>
-	set_table_properties(layout = "fixed") |>
-	width(6, 0.1) |>
-	width(1, 1) |>
-	# width(2, 1.1) |>
-	# width(c(3,7), 1) |>
-	fontsize(size = 10, part = "a")
+targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
+	mutate(across(where(is.numeric), round)) %>% 
+	arrange(purpose, mode) %>% 
+	relocate(by_trips, .before = wfh_trips) %>% 
+	relocate(by_pmt, .before = wfh_pmt) %>% 
+	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
+	collapse_rows(1)
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
@@ -246,7 +176,7 @@ targets::tar_read(asim_wfh_trip_pmt_diff) |>
 	merge_v(part = "h") |>
 	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
 	colformat_double(digits = 0) |>
-	align(j = 3:9, align = "center", part = "a") |>
+	align(j = 3:9, align = "c", part = "a") |>
 	merge_v(j = 1) |>
 	hline(i = c(4,8)) |>
 	fix_border_issues() |>

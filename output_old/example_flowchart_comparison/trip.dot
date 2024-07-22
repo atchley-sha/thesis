@@ -1,0 +1,27 @@
+digraph {
+
+
+
+
+  "1" [label = "", image = "data/example_flowchart_comparison/house.png", shape = "circle", pos = "0,1!"] 
+  "2" [label = "", image = "data/example_flowchart_comparison/work.png", shape = "circle", pos = "4,1.5!"] 
+  "3" [label = "", image = "data/example_flowchart_comparison/food.png", shape = "circle", pos = "2,0!"] 
+  "4" [label = "", image = "data/example_flowchart_comparison/store.png", shape = "circle", pos = "3,3!"] 
+  "5" [label = "", image = "data/example_flowchart_comparison/recreation.png", shape = "circle", pos = "1,3!"] 
+  "6" [label = "", image = "", shape = "none", width = "0.4", pos = "3.3,-0.1!"] 
+  "7" [label = "", image = "", shape = "none", width = "0.4", pos = "4.5,-0.1!"] 
+  "8" [label = "", image = "", shape = "none", width = "0.4", pos = "3.3,0.3!"] 
+  "9" [label = "", image = "", shape = "none", width = "0.4", pos = "4.5,0.3!"] 
+  "10" [label = "", image = "", shape = "none", width = "0.4", pos = "3.3,-0.5!"] 
+  "11" [label = "", image = "", shape = "none", width = "0.4", pos = "4.5,-0.5!"] 
+"1"->"2" [label = " ", label = " ", penwidth = "4", color = "#D95F02"] 
+"2"->"1" [label = " ", label = " ", penwidth = "4", color = "#1B9E77"] 
+"2"->"4" [label = " ", label = " ", penwidth = "4", color = "#7570B3"] 
+"4"->"3" [label = " ", label = " ", penwidth = "4", color = "#7570B3"] 
+"3"->"5" [label = " ", label = " ", penwidth = "4", color = "#D95F02"] 
+"1"->"5" [label = " ", label = " ", penwidth = "4", color = "#1B9E77"] 
+"2"->"3" [label = " ", label = " ", penwidth = "4", color = "#7570B3"] 
+"6"->"7" [color = "#7570B3", taillabel = "Transit", penwidth = "4", color = "#D95F02"] 
+"8"->"9" [color = "#D95F02", taillabel = "Drive", penwidth = "4", color = "#1B9E77"] 
+"10"->"11" [color = "#1B9E77", taillabel = "Walk", penwidth = "4", color = "#7570B3"] 
+}

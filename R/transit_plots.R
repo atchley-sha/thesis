@@ -68,7 +68,9 @@ plot_trips_diff_by_district <- function(
 		left_join(dist_transl, join_by(origin == TAZ)) %>%
 		group_by(purpose, mode, DIST) %>%
 		summarise(diff = sum(diff)) %>%
-		mutate(mode = pretty_mode(mode)) %>%
+		mutate(
+			mode = pretty_mode(mode),
+			purpose = pretty_purpose(purpose)) %>%
 		filter(!round(diff) == 0) %>%
 		left_join(dist_geom, join_by(DIST)) %>%
 		st_as_sf()
@@ -76,12 +78,13 @@ plot_trips_diff_by_district <- function(
 	ggplot() +
 		facet_grid(rows = vars(purpose), cols = vars(mode)) +
 		annotation_map_tile("cartolight", zoom = 10) +
-		geom_sf(aes(fill = diff), data = trips) +
+		geom_sf(aes(fill = diff), color = "#00000000", data = trips) +
 		scale_fill_gradient2() +
 		# scale_fill_gradient2(limits = c(-50, 50), oob = oob_squish) +
 		labs(fill = "Change in trips by\nproduction district") +
-		.add_frontrunner_to_plot(fr_line, fr_stops) +
-		theme_map(zoom = FALSE)
+		.add_frontrunner_to_plot(fr_line, fr_stops, alpha = 0.6) +
+		theme_map(lims = list(x = c(-112.4,-111.3), y = c(39.9,41.3)))
+		# theme(legend.position = "bottom")
 }
 
 plot_tr_new_transit_income_dist <- function(combined_transit_se_trips) {
@@ -105,7 +108,8 @@ plot_asim_mode_switching <- function(mode_switching) {
 			to = mode_tr,
 			tour_purpose = case_match(
 				tour_purpose,
-				c("work", "school", "univ") ~ tour_purpose,
+				"work" ~ "work",
+				# c("school", "univ") ~ tour_purpose,
 				c("school", "univ") ~ "school",
 				.default = "other"
 			)
@@ -115,23 +119,25 @@ plot_asim_mode_switching <- function(mode_switching) {
 		mutate(
 			tour_purpose = factor(
 				tour_purpose,
-				levels = c("work", "school", "univ", "other"),
-				labels = c("Work", "School", "University", "Other")
+				# levels = c("work", "school", "univ", "other"),
+				levels = c("work", "school", "other"),
+				# labels = c("Work", "School", "University", "Other")
+				labels = c("Work", "School/University", "Other")
 			),
 			across(c(from, to), \(x) pretty_mode(x))) %>%
 		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
-		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free")) +
+		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free", nrow = 1)) +
 		# facet_wrap(~tour_purpose, scales = "free") +
 		scale_x_discrete(
 			limits = c("From", "To"),
-			labels = c("Baseline\nScenario", "Improved\nTransit"),
+			labels = c("Baseline\nscenario", "Transit\nscenario"),
 			expand = c(.2, .1)) +
 		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
 		geom_stratum(width = 1/2) +
-		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+		geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 7/.pt) +
 		# scale_fill_brewer(palette = "Accent") +
 		scale_fill_bright() +
-		labs(x = element_blank(), y = "Trips", fill = "Original mode")
+		labs(x = element_blank(), y = "Trips", fill = "Baseline scenario mode")
 }
 
 

@@ -22,13 +22,13 @@ plot_frontrunner <- function(line, stops) {
 		scale_fill_manual(values = c("2019" = "white", "2050" = "grey90")) +
 		scale_color_manual(
 			values = c("2019" = "purple4", "2050" = "coral"),
-			labels = c("2019" = "Existing", "2050" = "Improved Transit (addt'l)")) +
+			labels = c("2019" = "Baseline scenario", "2050" = "Transit scenario (addt'l)")) +
 		labs(color = "Scenario") +
 		theme_map(zoom = FALSE)
 
 }
 
-.add_frontrunner_to_plot <- function(fr_line, fr_stops) {
+.add_frontrunner_to_plot <- function(fr_line, fr_stops, alpha = 1) {
 	format_line <- fr_line %>%
 		mutate(Year = factor(Year, levels = c("2019", "2050")))
 	format_stops <- fr_stops %>%
@@ -39,8 +39,8 @@ plot_frontrunner <- function(line, stops) {
 	list(
 		ggnewscale::new_scale_color(),
 		ggnewscale::new_scale_fill(),
-		geom_sf(aes(color = Year), linewidth = 0.3, data = format_line),
-		geom_sf(aes(color = Year), size = 0.5, data = format_stops),
+		geom_sf(aes(color = Year), linewidth = 0.3, data = format_line, alpha = alpha),
+		geom_sf(aes(color = Year), size = 0.5, data = format_stops, alpha = alpha),
 		# geom_label_repel(
 		# 	aes(label = Name, geometry = geometry, fill = Year),
 		# 	box.padding = 0.4, point.padding = 0.5,

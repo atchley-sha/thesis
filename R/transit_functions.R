@@ -145,7 +145,11 @@ get_asim_atwork_mode_switching <- function(trips_list = list(), per) {
 
 get_asim_work_switchers <- function(mode_switching) {
 	mode_switching %>%
-		filter(tour_purpose == "work", mode_by == "drive_alone") %>%
+		filter(
+			tour_purpose == "work",
+			mode_by == "drive_alone"
+			# mode_tr == "crt"
+		) %>%
 		pull(person_id) %>%
 		unique()
 }

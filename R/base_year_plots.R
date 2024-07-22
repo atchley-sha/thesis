@@ -40,10 +40,10 @@ make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
 		left_join(select(income_groups, group, inc_range)) %>%
 		mutate(inc_range = fct_reorder(inc_range, group)) %>%
 		ggplot() +
-		facet_wrap(~inc_range, ncol = 2) +
+		facet_wrap(~inc_range, nrow = 1) +
 		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in number\nof households,\nPopulationSim compared\nto WFRC"
+			fill = "Percent difference in\nnumber of households,\nPopulationSim compared\nto WFRC"
 		)
 
 }

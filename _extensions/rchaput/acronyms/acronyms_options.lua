@@ -10,6 +10,13 @@ This file defines the Options table.
 -- (parse them from configuration files, get them, ...).
 local Options = {
 
+    -- The language used in this document (Quarto standard option), following
+    -- the IETF BCP47 standard, i.e., a tag composed of subtags, separated by
+    -- hyphens (`-`). For example: `en-US`. The first subtag represent the
+    -- language itself (`en`, `fr`, `zh`, ...), other subtags represent
+    -- more precise information (region, script, ...).
+    lang = "",
+
     -- The prefix to prepend to all acronym's ID (to ensure their uniqueness).
     -- IDs are especially used to link an acronym to its definition in the List
     -- of Acronyms.
@@ -20,7 +27,7 @@ local Options = {
     sorting = "alphabetical",
 
     -- The title (header) that precedes the List of Acronyms (LoA).
-    loa_title = pandoc.MetaInlines(pandoc.Str("List Of Acronyms")),
+    loa_title = nil,
 
     -- Whether to include in the LoA acronyms that have not been used.
     include_unused = true,
@@ -45,6 +52,10 @@ local Options = {
     -- Additional classes to add to the List of Acronyms header.
     loa_header_classes = {},
 
+    -- Custom format for the List of Acronyms, as a Markdown template in which
+    -- the `{shortname}` and `{longname}` placeholders will be replaced.
+    loa_format = nil,
+
 }
 
 
@@ -53,6 +64,11 @@ Parse the options from the Metadata (i.e., the YAML fields).
 --]]
 function Options:parseOptionsFromMetadata(m)
     quarto.log.debug("[acronyms] Parsing options from metadata...", m.acronyms)
+    -- Load the lang (can be `nil`); this is the only option outside `acronyms`.
+    if m.lang ~= nil then
+        self.lang = pandoc.utils.stringify(m.lang)
+    end
+
     -- The options that we are interested in are all grouped under `acronyms`.
     -- If it does not exist, use an empty table.
     options = m.acronyms or {}
@@ -114,6 +130,14 @@ function Options:parseOptionsFromMetadata(m)
     if options["loa_header_classes"] ~= nil then
         for _, v in ipairs(options["loa_header_classes"]) do
             table.insert(self.loa_header_classes, pandoc.utils.stringify(v))
+        end
+    end
+
+    if options["loa_format"] ~= nil then
+        if pandoc.utils.type(options["loa_format"]) == "Inlines" then
+            self.loa_format = options["loa_format"][1].text
+        else
+            self.loa_format = pandoc.utils.stringify(options["loa_format"])
         end
     end
 end

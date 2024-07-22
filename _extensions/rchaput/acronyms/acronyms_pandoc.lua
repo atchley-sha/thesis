@@ -32,6 +32,9 @@ local replaceExistingAcronymWithStyle = require("acronyms_styles")
 -- The options for the List Of Acronyms, as defined in the document's metadata.
 local Options = require("acronyms_options")
 
+-- The translations for some hardcoded sentences (such as the LoA Title)
+local Translations = require("acronyms_translations")
+
 -- The functions that we define here, and which will generate Pandoc elements
 local AcronymsPandoc = {}
 
@@ -116,9 +119,71 @@ end
 
 
 --[[
+    Generate the List Of Acronyms, as a Definition List.
+
+    This method is used internally by `generateLoA`.
+-- ]]
+function AcronymsPandoc.generateDefinitionList(sorted_acronyms)
+    local definition_list = {}
+    for _, acronym in ipairs(sorted_acronyms) do
+        -- The definition's name. A Span with an ID so we can create a link.
+        local name = pandoc.Span(
+            acronym.shortname,
+            pandoc.Attr(Helpers.key_to_id(acronym.key), {}, {})
+        )
+        -- The definition's value.
+        local definition = pandoc.Plain(acronym.longname)
+        table.insert(definition_list, { name, definition })
+    end
+    return pandoc.DefinitionList(definition_list)
+end
+
+
+--[[
+    Generate the List Of Acronyms with a custom (user-supplied) format.
+
+    This method is used internally by `generateLoA`.
+--]]
+function AcronymsPandoc.generateCustomFormat(sorted_acronyms, loa_format)
+    -- Most people will want a list; if we render each item independently,
+    -- it will not look correctly in the final document. We thus concatenate
+    -- all acronyms in a temporary Markdown document before rendering it.
+    local document_markup = ""
+    for _, acronym in ipairs(sorted_acronyms) do
+        quarto.log.debug(
+            "[acronyms] Generating definition for acronym", acronym.key
+        )
+        local id = Helpers.key_to_id(acronym.key)
+        -- The acronym's name. We want it to be rendered with an ID attribute.
+        local name = "[" .. acronym.shortname .. "]{#" .. id .. "}"
+        -- The `loa_format` should be a Markdown template, with `{shortname}`
+        -- and `{longname}` as placeholder values that we must replace.
+        local acronym_markup = loa_format:gsub("{shortname}", name)
+        acronym_markup = acronym_markup:gsub("{longname}", acronym.longname)
+        quarto.log.debug(
+            "[acronyms] Template markup processed as", acronym_markup
+        )
+        document_markup = document_markup .. acronym_markup .. "\n\n"
+    end
+    quarto.log.debug("[acronyms] Rendering Markdown markup:\n", document_markup)
+    local document = pandoc.read(document_markup)
+    -- We want to return all rendered blocks (potentially multiline content,
+    -- such as bullet lists, divs, paragraphs, ...); but we cannot use `blocks`
+    -- directly. Quarto expects a single Block, not Blocks.
+    -- The `pandoc.util.blocks_to_inlines` function should be useful, but
+    -- adds incorrect trailing `\` to some templates...
+    -- Wrapping the blocks in a Div seems the safest option, although it
+    -- adds an unnecessary (but still working) `<div> ... </div>` markup.
+    return pandoc.Div(document.blocks)
+end
+
+
+--[[
     Generate the List Of Acronyms.
 
-    Returns 2 values: the Header, and the DefinitionList.
+    Returns 2 values: the Header, and the list of acronyms. By default, it is
+    rendered as a DefinitionList, but a custom format can be used, in which
+    case it is rendered as Markdown directly.
 
     Params:
     - sorting: the sorting method to use.
@@ -133,8 +198,19 @@ function AcronymsPandoc.generateLoA(sorting, include_unused, title, header_class
     -- Use default options if not specified
     sorting = sorting or Options["sorting"]
     include_unused = include_unused or Options["include_unused"]
-    title = title or Options["loa_title"]
+    if title == nil then
+        -- No shortcode-specific value given
+        if Options["loa_title"] ~= nil then
+            -- A value given in the metadata (options)
+            title = Options["loa_title"]
+        else
+            -- If neither the metadata nor the shortcode option are specified,
+            -- by default we use the translation for the user's language
+            title = pandoc.MetaInlines(pandoc.Str(Translations:get_loa_title(Options["lang"])))
+        end
+    end
     header_classes = header_classes or Options["loa_header_classes"]
+    local loa_format = Options["loa_format"]
 
     -- We first get the list of sorted acronyms, according to the defined criteria.
     local sorted = sortAcronyms(
@@ -143,17 +219,14 @@ function AcronymsPandoc.generateLoA(sorting, include_unused, title, header_class
         include_unused
     )
 
-    -- Create the table that represents the DefinitionList
-    local definition_list = {}
-    for _, acronym in ipairs(sorted) do
-        -- The definition's name. A Span with an ID so we can create a link.
-        local name = pandoc.Span(
-            acronym.shortname,
-            pandoc.Attr(Helpers.key_to_id(acronym.key), {}, {})
-        )
-        -- The definition's value.
-        local definition = pandoc.Plain(acronym.longname)
-        table.insert(definition_list, { name, definition })
+    -- Create the actual List of Acronyms
+    local list_acronyms
+    if loa_format == nil then
+        -- Default format: create a DefinitionList
+        list_acronyms = AcronymsPandoc.generateDefinitionList(sorted)
+    else
+        -- Custom format, render acronyms based on the requested format.
+        list_acronyms = AcronymsPandoc.generateCustomFormat(sorted, loa_format)
     end
 
     -- Create the Header (only if the title is not empty)
@@ -170,7 +243,7 @@ function AcronymsPandoc.generateLoA(sorting, include_unused, title, header_class
         )
     end
 
-    return header, pandoc.DefinitionList(definition_list)
+    return header, list_acronyms
 end
 
 

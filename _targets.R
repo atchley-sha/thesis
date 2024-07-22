@@ -21,14 +21,45 @@ package_list <- c(
 
 tar_option_set(
 	packages = package_list,
-	# memory = "transient",
-	# garbage_collection = TRUE,
-	format = "qs",
+	memory = "transient",
+	garbage_collection = TRUE,
+	# format = "qs",
 )
 
 tar_source("R")
 tar_seed_set(34985723)
-ggplot2::theme_set(ggplot2::theme_bw())
+
+ggplot2::theme_set(
+	ggplot2::theme_bw() +
+		ggplot2::theme(
+			text = ggplot2::element_text(
+				family = "Alte Haas Grotesk",
+				size = 11),
+			axis.title = ggplot2::element_text(size = ggplot2::rel(1)),
+			axis.text = ggplot2::element_text(size = ggplot2::rel(0.8)),
+			strip.text = ggplot2::element_text(size = ggplot2::rel(0.9))
+		)
+)
+
+ggplot2::update_geom_defaults(
+	"text",
+	list(
+		colour = ggplot2::theme_get()$text$colour,
+		family = ggplot2::theme_get()$text$family,
+		size = ggplot2::theme_get()$text$size/ggplot2::.pt * 0.8
+	)
+)
+library(ggrepel)
+ggplot2::update_geom_defaults(
+	"text_repel",
+	list(
+		colour = ggplot2::theme_get()$text$colour,
+		family = ggplot2::theme_get()$text$family,
+		size = ggplot2::theme_get()$text$size/ggplot2::.pt * 0.8
+	)
+)
+detach("package:ggrepel", unload = TRUE)
+
 
 #### List targets ######################################################
 # FrontRunner ####
@@ -374,7 +405,7 @@ land_use_targets <- tar_plan(
 	lu_tazs = c(2138, 2140, 2141, 2149, 2170),
 	lu_distsml = get_dist_from_tazs(lu_tazs, taz_distsml_transl),
 	lu_distmed = get_dist_from_tazs(lu_tazs, taz_distmed_transl),
-	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs, cube_lu_se_diff),
+	lu_plot_new_tazs = plot_lu_new_tazs(taz, lu_tazs),
 	lu_se_by_table = make_lu_se_table(cube_by_taz_se, lu_tazs),
 	lu_se_lu_table = make_lu_se_table(cube_lu_taz_se, lu_tazs),
 	lu_combined_se_table = combine_se_tables(list(by = lu_se_by_table, lu = lu_se_lu_table)),

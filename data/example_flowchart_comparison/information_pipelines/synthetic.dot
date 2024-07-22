@@ -7,11 +7,10 @@ digraph {
   
   {
     node [shape=record]
-    table [label="{ID|<1>1732|<2>1453|<3>2045|<4>325|<5>96}|
-    {Age|26|54|55|68|34}|
+    table [label="{ID|<1>1|<2>2|<3>3|<4>4|<5>5}|
     {Income|56|98|154|79|102}|
-    {Gender|M|F|F|M|M}|
-    {OwnsVehicle|T|F|T|F|F}"]
+    {NumWorkers|1|2|2|1|1}|
+    {NumVehicles|<6>1|<7>3|<8>1|<9>0|<10>2}"]
   }
   
 #  {
@@ -26,19 +25,25 @@ digraph {
   
   node [shape=box]
   
-  {node [label="1732"] p11 p12 p13}
-  {node [label="1453"] p21 p22 p23}
-  {node [label="2045"] p31 p32 p33}
-  {node [label="325"] p41 p42 p43}
-  {node [label="96"] p51 p52 p53}
+  {node [label="1 Worker\n1 Vehicle\n$56 K"] p11 p12 p13}
+  {node [label="2 Worker\n3 Vehicle\n$98 K"] p21 p22 p23}
+  {node [label="2 Worker\n1 Vehicle\n$154 K"] p31 p32 p33}
+  {node [label="1 Worker\n0 Vehicle\n$79 K"] p41 p42 p43}
+  {node [label="1 Worker\n2 Vehicle\n$102 K"] p51 p52 p53}
   
   {
-    edge [style=dotted, arrowhead=none]
+    edge [style=dashed, arrowhead=none]
     table:1:w -> p11:n
     table:2:w -> p21:n
     table:3:w -> p31:n
     table:4:w -> p41:n
-    table:5:w -> p51:n
+    table:5:s -> p51:n
+
+#    table:6:e -> p11:n
+#    table:7:e -> p21:n
+#    table:8:e -> p31:n
+#    table:9:e -> p41:n
+#    table:10:e -> p51:n
   }
   
   p11 -> p12 -> p13
