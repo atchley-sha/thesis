@@ -34,7 +34,6 @@ book:
   date-format: D MMMM YYYY
   chapters:
     - index.qmd
-    - qmd/intro.qmd
     - qmd/lit-review.qmd
     - qmd/methods.qmd
     - qmd/1_land_use.qmd
@@ -87,6 +86,8 @@ csl: apa.csl
 format:
   # html:
   #   theme: cosmo
+  trb-pdf:
+    top-level-division: "section"
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow

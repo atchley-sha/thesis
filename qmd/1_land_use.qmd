@@ -55,7 +55,7 @@ targets::tar_read(lu_se_by_table) %>%
 		values = c("TAZ", "Households", "Population", "Employment"),
 		colwidths = c(1,1,1,4)) %>%
 	merge_v(part = "h") %>% 
-	align(align = "c", part = "all")
+	align(align = "center", part = "all")
 
 targets::tar_read(lu_se_lu_table) %>%  
 	flextable() %>% 
@@ -73,7 +73,7 @@ targets::tar_read(lu_se_lu_table) %>%
 		values = c("TAZ", "Households", "Population", "Employment"),
 		colwidths = c(1,1,1,4)) %>%
 	merge_v(part = "h") %>% 
-	align(align = "c", part = "all")
+	align(align = "center", part = "all")
 ```
 
 ## Scenario Creation
@@ -100,7 +100,31 @@ The income distribution, etc. of The Point site will therefore match that of the
 #| fig-cap: Census tract for the Gateway area in Salt Lake City (shown in blue). Tract-level controls for the synthetic population in the new development come from this tract rather than the tract at the development site.
 #| fig-scap: Census tract for the Gateway area in Salt Lake City.
 
-targets::tar_read(gateway_and_prison_map)
+	from <- "49035114000"
+	to <- "49035112818"
+
+	st_read("data/census_tracts.geojson") %>%
+		mutate(type = case_match(
+			TRACTID,
+			from ~ "Gateway",
+			to ~ "The Point"
+		)) %>%
+		filter(TRACTID %in% c(from, to)) %>%
+		st_transform(4326) %>%
+		ggplot() +
+		annotation_map_tile("cartolight", zoom = 11) +
+		geom_sf(aes(color = type), fill = NA, linewidth = 2) +
+		geom_label_repel(
+			aes(label = type, geometry = geometry),
+			box.padding = 0.4, point.padding = 0.5,
+			nudge_x = -0.10, nudge_y = -0.01, show.legend = FALSE,
+			stat = "sf_coordinates") +
+		coord_sf(
+			xlim = c(-112.1,-111.7), ylim = c(40.4, 40.8),
+			expand = FALSE) +
+		scale_color_manual(values = c("Gateway" = "red", "The Point" = "blue")) +
+		guides(color = "none") +
+		theme_map(zoom = FALSE)
 ```
 
 In a more realistic case, a transportation agency would have forecasted land use and socioeconomic data that could be used as controls to PopulationSim, rather than using a separate Census tract to represent new development.

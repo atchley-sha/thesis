@@ -110,7 +110,7 @@ targets::tar_read(cube_time_spent_table) |>
 	set_table_properties(layout = "fixed") |>
 	width(1, 2.4) |>
 	width(2, 1.5) |>
-	align(j = ~ hours, align = "c", part = "a")
+	align(j = ~ hours, align = "center", part = "a")
 
 targets::tar_read(asim_time_spent_table) |>
 	flextable() |>
@@ -118,7 +118,7 @@ targets::tar_read(asim_time_spent_table) |>
 	set_table_properties(layout = "fixed") |>
 	width(1, 2.9) |>
 	width(2, 1.1) |>
-	align(j = ~ hours, align = "c", part = "a")
+	align(j = ~ hours, align = "center", part = "a")
 ```
 
 The overall time spent for ActivitySim is significantly more than that for the WFRC model, though most of the time for ActivitySim was spent on initial configuration.
