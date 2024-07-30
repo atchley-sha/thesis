@@ -43,7 +43,8 @@ ActivitySim can significantly reduce the RAM required, at the expense of increas
 For comparison, we ran the baseline scenario in ActivitySim on the same computer used for the WFRC model scenarios, with chunking enabled to account for the amount of RAM available.
 With multi-threading set to use 16 threads, and the chunk size set to 112 GB, the baseline ActivitySim scenario ran in about 13 hours.
 
-ActivitySim completed its scenario runs in a similar time to the WFRC model on the same hardware. This is counter to the idea that ABMs require significantly increased resource and runtimes compared to trip-based models.
+ActivitySim completed its scenario runs in a similar time to the WFRC model on the same hardware.
+This is counter to the idea that ABMs require significantly increased resource and runtimes compared to trip-based models.
 Notably, our experience is certainly not universal, and the runtime of any model will greatly depend on several factors, including the specific modeling software and the hardware configuration.
 But at least in our case, ActivitySim performed similarly to the WFRC model with the same hardware, and was an order of magnitude faster when provided with enough RAM to avoid chunking.
 
@@ -60,9 +61,9 @@ ABMs therefore have more "moving parts" than trip-based models.
 However, these "parts" are often much more straightforward to interpret in an ABM, as each model step simply assigns a household or individual a specific value, such as vehicle ownership or the individual's DAP.
 These assigned values can then be used in subsequent model steps.
 In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
-It is easy to then model a remote work "rebound effect"[^conclusions-2] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
+It is easy to then model a remote work "rebound effect"[^conclusions-1] by increasing the utility of a non-mandatory DAP for individuals who work remotely.
 
-[^conclusions-2]: See @sec-remote-work-considerations
+[^conclusions-1]: See @sec-remote-work-considerations
 
 Since trip-based models exclusively deal with aggregate data, the interpretation of each model step is more vague.
 For example, while it may be possible in a trip-based model to model distance to work as it relates to remote work, it is not clear how best to do this, and may require a separate trip purpose and/or trip distribution model specifically for remote work.
@@ -90,9 +91,9 @@ We found, however, that at least with ActivitySim this is not the case.
 In fact, ActivitySim is relatively easy to customize and extend.
 Our ActivitySim implementation originally did not include remote work submodels, but it was simple to copy the remote work models from the Michigan example configuration into our implementation.
 Some minor changes were made to ensure consistent variable names, but this process was not very involved (see @tbl-time-spent).
-Additionally, the example remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-3]
+Additionally, the example remote work models did not include provisions for different remote work rates based on job industry as in the WFRC model, but it was simple to add these.[^conclusions-2]
 
-[^conclusions-3]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
+[^conclusions-2]: The synthetic population we created has information on job industry for each worker, and so this was referenced in the remote work submodel in ActivitySim.
 
 The WFRC model does already include different remote work rates by job industry, but it would be difficult to add in different rates based on, for example, vehicle ownership or TAZ average income.
 It is worth noting though that this difficulty may be a result of the specific way that the WFRC model is written, and may not apply equally to all trip-based models.
@@ -113,15 +114,15 @@ Note as well that this table shows time spent by one graduate and one undergradu
 #| label: tbl-time-spent
 #| tbl-cap: Estimated Time Spent on Modeling Tasks
 
-targets::tar_read(time_spent_table) %>% 
-	mutate(`WFRC Model` = if_else(`WFRC Model` == "X", NA, `WFRC Model`)) %>% 
-	mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) %>%
-	mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) %>%
-	skbl(align = c("l", "l", "c", "c")) %>% 
-	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) %>% 
-	kable_styling() %>% 
-	collapse_rows(1:2) %>% 
-	footnote(
+targets::tar_read(time_spent_table) |> 
+	mutate(`WFRC Model` = if_else(`WFRC Model` == "X", NA, `WFRC Model`)) |> 
+	mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) |>
+	mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) |>
+	skbl(align = c("l", "l", "c", "c")) |> 
+	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) |> 
+	kable_styling() |> 
+	collapse_rows(1:2) |> 
+	kableExtra::footnote(
 		number = c(
 			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
 			"These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
