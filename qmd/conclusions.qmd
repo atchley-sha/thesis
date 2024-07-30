@@ -118,13 +118,13 @@ targets::tar_read(time_spent_table) %>%
 	mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) %>%
 	mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) %>%
 	skbl(align = c("l", "l", "c", "c")) %>% 
+	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) %>% 
 	kable_styling() %>% 
 	collapse_rows(1:2) %>% 
 	footnote(
 		number = c(
 			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
-			"These analyses use the \"common\" structure directly and so took identical time and hese analyses use the \"common\" structure directly and so took identical time and
-effort between the two models"
+			"These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
 		)
 	)
 

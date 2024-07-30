@@ -7,7 +7,8 @@ Both model types have a wide variety of implementations, as individual agencies 
 It would be unreasonable to compare each of the various implementations of both model types.
 Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
-The representative trip-based model is the 2019 Wasatch Front travel demand model (the WFRC model), which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
+The representative trip-based model is the 2019 Wasatch Front travel demand model, and is the current production model used by the Wasatch Front Regional Council (WFRC).
+This model covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
 An ActivitySim implementation in the same study area is used as a representative ABM.
 Both models are discussed in detail in the following sections.
 
@@ -18,7 +19,7 @@ Instead, this research highlights the strengths and weaknesses of each model typ
 ## WFRC Model
 
 The WFRC model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area.
-The Wasatch Front Regional Council (WFRC) provided the model directly, including land use forecasts and the current long-range transportation plan.
+WFRC provided the model directly, including land use forecasts and the current long-range transportation plan.
 The model is taken essentially as-is, with no changes other than those noted in Chapters [-@sec-landuse]--[-@sec-wfh] to implement the scenarios studied in this research.
 
 The WFRC model, like many trip-based models, requires the following inputs:
