@@ -90,7 +90,7 @@ They did similar comparisons for scenarios involving reduced travel times for di
 These types of analysis, which are difficult with aggregate population data, can be very valuable in transportation planning and policy making, particularly when equity is a priority.
 
 It is important to note that while many connect them only with ABMs, synthetic populations can be used in running trip-based models as well.
-Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist [see @moeckel_agent-based_2020 and @walker_making_2005], but these are relatively rare.
+Trip-based models using a synthetic population---often called trip-based microsimulation models---do exist [@moeckel_agent-based_2020; @walker_making_2005], but these are relatively rare.
 
 @fig-pipeline-example gives a visualization of an example "information pipeline" for a model using aggregate data and a model using a synthetic population.
 In the aggregate data model, it is impossible to know which trips are made by, for example, 2-worker, 1-vehicle, low-income households after the mode choice step; it only describes which trips are made by households with fewer vehicles than workers.
