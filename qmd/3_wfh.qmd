@@ -176,7 +176,7 @@ targets::tar_read(asim_wfh_trip_pmt_diff) |>
 	merge_v(part = "h") |>
 	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
 	colformat_double(digits = 0) |>
-	align(j = 3:9, align = "c", part = "a") |>
+	align(j = 3:9, align = "center", part = "a") |>
 	merge_v(j = 1) |>
 	hline(i = c(4,8)) |>
 	fix_border_issues() |>

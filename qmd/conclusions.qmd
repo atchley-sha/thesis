@@ -109,7 +109,7 @@ Note as well that these tables show time spent by one graduate and one undergrad
 #| tbl-cap: Estimated Time Spent on Modeling Tasks (WFRC Model)
 
 targets::tar_read(cube_time_spent_table) %>% 
-	skbl(col.names = c("Task", "Hours spent (undergraduate RA)"), align = c("l", "c")) %>% 
+	kbl(col.names = c("Task", "Hours spent (undergraduate RA)"), align = c("l", "c")) %>% 
 	kable_styling()
 ```
 
@@ -118,7 +118,7 @@ targets::tar_read(cube_time_spent_table) %>%
 #| tbl-cap: Estimated Time Spent on Modeling Tasks (ActivitySim)
 
 targets::tar_read(asim_time_spent_table) %>% 
-	skbl(col.names = c("Task", "Hours spent (graduate RA)"), align = c("l", "c")) %>%
+	kbl(col.names = c("Task", "Hours spent (graduate RA)"), align = c("l", "c")) %>%
 	kable_styling()
 ```
 

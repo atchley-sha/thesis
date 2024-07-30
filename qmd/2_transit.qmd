@@ -87,7 +87,7 @@ targets::tar_read(combined_tr_mode_split_table) %>%
 	kable_styling() %>% 
 	add_header_above(c(" " = 2, "WFRC Model" = 3, "ActivitySim" = 3)) %>% 
 	collapse_rows(1, latex_hline = "major") %>% 
-	footnote(number = c("\"Transit\" here refers to the Transit scenario, not the mode of travel", "\"Local Transit\" includes both light rail and bus travel"))
+	kableExtra::footnote(number = c("\"Transit\" here refers to the Transit scenario, not the mode of travel", "\"Local Transit\" includes both light rail and bus travel"))
 ```
 
 For Home-based Other and Non--home-based trips, the WFRC model shows virtually no change in the number of auto and non-motorized trips, while there is a significant decrease in the number of local transit trips.

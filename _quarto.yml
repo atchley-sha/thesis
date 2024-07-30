@@ -91,6 +91,8 @@ format:
   #   theme: cosmo
   trb-pdf:
     top-level-division: "section"
+    include-in-header:
+      - style/latex_preamble.tex
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow

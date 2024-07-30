@@ -356,7 +356,7 @@ targets::tar_read(mc_comparison) %>%
 	kable_styling() %>%
 	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) %>%
 	collapse_rows(1, latex_hline = "major") %>%
-	footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here", threeparttable = TRUE)
+	kableExtra::footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here", threeparttable = TRUE)
 ```
 
 @fig-tlfd-comp compares the trip length frequency distribution of the two models by mode and purpose.
