@@ -1,3 +1,29 @@
+# Acknowledgments {.unnumbered}
+
+The authors acknowledge the Utah Department of Transportation (UDOT) and WFRC for funding this research.
+The authors alone are responsible for the preparation and accuracy of the information, data, analysis, discussions, recommendations, and conclusions presented herein.
+The contents do not necessarily reflect the views, opinions, endorsements, or policies of the Utah Department of Transportation or the U.S.
+Department of Transportation.
+The Utah Department of Transportation makes no representation or warranty of any kind, and assumes no liability therefore.
+
+A number of R packages were used in generating this document [@modelsummary; @ggplot2]; we thank the authors of these packages for their contribution to the community.
+
+# Author Contribution Statement {.unnumbered}
+
+```{r contrib, results = 'asis', message=FALSE, echo=FALSE, cache = FALSE}
+library(CRediTas)
+# crt <- template_create(authors = c(
+# 	"Hayden Atchley",
+# 	"Kamryn Mansfield",
+# 	"Gregory S. Macfarlane"
+# ))
+# fix(crt)
+# readr::write_csv(crt, "author_contributions.csv")
+crt <- readr::read_csv("author_contributions.csv", show_col_types = FALSE)
+```
+
+`r cras_write(crt, markdown = TRUE)`
+
 # References {.unnumbered}
 
 ::: {#refs}
