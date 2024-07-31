@@ -1,4 +1,4 @@
-\documentclass[fancy, twoside, mastersfancy, ms]{byuthesis}
+\documentclass[fancy, oneside, mastersfancy, ms]{byuthesis}
 \usepackage{bookmark}
 
 
@@ -102,9 +102,9 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
 \ifdefined\contentsname
-  \renewcommand*\contentsname{Table of contents}
+  \renewcommand*\contentsname{Table of Contents}
 \else
-  \newcommand\contentsname{Table of contents}
+  \newcommand\contentsname{Table of Contents}
 \fi
 \ifdefined\listfigurename
   \renewcommand*\listfigurename{List of Figures}
@@ -457,14 +457,14 @@ This approach is relatively straightforward: the required input data is
 usually easy to obtain, the trip generation models are often simple, and
 it is computationally inexpensive (National Academies 2012). However,
 the types of analyses possible are limited by the initial segmentation
-of the aggregate population data. An analysis based on parents'/adults'
-highest received education, for example, would require determining the
-number of households in each TAZ with each possible combination of
-education level. This can theoretically be done, but more detailed and
-varied analyses would require more levels of segmentation, greatly
-increasing the number of classifications needed. Since these
-segmentations need to be carried through each model step, trip rates,
-mode choice equations, etc. need to be estimated for every
+of the aggregate population data. An analysis based on
+parents'\slash adults' highest received education, for example, would
+require determining the number of households in each TAZ with each
+possible combination of education level. This can theoretically be done,
+but more detailed and varied analyses would require more levels of
+segmentation, greatly increasing the number of classifications needed.
+Since these segmentations need to be carried through each model step,
+trip rates, mode choice equations, etc. need to be estimated for every
 classification, and while relevant real-world data may exist, sample
 sizes approach zero very quickly, and so the estimates have little
 statistical value (Moeckel et al. 2020; National Academies 2012).
@@ -519,8 +519,8 @@ when equity is a priority.
 It is important to note that while many connect them only with ABMs,
 synthetic populations can be used in running trip-based models as well.
 Trip-based models using a synthetic population---often called trip-based
-microsimulation models---do exist Walker (2005), but these are
-relatively rare.
+microsimulation models---do exist (Moeckel et al. 2020; Walker 2005),
+but these are relatively rare.
 
 Figure~\ref{fig-pipeline-example} gives a visualization of an example
 ``information pipeline'' for a model using aggregate data and a model
@@ -800,7 +800,8 @@ to note when results apply to trip- or activity-based models generally,
 and when results are specific to the models used.
 
 The representative trip-based model is the 2019 Wasatch Front travel
-demand model (the WFRC model), which covers much of the Salt Lake
+demand model, and is the current production model used by the Wasatch
+Front Regional Council (WFRC). This model covers much of the Salt Lake
 City-Provo-Ogden, Utah Combined Statistical Area. An ActivitySim
 implementation in the same study area is used as a representative ABM.
 Both models are discussed in detail in the following sections.
@@ -816,12 +817,11 @@ and policy analysis, and illustrates these differences.
 
 The WFRC model is implemented in the CUBE software by Bentley (Bentley
 Systems 2023), and is currently used by WFRC for modeling travel in the
-Salt Lake City, Utah area. The Wasatch Front Regional Council (WFRC)
-provided the model directly, including land use forecasts and the
-current long-range transportation plan. The model is taken essentially
-as-is, with no changes other than those noted in Chapters
-\ref{sec-landuse}--\ref{sec-wfh} to implement the scenarios studied in
-this research.
+Salt Lake City, Utah area. WFRC provided the model directly, including
+land use forecasts and the current long-range transportation plan. The
+model is taken essentially as-is, with no changes other than those noted
+in Chapters \ref{sec-landuse}--\ref{sec-wfh} to implement the scenarios
+studied in this research.
 
 The WFRC model, like many trip-based models, requires the following
 inputs:
@@ -1283,7 +1283,7 @@ distribution of the synthetic population is acceptable.
 
 \centering{
 
-\includegraphics{qmd/methods_files/figure-pdf/fig-median-income-density-1.png}
+\includegraphics[width=5in,height=5in]{qmd/methods_files/figure-pdf/fig-median-income-density-1.png}
 
 }
 
@@ -3027,7 +3027,7 @@ though that this difficulty may be a result of the specific way that the
 WFRC model is written, and may not apply equally to all trip-based
 models.
 
-\section{Training requirements}\label{training-requirements}
+\section{Training Requirements}\label{training-requirements}
 
 In order to change from a trip-based to an ABM, an agency will need to
 spend time to understand the model and train its staff. We analyzed the
@@ -3058,6 +3058,8 @@ to create and analyze similar scenarios.
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
 \begin{tabular}[t]{llcc}
 \toprule
+\multicolumn{2}{c}{ } & \multicolumn{2}{c}{Hours Spent on Task} \\
+\cmidrule(l{3pt}r{3pt}){3-4}
 Scenario & Task & WFRC Model & ActivitySim\\
 \midrule
  & Synthetic population creation (baseline) & — & 50\\
