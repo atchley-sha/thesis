@@ -37,6 +37,17 @@ $if(keywords)$
 }
 $endif$
 
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of Contents}
+\else
+  \newcommand\contentsname{Table of Contents}
+\fi
+}
+
+\widowpenalty=500
+\clubpenalty=500
+
 \begin{document}
 
 \frontmatter
