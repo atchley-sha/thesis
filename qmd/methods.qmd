@@ -263,6 +263,10 @@ Because of this focus, ActivitySim does not need to be perfectly calibrated to t
 ```{r}
 #| label: fig-median-income-density
 #| fig-cap: Distribution of TAZ median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
+#| fig-width: 4.5
+#| fig-height: 5
+#| out-width: 5in
+#| out-height: 5in
 
 targets::tar_read(comparison_inc_density_plot) +
 	theme(legend.position = "bottom")
@@ -333,7 +337,7 @@ Additionally, we did not calibrate the vehicle ownership model, and this may be 
 #| fig-cap: Mode choice calibration, target vs. actual shares over several iterations.
 #| fig-env: sidewaysfigure
 #| fig-width: 8
-#| fig-height: 4.5
+#| fig-height: 4
 #| fig-pos: p
 
 targets::tar_read(mcc_adjustments_plot)

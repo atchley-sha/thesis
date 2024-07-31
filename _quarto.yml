@@ -10,7 +10,7 @@ execute:
   freeze: auto
 pdf-engine: xelatex
 
-layout: fancy, twoside, masters
+layout: fancy, oneside, masters
 department: Civil and Construction Engineering
 student: Hayden Atchley
 chair: Gregory S. Macfarlane

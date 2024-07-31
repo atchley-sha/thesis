@@ -97,7 +97,7 @@ Additionally, the example remote work models did not include provisions for diff
 The WFRC model does already include different remote work rates by job industry, but it would be difficult to add in different rates based on, for example, vehicle ownership or TAZ average income.
 It is worth noting though that this difficulty may be a result of the specific way that the WFRC model is written, and may not apply equally to all trip-based models.
 
-## Training requirements
+## Training Requirements
 
 In order to change from a trip-based to an ABM, an agency will need to spend time to understand the model and train its staff.
 We analyzed the time spent on each part of the modeling process for this project, and this section provides discussion on this.

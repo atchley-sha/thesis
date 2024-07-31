@@ -66,7 +66,7 @@ The trips are then added to obtain the total number of trips produced by each zo
 
 This approach is relatively straightforward: the required input data is usually easy to obtain, the trip generation models are often simple, and it is computationally inexpensive [@national_academies_travel_2012].
 However, the types of analyses possible are limited by the initial segmentation of the aggregate population data.
-An analysis based on parents'/adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
+An analysis based on parents'\slash adults' highest received education, for example, would require determining the number of households in each TAZ with each possible combination of education level.
 This can theoretically be done, but more detailed and varied analyses would require more levels of segmentation, greatly increasing the number of classifications needed.
 Since these segmentations need to be carried through each model step, trip rates, mode choice equations, etc. need to be estimated for every classification, and while relevant real-world data may exist, sample sizes approach zero very quickly, and so the estimates have little statistical value [@moeckel_agent-based_2020; @national_academies_travel_2012].
 Further, combining these segmentations at any point precludes that segmentation from use in subsequent model steps as well as in any post-hoc analysis.

@@ -81,7 +81,7 @@ However, there is a crucial difference between the model types, and that is the 
 #| fig-env: sidewaysfigure
 #| fig-pos: p
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 4
 
 targets::tar_read(cube_lu_new_pmt_plot) +
 	scale_fill_bright()
@@ -94,7 +94,7 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 #| fig-env: sidewaysfigure
 #| fig-pos: p
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 4
 
 targets::tar_read(asim_lu_new_pmt_plot) +
 	scale_fill_bright()

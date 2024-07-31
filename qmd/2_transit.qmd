@@ -102,8 +102,8 @@ Most of these trips also share the same mode, which is to be expected, but many 
 #| fig-cap: Trip modes of individuals who switched modes with improved commuter rail service in ActivitySim, by tour purpose.
 #| fig-scap: Trip modes of individuals who switched modes with improved commuter rail service in ActivitySim.
 #| fig-env: sidewaysfigure
-#| fig-width: 9
-#| fig-height: 5
+#| fig-width: 8
+#| fig-height: 4
 #| fig-pos: p
 
 targets::tar_read(asim_tr_mode_switching_plot) +
