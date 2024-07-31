@@ -1,14 +1,23 @@
 # Introduction {#sec-introduction}
 
-Activity-based models (ABMs) have been championed by researchers and many practitioners as being theoretically superior to the trip-based models historically used in transportation planning efforts since the 1950s.
+Since their inception in the 1990's [@bowman_day_1998; @bowman_activity-based_2001; @bhat1999], activity-based travel models have been hailed as a theoretical improvement to the trip-based models they were designed to supersede.
+The promise of a more coherent representation of individual choices rather than a series of mathematical conveniences has been intriguing to researchers and policy analysts alike.
 
-Despite the theoretical benefits, many agencies have delayed or declined to transition to an ABM citing additional data requirements, staff training, computational resources, and related concerns.
-There is also not a consensus that ABMs result in better infrastructure volume forecasts, the primary---or even sole---purpose of many regions' travel demand analysis efforts.
+The first generation of practical activity-based models, however, generated a somewhat troublesome reputation in the practitioner community.
+The models were seen as difficult to use in terms of their higher input data requirements, higher computational requirements, and higher demands placed on staff in development and application.
+There is also not a consensus that activity-based models result in better infrastructure forecasts, the primary---or even sole---purpose of many regions' travel demand analysis efforts [@shan2012; @ferdous_comparison_2012].
+The difficult reputation of activity-based models --- in many cases fairly earned --- has led many regions to delay the adoption of an activity-based travel model, and instead adapt their trip-based models to analyze the complex policies (e.g. pricing, teleworking, etc.) that activity-based models were designed explicitly to enable.
 
-In this research, we investigate the quality and characteristics of travel analyses enabled by an ABM.
-We do this by applying an array of infrastructure and behavior scenarios to both an ABM and a trip-based model representing the Wasatch Front (Salt Lake City) region of Utah, USA. The results will compare the implications of each model and help inform agencies that are considering adopting an ABM.
+At the same time, the software with which to conduct activity-based travel modeling has greatly improved from those first implementations.
+The time is ripe to consider whether the perceived practical drawbacks of activity-based models remain.
 
-The document proceeds in a typical fashion: @sec-literature provides a discussion of the differences between trip-based models and ABMs, alongside a discussion of previous studies examining the theoretical and analytical benefits of each framework.
-@sec-methods first describes the model frameworks used in this research, namely the regional trip-based model and an activity-based model constructed to support research activities in the region; this section also describes three scenarios designed to test the usefulness and applicability of the different model frameworks.
-Chapters [-@sec-landuse]--[-@sec-wfh] describe the findings from each scenario, alongside a discussion of their limitations and implications.
-@sec-conclusions provides a series of recommendations and opportunities for future research.
+In this research, we explore the practical considerations of using a modern, open-source activity-based model for policy analysis.
+We do this by constructing three scenarios representative of typical transportation planning efforts: a change in land use, a change in transport services, and a change in travel behavior.
+We then analyze these three scenarios each in two separate models of the Wasatch Front (Salt Lake City and surroundings) region of Utah.
+The models are an advanced trip-based model developed by the Wasatch Front Regional Council (WFRC) and used for the agency's long-term planning efforts, and a research implementation of the open-source ActivitySim model.
+We consider the method to represent each scenario, the method of analysis, and the resulting information that can be gleaned from each model
+
+The document proceeds in a typical fashion: A Literature Review section presents a comparative analysis of trip- and activity-based model methodologies, as well as a discussion of prior comparative studies.
+A Methodology section first describes the construction of the models used in this research, followed by a description of the three scenarios.
+We then analyze each scenario in three consecutive sections, before discussing general observations and limitations of the study.
+The paper concludes with a series of recommendations and opportunities for future research.

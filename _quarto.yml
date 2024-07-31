@@ -125,7 +125,7 @@ toc-depth: 2
 bibliography:
   - bib/references.bib
   - bib/packages.bib
-csl: style/asce.csl
+  - bib/paper.bib
 
 filters:
   - acronyms
