@@ -125,7 +125,8 @@ targets::tar_read(time_spent_table) %>%
 		number = c(
 			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
 			"These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
-		)
+		),
+		threeparttable = TRUE
 	)
 
 ```
