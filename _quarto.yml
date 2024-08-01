@@ -5,6 +5,7 @@ project:
 execute:
   echo: false
   warning: false
+  message: false
   # cache: refresh
   cache: true
   freeze: auto
