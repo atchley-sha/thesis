@@ -147,8 +147,8 @@ The outputs of the WFRC model relevant to our analyses consist mainly of matrice
 There is a separate matrix for each mode and purpose, and so analyzing the data from the WFRC model requires making comparisons between several matrices for each scenario, and potentially aggregating values across different matrices.
 The only output of ActivitySim relevant to our analyses is a table listing every trip made in the scenario, which includes information on person id, mode, time of day, purpose, etc.
 There is therefore only one table per scenario that we used in our analyses, as this table contained all the necessary information for each analysis.
-For example, to create the Non--home-based desire line plot for the WFRC model [@fig-lu-desire-cube-nhb], we took the Non--home-based trip matrices and took the difference between the Land Use and baseline scenario for each mode.
-For the desire line plot in ActivitySim [@fig-lu-desire-asim], we took the table of trips and filtered the list to only persons whose home zone was in the new development.
+For example, to create the Non--home-based desire line plot for the WFRC model (@fig-lu-desire-cube-nhb), we took the Non--home-based trip matrices and took the difference between the Land Use and baseline scenario for each mode.
+For the desire line plot in ActivitySim (@fig-lu-desire-asim), we took the table of trips and filtered the list to only persons whose home zone was in the new development.
 We then had a list of trips made by residents of the new development and were able to aggregate these trips and create the desire line plot.
 Both of these figures took roughly the same amount of effort to create, and the analysis in ActivitySim gives more detailed information than the equivalent analysis in the WFRC model.
 
