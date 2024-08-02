@@ -58,7 +58,6 @@ However, there is a crucial difference between the model types, and that is the 
 #| label: fig-lu-personmiles-cube
 #| fig-cap: Trip-miles produced in the updated zones in the Land Use scenario (WFRC model).
 #| fig-env: sidewaysfigure
-#| fig-pos: p
 #| fig-width: 8
 #| fig-height: 5
 
@@ -71,7 +70,6 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 #| fig-cap: Trip-miles of individuals living in the updated zones (ActivitySim). Many of these trips do not have an origin or destination in the home zone of the individual.
 #| fig-scap: Trip-miles of individuals living in the updated zones (ActivitySim).
 #| fig-env: sidewaysfigure
-#| fig-pos: p
 #| fig-width: 8
 #| fig-height: 5
 
