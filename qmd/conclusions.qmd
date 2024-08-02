@@ -2,15 +2,11 @@
 
 {{< include _setup.qmd >}}
 
-Our experience in this research runs counter to many of the commonly discussed "pain points" of ABM adoption.
-Our ActivitySim implementation was not substantially more computationally intensive than the WFRC / MAG trip-based model, we found relatively easy interoperability between the example San Francisco and Michigan ActivitySim implementations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
+The goal of this research was not to determine which model type an agency should use, nor is the goal even to specify exact criteria under which an activity-based model should be used over a trip-based model.
+Our experience in this research does, however, run counter to many of the commonly rehearsed practical drawbacks of activity-based models.
+Our ActivitySim implementation was not substantially more computationally intensive than the WFRC/MAG trip-based model, we found relatively easy interoperability between the example San Francisco and Michigan ActivitySim implementations, and the amount of time and effort required to understand and configure ActivitySim was on the whole rather small.
 Additionally, while ActivitySim may be more complicated "under the hood" than the WFRC model, the interpretation of ActivitySim is in some ways significantly simpler.
 It is possible that some percieved difficulties with activity-based models are outdated, as there have not been many comparisons of this kind between model types in recent years.
 
 There are, however, certainly still valid reasons for an agency to continue to use a trip-based model over an activity-based model.
-Though in our experience the effort required to configure ActivitySim was not unreasonable, the effort was non-trivial.
-An agency would need to spend time and effort to re-train its staff and modify its existing workflow pipeline.
-Additionally, an agency switching to an activity-based model might lose conformity with previous analyses, thus jeopardizing some planning forecasts.
-
-The goal of this research was not to determine which model type an agency should use, nor is the goal even to specify exact criteria under which an activity-based model should be used over a trip-based model.
-Rather, the research presents our experience with both model types as an illustration for agencies to reference in determining which model type to use, or to reconsider.
+In particular, an agency switching to an activity-based model might lose conformity with previous analyses, thus jeopardizing some planning forecasts.

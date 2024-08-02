@@ -5,17 +5,17 @@ The promise of a more coherent representation of individual choices rather than 
 
 The first generation of practical activity-based models, however, generated a somewhat troublesome reputation in the practitioner community.
 The models were seen as difficult to use in terms of their higher input data requirements, higher computational requirements, and higher demands placed on staff in development and application.
-There is also not a consensus that activity-based models result in better infrastructure forecasts, the primary---or even sole---purpose of many regions' travel demand analysis efforts [@shan2012; @ferdous_comparison_2012].
-The difficult reputation of activity-based models --- in many cases fairly earned --- has led many regions to delay the adoption of an activity-based travel model, and instead adapt their trip-based models to analyze the complex policies (e.g. pricing, teleworking, etc.) that activity-based models were designed explicitly to enable.
+There is also not a consensus that activity-based models result in better infrastructure forecasts, the primary purpose of many regions' travel demand analysis efforts [@shan2012; @ferdous_comparison_2012].
+The difficult reputation of activity-based models --- in many cases fairly earned --- has led many regions to delay the adoption of an activity-based model, and instead adapt their trip-based models to analyze the complex policies (e.g. pricing, teleworking, etc.) that activity-based models were designed explicitly to enable.
 
-At the same time, the software with which to conduct activity-based travel modeling has greatly improved from those first implementations.
+At the same time, the software with which to conduct activity-based modeling has greatly improved from those first implementations.
 The time is ripe to consider whether the perceived practical drawbacks of activity-based models remain.
 
 In this research, we explore the practical considerations of using a modern, open-source activity-based model for policy analysis.
 We do this by constructing three scenarios representative of typical transportation planning efforts: a change in land use, a change in transport services, and a change in travel behavior.
 We then analyze these three scenarios each in two separate models of the Wasatch Front (Salt Lake City and surroundings) region of Utah.
 The models are an advanced trip-based model developed by the Wasatch Front Regional Council (WFRC) and used for the agency's long-term planning efforts, and a research implementation of the open-source ActivitySim model.
-We consider the method to represent each scenario, the method of analysis, and the resulting information that can be gleaned from each model
+We consider the method to represent each scenario, the method of analysis, and the resulting information that can be gleaned from each model.
 
 The document proceeds in a typical fashion: A Literature Review section presents a comparative analysis of trip- and activity-based model methodologies, as well as a discussion of prior comparative studies.
 A Methodology section first describes the construction of the models used in this research, followed by a description of the three scenarios.

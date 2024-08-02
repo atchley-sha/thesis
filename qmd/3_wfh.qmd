@@ -2,41 +2,38 @@
 
 {{< include _setup.qmd >}}
 
-A major question facing transportation planners since the COVID-19 pandemic has concerned the increasing availability and use of home-based work arrangements, whether involving full-time working from home or regular telecommuting.
-Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@ozimekFutureRemoteWork2020].
-In this scenario, we consider the impact that an increase in remote work (either working from home or telecommuting) has on demand for travel in both the WFRC / MAG model and in ActivitySim.
+A major question facing transportation planners since the COVID-19 regards the popularity of home-based work arrangements, whether involving full-time working from home or regular telecommuting [@ozimekFutureRemoteWork2020].
+In this scenario, we consider the impact that an increase in remote work has on demand for travel in both the WFRC/MAG model and in ActivitySim.
 
 ## Scenario Creation
 
-The WFRC model has basic support for predicting remote work, whether as full-time work from home or as regular telecommuting.
-In the work from home model, a certain number of workers are designated as workers at home based on zonal median income and excluded from further consideration.
-That is, the number of workers entering the trip production models is reduced and these trips are never distributed.
-For telecommuting, WFRC/MAG model uses a lookup table of telecommuting shares based on job type, including predictions for future years.
-These trips are then removed from the home-based work trip productions outputs.
+The WFRC/MAG model has basic support for predicting remote work.
+In the work from home model, a certain number of workers are designated working at home based on zonal income and excluded from further model steps.
+For telecommuting, the model uses a table of current and forecast telecommuting shares based on job type.
+These trips are then also removed from the home-based work trip productions outputs.
 To model the effect of an increase in working from home and telecommuting, we simply used the 2050 projected values in the 2019 base year calibration scenario.
 
-The example ActivitySim implementation based on San Francisco and discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
-However, a separate ActivitySim example implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) metropolitan planning organization, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG example.
-ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, gender, and education; coefficients on these variables were left unchanged from the SEMCOG configuration.
-There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers; this was set to match the WFRC / MAG models' share of workers at home in the 2019 and 2050 scenarios, respectively.
-Individuals with work-from-home status are then prohibited from making a mandatory tour, but would then have relatively higher probability of making non-mandatory tours, reflecting a "rebound effect" from potentially more available travel budget [@kim_is_2017; @moreno_microscopic_2017].
-ActivitySim also has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
+The ActivitySim implementation based on San Francisco and discussed in @macfarlaneEstimationSimulationDaily2021 did not include remote work models.
+However, a separate ActivitySim example implementation, developed for the Detroit (SEMCOG) metropolitan planning organization, *does* include these submodels.
+The "work from home" submodel assign workers to work from home based on personal variables such as income, gender, and education with a "target work-from-home percent"; this was set to match the WFRC/MAG share of workers at home in the 2019 and 2050 scenarios.
+Individuals with work-from-home status are then prohibited from making a mandatory tour, but would then have higher probability of making non-mandatory tours, reflecting a rebound effect [@moreno_microscopic_2017].
+The "telecommute frequency" submodel then assigns workers probability they will telecommute on a given day.
 Based on this status, ActivitySim adjusts the likelihood of selecting a mandatory activity pattern on the simulated travel day.
-Telecommute status depends on personal variables similar to those in the work-from-home submodel by default, but also includes adjustments based on an individual's distance to work, with people living further from their workplaces more likely to telecommute more frequently.
-We also added a job type variable --- based on the ACS PUMS industry classification available in the synthetic population --- to calibrate ActivitySim's telecommute frequency submodel to the WFRC telecommute share lookup table.
+Telecommute status depends on personal variables, but also includes the individual's distance to work.
+We added a job type variable --- based on the ACS PUMS industry classification available in the synthetic population --- to calibrate ActivitySim model to the WFRC/MAG telecommute share.
 
 ## Scenario Analysis
 
 Both models decrease the number of work trips made as remote work rates increase.
-However, the WFRC model does not account for a potential "rebound effect" where more discretionary trips are made by those who do not travel to their workplace on a given day.
-This is seen in @tbl-wfh-trip-pmt-diff, where the WFRC model shows a decrease in home-based work and non--home-based trips (many of which begin or end at work), but virtually no change in home-based other trips.
-ActivitySim on the other hand does account for this, in that individuals working remotely on any given day may be more likely to make discretionary tours.
+However, the WFRC model does not account for a potential rebound effect.
+This is seen in @tbl-wfh-trip-pmt-diff, where the WFRC model shows a decrease in home-based work and non--home-based trips, but virtually no change in home-based other trips.
+ActivitySim on the other hand does account for the rebound, in that individuals working remotely on any given day may be more likely to make discretionary tours.
 
-In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
-The WFRC model does not consider trip length when adjusting trip rates due to remote work.
-There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
-@tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, Home-based Work drive alone trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
-This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
+The WFRC model also does not consider trip length when adjusting trip rates due to remote work.
+There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas.
+@tbl-wfh-trip-pmt-diff illustrates this, where, for example, Home-based Work drive alone trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
+This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates in the WFRC model ActivitySim by contrast predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-wfh-trip-pmt-diff.
+Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling behavioral research findings [@moreno_microscopic_2017; @moeckel_working_2017].
 
 ```{r}
 #| label: tbl-wfh-trip-pmt-diff
@@ -58,14 +55,9 @@ asim_wfh <- targets::tar_read(asim_wfh_trip_pmt_diff) |>
 	arrange(purpose, mode) 
 
 
-bind_rows(list("WFRC / MAG" = wfrc_wfh, "ActivitySim" = asim_wfh), .id = "Model") %>%
+bind_rows(list("WFRC/MAG" = wfrc_wfh, "ActivitySim" = asim_wfh), .id = "Model") %>%
 	skbl(col.names = c("Model", "Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
 	kable_styling() %>% 
 	add_header_above(c(" " = 3, "Trips" = 3, "Person-miles" = 3)) %>% 
 	collapse_rows(1)
 ```
-
-ActivitySim does model distance to work directly when predicting remote work status, so those who live farther away from their job site are more likely to work remotely.
-ActivitySim therefore predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-wfh-trip-pmt-diff.
-This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily, but the discrepancy is consistent across all modes.
-Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged shorter discretionary trips.

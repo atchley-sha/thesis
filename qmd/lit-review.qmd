@@ -1,72 +1,44 @@
 # Literature Review {#sec-literature}
 
-Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework.
-Trip-based models are often referred to as "four-step" models due to their four fundamental sub-models: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
-Models can be more complicated than these four steps, possibly including integration with a land use forecast, iteration between mode and destination choice, etc., but the "four steps" are the central component of any of these models [@mcnally_four-step_2007].
-Since then, there have been numerous studies iterating on the "four-step" (more appropriately termed "trip-based") framework, and trip-based models are now the primary tool used in forecasting travel demand across the United States [@park_intrazonal_2020].
+Travel demand modeling in the modern sense has its origins in the 1950's, with the Chicago Area Transportation Study [@chicago_area_transportation_study_final_1959] being one of the first urban planning studies to use the now-ubiquitous "four-step" modeling framework: trip generation, trip distribution, mode choice, and network assignment [@national_academies_travel_2012, p. 28].
+In this framework, the fundamental unit of analysis is a trip from an origin to a destination, and such models are now the primary tool used in forecasting travel demand across the United States [@park_intrazonal_2020].
 
-These trip-based models are not without problems, however.
 Rasouli and Timmermans @rasouli_activity-based_2014 give several shortcomings of trip-based models.
 First, they use several sub-models that are (implicitly or explicitly) assumed independent, and this can result in a lack of consistency or integrity between sub-models.
-For example, the assumed value of time in the mode choice model might be radically different than the assumed value of time in the tolling assignment model.
+For example, the assumed value of time in the mode choice model might be different than the assumed value of time in the tolling assignment model.
 Second, these models are strongly aggregate in nature, which can cause significant aggregation bias with high and low values excluded.
 Finally, they lack "behavioral realism"---that is, they do not have a concept of individuals making decisions, which is what travel behavior actually is.
 
-Jones @jones_new_1979 proposed an alternative to the trip-based paradigm, namely an "activity-based" framework that models travel behavior at an individual rather than aggregate level.
+Jones @jones_new_1979 proposed an alternative paradigm, namely an "activity-based" framework that models travel behavior at an individual rather than aggregate level.
 An activity-based model places the focus on "activities" rather than "trips" as the basic unit of analysis, and predicts a sequence of activities for each individual and household, with information such as activity location, start time, and duration, using a high level of temporal and spatial granularity.
-(It should be noted that the models that have been operationalized in practice [e.g. @vovsha_activity-based_2005; @davidson2007a] are more appropriately referred to as "tour-based" models, as they predict a series of coherent tours rather than explicitly modeling the need for and participation in activities as envisioned by Jones @jones_new_1979; in this paper we use the term "activity-based models" in the way most commonly used in practical discourse.) "Trips" are then journeys from one activity to the next [@pinjari_activity-based_2011].
+(It is noted that the models that have been operationalized in practice [e.g. @vovsha_activity-based_2005; @davidson2007a] are more appropriately referred to as "tour-based" models, as they predict a series of coherent tours rather than explicitly modeling the need for and participation in activities as envisioned by Jones @jones_new_1979; in this paper we use the term "activity-based models" in the way most commonly used in practical discourse.) "Trips" are then journeys from one activity to the next [@pinjari_activity-based_2011].
 By adopting this activity-centric framework, activity-based models attempt to provide a more consistent and comprehensive representation of travel behavior.
-They take into account complex dependencies and interactions within the model as a whole and at an individual level.
-These models acknowledge that travel choices are not made in isolation, but rather influenced by the preceding activities, and by the choices of others within a household.
 
 Although activity-based models may be superior in certain theoretical aspects, they may also have practical disadvantages.
 Miller @miller_current_2023 identifies three:
 
 -   Computational inefficiency and complicated program design: operational activity-based models take more time, more computing power, and more money to run.
-    This is because the synthetic population needed to run an activity-based model uses much more data, and because basic proportional matrix multiplication may be replaced with complex logit-based choice models with multiple alternatives or nests.
-    In areas with thousands of zones and millions of people, a supercomputer may be needed, and it will cost much more than what is spent to run trip-based models.
+    This is because the synthetic population needed to run an activity-based model uses much more data, and because basic scalar matrix multiplication is swapped for complex logit-based choice models.
     If a region cannot run its analyses in a timely manner, they will not adopt an activity-based model.
 
 -   Absence of a standard model system: The modeling systems are often designed with different approaches and for specific areas making it hard to transfer from one urban area to another.
-    This also makes it difficult for agencies to determine which approach is the best and decide which to implement.
-    In relation to this, Miller also observes that the pressures of publishing unique and ground-breaking research in academia can deter researchers from converging towards best theories and methods.
+    Further, the pressures of publishing unique and ground-breaking research in academia can deter researchers from converging towards best theories and methods.
 
--   Lack of resources: Most activity-based models were developed in academic settings which often lack resources, and possibly desire, to put them into practice.
+-   Lack of resources: Most activity-based models are developed in academic settings which often lack resources, and possibly desire, to put them into practice.
     This leaves it up to governments and consultants to put the models into practice, but they can be hesitant to promote software development and to invest in new systems.
 
-It is also not always clear if ABMs provide substantially better forecasts than their trip-based counterparts for the primary analyses that agencies perform [@shan2012; ], nor if this tradeoff is worth the increased costs for every agency.
-
-## Practical comparisons {#sec-literature-research-gap}
-
-Although there has been much research on ABMs and their theoretical advantages, practical comparisons of the model frameworks have been limited.
-
-Dong et al. @dong_moving_2006 note that when trip-based models are used to analyze accessibility, each zone must be analyzed independently of travel behavior.
-This approach only analyzes zones' proximity to each other and does not take into account individual travel patterns.
-They argue that this is a limited view of accessibility, and discuss the "activity-based accessibility measure," which is evaluated based on all trips in a day rather than particular trips.
-As an example, if an individual does not live within a 20-minute drive of a grocery store, traditional measures might rate this as poor accessibility.
-However, if a grocery store lies on their path between work and home, then in reality the accessibility should be rated much higher.
-Overall, they found that the "activity-based accessibility measure" predicts more reasonable accessibility outcomes compared to traditional measures.
-
+Practical comparisons of the model frameworks have been limited, however.
 Castiglione et al. @castiglione_application_2006 argue that the major advantage with an activity-based approach is that the demographic and socioeconomic data is known at the person and household level, rather than aggregated at the zone level.
 Decisions in each model step are tied to a specific individual, and so the individual-level socioeconomic data remains available throughout the modeling process regardless of the specific variables used in each model step.
 This allows, for example, an equity analysis to identify the "winners" and "losers" of a proposed development without needing to encode demographic variables into each step of the model.
 
-Bills and Walker [@bills_looking_2017] used the 2000 Bay Area Travel Survey to create a synthetic population and compare the effects that certain scenarios had on high income and low income populations.
-With a 20% reduction in travel cost, they found that high income workers benefited more than low income workers.
-They did similar comparisons for scenarios involving reduced travel times for different mode choices and saw the effects each scenario had on the high and low income workers.
-These types of analysis, which are difficult with aggregate population data, can be very valuable in transportation planning and policy making, particularly when equity is a priority.
-
-Ferdous et al. @ferdous_comparison_2012 compared the trip- and activity-based model frameworks of the Mid-Ohio Regional Planning Commission and found that the activity-based model was slightly more accurate to observed data at the region level, but about the same at the project level.
-Zhong et al. @zhongComparativeAnalysisTraditional2015 found significant differences in the predictions from an ABM compared to a trip-based model in Tampa, Florida, but Mouw et al. @mouwComparisonAggregatedMacroscopic2022 found that both model types had similar prediction quality when compared with observed data.
-These comparisons have somewhat contradictory findings, and certainly do not present an overwhelming victory for activity-based models.
-
+Ferdous et al. @ferdous_comparison_2012 compared the volume forecasts of a trip-based and activity-based model and found that the activity-based model was slightly more accurate to observed data at the region level, but about the same at the project level.
+Zhong et al. @zhongComparativeAnalysisTraditional2015 found significant differences in the predictions from an ABM compared to a trip-based model, but Mouw et al. @mouwComparisonAggregatedMacroscopic2022 found that both model types had similar prediction quality.
 Each of these comparisons, however, is focused on the *accuracy* of the two frameworks, but do not address the methodological differences between model types.
 What types of data collection/synthesis are needed for each model type?
 Are there analyses that can only be done through (or that are made easier by) one of the model types?
-What would an agency need in order to transition from a trip-based model to an ABM?
-Are certain types of scenarios suited to one model type?
 Though some of these questions have been discussed in the literature [@lemp_aggregate_2007], a holistic methodological comparison is lacking.
-The answers in the current literature are mainly theoretical, with little use to an agency considering a transition.
-Additionally, much of the existing literature comparing the two model types is outdated, and the technology of both model types may have significantly changed in recent years.
 
+The answers in the current literature are mainly theoretical or take as a given the limitations recited by Miller [@miller_current_2023].
+But technology moves quickly, and much of the existing literature comparing the two model types may be outdated.
 This research aims to answer these questions by providing a side-by-side comparison using trip-based and activity-based models to represent common analysis scenarios and comparing the relative difficulty of configuration, analysis weighted against the information that can be retrieved by the methods.

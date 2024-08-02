@@ -100,6 +100,9 @@ format:
     top-level-division: "section"
     include-in-header:
       - style/latex_preamble.tex
+    keep-tex: true
+    nwords: 6492
+    ntables: 4
   byu-thesis-pdf:
     keep-tex: true
     highlight-style: arrow

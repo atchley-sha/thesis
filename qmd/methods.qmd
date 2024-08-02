@@ -2,9 +2,7 @@
 
 {{< include _setup.qmd >}}
 
-To compare the practical differences in using advanced trip-based models and modern activity-based models, we design an experiment to analyze three representative scenarios in two different model platforms.
-It would be unreasonable to compare each of the various implementations of both model types.
-Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
+To compare the practical differences in using trip-based models and modern activity-based models, we design an experiment to analyze three scenarios in two representative model platforms.
 The two models are:
 
 -   An advanced trip-based model developed by WFRC and the Mountainland Association of Governments (MAG) for the agencies' long range planning efforts in the Salt Lake City - Ogden - Provo metropolitan region in Utah. This will be referred to as the **WFRC/MAG** model.
@@ -14,41 +12,34 @@ The remainder of this section describes each model, presents preliminary validat
 
 ## WFRC Model
 
-The Wasatch Front model is implemented in the CUBE software by Bentley [@bentley_systems_cube].
+The WFRC/MAG model is implemented in the CUBE software [@bentley_systems_cube].
 WFRC provided the model directly, including land use forecasts and scenarios from the current most recent long-range transportation plan.
 @fig-wfrc-flowchart gives an overview of the WFRC model, showing broad model steps in a flowchart.
 Like many trip-based models, the WFRC model follows the "four-step" approach and has main steps of trip generation, trip distribution, mode choice, and network assignment.
-The model also includes a household classification step at the beginning where the TAZ-level data is transformed via lookup tables and iterative proportional fitting to de-aggregate the number of households by size, income group, number of workers, and auto ownership.
-This does not create a fully synthetic or disaggregate population, but is more segmented than the initial TAZ-level data.
-The classification step takes TAZ-level socioeconomic data (such as population, number of households, and average income) and estimates the number of households belonging to each category of household size, number of workers, income group, vehicle ownership, and a "life-cycle" attribute determined by household size and an additional inferred age attribute.
+The model also includes a household classification step where zonal data is transformed to de-aggregate the number of households by size, income group, number of workers, and auto ownership.
 
 ![WFRC model flowchart. The distribution step includes a feedback loop where preliminary loaded network skims are used to perform subsequent iterations of trip distribution until the distribution converges.](./../images/wfrc_flowchart.png){#fig-wfrc-flowchart fig-scap="WFRC model flowchart."}
 
 The rest of the model proceeds in a typical trip-based manner, with trip production and attraction rates by purpose and household segmentation, a trip distribution model that is gravity-based for all trips other than home-based work (which is a destination choice model), a nested logit mode choice model, and a multiclass static highway assignment.
-
 The model is calibrated to 2019 base year information for Utah, Salt Lake, Davis, Weber, and portions of Box Elder counties.
 
 ## ActivitySim {#sec-activitysim}
 
 ActivitySim is an open-source tour-based model with development led by a consortium of transportation planning agencies.
-ActivitySim is highly configurable, and many agencies have their own bespoke implementation.
-This paper uses an ActivitySim implementation based on the one used in @macfarlaneEstimationSimulationDaily2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
-ActivitySim simulates transportation related decisions on an individual level with a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice.
-@fig-asim-flowchart presents the order of model steps, and illustrates that some elements of the daily activity pattern are made jointly, or in coordination with other household members.
+This paper uses an ActivitySim implementation described by Macfarlane et al. @macfarlaneEstimationSimulationDaily2021, which is in turn based on the prototype configuration for the Metropolitan Transportation Commission serving the San Francisco area [@erhardt_mtcs_2011].
+ActivitySim simulates transportation related decisions as described in @fig-asim-flowchart where agents make long-term decisions (such as auto ownership and telecommute frequency) first, followed by daily and tour- and trip-level decisions some of which are joint with other household members.
 
 ![ActivitySim sub-model flowchart. [@activitysim]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
-ActivitySim requires two general input data objects: a synthetic population representing the model region and transportation impedance data by mode and time of day.
-For the synthetic population, we supplied the zone-level household count data from the WFRC / MAG model to PopulationSim [@populationsim_2023].
-We then supplied additional Census tract-level targets for age, income, worker status, and household size derived from the American Community Survey (ACS) 2015-2019 five-year aggregation files, along with a seed population drawn from the ACS Public Use Microdata Sample (PUMS).
-[@pums].
-A final region-level population control set the same total population in the WFRC/MAG model.
-For transportation impedance, we used the final congested skims from the WFRC/MAG base scenario as inputs to the accessibilities model of Activitysim, in lieu of connecting ActivitySim directly to a network and assignment feedback process.
-This serves to ensure that differences in model interpretation are directly related to differences between the demand models themselves, though it prevents ActivitySim from perhaps finding a different solution to its congestion feedback loop.
+ActivitySim requires two general inputs: a synthetic population representing the model region and transportation impedance data by mode.
+For the synthetic population, we supplied the zone-level household count data from the WFRC/MAG model to PopulationSim [@populationsim_2023].
+We then supplied additional Census tract-level targets for age, income, worker status, and household size derived from the American Community Survey (ACS) 2015-2019 five-year data, along with a seed population drawn from the ACS Public Use Microdata Sample (PUMS) [@pums].
+For transportation impedance, we used the congested skims from the WFRC/MAG base scenario as inputs to the accessibilities model of Activitysim.
 
-A complete calibration of each ActivitySim submodule is beyond the scope of this research, and is not necessary for the discussion we wish to pursue as the point our research is on methodological comparison, and not on forecasted outcomes.
+A complete calibration of each ActivitySim submodule is beyond the scope of this research, and is not necessary for the discussion we wish to pursue.
 We did, however, validate that the synthetic population matched the zonal socioeconomic data in terms of population and median income, and that the trip length frequencies were similar by mode and purpose to the WFRC/MAG model.
-Finally, we loosely calibrated the tour and trip mode choice model using share targets derived from the WFRC / MAG model; @tbl-mode-split shows the results of this exercise.
+We also ensured that the calibration year work from home and telecommute frequency models placed similar numbers of workers in the relevant categories (more details on the work from home and telecommute models is discussed in Scenario 3 below).
+Finally, we loosely calibrated the tour and trip mode choice model using share targets derived from the WFRC/MAG model; @tbl-mode-split shows the results of this exercise.
 In general, the ActivitySim model over-predicts the share of transit and non-motorized trips for all purposes relative to the WFRC/MAG targets.
 
 ```{r}
@@ -78,4 +69,3 @@ The three scenarios are:
 3.  **A change in travel behavior**. The final scenario compares efforts to represent increased work from home and telecommuting behaviors, a common task for agencies in the post COVID-19 planning environment.
 
 The next three sections describe the scenario implementation in both model frameworks, and the task of analyzing the modeled scenario outcomes.
-We conduct these analyses with one undergraduate student who is using travel models for the first time and a graduate student who has approximately two prior years of experience with travel models (including ActivitySim), overseen by a faculty researcher with a practical demand modeling background.
