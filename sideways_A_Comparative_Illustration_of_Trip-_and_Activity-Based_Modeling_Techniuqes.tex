@@ -65,6 +65,8 @@
 \usepackage{float}
 \usepackage[section]{placeins}
 \floatplacement{table}{htbp}
+
+\hyphenation{Front-Run-ner}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -153,7 +155,7 @@ Modeling Techniques}
 % This is the date of graduation
 \date{27 May 2024}
 
-% If your degree is not a PhD or MS, then you can overwrite the degree using
+% If your degree is not a PhD or MS, then you can overwrite the degree using 
 % the \degree command: \degree{Bachelors of Basics}
 
 % Your department
@@ -165,9 +167,20 @@ Modeling Techniques}
   \committeemember{Gustavious P. Williams}
 
 \keywords{
-    travel demand model; activity-based model;
+    travel demand model; activity-based model;  
     ActivitySim
 }
+
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of Contents}
+\else
+  \newcommand\contentsname{Table of Contents}
+\fi
+}
+
+\widowpenalty=500
+\clubpenalty=500
 
 \begin{document}
 
@@ -1019,8 +1032,8 @@ implementation.
 }
 
 \caption[ActivitySim sub-model
-flowchart.]{\label{fig-asim-flowchart}ActivitySim sub-model flowchart.
-(\textbf{associationofmetropolitanplanningorganizationsExamplesActivitySim2022?})}
+flowchart.]{\label{fig-asim-flowchart}ActivitySim sub-model flowchart
+(Association of Metropolitan Planning Organizations 2022).}
 
 \end{figure}%
 
@@ -1324,11 +1337,10 @@ calibration.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does
 not, and so there are no obvious calibration targets for ridehail. Based
-largely on the model results of
-(\textbf{dayForecastingRideHailingMultiple2022?}), and partly on the
-existing (uncalibrated) mode split in ActivitySim, we asserted the
-following mode shares for ridehail: 0.015\% for Home-based Work trips,
-0.38\% for Home-based Other trips, and 0.4\% for Non--home-based trips.
+largely on the model results of Day (2022), and partly on the existing
+(uncalibrated) mode split in ActivitySim, we asserted the following mode
+shares for ridehail: 0.015\% for Home-based Work trips, 0.38\% for
+Home-based Other trips, and 0.4\% for Non--home-based trips.
 
 \begin{table}
 
@@ -1894,7 +1906,7 @@ population, so no individuals or households needed to be removed before
 joining the two populations.
 
 Creating the new synthetic population followed a similar process as in
-the baseline scenario (\textbf{?@sec-populationsim}), but used the new
+the baseline scenario Section~\ref{sec-activitysim}, but used the new
 land use data as new TAZ-level controls. Many of the controls for
 PopulationSim use tract-level data from the Census, but existing Census
 data for The Point site is unrepresentative of the new development, as
@@ -3057,6 +3069,7 @@ to create and analyze similar scenarios.
 
 \centering
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{threeparttable}
 \begin{tabular}[t]{llcc}
 \toprule
 \multicolumn{2}{c}{ } & \multicolumn{2}{c}{Hours Spent on Task} \\
@@ -3089,9 +3102,12 @@ Scenario & Task & WFRC Model & ActivitySim\\
 \cmidrule{2-4}
 \multirow{-3}{*}[1\dimexpr\aboverulesep+\belowrulesep+\cmidrulewidth]{\raggedright\arraybackslash WFH} & Trips and miles traveled² & 5 & 5\\
 \bottomrule
-\multicolumn{4}{l}{\rule{0pt}{1em}\textsuperscript{1} This task was iterative and the "common" structure changed over time to reflect new analyses as they came up}\\
-\multicolumn{4}{l}{\rule{0pt}{1em}\textsuperscript{2} These analyses use the "common" structure directly and so took identical time and effort between the two models}\\
-\end{tabular}}
+\end{tabular}
+\begin{tablenotes}
+\item[1] This task was iterative and the "common" structure changed over time to reflect new analyses as they came up
+\item[2] These analyses use the "common" structure directly and so took identical time and effort between the two models
+\end{tablenotes}
+\end{threeparttable}}
 
 }
 
@@ -3130,7 +3146,7 @@ information on person id, mode, time of day, purpose, etc. There is
 therefore only one table per scenario that we used in our analyses, as
 this table contained all the necessary information for each analysis.
 For example, to create the Non--home-based desire line plot for the WFRC
-model (\textbf{?@fig-lu-desire-nhb-cube}), we took the Non--home-based
+model (Figure~\ref{fig-lu-desire-cube-nhb}), we took the Non--home-based
 trip matrices and took the difference between the Land Use and baseline
 scenario for each mode. For the desire line plot in ActivitySim
 (Figure~\ref{fig-lu-desire-asim}), we took the table of trips and
@@ -3217,6 +3233,11 @@ model type will best fulfill their specific modeling needs.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-associationofmetropolitanplanningorganizationsExamplesActivitysim2022}
+Association of Metropolitan Planning Organizations. 2022. {``Examples
+--- {Activitysim} 1.1.3.''}
+https://activitysim.github.io/activitysim/v1.1.3/examples.html\#sub-models.
+
 \bibitem[\citeproctext]{ref-asim-chunking}
 Association of Metropolitan Planning Organizations. 2023c. {``Ways to
 run the model --- {ActivitySim}.''}
@@ -3281,6 +3302,10 @@ Transportation Research Board}, 1977 (1): 35--42.
 Chicago Area Transportation Study. 1959. \emph{Chicago area
 transportation study: Final report in three parts}. Printed by authority
 of the State of Illinois.
+
+\bibitem[\citeproctext]{ref-dayForecastingRidehailingMultiple2022}
+Day, C. 2022. {``Forecasting ride-hailing across multiple model
+frameworks.''} Master's thesis. Provo, UT: Brigham Young University.
 
 \bibitem[\citeproctext]{ref-dong_moving_2006}
 Dong, X., M. E. Ben-Akiva, J. L. Bowman, and J. L. Walker. 2006.
