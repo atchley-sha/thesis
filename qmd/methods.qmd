@@ -263,7 +263,7 @@ Because of this focus, ActivitySim does not need to be perfectly calibrated to t
 ```{r}
 #| label: fig-median-income-density
 #| fig-cap: Distribution of TAZ median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
-#| fig-width: 4.5
+#| fig-width: 6
 #| fig-height: 5
 #| out-width: 5in
 #| out-height: 5in
