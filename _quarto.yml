@@ -24,18 +24,18 @@ customtitle: |
   | Trip- and Activity-Based
   | Modeling Techniques
 book:
-  output-file: "A_Comparative_Illustration_of_Trip-_and_Activity-Based_Modeling_Techniuqes"
+  output-file: "illustration_trb"
   title: |
-    | A Comparative Illustration of Trip- and
-    | Activity-Based Modeling Techniques
+    | A comparative Illustration of Trip- and
+    | Activity-Based Modeling Methods
   author:
     - name: Hayden Atchley
       email: satchley@byu.edu
       orcid: 0000-0002-0815-3488
       affiliations:
         - ref: byucce
-    - name: Kamryn Mansfield
-      email: kamrynwm@student.byu.edu
+    - name: Kamryn W. Mansfield
+      email: kamrynwm@byu.edu
       orcid:
       affiliations:
         - ref: byucce
@@ -53,6 +53,7 @@ book:
     - qmd/1_land_use.qmd
     - qmd/2_transit.qmd
     - qmd/3_wfh.qmd
+    - qmd/discussion.qmd
     - qmd/conclusions.qmd
     - qmd/references.qmd
   abstract: >-
