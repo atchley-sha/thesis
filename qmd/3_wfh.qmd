@@ -2,299 +2,70 @@
 
 {{< include _setup.qmd >}}
 
-The WFRC model has basic support for predicting remote work.
-This includes a lookup table of remote work percentages based on job type and year.
-ActivitySim also has this functionality, and can additionally use individual- and household-level variables in its predictions.
-It is worth noting that both the WFRC model and ActivitySim make a distinction between "telecommuting," where an individual commutes to work some days and does not others, and "work-from-home" (called "home-based jobs" in the WFRC model), where an individual's workplace is always at their home.
-
-The ActivitySim implementation discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
-However, a separate ActivitySim example implementation, developed for the Southeast Michigan Council of Governments metropolitan planning organization in Michigan, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the Michigan example.
-Some modifications to the remote work submodels were needed for compatibility, but these modifications were minor and mostly involved ensuring the variable names from the remote work submodels were consistent with the existing ActivitySim implementation.
-
-Both models treat "work-from-home"/"home-based jobs" similarly.
-The WFRC model's land use data contains employment by type in each TAZ, and it considers a "home-based job" as a separate job type, so these are not counted toward employment totals in trip generation and subsequent steps.
-ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, gender, and education (coefficients on these variables were left unchanged from the existing configuration, see @tbl-asim-wfh-model-coeffs).
-There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers.
-Individuals with work-from-home status are then prohibited from making a mandatory tour.
-This target work-from-home percentage is set at 2.3%, based on a weighted average from the WFRC model data.
-We made no other adjustments to the ActivitySim work-from-home submodel.
-
-```{r}
-#| label: tbl-asim-wfh-model-coeffs
-#| tbl-cap: Work-From-Home Submodel Choice Coefficients in ActivitySim
-
-targets::tar_read(asim_wfh_model_coeffs) %>%
-	skbl(align = c("l", "c"), digits = 3) %>%
-	kable_styling()
-```
-
-The two models differ in their approach to telecommuting, however.
-The WFRC model has a lookup table of telecommuting shares based on job type, including predictions for future years.
-ActivitySim has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
-Based on this status, ActivitySim adjusts the likelihood of selecting a mandatory DAP.
-Telecommute status depends on personal variables similar to those in the work-from-home submodel by default.
-Notably, the telecommute frequency submodel also includes adjustments based on an individual's distance to work.
-No other changes were made to the existing variables in this submodel, and @tbl-asim-tc-model-coeffs shows the submodel coefficients.
-
-```{r}
-#| label: tbl-asim-tc-model-coeffs
-#| tbl-cap: Telecommute Frequency Submodel Choice Coefficients in ActivitySim
-
-targets::tar_read(asim_telecommute_model_coeffs) %>%
-	filter(
-		!Description %in% c(
-			"temp_calibration", "not sure, unused",
-			"Retail", "Food", "Manufacturing", "Government and education",
-			"Office", "Health", "other", "Agriculture", "Mining", "Construction"),
-		!if_all(-Description, \(x) x == 0)) %>%
-	mutate(Description = str_to_sentence(Description)) %>%
-	rename(
-		"1 day" = `1_day_week`,
-		"2\u20133 days" = `2_3_days_week`,
-		"4 days" = `4_days_week`
-	) %>%
-	skbl(align = c("l", "c", "c", "c")) %>%
-	kable_styling() %>%
-	add_header_above(c(" ", "Telecommute Frequency Coefficients" = 3)) %>% 
-	column_spec(2:4, "0.87in")
-```
-
-In order to calibrate ActivitySim's telecommute frequency submodel to the WFRC data, however, we added additional job type variables to ActivitySim to match those given in @tbl-baseline-telecommute.
-Because these are choice coefficients rather than target percentages, the values needed to be calibrated to match the WFRC targets.
-The calibration allowed ActivitySim to match these targets exactly, and the coefficients are given in @tbl-baseline-telecommute.
-
-```{r}
-#| label: tbl-baseline-telecommute
-#| tbl-cap: Telecommute Rates and Coefficients by Job Industry
-
-targets::tar_read(comparison_by_telecommute_coeffs) %>%
-	mutate(pct = label_percent()(pct)) %>% 
-	rename(Industry = "name", `2019 WFRC Telecommute %` = "pct") %>%
-	skbl(align = c("l", "c", "c", "c", "c")) %>%
-	kable_styling() %>%
-	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
-	column_spec(2, "1.3in") %>% 
-	column_spec(3:5, "0.87in")
-```
-
-Because both remote work submodels in ActivitySim are run before an individual's DAP is chosen, ActivitySim can model a "rebound effect", where individuals working remotely on any given day may be more likely to make discretionary tours.
-However, because the WFRC model does not include this effect, the ActivitySim DAP model is left unchanged.
-@tbl-asim-dap-model-rw-coeffs shows the coefficients of the DAP model for individuals who work remotely.
-
-```{r}
-#| label: tbl-asim-dap-model-rw-coeffs
-#| tbl-cap: Daily Activity Pattern Submodel Coefficients in ActivitySim
-
-targets::tar_read(asim_tc_dap_coeffs) %>%
-	skbl(align = c("l", "c", "c", "c")) %>%
-	kable_styling()
-```
-
-Our final model scenario, termed the "Remote Work" scenario, addresses changes in travel behavior as a result of social and/or economic factors.
-Specifically, we represent an increase in remote work rates since the COVID-19 pandemic.
-With the onset of the COVID-19 pandemic, there were unprecedented numbers of people working remotely [@bick_work_2021].
+A major question facing transportation planners since the COVID-19 pandemic has concerned the increasing availability and use of home-based work arrangements, whether involving full-time working from home or regular telecommuting.
 Though remote work is currently not as common as during the pandemic, remote work rates are increasing each year and are predicted to continue to rise [@ozimekFutureRemoteWork2020].
-
-As noted in @sec-baseline-calibration, both models make a distinction between "working from home" (no work location other than home) and "telecommuting" (working remotely some but not all days).
-The WFRC model contains a lookup table of both work-from-home (called "home-based jobs" in the WFRC model) and telecommute percentages by job type and year, and predicts an increase in both remote work rates over time.
-@fig-wfrc-remote-work-rate-plot shows the remote work rates predicted in the WFRC model by year.
-
-```{r}
-#| label: fig-wfrc-remote-work-rate-plot
-#| fig-cap: Remote work rates as given in the WFRC model.
-
-targets::tar_read(cube_remote_work_totals_plot) +
-	theme(legend.position = "bottom")
-```
-
-This scenario is a "what-if" analysis that models a significant increase in remote work rates.
-We use the remote work rates from 2050 as predicted by the WFRC model, but make no other changes from the baseline scenario.
-In other words, this scenario models the 2050 predicted remote work rates with the 2019 land use and infrastructure.
-
-<!-- While it is relatively straightforward to measure and predict remote work *rates*, -->
-
-There has been much research, especially in recent years, on the implications of remote work.
-While many agencies have adjusted their models to account for remote work, and most models follow similar principles, it is not obvious what the best method is. @bramberga_teleworking_2023 even suggests that considerations for remote work should be made on a case-by-case basis because there is no single best approach.
-The following section discusses some of these considerations.
-
-## Considerations for Modelling Remote Work {#sec-remote-work-considerations}
-
-Increasing remote work rates may affect several aspects of travel behavior.
-The most obvious effect is that people will on average make fewer work trips, and this effect will vary by job type [@yasenov_who_2020].
-Most travel demand models include a decrease in work trips based on remote work rates and job type [@bramberga_teleworking_2023; @moeckel_working_2017; @sener_copula-based_2011].
-
-While work trips decrease with an increase in remote work, @kim_is_2017 discusses a "rebound effect," where individuals make more discretionary trips on days they do not commute to work.
-@moreno_microscopic_2017 similarly discuss the idea of a "travel time budget," where a decrease in trips of one purpose will increase the time people allocate for trips of another purpose and vice versa.
-
-This rebound effect is not straightforward, however.
-@ellder_telework_2020, for example, finds that distinguishing between people that work from home all day and those who work form home only part of the day might make a difference.
-Compared to those who commute to work, those who worked from home the entire day had fewer trips and miles traveled, but those who worked from home only part of the day had more trips and miles traveled.
-
-Additionally, the types of trips people make can differ depending on remote work status.
-While the rebound effect proposes that the *number* of trips may increase on remote work days [@he_telecommuting_2015], @mokhtarian_the_1998 find a decrease in vehicle *miles* traveled for both work and discretionary trips on remote work days.
-This implies that longer trips are being replaced by shorter trips on days people do not travel to work.
-@moeckel_working_2017 additionally finds that those who travel to their job site less frequently are more likely to live further away from their job site, and so their longer but infrequent commute is dropped on remote work days, perhaps in favor of shorter, discretionary trips.
-
-In our case, we are using the existing frameworks for modeling remote work in both ActivitySim and the WFRC model, as discussed in @sec-baseline-calibration.
-
-<!-- It is also not clear if the rebound effect is real. @zhu_impact_2014 find that there are more miles traveled on the days people telecommute, but @mokhtarian_the_1998 saw opposite effects where vehicle miles traveled decreased for both work and discretionary trips on telecommuting days. -->
-
-<!-- Using data from the 2007 Chicago Regional Household Travel Inventory, @he_telecommuting_2015 found that, after adjusting for other factors like income, household size, and job industry, people who telecommute frequently make 0.072 more discretionary trips on average each day compared to those who don't telecommute. -->
+In this scenario, we consider the impact that an increase in remote work (either working from home or telecommuting) has on demand for travel in both the WFRC / MAG model and in ActivitySim.
 
 ## Scenario Creation
 
-Two changes are needed in the WFRC model for this scenario.
-The first is to replace the 2019 estimates for work-from-home and telecommuting with the 2050 estimates.
-@tbl-wfrc-remote-work-years shows both the original and updated estimates.
-The second change is to the TAZ-level socioeconomic data.
-The WFRC model estimates a number of home-based jobs in each TAZ, and the original 2019 home-based job estimates are similarly replaced with the 2050 estimates.
-The WFRC model additionally includes a global scaling factor for all remote work percentages.
-However, this scaling factor was left unchanged, as we considered that the 2050 predicted remote work percentages would better model a more realistic increase in remote work than simply scaling the 2019 rates globally.
+The WFRC model has basic support for predicting remote work, whether as full-time work from home or as regular telecommuting.
+In the work from home model, a certain number of workers are designated as workers at home based on zonal median income and excluded from further consideration.
+That is, the number of workers entering the trip production models is reduced and these trips are never distributed.
+For telecommuting, WFRC/MAG model uses a lookup table of telecommuting shares based on job type, including predictions for future years.
+These trips are then removed from the home-based work trip productions outputs.
+To model the effect of an increase in working from home and telecommuting, we simply used the 2050 projected values in the 2019 base year calibration scenario.
 
-```{r}
-#| label: tbl-wfrc-remote-work-years
-#| tbl-cap: Comparison of Remote Work Rates in the WFRC Model by Year
-
-targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
-	mutate(across(!name, label_percent())) %>% 
-	skbl(col.names = c("Industry", "2019", "2050", "2019", "2050"), align= c("l", rep("c", 4))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" ", "Telecommute %" = 2, "Home-based Jobs %" = 2))
-```
-
-We adjusted the remote work models in ActivitySim using the same process as in @sec-baseline-calibration, but with the 2050 targets from the WFRC model.
-The "target work-from-home percent" value in ActivitySim's work-from-home submodel was changed to 3.5% based on a weighted average from the 2050 WFRC data, and the job type coefficients in the telecommute frequency submodel were calibrated to match the WFRC target telecommute shares by job type.
-@tbl-wfh-telecommute shows the WFRC 2050 telecommute percentages with the ActivitySim telecommute utility coefficients.
-As in the baseline scenario, this calibration allowed ActivitySim to match the WFRC telecommute percentages exactly.
-
-```{r}
-#| label: tbl-wfh-telecommute
-#| tbl-cap: Telecommute Rates and Coefficients by Job Industry 
-
-targets::tar_read(comparison_wfh_telecommute_coeffs) %>% 
-	mutate(pct = label_percent()(pct)) %>% 
-	rename(Industry = "name", `2050 WFRC Telecommute %` = "pct") %>% 
-	skbl(align = c("l", "c", "c", "c", "c")) %>%
-	kable_styling() %>%
-	add_header_above(c(" " = 2, "Telecommute Frequency Coefficients" = 3)) %>% 
-	column_spec(2, "1.3in") %>% 
-	column_spec(3:5, "0.87in")
-```
+The example ActivitySim implementation based on San Francisco and discussed in @macfarlaneEstimationSimulationDaily2021 does not include any submodels related to remote work.
+However, a separate ActivitySim example implementation, developed for the Southeast Michigan Council of Governments (SEMCOG) metropolitan planning organization, *does* include these submodels, and our ActivitySim implementation takes these submodels directly from the SEMCOG example.
+ActivitySim has a "work from home" submodel which assigns workers work-from-home status based on personal variables such as income, gender, and education; coefficients on these variables were left unchanged from the SEMCOG configuration.
+There is also a "target work-from-home percent" value that adjusts the model to reach the specified work-from-home proportion of all workers; this was set to match the WFRC / MAG models' share of workers at home in the 2019 and 2050 scenarios, respectively.
+Individuals with work-from-home status are then prohibited from making a mandatory tour, but would then have relatively higher probability of making non-mandatory tours, reflecting a "rebound effect" from potentially more available travel budget [@kim_is_2017; @moreno_microscopic_2017].
+ActivitySim also has a "telecommute frequency" submodel which assigns workers a telecommute status indicating the number of days they work remotely per week.
+Based on this status, ActivitySim adjusts the likelihood of selecting a mandatory activity pattern on the simulated travel day.
+Telecommute status depends on personal variables similar to those in the work-from-home submodel by default, but also includes adjustments based on an individual's distance to work, with people living further from their workplaces more likely to telecommute more frequently.
+We also added a job type variable --- based on the ACS PUMS industry classification available in the synthetic population --- to calibrate ActivitySim's telecommute frequency submodel to the WFRC telecommute share lookup table.
 
 ## Scenario Analysis
 
 Both models decrease the number of work trips made as remote work rates increase.
 However, the WFRC model does not account for a potential "rebound effect" where more discretionary trips are made by those who do not travel to their workplace on a given day.
-This is seen in @tbl-wfh-mode-split-comp, where the WFRC model shows a decrease in home-based work and non--home-based trips (many of which begin or end at work), but virtually no change in home-based other trips.
+This is seen in @tbl-wfh-trip-pmt-diff, where the WFRC model shows a decrease in home-based work and non--home-based trips (many of which begin or end at work), but virtually no change in home-based other trips.
 ActivitySim on the other hand does account for this, in that individuals working remotely on any given day may be more likely to make discretionary tours.
-@tbl-wfh-mode-split-comp shows this as well, where ActivitySim predicts a noticeable increase in home-based other trips as well as a decrease in work trips.
-
-```{r}
-#| label: tbl-wfh-mode-split-comp
-#| tbl-cap: Change in Mode Split After Increased Remote Work Rates
-
-targets::tar_read(combined_wfh_mode_split_diff) %>% 
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
-	mutate(across(where(is.numeric), round)) %>% 
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
-	arrange(purpose, mode) %>% 
-	relocate(cube_by, .before = cube_wfh) %>% 
-	relocate(asim_by, .before = asim_wfh) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline", "Remote Work Scenario", "Change"), 2))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 2, "WFRC Model Trips" = 3, "ActivitySim Trips" = 3)) %>%
-	collapse_rows(1, latex_hline = "major")
-```
 
 In addition to the number of trips, increasing remote work rates can also have an effect on the length of trips that are made.
-
 The WFRC model does not consider trip length when adjusting trip rates due to remote work.
 There is perhaps an implicit consideration in that remote work rates differ by job type and some job types are concentrated in certain areas, but there is no reference to trip length explicitly.
 @tbl-cube-wfh-trip-pmt-diff illustrates this, where, for example, Home-based Work drive alone trips decreased by 6.3% relative to the baseline scenario, but person-miles traveled decreased only by 5.3%.
 This shows that in fact the *shorter* work trips are being made less frequently with increased remote work rates, though notably this is only a side-effect of the WFRC model and the two specific model scenarios.
 
 ```{r}
-#| label: tbl-cube-wfh-trip-pmt-diff
-#| tbl-cap: Comparison of Trips Taken and Miles Traveled (WFRC Model)
+#| label: tbl-wfh-trip-pmt-diff
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled 
 
-targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
+wfrc_wfh <- targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
 	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
 	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
 	mutate(across(where(is.numeric), round)) %>% 
 	arrange(purpose, mode) %>% 
 	relocate(by_trips, .before = wfh_trips) %>% 
-	relocate(by_pmt, .before = wfh_pmt) %>% 
-	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
+	relocate(by_pmt, .before = wfh_pmt)
+
+asim_wfh <- targets::tar_read(asim_wfh_trip_pmt_diff) |>
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
+	relocate(by_trips, .before = wfh_trips) %>% 
+	relocate(by_pmt, .before = wfh_pmt) |> 
+	arrange(purpose, mode) 
+
+
+bind_rows(list("WFRC / MAG" = wfrc_wfh, "ActivitySim" = asim_wfh), .id = "Model") %>%
+	skbl(col.names = c("Model", "Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
 	kable_styling() %>% 
-	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
+	add_header_above(c(" " = 3, "Trips" = 3, "Person-miles" = 3)) %>% 
 	collapse_rows(1)
 ```
 
-ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
-ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
+ActivitySim does model distance to work directly when predicting remote work status, so those who live farther away from their job site are more likely to work remotely.
+ActivitySim therefore predicts a greater decrease in person-miles than in number of trips for home-based work trips, as seen in @tbl-wfh-trip-pmt-diff.
 This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily, but the discrepancy is consistent across all modes.
 Additionally, for home-based other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is at least implicitly modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged shorter discretionary trips.
-
-```{r}
-#| label: tbl-asim-wfh-trip-pmt-diff
-#| tbl-cap: asim
-
-targets::tar_read(asim_wfh_trip_pmt_diff) |>
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
-	arrange(purpose, mode) |>
-	flextable(col_keys = c(
-		"purpose", "mode", "wfh_trips", "by_trips", "trips_pct",
-		"blank", "wfh_pmt", "by_pmt", "pmt_pct"
-	)) |>
-	set_header_labels(
-		purpose = "Purpose",
-		mode = "Mode",
-		wfh_trips = "Remote Work scenario",
-		by_trips = "Baseline scenario",
-		trips_pct = "% Change",
-		wfh_pmt = "Remote Work scenario",
-		by_pmt = "Baseline scenario",
-		pmt_pct = "% Change"
-	) |>
-	add_header_row(
-		values = c("Purpose", "Mode", "Trips", "", "Person-miles"),
-		colwidths = c(1,1,3,1,3)
-	) |>
-	merge_v(part = "h") |>
-	surround(i = 2, j = ~blank, border.top = fp_border(width = 0), part = "h") |>
-	colformat_double(digits = 0) |>
-	align(j = 3:9, align = "center", part = "a") |>
-	merge_v(j = 1) |>
-	hline(i = c(4,8)) |>
-	fix_border_issues() |>
-	set_table_properties(layout = "fixed") |>
-	width(6, 0.1) |>
-	width(1, 1) |>
-	# width(2, 1.1) |>
-	# width(c(3,7), 1) |>
-	fontsize(size = 10, part = "a")
-```
-
-The difference in how trip length is modeled between ActivitySim and the WFRC model can be seen more clearly in @fig-wfh-tlfd-comp.
-This figure shows the difference in TLFD between the Increased Remote Work scenario and the baseline scenario.
-Note that a point on the positive y-axis indicates an increased density of trips in the Increased Remote Work scenario compared to the baseline, and vice versa.
-
-```{r}
-#| label: fig-wfh-tlfd-comp
-#| fig-cap: Difference in TLFD between scenarios for each model.
-#| fig-width: 6.5
-#| fig-height: 5
-
-targets::tar_read(combined_tlfd_diff_plot) +
-	scale_color_bright() +
-	theme(legend.position = "bottom")
-```
-
-For home-based work trips, the WFRC model shows two patterns.
-Drive alone and non-motorized trips shifted their distribution toward longer trips with increased remote work, and carpool and transit trips shifted toward shorter trips.
-Home-based other trips show a shift toward longer trips for all modes except transit, though the distribution of transit trips hardly shifted at all between scenarios.
-
-The TLFD for ActivitySim shows a general shift toward shorter trips with increased remote work, though this is not universally true.
-Home-based other drive alone and carpool trips show a shift in distribution toward medium-length trips, and non-motorized trips show a complicated pattern in both purposes.
-However, even when ActivitySim shows a shift in distribution away from very short trips, such as in home-based other drive alone and carpool trips, the peak of the home-based other curve is to the left of the home-based work curve, which further shows how ActivitySim is modeling an exchange of longer work trips for shorter discretionary trips.
