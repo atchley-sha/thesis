@@ -1,0 +1,91 @@
+# Discussion {#sec-discussion}
+
+{{< include _setup.qmd >}}
+
+As discussed in the Literature Review section, there is a large base of research discussing activity- and trip-based models and their differences, but much of that literature focuses primarily on the technical aspects of the respective models.
+There is little research into the practicality of either model type that would be useful to an agency in deciding which type to use.
+Therefore, while some of the conclusions presented here address quantitative differences between the two models, the more relevant discussion in this section relates to the subjective experience of configuring and using each model.
+Note that many of the conclusions presented here are specific to the WFRC model and our ActivitySim implementation, though many conclusions can apply to trip- and/or activity-based models more broadly.
+
+As outlined in the Literature Review and presented by Miller [@miller_current_2023], there are three reasons cited by agencies for delaying the adoption of activity-based models: increased demand for computational resources; complex methodological design and the lack of transferrability; and additional complexity in analysis requiring specialized staff training.
+We will address these in turn.
+
+In terms of computational resources, all runs of the WFRC /MAG model were done on a Windows 10 computer with 2 Intel process with a base frequency of 2.2 GHz and 10 cores/20 threads each.
+The WFRC model is configured for multiprocessing in its destination and mode choice steps, and was configured to use 16 threads for our scenario runs.
+Notably, this is a specialized computer, but would not be prohibitively expensive to most agencies (indeed, WFRC has computers with similar specifications already).
+Each scenario had a total runtime of 16–17 hours on this hardware, but removing the assignment steps and all but one trip distribution feedback loop -- as in, a single run of the demand model --- reduces the run time to approximately 10 hours.
+A complete run of ActivitySim on the same hardware took approximately 13 hours; a single run of ActivitySim on a dedicated compute node with 360GB RAM but only 12 threads took roughly 5 hours.
+A machine with these specifications would not be unattainable to a regional agency, either through cloud services or hardware purchase.
+It is possible that the WFRC / MAG model is uniquely inefficient for a trip-based model, but careful configuration of hardware and software suggest that ActivitySim can complete in similar time if not less.
+
+Another perceived difficulty is complex model design and the lack of interoperability/transferability of an activity-based model from one area to another.
+Collaboration between agencies could be difficult if each model implementation is bespoke and tailored to a specific area.
+We found, however, that at least with ActivitySim this is not the case.
+Our ActivitySim implementation originally did not include remote work submodel, but it was simple to copy the remote work models from the Michigan example configuration into our implementation.
+Some minor changes were made to ensure consistent variable names, but this process was not very involved (see @tbl-time-spent).
+In our ActivitySim implementation, for example, an individual's distance to work has a direct effect on their remote work status, which in turn affects the DAP assigned to that individual.
+It is easy to then model a remote work "rebound effect" by increasing the utility of a non-mandatory activity pattern for individuals who work remotely.
+By contrast, the design of the telecommuting and home-based work module in the trip-based WFRC / MAG model is considerably more complex to understand, and lacks many of the known behavioral relationships in such trips.
+The same can be said for the non-home-based trips in the land use scenario, where the complexity of the non-home-based trip distribution procedure borders on inexplicable.
+
+Perhaps more importantly, the two models do not show the same results for some fundamental equity analyses, as previously identified in other research [@bills_looking_2017] and illustrated here with the distribution of incomes of transit riders.
+Which income distribution is "correct" may not matter so much as the fact that it is *different*, perhaps leading to drastically different winners or losers in equity analyses.
+And important equity-related variables such as race or gender would be impossible to analyze the the WFRC / MAG model.
+
+The final perceived difficulty relates to the time it would take to train staff to accomplish analyses on more difficult model structures.
+As discussed in the Methodology section, we completed this analysis with student researchers that had little prior experience with travel demand models.
+@tbl-time-spent shows the amount of time spent on creating and analyzing each scenario in both models.
+These are approximations, as detailed time logs by task are not available.
+Additionally, many of the tasks are interrelated or use the same code between models and scenarios, so it is sometimes hard to separate the time spent into individual tasks.
+However, @tbl-time-spent should serve to give a very rough idea of the time spent on each task.
+
+```{r}
+#| label: tbl-time-spent
+#| tbl-cap: Estimated Time Spent on Modeling Tasks
+
+targets::tar_read(time_spent_table) |> 
+	mutate(`WFRC Model` = if_else(`WFRC Model` == "X", NA, `WFRC Model`)) |> 
+	mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) |>
+	mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) |>
+	skbl(align = c("l", "l", "c", "c")) |> 
+	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) |> 
+	kable_styling() |> 
+	collapse_rows(1:2) |> 
+	kableExtra::footnote(
+		number = c(
+			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
+			"These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
+		)
+	)
+
+```
+
+The overall time spent for ActivitySim is on par with that for the WFRC model, though there are a few important notes about this comparison: First, the scenarios in ActivitySim were somewhat dependent on the outputs of the WFRC model.
+ActivitySim depends on the WFRC model's travel skims, as ActivitySim does not perform network assignment and so is unable to determine congested travel times on its own.
+In the Transit scenario, for example, the only change needed for ActivitySim was to use updated transit skims, which was extremely quick to implement.
+However, these updated skims came from the results of the WFRC model's Transit scenario, and so in some sense the time spent for ActivitySim on this task should possibly include the time spent for the WFRC model.
+Second, the tasks were divided between two research assistants largely in line with the model type.
+This means that @tbl-time-spent is showing the time spent with each model type by a specific individual.
+In other words, the difference within this table is not only the model type, but also the individual working on the task.
+Any comparisons between the time spent on the two models should therefore take this into consideration.
+One additional point to note is how the analyses were performed in each model.
+The outputs of the WFRC model relevant to our analyses consist mainly of matrices listing the number of trips between zones.
+There is a separate matrix for each mode and purpose, and so analyzing the data from the WFRC model requires making comparisons between several matrices for each scenario, and potentially aggregating values across different matrices.
+The only output of ActivitySim relevant to our analyses is a table listing every trip made in the scenario, which includes information on person, mode, time of day, purpose, etc.
+There is therefore only one table per scenario that we used in our analyses, as this table contained all the necessary information for each analysis.
+For example, to create the non--home-based desire line plot for the WFRC model (@fig-lu-desire-1), we took the Non--home-based trip matrices and took the difference between the baseline and improved scenario for each mode.
+For the desire line plot in ActivitySim (@fig-lu-desire-2), we took the table of trips and filtered the list to only persons whose home zone was in the new development.
+We then had a list of trips made by residents of the new development and were able to aggregate these trips and create the desire line plot.
+Both of these figures took roughly the same amount of effort to create, and the analysis in ActivitySim gives more detailed information than the equivalent analysis in the WFRC model.
+
+## Limitations
+
+A number of limitations exist in this research.
+The most glaring perhaps is that the two models we are comparing are somewhat dependent on each other; as our ActivitySim implementation does not have a process to pass travel demand to a network and receive congested transport impedances back, we are reliant on the WFRC / MAG model's congested travel skims.
+This prevents us from examining pricing scenarios or others that are frequently cited as being an important reasons for adopting activity-based models.
+At the same time, however, this allows us to keep the focus of the analysis on the *demand* portions of the travel demand model, where the strong methodological contrasts lie.
+A deeper weakness in our approach, however, is that our version of ActivitySim is not calibrated independently to targets derived from source survey data, and instead to the outputs of the WFRC / MAG model.
+We have attempted to minimize the effect of this weakness by focusing on general differences rather than differences in forecast, but there may be lingering effects we do not anticipate or identify.
+
+Many of the claims of activity-based models with regards to coherence --- for instance, that a vehicle cannot be used on a trip for which it is not available --- have not been tested or proven in operational models.
+It would be helpful to develop performance statistics to test or compare these types of analyses.
