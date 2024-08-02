@@ -2,30 +2,17 @@
 
 {{< include _setup.qmd >}}
 
-Our second scenario models changes in travel behavior as a result of changes to transportation infrastructure.
-This model scenario, termed the "Transit" scenario, is based on a planned improvement to the FrontRunner commuter rail line.
-The FrontRunner runs along the Wasatch Front between Provo and Ogden, Utah, with several stops in between.
-Currently, there is only one set of tracks for much of the line, and it is only possible for trains to pass each other near stations.
-Because of this, headways are quite large, with trains running every 30 minutes in peak periods and every 60 minutes in off-peak periods.
-
-A potential improvement to the FrontRunner would "double track" the entire route, allowing trains to pass each other at any point.
-The main benefit of this improvement is a substantial decrease in headways, bringing them to 15 and 30 minutes for peak and off-peak service, respectively.
-Two additional improvements are partial electrification of the FrontRunner, allowing for faster travel speeds, and extending the track farther south with additional stops.
-
-The Transit scenario models these improvements to the FrontRunner.
-The scenario adjusts the headways to 15/30 minutes for peak/off-peak service, increases travel speeds, and adds additional stops in Vineyard[^2_transit-1], Springville, Spanish Fork, and Payson.
-@fig-frontrunner-map shows the FrontRunner network along with the modeled changes.
-In reality there would be additional transit improvements, such as a revised bus service network serving the Springville station, but for the sake of simplicity these additional improvements are not included in this model scenario.
+The basis for the transit scenario is a set of proposed improvements to the FrontRunner commuter rail line connecting Ogden, Provo, and Salt Lake City.
+The proposals would extend the southern extent of the service, increase the service frequency by constructing dedicated double tracks, and marginally increase the speed between stations by replacing the current diesel-electric locomotives with electric trainsets drawing power from overhead wires.
+@fig-frontrunner-map shows the FrontRunner network along with the proposed changes.
+In reality there would be additional transit improvements, such as a revised bus service network serving the new stations, but for the sake of simplicity these additional improvements are not included in this model scenario.
 Only the changes to the FrontRunner service are modeled here.
 
-[^2_transit-1]: In 2019, the model year for the baseline scenario, the Vineyard station was not yet open, though the station has been operational since late 2022.
-
-```{r}
+```{r echo = FALSE, warning=FALSE, message=FALSE}
 #| label: fig-frontrunner-map
 #| fig-cap: Map of the FrontRunner commuter rail line.
 #| fig-width: 5
 #| fig-height: 8
-#| fig-pos: p
 
 line <- targets::tar_read(frontrunner_line)
 stops <- targets::tar_read(frontrunner_stops)
@@ -36,7 +23,6 @@ stops <- targets::tar_read(frontrunner_stops)
 	text_stops <- format_stops %>%
 		bind_cols(st_coordinates(.) %>% as_tibble())
 
-	list(format_line, format_stops, text_stops)
 
 	ggplot() +
 		annotation_map_tile("cartolight", zoom = 10) +
@@ -61,13 +47,12 @@ stops <- targets::tar_read(frontrunner_stops)
 ## Scenario Creation
 
 In the WFRC model, this scenario is relatively easy to implement.
-The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations is already built into the model for future-year analysis.
-The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station, which allows transfers between auto and transit modes at these nodes.
+The headways are stored directly in the input data and are easily modified, and a year-2050 network with increased speeds and additional stations has already been constructed for the most recent long range plan.
+The only additional change needed was to turn on the "park and ride" flag in the highway network at the node of each new station, which allows transfers between auto and transit modes at these nodes in the transit assignment process.
 
-To implement this scenario in ActivitySim, only updated travel skims are needed.
 As in the baseline scenario, ActivitySim directly uses the transit skims that are output from the WFRC model's network assignment in this model scenario.
 Because the mode share of transit is relatively low, it is not expected that the highway travel times will be affected very much by this change.
-The highway skims used for ActivitySim are therefore taken from the WFRC model baseline scenario and not updated for this scenario.
+The highway skims used for ActivitySim are therefore taken from the WFRC model baseline scenario and not updated for this scenario, but the transit times (including number of transfers, etc.) were updated.
 No other changes to ActivitySim are necessary to model this scenario.
 
 ## Scenario Analysis
@@ -95,10 +80,8 @@ Home-based Work trips do see a decrease in auto trips with the improved transit,
 This indicates that the new commuter rail trips are mostly coming from those who would have taken local transit in the baseline scenario.
 
 ActivitySim, on the other hand, actually shows an *increase* in local transit trips for Home-based Work and Non--home-based trips.
-For Home-based Other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.[^2_transit-2]
+For Home-based Other trips, there is a decrease in local transit, but by percentage it is not nearly as significant as the decrease in the WFRC model.\[\^2_transit-1\] The absolute difference in *number* of Home-based Other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
 This shows that most new commuter rail trips in ActivitySim are coming from auto (drive alone and carpool) modes, rather than other transit modes.
-
-[^2_transit-2]: The absolute difference in *number* of Home-based Other local transit trips between the scenarios is comparable between the two models, but since ActivitySim is predicting significantly more transit trips in the baseline scenario compared to the WFRC model, the percent change is much smaller in ActivitySim.
 
 The discrepancy may be partially explained by the difference in the way trips are modeled.
 In the WFRC model, trips are modeled in aggregate, with no interaction between separate trips.
@@ -111,18 +94,15 @@ Many of the new commuter rail trips therefore come from those who would have tak
 ActivitySim, however, *does* model interactions between trips.
 An individual who makes a commuter rail trip will (usually) not be able to drive for subsequent trips until they have returned home.
 Because of this, individuals taking commuter rail are more likely to then take other forms of transit on the same tour.
-There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced in part due this structuring of trips into tours.
+There is a similar nesting structure in the mode choice model of ActivitySim as in the WFRC model, but this effect is less pronounced perhaps in part due this structuring of trips into tours.
 
 One particularly interesting analysis that can be done with an ABM is to see who changed modes with the improved transit.
 Because trips are modeled individually rather than in aggregate, it is possible to identify trips that switch modes between the scenarios.
 @fig-tr-mode-switching shows the distribution of these "switched" trips.
 These are trips that are "the same" between scenarios and differ only by mode.
-For the purposes of this analysis, trips are considered "the same" between scenarios if they are made by the same person and have the same origin and destination zones, time of day[^2_transit-3], and tour and trip purpose.
+For the purposes of this analysis, trips are considered "the same" between scenarios if they are made by the same person and have the same origin and destination zones, time of day, and tour and trip purpose.
 Most of these trips also share the same mode, which is to be expected, but many do not.
 @fig-tr-mode-switching is filtered to show only trips that do not share the same mode between scenarios.
-
-[^2_transit-3]: ActivitySim models time of day as the "departure hour" for each trip.
-    If two trips share the same departure hour, they are considered here to have happened at the same time.
 
 ```{r}
 #| label: fig-tr-mode-switching
@@ -175,99 +155,11 @@ In fact, there are many trips that do not have a match between scenarios, where 
 The number of trips an individual makes may also differ between scenarios, as each person's DAP is partially dependent on accessibility measures (see @fig-asim-flowchart).
 Notably, @fig-tr-mode-switching also does not include any of these trips; the figure only shows trips which do have a match between scenarios.
 
-ABMs also allow for even more granular analysis than shown in @fig-tr-mode-switching.
-For example, @fig-tr-atwork-switching shows the trip modes of at-work subtours made by individuals who switched their work tour mode away from drive alone.
-The figure shows the at-work subtour trip modes for *all* these individuals, not just those who also switched their at-work subtour trip modes.
-These results are essentially as expected.
-All trips that were drive alone in the baseline scenario switched to carpool, and there was virtually no mode switching otherwise, except a few trips that switched from carpool to non-motorized.
-This switching from carpool to non-motorized can again be largely explained by the randomness in ActivitySim's mode choice models, and again is relatively insignificant.
-
-```{r}
-#| label: fig-tr-atwork-switching
-#| fig-cap: At-work subtour trip modes of individuals who switched their work mode away from "Drive Alone".
-#| fig-width: 6.5
-#| fig-height: 4
-mode_switching <- targets::tar_read(asim_tr_atwork_switching)
-mode_switching %>%
-		mutate(
-			from = mode_by,
-			to = mode_tr,
-			tour_purpose = case_match(
-				tour_purpose,
-				c("work", "school", "univ") ~ tour_purpose,
-				c("school", "univ") ~ "school",
-				.default = "other"
-			)
-		) %>%
-		count(tour_purpose, from, to) %>%
-		filter(from != "rh", to != "rh") %>%
-		mutate(
-			tour_purpose = factor(
-				tour_purpose,
-				levels = c("work", "school", "univ", "other"),
-				labels = c("Work", "School", "University", "Other")
-			),
-			across(c(from, to), \(x) pretty_mode(x))) %>%
-		ggplot(aes(axis1 = from, axis2 = to, y = n)) +
-		list(if(length(unique(mode_switching$tour_purpose)) > 1) facet_wrap(~tour_purpose, scales = "free")) +
-		# facet_wrap(~tour_purpose, scales = "free") +
-		scale_x_discrete(
-			limits = c("From", "To"),
-			labels = c("Baseline\nScenario", "Improved\nTransit"),
-			expand = c(.2, .1)) +
-		geom_alluvium(aes(fill = from), width = 1/2, alpha = 0.8) +
-		geom_stratum(width = 1/2) +
-		geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
-		# scale_fill_brewer(palette = "Accent") +
-		scale_fill_bright() +
-		labs(x = element_blank(), y = "Trips", fill = "Original mode")
-```
-
 Both model types additionally allow for analyzing the types of people who use transit.
-The WFRC model, however, is limited to analyses using aggregate, TAZ-level data.
-@tbl-tr-cube-se shows, for example, the median number of households, people, and jobs per TAZ weighted by the number of transit trip productions in each TAZ for the WFRC model.
-Additionally, @tbl-tr-cube-se shows a median income associated with transit trips, but note that this is not a median income of transit *riders*, but a median of *TAZ median income*, weighted by trip productions.
-It is difficult to know the actual income distribution of transit riders since individuals are not modeled explicitly.
-
-```{r}
-#| label: tbl-tr-cube-se
-#| tbl-cap: Example Socioeconomic Analysis of Transit Trips (WFRC Model)
-
-targets::tar_read(cube_tr_productions_se_summary) %>% 
-	mutate(across(med_income, label_comma(prefix = "$"))) %>% 
-	skbl(col.names = c("Purpose", "Mode", "Trips", "Households", "Population", "Employment", "Income")) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "TAZ-level Median (weighted by trips)" = 4)) %>% 
-	collapse_rows(1, latex_hline = "major")
-```
-
-Because an ABM *does* model individuals explicitly, information about each individual is accessible at every stage of the model, including in post-hoc analysis.
-We can therefore determine the individual-level distribution of age and income for transit riders, for example.
-@tbl-tr-asim-se shows a similar summary as @tbl-tr-cube-se, but for ActivitySim.
-@tbl-tr-asim-se presents median values for the individuals who made transit trips, not simply TAZ averages.
-Notably, Tables [-@tbl-tr-cube-se] and [-@tbl-tr-asim-se] show that ActivitySim is predicting a higher median income of transit riders than the WFRC model.
-Our synthetic population does over-predict high-income households along the length of the FrontRunner (see @fig-income-group-map), and this may partially be the cause of the discrepancy.
-
-```{r}
-#| label: tbl-tr-asim-se
-#| tbl-cap: Example Socioeconomic Analysis of Transit Trips (ActivitySim)
-
-targets::tar_read(asim_tr_trips_se_summary) %>% 
-	mutate(across(income, label_comma(prefix = "$"))) %>% 
-	skbl(col.names = c("Purpose", "Mode", "Trips", "Income", "Age", "Distance to work (mi)"), digits = 1) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "Individual-level Median" = 3)) %>% 
-	collapse_rows(1, latex_hline = "major")
-```
-
-Additionally, @fig-tr-se-income-dist shows the income distribution of transit riders for the WFRC model and ActivitySim.
-Again, the WFRC model is not modeling individuals, so for the WFRC model @fig-tr-se-income-dist shows the distribution of median TAZ income weighted by number of trip productions.
-For ActivitySim, however, the true income distribution of individual transit riders is shown.
-
-ActivitySim shows a rather wide income distribution of transit riders, while the distribution of the WFRC model is much denser around \$50,000--\$75,000.
-This makes sense given that the WFRC model shows a distribution of *median* incomes, while ActivitySim shows the distribution of *individual* incomes.
-It is clear that ActivitySim considers transit to be more attractive for a wider range of incomes than the overall income distribution, though notably low- to medium-income individuals are somewhat more likely to take transit.
-In the WFRC model, however, the income distribution of individuals taking transit is unknown.
+@fig-tr-se-income-dist shows the income distribution of transit riders in the improved transit scenario, but these distributions are substantively different in both analysis method and outcome.
+In the case of ActivitySim, we obtained the income of each modeled transit rider and plotted the distribution of their incomes.
+For the WFRC / MAG model, we looked at the production zones of the mode choice model matrices, obtained the median income of those zones, and then weighted the distribution by the number of trips produced in each zone.
+The ActivitySim analysis is more straightforward, and also leads to a potentially different interpretation of the modeling results: the income distributions of Commuter Rail riders appears similar for all three purposes in the WFRC / MAG model, but ActivitySim shows very different distributions of income.
 
 ```{r}
 #| label: fig-tr-se-income-dist
