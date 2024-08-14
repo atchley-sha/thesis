@@ -9,7 +9,7 @@ execute:
   # cache: refresh
   cache: true
   freeze: auto
-pdf-engine: xelatex
+pdf-engine: lualatex
 
 layout: fancy, oneside, masters
 department: Civil and Construction Engineering
