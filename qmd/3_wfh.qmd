@@ -139,7 +139,7 @@ targets::tar_read(cube_wfh_trip_pmt_diff) %>%
 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
 	kable_styling() %>% 
 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
-	collapse_rows(1)
+	collapse_rows(1, latex_hline = "major")
 ```
 
 ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
@@ -161,5 +161,5 @@ targets::tar_read(asim_wfh_trip_pmt_diff) %>%
 	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
 	kable_styling() %>% 
 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
-	collapse_rows(1)
+	collapse_rows(1, latex_hline = "major")
 ```

@@ -120,7 +120,7 @@ targets::tar_read(time_spent_table) %>%
 	skbl(align = c("l", "l", "c", "c")) %>% 
 	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) %>% 
 	kable_styling() %>% 
-	collapse_rows(1:2) %>% 
+	collapse_rows(1, latex_hline = "major") %>% 
 	footnote(
 		number = c(
 			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
