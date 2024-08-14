@@ -1,0 +1,29 @@
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Example ``information pipeline'' for aggregate data vs.~a synthetic population.}}{7}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Example network assignment using aggregate data.}}{9}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Example trip distribution using a synthetic population allows an individual's travel to be tracked.}}{10}{figure.caption.14}%
+\addvspace {10pt}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces WFRC model flowchart.}}{15}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces ActivitySim sub-model flowchart.}}{17}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Population by district, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.}}{21}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces District-level median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.}}{22}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Households in each income group, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.}}{23}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Distribution of TAZ median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.}}{24}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Mode choice calibration, target vs.~actual shares over several iterations.}}{27}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Comparison between models of trip length frequency distribution.}}{28}{figure.caption.28}%
+\addvspace {10pt}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Map of each TAZ in The Point development.}}{34}{figure.caption.33}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Trip-miles produced in the updated zones in the Land Use scenario (WFRC model).}}{37}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Trip-miles of individuals living in the updated zones (ActivitySim).}}{38}{figure.caption.37}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Desire lines of home-based trips made in the WFRC model.}}{40}{figure.caption.38}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Desire lines of Non--home-based trips made in the WFRC model.}}{41}{figure.caption.39}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Desire lines of trips made in ActivitySim by mode.}}{43}{figure.caption.40}%
+\addvspace {10pt}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Map of the FrontRunner commuter rail line.}}{46}{figure.caption.41}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Trip modes of individuals who switched modes with improved commuter rail service in ActivitySim.}}{50}{figure.caption.43}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces At-work subtour trip modes of individuals who switched their work mode away from ``Drive Alone'' in ActivitySim.}}{51}{figure.caption.44}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Income distribution of transit riders in both models.}}{53}{figure.caption.47}%
+\addvspace {10pt}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Remote work rates as given in the WFRC model.}}{56}{figure.caption.48}%
+\addvspace {10pt}
