@@ -141,3 +141,25 @@ targets::tar_read(cube_wfh_trip_pmt_diff) %>%
 	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
 	collapse_rows(1)
 ```
+
+ActivitySim does model distance to work directly when predicting remote work status (see @sec-baseline-calibration and @tbl-asim-tc-model-coeffs), so those who live farther away from their job site are more likely to work remotely.
+ActivitySim, therefore, predicts a greater decrease in person-miles than in number of trips for Home-based Work trips, as seen in @tbl-asim-wfh-trip-pmt-diff.
+This discrepancy is not especially large, showing that ActivitySim is not considering the trip distance too heavily (see @tbl-asim-dap-model-rw-coeffs), but the discrepancy is consistent across all modes.
+Additionally, for Home-based Other trips, ActivitySim predicts a greater increase in the number of trips than in person-miles, which shows that ActivitySim is modeling the effects found by @moreno_microscopic_2017 and @moeckel_working_2017, where longer work trips are being exchanged for shorter discretionary trips.
+
+```{r}
+#| label: tbl-asim-wfh-trip-pmt-diff
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled (ActivitySim)
+
+targets::tar_read(asim_wfh_trip_pmt_diff) %>% 
+	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
+	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
+	mutate(across(where(is.numeric), round)) %>% 
+	arrange(purpose, mode) %>% 
+	relocate(by_trips, .before = wfh_trips) %>% 
+	relocate(by_pmt, .before = wfh_pmt) %>% 
+	skbl(col.names = c("Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
+	kable_styling() %>% 
+	add_header_above(c(" " = 2, "Trips" = 3, "Person-miles" = 3)) %>% 
+	collapse_rows(1)
+```
