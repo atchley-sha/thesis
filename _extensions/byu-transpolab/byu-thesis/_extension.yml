@@ -12,7 +12,6 @@ contributes:
         - byuthesis.cls
         - college_logo.png
       header-includes:
-        - \usepackage[all]{nowidow}
         - \usepackage{siunitx}
         - \usepackage{booktabs}
         - \usepackage{longtable}
