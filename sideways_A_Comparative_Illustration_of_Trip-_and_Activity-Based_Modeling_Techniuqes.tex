@@ -67,7 +67,6 @@
 \floatplacement{table}{htbp}
 
 \hyphenation{Front-Run-ner}
-\usepackage[all]{nowidow}
 \usepackage{microtype}
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -83,6 +82,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage[all]{nowidow}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -106,9 +106,9 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
 \ifdefined\contentsname
-  \renewcommand*\contentsname{Table of Contents}
+  \renewcommand*\contentsname{Table of contents}
 \else
-  \newcommand\contentsname{Table of Contents}
+  \newcommand\contentsname{Table of contents}
 \fi
 \ifdefined\listfigurename
   \renewcommand*\listfigurename{List of Figures}
@@ -157,7 +157,7 @@ Modeling Techniques}
 % This is the date of graduation
 \date{27 May 2024}
 
-% If your degree is not a PhD or MS, then you can overwrite the degree using
+% If your degree is not a PhD or MS, then you can overwrite the degree using 
 % the \degree command: \degree{Bachelors of Basics}
 
 % Your department
@@ -169,7 +169,7 @@ Modeling Techniques}
   \committeemember{Gustavious P. Williams}
 
 \keywords{
-    travel demand model; activity-based model;
+    travel demand model; activity-based model;  
     ActivitySim
 }
 
@@ -181,8 +181,6 @@ Modeling Techniques}
 \fi
 }
 
-\widowpenalty=500
-\clubpenalty=500
 
 \begin{document}
 
@@ -239,6 +237,8 @@ Greg Macfarlane, for his support and encouragement.
 \end{acknowledgments}
 \cleardoublepage
 
+  \phantomsection
+  \addcontentsline{toc}{chapter}{\contentsname}
 	\tableofcontents*
 	\cleardoublepage
 
@@ -2227,7 +2227,7 @@ Purpose & Mode & Baseline Trips & Transit¹ Trips & Change & Baseline Trips & Tr
 
  & Carpool & 257783 & 256654 & -0.4\% & 258459 & 256550 & -0.7\%\\
 
- & Local Transit & 37935 & 36494 & -3.8\% & 232222 & 233426 & 0.5\%\\
+ & Local Transit² & 37935 & 36494 & -3.8\% & 232222 & 233426 & 0.5\%\\
 
  & Commuter Rail & 10821 & 15891 & 46.9\% & 19846 & 22265 & 12.2\%\\
 
@@ -2239,7 +2239,7 @@ Purpose & Mode & Baseline Trips & Transit¹ Trips & Change & Baseline Trips & Tr
 
  & Carpool & 2702277 & 2701039 & 0.0\% & 2148429 & 2145135 & -0.2\%\\
 
- & Local Transit & 33168 & 32583 & -1.8\% & 195062 & 194649 & -0.2\%\\
+ & Local Transit² & 33168 & 32583 & -1.8\% & 195062 & 194649 & -0.2\%\\
 
  & Commuter Rail & 4180 & 6332 & 51.5\% & 81094 & 87337 & 7.7\%\\
 
@@ -2251,7 +2251,7 @@ Purpose & Mode & Baseline Trips & Transit¹ Trips & Change & Baseline Trips & Tr
 
  & Carpool & 1273279 & 1272977 & 0.0\% & 938056 & 936408 & -0.2\%\\
 
- & Local Transit & 12213 & 12068 & -1.2\% & 107526 & 108395 & 0.8\%\\
+ & Local Transit² & 12213 & 12068 & -1.2\% & 107526 & 108395 & 0.8\%\\
 
  & Commuter Rail & 1243 & 1806 & 45.3\% & 12317 & 13344 & 8.3\%\\
 
@@ -2577,9 +2577,9 @@ remote work rates and job type (Bramberga 2023; Moeckel 2017; Sener and
 Bhat 2011).
 
 While work trips decrease with an increase in remote work, Kim (2017)
-discusses a ``rebound effect,'' where individuals make more
+discusses a ``rebound effect'', where individuals make more
 discretionary trips on days they do not commute to work. Moreno and
-Moeckel (2016) similarly discuss the idea of a ``travel time budget,''
+Moeckel (2016) similarly discuss the idea of a ``travel time budget'',
 where a decrease in trips of one purpose will increase the time people
 allocate for trips of another purpose and vice versa.
 
@@ -2787,18 +2787,29 @@ Miles Traveled (WFRC Model)}
 \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-8}
 Purpose & Mode & Baseline Scenario & Remote Work Scenario & Change & Baseline Scenario & Remote Work Scenario & Change\\
 \midrule
-Home-based Work & Drive Alone & 1328609 & 1244451 & -6.3\% & 12736970 & 12070213 & -5.2\%\\
-Home-based Work & Carpool & 257805 & 238669 & -7.4\% & 3204552 & 2945150 & -8.1\%\\
-Home-based Work & Transit & 48752 & 44977 & -7.7\% & 547804 & 500953 & -8.6\%\\
-Home-based Work & Non-motorized & 76506 & 71063 & -7.1\% & 132216 & 122930 & -7.0\%\\
-Home-based Other & Drive Alone & 1394415 & 1395196 & 0.1\% & 6088804 & 6122517 & 0.6\%\\
-Home-based Other & Carpool & 2702272 & 2702625 & 0.0\% & 13420596 & 13448784 & 0.2\%\\
-Home-based Other & Transit & 37346 & 37359 & 0.0\% & 264203 & 264432 & 0.1\%\\
-Home-based Other & Non-motorized & 510143 & 508869 & -0.2\% & 591297 & 590349 & -0.2\%\\
-Non–home-based & Drive Alone & 951561 & 938653 & -1.4\% & 4777297 & 4736979 & -0.8\%\\
-Non–home-based & Carpool & 1273317 & 1254548 & -1.5\% & 7650625 & 7538596 & -1.5\%\\
-Non–home-based & Transit & 13453 & 13199 & -1.9\% & 73563 & 72018 & -2.1\%\\
-Non–home-based & Non-motorized & 146404 & 144126 & -1.6\% & 136914 & 134784 & -1.6\%\\
+ & Drive Alone & 1328609 & 1244451 & -6.3\% & 12736970 & 12070213 & -5.2\%\\
+\cmidrule{2-8}
+ & Carpool & 257805 & 238669 & -7.4\% & 3204552 & 2945150 & -8.1\%\\
+\cmidrule{2-8}
+ & Transit & 48752 & 44977 & -7.7\% & 547804 & 500953 & -8.6\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Home-based Work} & Non-motorized & 76506 & 71063 & -7.1\% & 132216 & 122930 & -7.0\%\\
+\cmidrule{1-8}
+ & Drive Alone & 1394415 & 1395196 & 0.1\% & 6088804 & 6122517 & 0.6\%\\
+\cmidrule{2-8}
+ & Carpool & 2702272 & 2702625 & 0.0\% & 13420596 & 13448784 & 0.2\%\\
+\cmidrule{2-8}
+ & Transit & 37346 & 37359 & 0.0\% & 264203 & 264432 & 0.1\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Home-based Other} & Non-motorized & 510143 & 508869 & -0.2\% & 591297 & 590349 & -0.2\%\\
+\cmidrule{1-8}
+ & Drive Alone & 951561 & 938653 & -1.4\% & 4777297 & 4736979 & -0.8\%\\
+\cmidrule{2-8}
+ & Carpool & 1273317 & 1254548 & -1.5\% & 7650625 & 7538596 & -1.5\%\\
+\cmidrule{2-8}
+ & Transit & 13453 & 13199 & -1.9\% & 73563 & 72018 & -2.1\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Non–home-based} & Non-motorized & 146404 & 144126 & -1.6\% & 136914 & 134784 & -1.6\%\\
 \bottomrule
 \end{tabular}}
 
@@ -2818,7 +2829,7 @@ distance too heavily (see Table~\ref{tbl-asim-dap-model-rw-coeffs}), but
 the discrepancy is consistent across all modes. Additionally, for
 Home-based Other trips, ActivitySim predicts a greater increase in the
 number of trips than in person-miles, which shows that ActivitySim is
-modeling the effects found by Moreno and Moeckel (2017) and Moeckel
+modeling the effects found by Moreno and Moeckel (2016) and Moeckel
 (2017), where longer work trips are being exchanged for shorter
 discretionary trips.
 
@@ -2837,18 +2848,29 @@ Miles Traveled (ActivitySim)}
 \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){6-8}
 Purpose & Mode & Baseline Scenario & Remote Work Scenario & Change & Baseline Scenario & Remote Work Scenario & Change\\
 \midrule
-Home-based Work & Drive Alone & 1012180 & 950306 & -6.1\% & 9632251 & 9021681 & -6.3\%\\
-Home-based Work & Carpool & 258459 & 242497 & -6.2\% & 2631886 & 2463552 & -6.4\%\\
-Home-based Work & Transit & 253176 & 237881 & -6.0\% & 2911616 & 2728897 & -6.3\%\\
-Home-based Work & Non-motorized & 145957 & 137684 & -5.7\% & 353246 & 332978 & -5.7\%\\
-Home-based Other & Drive Alone & 700133 & 709957 & 1.4\% & 4280006 & 4332319 & 1.2\%\\
-Home-based Other & Carpool & 2148429 & 2171566 & 1.1\% & 11498994 & 11624928 & 1.1\%\\
-Home-based Other & Transit & 389780 & 396815 & 1.8\% & 3547052 & 3583630 & 1.0\%\\
-Home-based Other & Non-motorized & 613134 & 617480 & 0.7\% & 1090176 & 1098043 & 0.7\%\\
-Non–home-based & Drive Alone & 716143 & 687935 & -3.9\% & 3984191 & 3804674 & -4.5\%\\
-Non–home-based & Carpool & 938056 & 922662 & -1.6\% & 3962840 & 3898220 & -1.6\%\\
-Non–home-based & Transit & 159935 & 158366 & -1.0\% & 867867 & 852243 & -1.8\%\\
-Non–home-based & Non-motorized & 156819 & 152688 & -2.6\% & 194493 & 189483 & -2.6\%\\
+ & Drive Alone & 1012180 & 950306 & -6.1\% & 9632251 & 9021681 & -6.3\%\\
+\cmidrule{2-8}
+ & Carpool & 258459 & 242497 & -6.2\% & 2631886 & 2463552 & -6.4\%\\
+\cmidrule{2-8}
+ & Transit & 253176 & 237881 & -6.0\% & 2911616 & 2728897 & -6.3\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Home-based Work} & Non-motorized & 145957 & 137684 & -5.7\% & 353246 & 332978 & -5.7\%\\
+\cmidrule{1-8}
+ & Drive Alone & 700133 & 709957 & 1.4\% & 4280006 & 4332319 & 1.2\%\\
+\cmidrule{2-8}
+ & Carpool & 2148429 & 2171566 & 1.1\% & 11498994 & 11624928 & 1.1\%\\
+\cmidrule{2-8}
+ & Transit & 389780 & 396815 & 1.8\% & 3547052 & 3583630 & 1.0\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Home-based Other} & Non-motorized & 613134 & 617480 & 0.7\% & 1090176 & 1098043 & 0.7\%\\
+\cmidrule{1-8}
+ & Drive Alone & 716143 & 687935 & -3.9\% & 3984191 & 3804674 & -4.5\%\\
+\cmidrule{2-8}
+ & Carpool & 938056 & 922662 & -1.6\% & 3962840 & 3898220 & -1.6\%\\
+\cmidrule{2-8}
+ & Transit & 159935 & 158366 & -1.0\% & 867867 & 852243 & -1.8\%\\
+\cmidrule{2-8}
+\multirow{-4}{*}{\centering\arraybackslash Non–home-based} & Non-motorized & 156819 & 152688 & -2.6\% & 194493 & 189483 & -2.6\%\\
 \bottomrule
 \end{tabular}}
 
