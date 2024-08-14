@@ -11,7 +11,7 @@ execute:
   freeze: auto
 pdf-engine: lualatex
 
-layout: fancy, oneside, masters
+layout: fancy, twoside, masters
 department: Civil and Construction Engineering
 student: Hayden Atchley
 chair: Gregory S. Macfarlane
