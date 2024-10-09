@@ -67,7 +67,19 @@ However, this scaling factor was left unchanged, as we considered that the 2050 
 #| label: tbl-wfrc-remote-work-years
 #| tbl-cap: Comparison of Remote Work Rates in the WFRC Model by Year
 
-targets::tar_read(cube_wfh_by_remote_work_pct_comparison) %>% 
+targets::tar_read(cube_wfh_by_remote_work_pct_comparison) |> 
+	rename(Sector = name) |> 
+	pivot_longer(2:5) |> 
+	separate(name, into = c("Year", "Job Type")) |> 
+	mutate(`Job Type` = ifelse(`Job Type` == "tc", "Telecommute", "Home-based Jobs")) |> 
+	ggplot(mapping = aes(x = Sector, y = value, fill = `Job Type`)) + 
+	geom_bar(stat = "identity") + 
+	facet_wrap(~Year) +
+	scale_y_continuous(labels = scales::percent) +
+	ylab("Share of all Jobs") + 
+  theme(axis.text.x = element_text(angle=90),
+  			legend.position = "bottom") 
+%>% 
 	mutate(across(!name, label_percent())) %>% 
 	skbl(col.names = c("Industry", "2019", "2050", "2019", "2050"), align= c("l", rep("c", 4))) %>% 
 	kable_styling() %>% 

@@ -17,7 +17,7 @@ make_pop_comparison_map <- function(combined_se_data){
 		ggplot() +
 		.by_population_bg(high_val = 4, base = 3, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WFRC"
+			fill = "Percent difference in District\npopulation, PopulationSim\ncompared to WF"
 		)
 }
 
@@ -28,7 +28,7 @@ make_med_income_comparison_map <- function(combined_se_data){
 		ggplot() +
 		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WFRC"
+			fill = "Percent difference in\nTAZ median income,\nPopulationSim compared\nto WF"
 		)
 
 }
@@ -43,7 +43,7 @@ make_inc_groups_comparison_map <- function(combined_se_data, income_groups) {
 		facet_wrap(~inc_range, nrow = 1) +
 		.by_population_bg(high_val = 2, base = 2, sigma = 1.5) +
 		labs(
-			fill = "Percent difference in\nnumber of households,\nPopulationSim compared\nto WFRC"
+			fill = "Percent difference in\nnumber of households,\nPopulationSim compared\nto WF"
 		)
 
 }

@@ -278,6 +278,6 @@ In the WFRC model, however, the income distribution of individuals taking transi
 
 targets::tar_read(combined_tr_new_transit_income_plot) +
 	scale_x_continuous(limits = c(NA,2e5), labels = label_currency(scale_cut = cut_short_scale())) +
-	scale_color_bright() +
-	theme(legend.position = "bottom")
+	theme(legend.position = "bottom") + 
+	theme_bw()
 ```

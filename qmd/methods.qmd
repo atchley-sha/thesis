@@ -335,7 +335,8 @@ Additionally, we did not calibrate the vehicle ownership model, and this may be 
 #| fig-height: 4.5
 #| fig-pos: p
 
-targets::tar_read(mcc_adjustments_plot)
+targets::tar_read(mcc_adjustments_plot) + 
+	theme_bw()
 ```
 
 In any case, we chose the calibration at Iteration 4 for the final ASC values, as subsequent iterations adjusted the ASCs without changing the mode split very much.
@@ -373,7 +374,7 @@ It is sufficient to ensure the models very roughly agree on outputs such as mode
 #| fig-height: 8
 
 targets::tar_read(combined_by_tlfd_plot) +
-	scale_color_bright()
+	theme_bw()
 ```
 
 The WFRC model has basic support for predicting remote work.

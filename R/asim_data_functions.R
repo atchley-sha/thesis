@@ -276,15 +276,16 @@ plot_mcc_adjustments <- function(adjustments) {
 		select(iter, purpose, mode, asim_share, wfrc_share) %>%
 		pivot_longer(c(asim_share, wfrc_share), names_to = "model", values_to = "share") %>%
 		mutate(model = str_remove(model, "_share")) %>%
-		mutate(mode_cat = pretty_mode(case_match(
-			mode,
-			c("bike", "walk") ~ "nonmotor",
-			c("local_bus", "express_bus") ~ "bus",
-			c("lrt", "crt") ~ "rail",
-			# c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
-			c("sr2", "sr3") ~ "carpool",
-			.default = mode
-		)),
+		mutate(
+			mode_cat = pretty_mode(case_match(
+				mode,
+				c("bike", "walk") ~ "nonmotor",
+				c("local_bus", "express_bus") ~ "bus",
+				c("lrt", "crt") ~ "rail",
+				# c("local_bus", "express_bus", "lrt", "crt") ~ "transit",
+				c("sr2", "sr3") ~ "carpool",
+				.default = mode
+			)),
 		model = pretty_model(model),
 		purpose = pretty_purpose(purpose)) %>%
 		filter(mode_cat != "TNC") %>%
