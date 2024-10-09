@@ -28,4 +28,5 @@ contributes:
         - \usepackage[utf8]{inputenc}
         - \usepackage{makecell}
         - \usepackage{xcolor}
+      pdf-engine: lualatex
 

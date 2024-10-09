@@ -5,10 +5,11 @@ project:
 execute:
   echo: false
   warning: false
+  message: false
   # cache: refresh
   cache: true
   freeze: auto
-pdf-engine: xelatex
+pdf-engine: lualatex
 
 layout: fancy, twoside, masters
 department: Civil and Construction Engineering

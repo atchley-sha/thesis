@@ -1,0 +1,36 @@
+\contentsline {chapter}{Table of Contents}{ix}{section*.2}%
+\contentsline {chapter}{List of Figures}{xi}{section*.4}%
+\contentsline {chapter}{List of Tables}{xiii}{section*.5}%
+\contentsline {chapter}{List of Acronyms}{xv}{chapter*.6}%
+\contentsline {chapter}{\chapternumberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\chapternumberline {2}Literature Review}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Overview of Model Types}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Comparison of Modeling Frameworks}{5}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Population Data}{5}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Travel Behavior}{7}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Lack of ABM Adoption}{10}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Research Gap}{11}{section.2.4}%
+\contentsline {chapter}{\chapternumberline {3}Methodology}{13}{chapter.3}%
+\contentsline {section}{\numberline {3.1}WFRC Model}{13}{section.3.1}%
+\contentsline {section}{\numberline {3.2}ActivitySim}{16}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Initial Model Comparison/Calibration}{20}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Validation of the Synthetic Population}{20}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Validation and Calibration of ActivitySim}{22}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Example Scenarios}{31}{section.3.4}%
+\contentsline {chapter}{\chapternumberline {4}Scenario 1: Change in Land Use}{33}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Scenario Creation}{35}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Scenario Analysis}{35}{section.4.2}%
+\contentsline {chapter}{\chapternumberline {5}Scenario 2: Improved Transit Service}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Scenario Creation}{47}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Scenario Analysis}{47}{section.5.2}%
+\contentsline {chapter}{\chapternumberline {6}Scenario 3: Increase in Remote Work}{55}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Considerations for Modelling Remote Work}{56}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Scenario Creation}{57}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Scenario Analysis}{58}{section.6.3}%
+\contentsline {chapter}{\chapternumberline {7}Conclusions and Recommendations}{63}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Computational Resources}{63}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Complication of Model Design}{65}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Model Interoperability}{66}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Training Requirements}{66}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Recommendations}{68}{section.7.5}%
+\contentsline {chapter}{References}{71}{chapter*.56}%

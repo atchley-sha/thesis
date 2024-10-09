@@ -7,7 +7,8 @@ Both model types have a wide variety of implementations, as individual agencies 
 It would be unreasonable to compare each of the various implementations of both model types.
 Instead, we use a representative model for both types, and care is taken to note when results apply to trip- or activity-based models generally, and when results are specific to the models used.
 
-The representative trip-based model is the 2019 Wasatch Front travel demand model (the WFRC model), which covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
+The representative trip-based model is the 2019 Wasatch Front travel demand model, and is the current production model used by the Wasatch Front Regional Council (WFRC).
+This model covers much of the Salt Lake City-Provo-Ogden, Utah Combined Statistical Area.
 An ActivitySim implementation in the same study area is used as a representative ABM.
 Both models are discussed in detail in the following sections.
 
@@ -18,7 +19,7 @@ Instead, this research highlights the strengths and weaknesses of each model typ
 ## WFRC Model
 
 The WFRC model is implemented in the CUBE software by Bentley [@bentley_systems_cube], and is currently used by WFRC for modeling travel in the Salt Lake City, Utah area.
-The Wasatch Front Regional Council (WFRC) provided the model directly, including land use forecasts and the current long-range transportation plan.
+WFRC provided the model directly, including land use forecasts and the current long-range transportation plan.
 The model is taken essentially as-is, with no changes other than those noted in Chapters [-@sec-landuse]--[-@sec-wfh] to implement the scenarios studied in this research.
 
 The WFRC model, like many trip-based models, requires the following inputs:
@@ -115,7 +116,7 @@ ActivitySim, like all ABMs, simulates transportation decisions on an individual 
 ActivitySim has a hierarchical decision tree, where long-term decisions (such as auto ownership and telecommute frequency) are made first, followed by daily and tour- and trip-level decisions such as scheduling and mode choice (see @fig-asim-flowchart).
 Each of these steps determines information that will be used in subsequent steps, and many steps can be turned on or off depending on what is needed for the model implementation.
 
-![ActivitySim sub-model flowchart. [@associationofmetropolitanplanningorganizationsExamplesActivitySim2022.]](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
+![ActivitySim sub-model flowchart [@associationofmetropolitanplanningorganizationsExamplesActivitysim2022].](../images/abmexample.jpg){#fig-asim-flowchart fig-scap="ActivitySim sub-model flowchart."}
 
 The steps can broadly be categorized into five groups, as shown in @fig-asim-flowchart: aggregate, household/personal, person daily, tour-level, and trip-level steps.
 The aggregate steps mainly involve determining impedance measures between each pair of zones (travel time, distance, cost, etc.).
@@ -262,6 +263,10 @@ Because of this focus, ActivitySim does not need to be perfectly calibrated to t
 ```{r}
 #| label: fig-median-income-density
 #| fig-cap: Distribution of TAZ median income, PopulationSim compared to the TAZ-level socioeconomic data in the WFRC Model.
+#| fig-width: 6
+#| fig-height: 5
+#| out-width: 5in
+#| out-height: 5in
 
 targets::tar_read(comparison_inc_density_plot) +
 	theme(legend.position = "bottom")
@@ -286,7 +291,7 @@ However, not all modes have an exact match between models.
 @tbl-mode-crosswalk shows the modes in each model grouped in a way that allows for consistency during calibration.
 
 ActivitySim additionally has ridehail modes, but the WFRC model does not, and so there are no obvious calibration targets for ridehail.
-Based largely on the model results of @dayForecastingRideHailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
+Based largely on the model results of @dayForecastingRidehailingMultiple2022, and partly on the existing (uncalibrated) mode split in ActivitySim, we asserted the following mode shares for ridehail: 0.015% for Home-based Work trips, 0.38% for Home-based Other trips, and 0.4% for Non--home-based trips.
 
 ```{r}
 #| label: tbl-mode-crosswalk
@@ -332,7 +337,7 @@ Additionally, we did not calibrate the vehicle ownership model, and this may be 
 #| fig-cap: Mode choice calibration, target vs. actual shares over several iterations.
 #| fig-env: sidewaysfigure
 #| fig-width: 8
-#| fig-height: 4.5
+#| fig-height: 4
 #| fig-pos: p
 
 targets::tar_read(mcc_adjustments_plot) + 

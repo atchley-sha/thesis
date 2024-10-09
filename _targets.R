@@ -96,6 +96,8 @@ shared_data_targets <- tar_plan(
 	cube_time_spent_table = readr::read_csv(cube_time_spent_table_file),
 	tar_file(asim_time_spent_table_file, "data/asim_time_spent.csv"),
 	asim_time_spent_table = readr::read_csv(asim_time_spent_table_file),
+	tar_file(time_spent_table_file, "data/time_spent.csv"),
+	time_spent_table = readr::read_csv(time_spent_table_file),
 )
 
 # CUBE data targets ####

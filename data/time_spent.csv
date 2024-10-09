@@ -1,0 +1,14 @@
+Scenario,Task,WFRC Model,ActivitySim
+,Synthetic population creation (baseline),X,50
+,Add remote work models to ActivitySim,X,20
+,"Convert data to ""common"" structure\u00b9",60,50
+Land Use,Scenario creation,15,20
+Land Use,Trip-miles plot,5,5
+Land Use,Desire lines,15,10
+Transit,Scenario creation,10,2
+Transit,Mode split\u00b2,5,5
+Transit,Mode switching,X,25
+Transit,SE summary for transit riders,10,12
+Remote Work,Scenario creation,20,5
+Remote Work,Mode split\u00b2,5,5
+Remote Work,Trips and miles traveled\u00b2,5,5

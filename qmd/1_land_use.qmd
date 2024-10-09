@@ -56,7 +56,7 @@ The second is an updated synthetic population.
 In order to keep consistency between model scenarios, a new population was created only for the 5 affected TAZs and joined to the existing synthetic population.
 There were no individuals or households in the affected zones in the existing synthetic population, so no individuals or households needed to be removed before joining the two populations.
 
-Creating the new synthetic population followed a similar process as in the baseline scenario (@sec-populationsim), but used the new land use data as new TAZ-level controls.
+Creating the new synthetic population followed a similar process as in the baseline scenario [@sec-activitysim], but used the new land use data as new TAZ-level controls.
 Many of the controls for PopulationSim use tract-level data from the Census, but existing Census data for The Point site is unrepresentative of the new development, as currently the site lacks residential and economic activity.
 Because of this, a Census tract covering part of downtown Salt Lake City is used to represent the new development patterns at The Point.
 The income distribution, etc. of The Point site will therefore match that of downtown Salt Lake City, though the TAZ-level controls and land use/socioeconomic data in the area will match the WFRC projections for 2050.
@@ -113,7 +113,7 @@ However, there is a crucial difference between the model types, and that is the 
 #| fig-env: sidewaysfigure
 #| fig-pos: p
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 4
 
 targets::tar_read(cube_lu_new_pmt_plot) +
 	scale_fill_bright()
@@ -126,7 +126,7 @@ targets::tar_read(cube_lu_new_pmt_plot) +
 #| fig-env: sidewaysfigure
 #| fig-pos: p
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 4
 
 targets::tar_read(asim_lu_new_pmt_plot) +
 	scale_fill_bright()

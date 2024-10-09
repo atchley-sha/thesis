@@ -37,6 +37,15 @@ $if(keywords)$
 }
 $endif$
 
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of Contents}
+\else
+  \newcommand\contentsname{Table of Contents}
+\fi
+}
+
+
 \begin{document}
 
 \frontmatter
@@ -61,6 +70,8 @@ $acknowledgments$
 \cleardoublepage
 $endif$
 
+  \phantomsection
+  \addcontentsline{toc}{chapter}{\contentsname}
 	\tableofcontents*
 	\cleardoublepage
 
