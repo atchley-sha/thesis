@@ -37,27 +37,34 @@ Additionally, for home-based other trips, ActivitySim predicts a greater increas
 
 ```{r}
 #| label: tbl-wfh-trip-pmt-diff
-#| tbl-cap: Comparison of Trips Taken and Miles Traveled 
+#| tbl-cap: Comparison of Trips Taken and Miles Traveled
 
-wfrc_wfh <- targets::tar_read(cube_wfh_trip_pmt_diff) %>% 
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>% 
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>% 
-	mutate(across(where(is.numeric), round)) %>% 
-	arrange(purpose, mode) %>% 
-	relocate(by_trips, .before = wfh_trips) %>% 
-	relocate(by_pmt, .before = wfh_pmt)
+wfrc_wfh <- targets::tar_read(cube_wfh_trip_pmt_diff) %>%
+    mutate(across(contains("pct"), label_percent(accuracy = 0.1))) %>%
+    mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) %>%
+    mutate(across(where(is.numeric), round)) %>%
+    arrange(purpose, mode) %>%
+    relocate(by_trips, .before = wfh_trips) %>%
+    relocate(by_pmt, .before = wfh_pmt)
 
 asim_wfh <- targets::tar_read(asim_wfh_trip_pmt_diff) |>
-	mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
-	mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
-	relocate(by_trips, .before = wfh_trips) %>% 
-	relocate(by_pmt, .before = wfh_pmt) |> 
-	arrange(purpose, mode) 
+    mutate(across(contains("pct"), label_percent(accuracy = 0.1))) |>
+    mutate(purpose = pretty_purpose(purpose), mode = pretty_mode(mode)) |>
+    relocate(by_trips, .before = wfh_trips) %>%
+    relocate(by_pmt, .before = wfh_pmt) |>
+    arrange(purpose, mode)
 
 
-bind_rows(list("WFRC/MAG" = wfrc_wfh, "ActivitySim" = asim_wfh), .id = "Model") %>%
-	skbl(col.names = c("Model", "Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>% 
-	kable_styling() %>% 
-	add_header_above(c(" " = 3, "Trips" = 3, "Person-miles" = 3)) %>% 
-	collapse_rows(1)
+x <- bind_rows(list("WFRC/MAG" = wfrc_wfh, "ActivitySim" = asim_wfh), .id = "Model") %>%
+    skbl(col.names = c("Model", "Purpose", "Mode", rep(c("Baseline Scenario", "Remote Work Scenario", "Change"), 2))) %>%
+    kable_styling() %>%
+    add_header_above(c(" " = 3, "Trips" = 3, "Person-miles" = 3)) %>%
+    collapse_rows(1)
+if (!knitr::pandoc_to("docx")) {
+    x
+} else {
+    library(flextable)
+    ft <- flextable(airquality[sample.int(10), ])
+    ft
+}
 ```

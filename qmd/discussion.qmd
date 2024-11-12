@@ -34,21 +34,27 @@ Second, some tasks are shared across models, as we developed a shared data struc
 #| label: tbl-time-spent
 #| tbl-cap: Estimated Time Spent on Modeling Tasks
 
-targets::tar_read(time_spent_table) |> 
-	mutate(`WFRC Model` = if_else(`WFRC Model` == "X", NA, `WFRC Model`)) |> 
-	mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) |>
-	mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) |>
-	skbl(align = c("l", "l", "c", "c")) |> 
-	add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) |> 
-	kable_styling() |> 
-	collapse_rows(1:2) |> 
-	kableExtra::footnote(
-		number = c(
-			"This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
-			"These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
-		)
-	)
-
+x <- targets::tar_read(time_spent_table) |>
+    mutate(`WFRC Model` = if_else(`WFRC Model` == "X", NA, `WFRC Model`)) |>
+    mutate(Task = str_replace_all(Task, "\\\\u00b9", "\u00b9")) |>
+    mutate(Task = str_replace_all(Task, "\\\\u00b2", "\u00b2")) |>
+    skbl(align = c("l", "l", "c", "c")) |>
+    add_header_above(c(" " = 2, "Hours Spent on Task" = 2)) |>
+    kable_styling() |>
+    collapse_rows(1:2) |>
+    kableExtra::footnote(
+        number = c(
+            "This task was iterative and the \"common\" structure changed over time to reflect new analyses as they came up",
+            "These analyses use the \"common\" structure directly and so took identical time and effort between the two models"
+        )
+    )
+if (!knitr::pandoc_to("docx")) {
+    x
+} else {
+    library(flextable)
+    ft <- flextable(airquality[sample.int(10), ])
+    ft
+}
 ```
 
 ## Limitations

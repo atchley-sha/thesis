@@ -46,15 +46,23 @@ In general, the ActivitySim model over-predicts the share of transit and non-mot
 #| label: tbl-mode-split
 #| tbl-cap: Comparison of Mode Split Between Models After Calibration
 
-targets::tar_read(mc_comparison) %>%
-	mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) %>%
-	ungroup() %>%
-	`colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) %>%
-	skbl(digits = 0) %>%
-	kable_styling() %>%
-	add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) %>%
-	collapse_rows(1, latex_hline = "major") %>%
-	kableExtra::footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here", threeparttable = TRUE)
+x <- targets::tar_read(mc_comparison) %>%
+    mutate(wfrc_share = if_else(mode == "Ridehail", "\u2014\u00b9", wfrc_share)) %>%
+    ungroup() %>%
+    `colnames<-`(c("Purpose", "Mode", "Trips", "Share", "Trips", "Share")) %>%
+    skbl(digits = 0) %>%
+    kable_styling() %>%
+    add_header_above(c(" " = 2, "ActivitySim" = 2, "WFRC Model" = 2)) %>%
+    collapse_rows(1, latex_hline = "major") %>%
+    kableExtra::footnote(number = "Ridehail mode shares were asserted for mode choice calibration, but are not counted here", threeparttable = TRUE)
+
+if (!knitr::pandoc_to("docx")) {
+    x
+} else {
+    library(flextable)
+    ft <- flextable(airquality[sample.int(10), ])
+    ft
+}
 ```
 
 ## Example Scenarios

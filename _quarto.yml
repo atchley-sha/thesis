@@ -57,22 +57,7 @@ book:
     - qmd/conclusions.qmd
     - qmd/references.qmd
   abstract: >-
-    Over the last fifteen years, activity-based models have slowly
-    replaced trip-based models as the standard tool used for planning and
-    forecasting efforts in the United States. But the general adoption of
-    activity-based models has been slowed by a number of factors, including
-    real and perceived costs in terms of data availability, computational
-    resources, and staff training for analysis. In this research, we explore
-    the state of these considerations in light of newly developed open-source
-    platforms for activity-based modeling. We do this by applying a trip-based
-    model for the Wasatch Front region of Utah and an implementation of ActivitySim
-    in the same region to analyze three scenarios common to transport planners:
-    a change in land use, a change in transport infrastructure, and a change
-    in underlying travel behavior.
-    We find that the activity-based  approach allows for a more straightforward
-    and intuitive interpretation of model results at little additional cost for scenario
-    configuration, computation, or analysis. This suggests that some of the justifications
-    for not adopting activity-based models may be outdated or irrelevant.
+    Over the last fifteen years, activity based models have slowly replaced trip based models as the standard tool used for planning and forecasting efforts in the United States. But the general adoption of activity based models has been slowed by a number of factors, including real and perceived costs in terms of data availability, computational resources, and staff training for analysis. In this research, we explore the state of these considerations in light of newly developed open-source platforms for activity based modeling. We do this by applying a trip based model for the Wasatch Front region of Utah and an implementation of ActivitySim in the same region to analyze three scenarios common to transport planners: a change in land use, a change in transport infrastructure, and a change in underlying travel behavior.  We find that the activity based  approach allows for a more straightforward and intuitive interpretation of model results at little additional cost for scenario configuration, computation, or analysis. Further, we show that the construction of activity based models may make model extension and adaptation to new policies more straightforward than could be undertaken with a trip based model. This suggests that some of the commonly rehearsed justifications for not adopting activity based models may be outdated or irrelevant.
 
 keywords:
   - travel demand model
@@ -93,9 +78,16 @@ affiliations:
     state: UT
     postal-code: 84602
 
+
 format:
   # html:
   #   theme: cosmo
+  docx:
+    reference-doc: ASCE_ICTD.docx
+    number-sections: false
+    toc: false
+    citeproc: true
+    csl: apa.csl
   trb-pdf:
     top-level-division: "section"
     include-in-header:
