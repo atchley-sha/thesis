@@ -429,6 +429,17 @@ land_use_targets <- tar_plan(
 	asim_lu_new_trips_distsml = sum_trips_by_district(
 		asim_lu_new_trips, taz_distsml_transl),
 
+	asim_nonres_trips = count_asim_trips(
+		dplyr::filter(
+			asim_lu_raw_trips, !person_id %in% asim_lu_new_persons)),
+	asim_nonres_trips_dist = sum_trips_by_district(
+		asim_nonres_trips, taz_distsml_transl),
+	asim_nonres_trips_dist_filter = dplyr::filter(
+		asim_nonres_trips_dist,
+		origin %in% lu_distsml | destination %in% lu_distsml),
+	asim_nonres_desire = od::od_to_sf(asim_nonres_trips_dist, distsml_centroids),
+
+
 	# PMT/VMT
 	cube_lu_new_pmt_plot = plot_cube_lu_new_pmt(
 		cube_lu_all_diff, distances, lu_tazs),
@@ -444,12 +455,17 @@ land_use_targets <- tar_plan(
 		cube_lu_nhb_diff_distsml, distsml_centroids),
 	cube_lu_nhb_diff_desire_map = plot_cube_lu_nhb_desire_lines(
 		cube_lu_nhb_diff_desire, distsml),
+	cube_lu_new_desire_map = plot_new_cube_desire_lines(
+		cube_lu_nhb_diff_desire, distsml),
 
 	asim_lu_new_desire_lines = od::od_to_sf(
 		asim_lu_new_trips_distsml, distsml_centroids),
 	asim_lu_new_desire_map = plot_asim_lu_desire_lines(
 		asim_lu_new_desire_lines, lu_distsml, distsml),
-)
+# 	new_asim_lu_new_desire_map = plot_new_asim_desire_lines(
+# 		asim_lu_new_desire_lines, lu_distsml, distsml),
+# )
+
 
 # Transit ####
 transit_targets <- tar_plan(

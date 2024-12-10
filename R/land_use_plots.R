@@ -14,6 +14,8 @@ plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 	max <- 400
 	desire_lines %>%
 		filter(round(trips) > 0) %>%
+		group_by(origin, destination) %>%
+		summarise(trips = sum(trips)) %>%
 		mutate(
 			in_zone = (origin %in% dists_list | destination %in% dists_list),
 			trips = pmin(trips, max),
@@ -21,6 +23,26 @@ plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 		) %>%
 		ggplot(aes(linewidth = trips, color = in_zone)) +
 		.lu_desire_bg(dists_geom, max) +
+		guides(color = guide_legend(reverse=TRUE)) +
+		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
+}
+
+plot_new_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
+	max <- 800
+	desire_lines %>%
+		filter(round(trips) > 0) %>%
+		mutate(
+			in_zone = (origin %in% dists_list | destination %in% dists_list),
+			trips = pmin(trips, max),
+			# mode = pretty_mode(mode)
+		) %>%
+		ggplot(aes(linewidth = trips, color = in_zone)) +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf() +
+		scale_linewidth_continuous(
+			range = range, limits = c(NA,max), guide = guide_legend(order = 99)) +
+		theme_map() +
 		guides(color = guide_legend(reverse=TRUE)) +
 		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
 }
@@ -49,6 +71,31 @@ plot_cube_lu_nhb_desire_lines <- function(desire_lines, dists_geom) {
 		# filter(diff < 0) %>%
 		ggplot(aes(linewidth = abs(diff), color = as.character(sign(diff)))) +
 		.lu_desire_bg(dists_geom, max) +
+		scale_color_manual(
+			values = c("-1" = "red", "1" = "navy"),
+			labels = c("-1" = "Baseline scenario", "1" = "Land Use scenario")) +
+		# scale_color_bright(reverse = TRUE, labels = c("-1" = "Base year", "1" = "Land use")) +
+		labs(color = "More trips in:", linewidth = "Trips")
+}
+
+plot_new_cube_desire_lines <- function(desire_lines, dists_geom) {
+	max <- 800
+	desire_lines %>%
+		filter(abs(round(diff)) > 0) %>%
+		group_by(origin, destination) %>%
+		summarise(lu = sum(lu), by = sum(by)) %>%
+		mutate(
+			# mode = pretty_mode(mode),
+			diff = if_else(diff > 0, pmin(diff, max), pmax(diff, -max))
+		) %>%
+		# filter(diff < 0) %>%
+		ggplot(aes(linewidth = abs(diff), color = as.character(sign(diff)))) +
+		annotation_map_tile("cartolight", zoomin = 0) +
+		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf() +
+		scale_linewidth_continuous(
+		range = range, limits = c(NA,max), guide = guide_legend(order = 99)) +
+		theme_map() +
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),
 			labels = c("-1" = "Baseline scenario", "1" = "Land Use scenario")) +
