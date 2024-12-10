@@ -32,35 +32,41 @@ desire_lines_res <- asim_lu_new_desire_lines %>%
 	summarise(trips = sum(trips)) %>%
 	mutate(
 		in_zone = (origin %in% lu_distsml | destination %in% lu_distsml),
-		trips = pmin(trips, 800)
+		trips = pmin(trips, 800),
+		resident = TRUE
 	) %>%
 	filter(!in_zone)
 
 desire_lines_nonres <- asim_nonres_desire %>%
-	filter(round(trips) > 0, purpose = "nhb") %>%
+	filter(round(trips) > 0) %>%
 	group_by(origin, destination) %>%
 	summarise(trips = sum(trips)) %>%
 	mutate(
-		in_zone = (origin %in% lu_distsml | destination %in% lu_distsml),
-		trips = pmin(trips, 800)
-	) %>%
-	filter(in_zone)
+		trips = pmin(trips, 800),
+		resident = FALSE
+	)
 
-	# ggplot(aes(linewidth = trips, color = in_zone)) +
-	# annotation_map_tile("cartolight", zoomin = 0) +
-	# geom_sf(
-	# 	data = distsml,
-	# 	fill = NA,
-	# 	color = "black",
-	# 	inherit.aes = FALSE
-	# ) +
-	# geom_sf() +
-	# scale_linewidth_continuous(
-	# 	range = range,
-	# 	limits = c(NA, 800),
-	# 	guide = guide_legend(order = 99)
-	# ) +
-	# theme_map() +
-	# guides(color = guide_legend(reverse = TRUE)) +
-	# labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
+desire_combined <- bind_rows(desire_lines_res, desire_lines_nonres)
+
+desire_combined %>%
+	mutate(resident = case_when(
+		resident ~ "New Resident Non\u2013Home-Based Trips",
+		!resident ~ "Non-Resident Trips to New Development")) %>%
+	ggplot(aes(linewidth = trips)) +
+	facet_wrap(~resident) +
+	annotation_map_tile("cartolight", zoomin = 0) +
+	geom_sf(
+		data = distsml,
+		fill = NA,
+		color = "black",
+		inherit.aes = FALSE
+	) +
+	geom_sf() +
+	scale_linewidth_continuous(
+		range = range,
+		limits = c(NA, 800),
+		guide = guide_legend(order = 99)
+	) +
+	theme_map() +
+	labs(linewidth = "Trips")
 

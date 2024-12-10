@@ -15,6 +15,14 @@ get_asim_lu_new_trips <- function(trips_raw, persons) {
 		count_asim_trips()
 }
 
+get_asim_nonres_trips <- function(trips_raw, persons, zones) {
+	trips_raw %>%
+		filter(!person_id %in% persons) %>%
+		count_asim_trips() %>%
+		filter(purpose == "nhb") %>%
+		filter(origin %in% zones | destination %in% zones)
+}
+
 make_lu_se_table <- function(se, taz_list) {
 	se %>%
 		select(-c(CO_TAZID, CO_FIPS, CO_NAME)) %>%

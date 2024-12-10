@@ -14,8 +14,6 @@ plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 	max <- 400
 	desire_lines %>%
 		filter(round(trips) > 0) %>%
-		group_by(origin, destination) %>%
-		summarise(trips = sum(trips)) %>%
 		mutate(
 			in_zone = (origin %in% dists_list | destination %in% dists_list),
 			trips = pmin(trips, max),
@@ -27,24 +25,52 @@ plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
 }
 
-plot_new_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
+plot_new_asim_lu_desire_lines <- function(desire_lines, lu_distsml, distsml, asim_nonres_desire) {
 	max <- 800
-	desire_lines %>%
+
+	desire_lines_res <- desire_lines %>%
 		filter(round(trips) > 0) %>%
+		group_by(origin, destination) %>%
+		summarise(trips = sum(trips)) %>%
 		mutate(
-			in_zone = (origin %in% dists_list | destination %in% dists_list),
+			in_zone = (origin %in% lu_distsml | destination %in% lu_distsml),
 			trips = pmin(trips, max),
-			# mode = pretty_mode(mode)
+			resident = TRUE
 		) %>%
-		ggplot(aes(linewidth = trips, color = in_zone)) +
+		filter(!in_zone)
+
+	desire_lines_nonres <- asim_nonres_desire %>%
+		filter(round(trips) > 0) %>%
+		group_by(origin, destination) %>%
+		summarise(trips = sum(trips)) %>%
+		mutate(
+			trips = pmin(trips, max),
+			resident = FALSE
+		)
+
+	desire_combined <- bind_rows(desire_lines_res, desire_lines_nonres)
+
+	desire_combined %>%
+		mutate(resident = case_when(
+			resident ~ "New Resident Non\u2013Home-Based Trips",
+			!resident ~ "Non-Resident Trips to New Development")) %>%
+		ggplot(aes(linewidth = trips)) +
+		facet_wrap(~resident, nrow = 1) +
 		annotation_map_tile("cartolight", zoomin = 0) +
-		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
+		geom_sf(
+			data = distsml,
+			fill = NA,
+			color = "black",
+			inherit.aes = FALSE
+		) +
 		geom_sf() +
 		scale_linewidth_continuous(
-			range = range, limits = c(NA,max), guide = guide_legend(order = 99)) +
+			range = range,
+			limits = c(NA, max),
+			guide = guide_legend(order = 99)
+		) +
 		theme_map() +
-		guides(color = guide_legend(reverse=TRUE)) +
-		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
+		labs(linewidth = "Trips")
 }
 
 plot_cube_lu_desire_lines <- function(desire_lines, dists_geom) {
