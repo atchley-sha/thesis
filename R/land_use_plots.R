@@ -25,7 +25,7 @@ plot_asim_lu_desire_lines <- function(desire_lines, dists_list, dists_geom) {
 		labs(color = "Produced in new\ndevelopment", linewidth = "Trips")
 }
 
-plot_new_asim_lu_desire_lines <- function(desire_lines, lu_distsml, distsml, asim_nonres_desire) {
+combine_desire <- function(desire_lines, lu_distsml, asim_nonres_desire) {
 	max <- 800
 
 	desire_lines_res <- desire_lines %>%
@@ -50,10 +50,15 @@ plot_new_asim_lu_desire_lines <- function(desire_lines, lu_distsml, distsml, asi
 
 	desire_combined <- bind_rows(desire_lines_res, desire_lines_nonres)
 
+	desire_combined
+}
+
+plot_new_desire_combined <- function(desire_combined, distsml){
+
 	desire_combined %>%
 		mutate(resident = case_when(
 			resident ~ "New Resident Non\u2013Home-Based Trips",
-			!resident ~ "Non-Resident Trips to New Development")) %>%
+			!resident ~ "Non-Resident Non\u2013Home-Based Trips to New Development")) %>%
 		ggplot(aes(linewidth = trips)) +
 		facet_wrap(~resident, nrow = 1) +
 		annotation_map_tile("cartolight", zoomin = 0) +
@@ -63,12 +68,13 @@ plot_new_asim_lu_desire_lines <- function(desire_lines, lu_distsml, distsml, asi
 			color = "black",
 			inherit.aes = FALSE
 		) +
-		geom_sf() +
+		geom_sf(color = "navy", alpha = 0.6) +
 		scale_linewidth_continuous(
-			range = range,
-			limits = c(NA, max),
+			range = c(0,3),
+			limits = c(10,800),
 			guide = guide_legend(order = 99)
 		) +
+		theme_bw() +
 		theme_map() +
 		labs(linewidth = "Trips")
 }
@@ -109,7 +115,7 @@ plot_new_cube_desire_lines <- function(desire_lines, dists_geom) {
 	desire_lines %>%
 		filter(abs(round(diff)) > 0) %>%
 		group_by(origin, destination) %>%
-		summarise(lu = sum(lu), by = sum(by)) %>%
+		summarise(lu = sum(lu), by = sum(by), diff = sum(diff)) %>%
 		mutate(
 			# mode = pretty_mode(mode),
 			diff = if_else(diff > 0, pmin(diff, max), pmax(diff, -max))
@@ -120,7 +126,8 @@ plot_new_cube_desire_lines <- function(desire_lines, dists_geom) {
 		geom_sf(data = dists_geom, fill = NA, color = "black", inherit.aes = FALSE) +
 		geom_sf() +
 		scale_linewidth_continuous(
-		range = range, limits = c(NA,max), guide = guide_legend(order = 99)) +
+		range = c(0,3), limits = c(10,max), guide = guide_legend(order = 99)) +
+		theme_bw() +
 		theme_map() +
 		scale_color_manual(
 			values = c("-1" = "red", "1" = "navy"),

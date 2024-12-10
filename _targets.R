@@ -434,9 +434,6 @@ land_use_targets <- tar_plan(
 	),
 	asim_nonres_trips_dist = sum_trips_by_district(
 		asim_nonres_trips, taz_distsml_transl),
-	asim_nonres_trips_dist_filter = dplyr::filter(
-		asim_nonres_trips_dist,
-		origin %in% lu_distsml | destination %in% lu_distsml),
 	asim_nonres_desire = od::od_to_sf(asim_nonres_trips_dist, distsml_centroids),
 
 
@@ -462,8 +459,12 @@ land_use_targets <- tar_plan(
 		asim_lu_new_trips_distsml, distsml_centroids),
 	asim_lu_new_desire_map = plot_asim_lu_desire_lines(
 		asim_lu_new_desire_lines, lu_distsml, distsml),
-	new_asim_lu_new_desire_map = plot_new_asim_desire_lines(
-		asim_lu_new_desire_lines, lu_distsml, distsml, asim_nonres_desire),
+
+	desire_combined = combine_desire(
+		asim_lu_new_desire_lines, lu_distsml, asim_nonres_desire),
+	new_desire_combined_plot = plot_new_desire_combined(
+		desire_combined, distsml
+	),
 )
 
 
